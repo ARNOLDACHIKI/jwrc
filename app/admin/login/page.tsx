@@ -28,27 +28,41 @@ export default function AdminLoginPage() {
     setIsLoading(true)
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
 
-      if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-        // Store admin session
-        localStorage.setItem("adminSession", JSON.stringify({ email, timestamp: new Date() }))
-        router.push("/admin/dashboard")
-      } else {
-        setError("Invalid admin credentials. Please try again.")
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        setError(err?.error || 'Invalid admin credentials')
+        return
       }
+
+      // Verify current user and role
+      const me = await fetch('/api/auth/me')
+      const data = await me.json()
+      if (!data?.user || data.user.role !== 'admin') {
+        // clear cookie
+        await fetch('/api/auth/logout', { method: 'POST' })
+        setError('Unauthorized: admin access required')
+        return
+      }
+
+      router.push('/admin/dashboard')
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-blue-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-16 h-16 bg-linear-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
               <Lock className="w-8 h-8 text-white" />
             </div>
           </div>
@@ -129,7 +143,7 @@ export default function AdminLoginPage() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 rounded-lg transition"
+              className="w-full bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 rounded-lg transition"
             >
               {isLoading ? "Logging in..." : "Login to Admin Panel"}
             </Button>

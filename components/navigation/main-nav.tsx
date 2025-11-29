@@ -8,19 +8,16 @@ import { Button } from "@/components/ui/button"
 
 export function MainNav() {
   const [isOpen, setIsOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
   const { user, logout } = useUser()
 
   const navItems = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Bible Reading", href: "/bible-reading" },
-    { label: "Sermons", href: "/sermons" },
     { label: "Announcements", href: "/announcements" },
-    { label: "Blog", href: "/blog" },
     { label: "Events", href: "/events" },
     { label: "Volunteer", href: "/volunteer" },
     { label: "Donate", href: "/donate" },
-    { label: "Trivia", href: "/trivia" },
     { label: "Suggestions", href: "/suggestions" },
   ]
 
@@ -30,7 +27,7 @@ export function MainNav() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-linear-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">GC</span>
             </div>
             <div className="hidden sm:flex flex-col">
@@ -50,55 +47,56 @@ export function MainNav() {
                 {item.label}
               </Link>
             ))}
+            {/* Auth area for desktop */}
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-semibold">
+                    {user.name ? user.name.split(' ').map(n=>n[0]).slice(0,2).join('') : user.email.split('@')[0].slice(0,2)}
+                  </div>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{user.name || user.email}</span>
+                </button>
+
+                {userMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-md shadow-lg z-50">
+                    <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-200">
+                      Dashboard
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setUserMenuOpen(false)
+                        logout()
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : null}
           </div>
 
           {/* Right side buttons */}
           <div className="flex items-center gap-2">
-            {user ? (
-              <div className="flex items-center gap-2">
-                <Link href="/admin/login" className="hidden sm:block">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="border-purple-200 text-purple-600 hover:text-purple-700 bg-transparent"
-                  >
-                    <Settings className="w-4 h-4 mr-1" />
-                    Admin
-                  </Button>
-                </Link>
-                <Link href="/dashboard" className="hidden sm:block">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="border-blue-200 text-blue-600 hover:text-blue-700 bg-transparent"
-                  >
-                    <User className="w-4 h-4 mr-1" />
-                    Dashboard
-                  </Button>
-                </Link>
-                <Button
-                  onClick={logout}
-                  variant="outline"
-                  size="sm"
-                  className="border-red-200 text-red-600 hover:text-red-700 bg-transparent"
-                >
-                  <LogOut className="w-4 h-4 mr-1" />
-                  Logout
-                </Button>
-              </div>
-            ) : (
+            {!user ? (
               <div className="flex items-center gap-2">
                 <Link href="/login">
                   <Button variant="outline" size="sm">
                     Login
                   </Button>
                 </Link>
-                <Link href="/signup" className="hidden sm:block">
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                <Link href="/signup">
+                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
                     Sign Up
                   </Button>
                 </Link>
               </div>
+            ) : (
+              <></>
             )}
 
             {/* Mobile menu button */}
@@ -124,6 +122,34 @@ export function MainNav() {
                 {item.label}
               </Link>
             ))}
+
+            {/* Mobile auth actions */}
+            {!user ? (
+              <>
+                <Link href="/login" className="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md">
+                  Login
+                </Link>
+                <Link href="/signup" className="block px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-md mt-2">
+                  Sign Up
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href="/dashboard" className="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md">
+                  Dashboard
+                </Link>
+                <button
+                  onClick={() => {
+                    setIsOpen(false)
+                    logout()
+                  }}
+                  className="w-full text-left px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-md"
+                >
+                  Logout
+                </button>
+              </>
+            )}
+
             <Link
               href="/admin/login"
               className="block px-3 py-2 text-sm font-medium text-purple-600 hover:bg-purple-50"

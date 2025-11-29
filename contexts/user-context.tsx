@@ -30,22 +30,40 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (email: string, password: string) => {
     setIsLoading(true)
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 500))
-      setUser({
-        id: "1",
-        name: "John Doe",
-        email,
-        role: "member",
-        joinDate: new Date().toISOString(),
-        isVolunteer: false,
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err?.error || 'Login failed')
+      }
+
+      // Fetch current user
+      const me = await fetch('/api/auth/me')
+      const data = await me.json()
+      if (data?.user) {
+        setUser({
+          id: data.user.id,
+          name: data.user.name || '',
+          email: data.user.email,
+          role: data.user.role,
+          joinDate: new Date().toISOString(),
+          isVolunteer: false,
+        })
+      }
     } finally {
       setIsLoading(false)
     }
   }, [])
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+    } catch (e) {
+      // ignore
+    }
     setUser(null)
   }, [])
 

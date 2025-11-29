@@ -2,30 +2,17 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import {
-  ChevronRight,
-  Home,
-  Book,
-  Users,
-  DollarSign,
-  Settings,
-  MessageSquare,
-  Zap,
-  Calendar,
-  BarChart3,
-} from "lucide-react"
+import { ChevronRight, Home, Book, Users, DollarSign, Settings, MessageSquare, Calendar } from "lucide-react"
 import { useTheme } from "@/contexts/theme-context"
 
 const sidebarItems = [
-  { label: "Dashboard", href: "/dashboard", icon: Home },
-  { label: "Sermons", href: "/sermons", icon: Book },
+  { label: "Home", href: "/", icon: Home },
+  { label: "About", href: "/about", icon: Book },
   { label: "Announcements", href: "/announcements", icon: MessageSquare },
-  { label: "Volunteer", href: "/volunteer", icon: Users },
-  { label: "Donations", href: "/donate", icon: DollarSign },
-  { label: "Trivia", href: "/trivia", icon: Zap },
   { label: "Events", href: "/events", icon: Calendar },
-  { label: "Reports", href: "/reports", icon: BarChart3 },
-  { label: "Settings", href: "/settings", icon: Settings },
+  { label: "Volunteer", href: "/volunteer", icon: Users },
+  { label: "Donate", href: "/donate", icon: DollarSign },
+  { label: "Suggestions", href: "/suggestions", icon: Settings },
 ]
 
 export function Sidebar() {
@@ -60,7 +47,7 @@ export function Sidebar() {
               className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition mb-1"
               title={collapsed ? item.label : ""}
             >
-              <Icon className="w-5 h-5 flex-shrink-0" />
+              <Icon className="w-5 h-5 shrink-0" />
               {!collapsed && <span className="text-sm font-medium">{item.label}</span>}
             </Link>
           )

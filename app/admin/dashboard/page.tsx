@@ -33,18 +33,24 @@ export default function AdminDashboard() {
   const router = useRouter()
 
   useEffect(() => {
-    const session = localStorage.getItem("adminSession")
-    if (!session) {
-      router.push("/admin/login")
-      return
-    }
-    const sessionData = JSON.parse(session)
-    setAdminEmail(sessionData.email)
+    // Verify server session
+    ;(async () => {
+      try {
+        const res = await fetch('/api/auth/me')
+        const data = await res.json()
+        if (!data?.user || data.user.role !== 'admin') {
+          router.push('/admin/login')
+          return
+        }
+        setAdminEmail(data.user.email)
+      } catch (e) {
+        router.push('/admin/login')
+      }
+    })()
   }, [router])
 
   const handleLogout = () => {
-    localStorage.removeItem("adminSession")
-    router.push("/admin/login")
+    fetch('/api/auth/logout', { method: 'POST' }).finally(() => router.push('/admin/login'))
   }
 
   // Admin Stats
