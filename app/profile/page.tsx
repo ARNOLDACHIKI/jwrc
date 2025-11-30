@@ -17,7 +17,7 @@ export default function ProfilePage() {
     email: user?.email || "",
     phone: "+1 (555) 123-4567",
     location: "New York, NY",
-    bio: "Active member of Grace Community Church",
+    bio: "Active member of Jesus Worship and Restoration Church",
   })
 
   const handleSave = async () => {

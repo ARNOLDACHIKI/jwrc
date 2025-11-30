@@ -56,7 +56,7 @@ export function Sidebar() {
 
       {/* Footer */}
       <div className="p-4 border-t border-blue-200 dark:border-blue-900 text-xs text-gray-500 dark:text-gray-400 text-center">
-        {!collapsed && <p>Grace Community Church © 2025</p>}
+        {!collapsed && <p>Jesus Worship and Restoration Church © 2025</p>}
       </div>
     </div>
   )

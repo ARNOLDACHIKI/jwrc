@@ -55,7 +55,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-16 px-4">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-5xl font-bold mb-6">About Grace Community Church</h1>
+          <h1 className="text-5xl font-bold mb-6">About Jesus Worship and Restoration Church</h1>
           <p className="text-xl text-blue-100 max-w-3xl mx-auto">
             Founded in faith, built on love, dedicated to serving Christ and our community. We believe in the power of
             worship, the importance of discipleship, and the call to serve others.
@@ -92,7 +92,7 @@ export default function AboutPage() {
           <Card className="p-8 mb-8">
             <h2 className="text-2xl font-bold text-blue-900 dark:text-white mb-6">Our Story</h2>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
-              Grace Community Church was founded in 2008 by a small group of believers who shared a passion for
+              Jesus Worship and Restoration Church was founded in 2008 by a small group of believers who shared a passion for
               authentic worship and biblical teaching. What started as a gathering of 45 people in a community center
               has grown into a thriving congregation of over 2,000 members from diverse backgrounds.
             </p>
@@ -102,7 +102,7 @@ export default function AboutPage() {
               ministries and service initiatives.
             </p>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-              Today, Grace Community Church remains committed to our core mission: to help people know Jesus, grow in
+              Today, Jesus Worship and Restoration Church remains committed to our core mission: to help people know Jesus, grow in
               faith, and make a difference in our world. We invite you to join us on this incredible journey.
             </p>
           </Card>

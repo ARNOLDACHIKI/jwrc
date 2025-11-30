@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///home/lod/Downloads/jwrc/app/admin/dashboard/page.tsx"],"sourcesContent":["\"use client\"\n\nexport default function AdminDashboard() {\n  return (\n    <div className=\"min-h-screen p-8\">\n      <h1 className=\"text-2xl font-bold\">Admin Dashboard (temporary)</h1>\n      <p className=\"mt-4 text-gray-600\">Restoring functionality — announcements features temporarily paused.</p>\n    </div>\n  )\n}\n"],"names":[],"mappings":";;;;;AAAA;;AAEe,SAAS;IACtB,qBACE,4TAAC;QAAI,WAAU;;0BACb,4TAAC;gBAAG,WAAU;0BAAqB;;;;;;0BACnC,4TAAC;gBAAE,WAAU;0BAAqB;;;;;;;;;;;;AAGxC;KAPwB","debugId":null}}]
+}

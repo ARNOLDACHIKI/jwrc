@@ -6,13 +6,14 @@ import "./globals.css"
 import { UserProvider } from "@/contexts/user-context"
 import { ThemeProvider } from "@/contexts/theme-context"
 import { AdminProvider } from "@/contexts/admin-context"
+import { Toaster } from '@/components/ui/toaster'
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Grace Community Church - Welcome",
-  description: "Grace Community Church - Your spiritual home for worship, growth, and service",
+  title: "Jesus Worship and Restoration Church - Welcome",
+  description: "Jesus Worship and Restoration Church - Your spiritual home for worship, growth, and service",
   generator: "v0.app",
   icons: {
     icon: [
@@ -45,6 +46,7 @@ export default function RootLayout({
           <AdminProvider>
             <ThemeProvider>{children}</ThemeProvider>
           </AdminProvider>
+        <Toaster />
         </UserProvider>
         <Analytics />
       </body>

@@ -216,8 +216,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$contexts$2f$admin$2d$context
 ;
 ;
 const metadata = {
-    title: "Grace Community Church - Welcome",
-    description: "Grace Community Church - Your spiritual home for worship, growth, and service",
+    title: "Jesus Worship and Restoration Church - Welcome",
+    description: "Jesus Worship and Restoration Church - Your spiritual home for worship, growth, and service",
     generator: "v0.app",
     icons: {
         icon: [

@@ -113,7 +113,7 @@ export default function Home() {
       <footer className="bg-blue-900 dark:bg-slate-950 text-white py-12 px-4">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="font-bold mb-4">Grace Community Church</h3>
+            <h3 className="font-bold mb-4">Jesus Worship and Restoration Church</h3>
             <p className="text-blue-100 text-sm">Your spiritual home for worship, growth, and service.</p>
           </div>
           <div>
@@ -166,7 +166,7 @@ export default function Home() {
           </div>
         </div>
         <div className="border-t border-blue-800 mt-8 pt-8 text-center text-blue-100 text-sm">
-          <p>&copy; 2025 Grace Community Church. All rights reserved.</p>
+          <p>&copy; 2025 Jesus Worship and Restoration Church. All rights reserved.</p>
         </div>
       </footer>
     </div>

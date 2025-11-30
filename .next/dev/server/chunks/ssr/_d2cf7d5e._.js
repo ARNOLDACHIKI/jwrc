@@ -615,7 +615,7 @@ function AboutPage() {
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
                             className: "text-5xl font-bold mb-6",
-                            children: "About Grace Community Church"
+                            children: "About Jesus Worship and Restoration Church"
                         }, void 0, false, {
                             fileName: "[project]/app/about/page.tsx",
                             lineNumber: 58,
@@ -717,7 +717,7 @@ function AboutPage() {
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     className: "text-gray-600 dark:text-gray-400 leading-relaxed mb-4",
-                                    children: "Grace Community Church was founded in 2008 by a small group of believers who shared a passion for authentic worship and biblical teaching. What started as a gathering of 45 people in a community center has grown into a thriving congregation of over 2,000 members from diverse backgrounds."
+                                    children: "Jesus Worship and Restoration Church was founded in 2008 by a small group of believers who shared a passion for authentic worship and biblical teaching. What started as a gathering of 45 people in a community center has grown into a thriving congregation of over 2,000 members from diverse backgrounds."
                                 }, void 0, false, {
                                     fileName: "[project]/app/about/page.tsx",
                                     lineNumber: 94,
@@ -733,7 +733,7 @@ function AboutPage() {
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     className: "text-gray-600 dark:text-gray-400 leading-relaxed",
-                                    children: "Today, Grace Community Church remains committed to our core mission: to help people know Jesus, grow in faith, and make a difference in our world. We invite you to join us on this incredible journey."
+                                    children: "Today, Jesus Worship and Restoration Church remains committed to our core mission: to help people know Jesus, grow in faith, and make a difference in our world. We invite you to join us on this incredible journey."
                                 }, void 0, false, {
                                     fileName: "[project]/app/about/page.tsx",
                                     lineNumber: 104,

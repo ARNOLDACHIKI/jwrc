@@ -30,6 +30,7 @@ export default function AdminLoginPage() {
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       })
@@ -41,7 +42,7 @@ export default function AdminLoginPage() {
       }
 
       // Verify current user and role
-      const me = await fetch('/api/auth/me')
+      const me = await fetch('/api/auth/me', { credentials: 'include' })
       const data = await me.json()
       if (!data?.user || data.user.role !== 'admin') {
         // clear cookie
@@ -67,7 +68,7 @@ export default function AdminLoginPage() {
             </div>
           </div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Admin Portal</h1>
-          <p className="text-gray-600 dark:text-gray-400">Manage Grace Community Church</p>
+          <p className="text-gray-600 dark:text-gray-400">Manage Jesus Worship and Restoration Church</p>
         </div>
 
         {/* Credential Info Box */}

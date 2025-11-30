@@ -1,52 +1,39 @@
 "use client"
+import { useEffect, useState } from "react"
 import { MainNav } from "@/components/navigation/main-nav"
 import { Card } from "@/components/ui/card"
 import { Megaphone, Calendar, AlertCircle, Info } from "lucide-react"
 
-const announcements = [
-  {
-    id: 1,
-    title: "Sunday Service Time Change",
-    category: "Important",
-    date: "Nov 5, 2024",
-    content: "Starting next month, Sunday service will be at 10:00 AM instead of 9:30 AM.",
-    icon: AlertCircle,
-  },
-  {
-    id: 2,
-    title: "Winter Youth Retreat",
-    category: "Event",
-    date: "Nov 3, 2024",
-    content: "Youth group winter retreat scheduled for December 15-17 at the mountain cabin.",
-    icon: Calendar,
-  },
-  {
-    id: 3,
-    title: "Community Food Drive",
-    category: "Service",
-    date: "Nov 1, 2024",
-    content: "We're organizing a food drive for families in need. Donations welcome!",
-    icon: Megaphone,
-  },
-  {
-    id: 4,
-    title: "New Small Group Starting",
-    category: "Info",
-    date: "Oct 30, 2024",
-    content: "A new Bible study group meets Thursdays at 7 PM. All are welcome to join!",
-    icon: Info,
-  },
-  {
-    id: 5,
-    title: "Building Maintenance Notice",
-    category: "Important",
-    date: "Oct 28, 2024",
-    content: "Sanctuary will be closed for repairs next week. Services will be held in fellowship hall.",
-    icon: AlertCircle,
-  },
-]
+type Announcement = {
+  id: number
+  title: string
+  content: string
+  category: string
+  postedAt?: string
+  author?: string
+}
 
 export default function AnnouncementsPage() {
+  const [announcements, setAnnouncements] = useState<Announcement[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let mounted = true
+    ;(async () => {
+      try {
+        const res = await fetch('/api/announcements')
+        const data = await res.json()
+        if (!mounted) return
+        setAnnouncements(data?.announcements || [])
+      } catch (e) {
+        console.error('Failed to load announcements', e)
+      } finally {
+        if (mounted) setLoading(false)
+      }
+    })()
+    return () => { mounted = false }
+  }, [])
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
       <MainNav />
@@ -60,8 +47,14 @@ export default function AnnouncementsPage() {
 
         {/* Announcements */}
         <div className="space-y-6">
+          {loading && <p className="text-center text-gray-500">Loading announcements…</p>}
+          {!loading && announcements.length === 0 && (
+            <p className="text-center text-gray-500">No announcements yet.</p>
+          )}
+
           {announcements.map((announcement) => {
-            const Icon = announcement.icon
+            const Icon = announcement.category === 'Event' ? Calendar : announcement.category === 'Important' ? AlertCircle : Megaphone
+            const date = announcement.postedAt ? new Date(announcement.postedAt).toLocaleDateString() : ''
             const bgColor =
               announcement.category === "Important"
                 ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-900"
@@ -72,7 +65,7 @@ export default function AnnouncementsPage() {
             return (
               <Card key={announcement.id} className={`p-6 border-l-4 ${bgColor}`}>
                 <div className="flex gap-4">
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-opacity-10 bg-blue-600">
                       <Icon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                     </div>
@@ -85,7 +78,7 @@ export default function AnnouncementsPage() {
                           {announcement.category}
                         </span>
                       </div>
-                      <time className="text-sm text-gray-500 dark:text-gray-400">{announcement.date}</time>
+                      <time className="text-sm text-gray-500 dark:text-gray-400">{date}</time>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mt-4">{announcement.content}</p>
                   </div>
