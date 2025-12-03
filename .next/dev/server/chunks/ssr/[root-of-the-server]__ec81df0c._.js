@@ -88,15 +88,34 @@ function UserProvider({ children }) {
     const signup = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (name, email, password)=>{
         setIsLoading(true);
         try {
-            await new Promise((resolve)=>setTimeout(resolve, 500));
-            setUser({
-                id: Date.now().toString(),
-                name,
-                email,
-                role: "member",
-                joinDate: new Date().toISOString(),
-                isVolunteer: false
+            const res = await fetch('/api/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password
+                })
             });
+            if (!res.ok) {
+                const err = await res.json().catch(()=>({}));
+                throw new Error(err?.error || 'Signup failed');
+            }
+            // fetch current user from server to populate context
+            const me = await fetch('/api/auth/me');
+            const data = await me.json().catch(()=>({}));
+            if (data?.user) {
+                setUser({
+                    id: data.user.id,
+                    name: data.user.name || name || '',
+                    email: data.user.email,
+                    role: data.user.role,
+                    joinDate: data.user.createdAt || new Date().toISOString(),
+                    isVolunteer: !!data.user.isVolunteer
+                });
+            }
         } finally{
             setIsLoading(false);
         }
@@ -123,7 +142,7 @@ function UserProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/contexts/user-context.tsx",
-        lineNumber: 97,
+        lineNumber: 111,
         columnNumber: 5
     }, this);
 }

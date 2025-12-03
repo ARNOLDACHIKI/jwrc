@@ -11,7 +11,15 @@ export async function POST(req: Request) {
     const { email, password } = body
     if (!email || !password) return NextResponse.json({ error: "Missing credentials" }, { status: 400 })
 
-    const user = await prisma.user.findUnique({ where: { email } })
+    // try exact match first, then fallback to case-insensitive search
+    let user = await prisma.user.findUnique({ where: { email } })
+    if (!user) {
+      try {
+        user = await prisma.user.findFirst({ where: { email: { equals: email, mode: 'insensitive' } } })
+      } catch (e) {
+        // ignore and continue to return generic error
+      }
+    }
     if (!user) return NextResponse.json({ error: "Invalid email or password" }, { status: 401 })
 
     const valid = user.password ? await bcrypt.compare(password, user.password) : false

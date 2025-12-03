@@ -10,6 +10,8 @@ import { MessageSquare, Mail, CheckCircle } from "lucide-react"
 
 export default function SuggestionsPage() {
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [errors, setErrors] = useState<Record<string,string> | null>(null)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,11 +21,33 @@ export default function SuggestionsPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => {
-      setSubmitted(false)
-      setFormData({ name: "", email: "", type: "suggestion", message: "" })
-    }, 3000)
+    ;(async () => {
+      setLoading(true)
+      setErrors(null)
+      try {
+        const res = await fetch('/api/suggestions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        })
+        if (res.ok) {
+          setSubmitted(true)
+          setFormData({ name: '', email: '', type: 'suggestion', message: '' })
+          setTimeout(() => setSubmitted(false), 3000)
+        } else if (res.status === 400) {
+          const data = await res.json().catch(() => ({}))
+          setErrors(data?.errors || { form: data?.error || 'Validation error' })
+        } else {
+          const data = await res.json().catch(() => ({}))
+          setErrors({ form: data?.error || `Server returned ${res.status}` })
+        }
+      } catch (err) {
+        console.error('Failed to submit suggestion', err)
+        setErrors({ form: 'Network or server error' })
+      } finally {
+        setLoading(false)
+      }
+    })()
   }
 
   return (
@@ -45,6 +69,9 @@ export default function SuggestionsPage() {
         <Card className="p-8">
           {!submitted ? (
             <form onSubmit={handleSubmit} className="space-y-6">
+              {errors?.form && (
+                <div className="text-sm text-red-600 bg-red-50 p-3 rounded">{errors.form}</div>
+              )}
               {/* Name */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Your Name</label>
@@ -101,9 +128,9 @@ export default function SuggestionsPage() {
                 />
               </div>
 
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2">
+              <Button type="submit" disabled={loading} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2">
                 <Mail className="w-4 h-4 mr-2" />
-                Submit Feedback
+                {loading ? 'Sending…' : 'Submit Feedback'}
               </Button>
             </form>
           ) : (

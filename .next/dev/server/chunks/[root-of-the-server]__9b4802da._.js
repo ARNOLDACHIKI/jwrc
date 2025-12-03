@@ -96,11 +96,26 @@ async function POST(req) {
         }, {
             status: 400
         });
-        const user = await prisma.user.findUnique({
+        // try exact match first, then fallback to case-insensitive search
+        let user = await prisma.user.findUnique({
             where: {
                 email
             }
         });
+        if (!user) {
+            try {
+                user = await prisma.user.findFirst({
+                    where: {
+                        email: {
+                            equals: email,
+                            mode: 'insensitive'
+                        }
+                    }
+                });
+            } catch (e) {
+            // ignore and continue to return generic error
+            }
+        }
         if (!user) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             error: "Invalid email or password"
         }, {

@@ -1,0 +1,3 @@
+{
+  "/api/mpesa/status/route": "app/api/mpesa/status/route.js"
+}

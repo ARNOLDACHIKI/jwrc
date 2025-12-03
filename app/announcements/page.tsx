@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { MainNav } from "@/components/navigation/main-nav"
 import { Card } from "@/components/ui/card"
 import { Megaphone, Calendar, AlertCircle, Info } from "lucide-react"
@@ -16,11 +17,25 @@ type Announcement = {
 export default function AnnouncementsPage() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([])
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
     let mounted = true
     ;(async () => {
       try {
+        // Check authentication first; unauthenticated users are redirected to login
+        const auth = await fetch('/api/auth/me', { credentials: 'include' })
+        if (!auth.ok) {
+          router.push('/login?next=/announcements')
+          return
+        }
+        const authData = await auth.json().catch(() => ({}))
+        if (!authData?.user) {
+          router.push('/login?next=/announcements')
+          return
+        }
+
+        // Authenticated: load announcements
         const res = await fetch('/api/announcements')
         const data = await res.json()
         if (!mounted) return
@@ -32,7 +47,7 @@ export default function AnnouncementsPage() {
       }
     })()
     return () => { mounted = false }
-  }, [])
+  }, [router])
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950">

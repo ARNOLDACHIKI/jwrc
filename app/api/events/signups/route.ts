@@ -62,8 +62,8 @@ export async function POST(req: Request) {
     let ref = genRef()
     // ensure unique ref
     for (let i = 0; i < 5; i++) {
-      const r = await prisma.$queryRawUnsafe(`SELECT id FROM event_signups WHERE ref = $1 LIMIT 1`, ref)
-      if (!(r && r.length > 0)) break
+      const r: any = await prisma.$queryRawUnsafe(`SELECT id FROM event_signups WHERE ref = $1 LIMIT 1`, ref)
+      if (!Array.isArray(r) || r.length === 0) break
       ref = genRef()
     }
 

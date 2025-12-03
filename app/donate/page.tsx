@@ -4,7 +4,7 @@ import { useState } from "react"
 import { MainNav } from "@/components/navigation/main-nav"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Heart, CreditCard, Smartphone, ArrowRight, Check } from "lucide-react"
+import { Heart, Smartphone, ArrowRight, Check } from "lucide-react"
 
 const donationTiers = [
   { amount: 25, label: "$25", description: "Support general operations" },
@@ -15,17 +15,10 @@ const donationTiers = [
 
 const paymentMethods = [
   {
-    id: "stripe",
-    name: "Credit/Debit Card",
-    icon: CreditCard,
-    description: "Visa, Mastercard, American Express",
-    color: "text-blue-600",
-  },
-  {
     id: "mpesa",
-    name: "M-Pesa",
+    name: "M-Pesa (Paybill)",
     icon: Smartphone,
-    description: "Mobile money payment (Kenya)",
+    description: "Mobile money payment via Paybill (Kenya)",
     color: "text-green-600",
   },
 ]
@@ -33,13 +26,17 @@ const paymentMethods = [
 export default function DonatePage() {
   const [selectedAmount, setSelectedAmount] = useState(50)
   const [customAmount, setCustomAmount] = useState("")
-  const [selectedMethod, setSelectedMethod] = useState("stripe")
+  const [selectedMethod, setSelectedMethod] = useState("mpesa")
   const [donorInfo, setDonorInfo] = useState({
     name: "",
     email: "",
+    phone: "",
     message: "",
   })
   const [isProcessing, setIsProcessing] = useState(false)
+  const [stkLocalId, setStkLocalId] = useState<number | null>(null)
+  const [stkPending, setStkPending] = useState(false)
+  const [stkMessage, setStkMessage] = useState<string | null>(null)
 
   const finalAmount = customAmount ? Number.parseFloat(customAmount) : selectedAmount
 
@@ -49,31 +46,67 @@ export default function DonatePage() {
       return
     }
 
+    if (selectedMethod === 'mpesa' && !donorInfo.phone) {
+      alert('Please enter your phone number for M-Pesa STK Push (e.g. 2547XXXXXXXX)')
+      return
+    }
+
     setIsProcessing(true)
 
-    if (selectedMethod === "stripe") {
+    if (selectedMethod === "mpesa") {
+      // Show M-Pesa paybill instructions and ask user to complete payment on their phone.
+      // We'll convert USD->KES roughly using a fixed rate for display (adjust as needed).
+      const rate = 142 // KES per USD (example rate)
+      const kes = Math.round(finalAmount * rate)
+
+      // Attempt STK Push first
       try {
-        // Call Stripe API
-        const response = await fetch("/api/create-payment-intent", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        const res = await fetch('/api/mpesa/stk', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            amount: finalAmount,
-            name: donorInfo.name,
-            email: donorInfo.email,
-            message: donorInfo.message,
-          }),
+            phone: donorInfo.phone,
+            amount: kes,
+            accountReference: '377899',
+            transactionDesc: 'Donation'
+          })
         })
 
-        const { clientSecret } = await response.json()
-        // Handle Stripe payment
-        alert(`Payment intent created. Amount: $${finalAmount}`)
-      } catch (error) {
-        alert("Payment failed. Please try again.")
+        const json = await res.json().catch(() => ({}))
+        if (res.ok) {
+          // STK initiated — provider response contains CheckoutRequestID/MerchantRequestID
+          const checkout = json?.provider?.CheckoutRequestID || json?.provider?.checkoutRequestID
+          const merchant = json?.provider?.MerchantRequestID || json?.provider?.merchantRequestID
+          setStkLocalId(json?.localId || null)
+          setStkPending(true)
+          setStkMessage('STK Push sent. Please enter your M-Pesa PIN on your phone to complete the payment.')
+        } else {
+          console.warn('STK Push failed', json)
+          // fallback to showing Paybill instructions if STK fails
+          const confirmPay = confirm(
+            `STK Push failed to initiate. You can still pay manually via M-Pesa Paybill:\n\nPaybill: 247247\nAccount No: 377899\n\nClick OK after you complete the payment to mark as paid.`
+          )
+          if (!confirmPay) { setIsProcessing(false); return }
+          await fetch('/api/donations', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount: finalAmount, method: 'mpesa', currency: 'USD', kesAmount: kes, donor: donorInfo, note: 'Manual Paybill fallback' })
+          }).catch(() => null)
+          alert('Recorded manual donation attempt. We will confirm once payment is verified.')
+        }
+      } catch (err) {
+        console.error('STK request error', err)
+        const confirmPay = confirm(
+          `Could not start STK Push due to a network error. Please use M-Pesa Paybill:\n\nPaybill: 247247\nAccount No: 377899\n\nClick OK after you complete the payment to mark as paid.`
+        )
+        if (!confirmPay) { setIsProcessing(false); return }
+        await fetch('/api/donations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: finalAmount, method: 'mpesa', currency: 'USD', kesAmount: kes, donor: donorInfo, note: 'Manual Paybill fallback (network error)' })
+        }).catch(() => null)
+        alert('Recorded manual donation attempt. We will confirm once payment is verified.')
       }
-    } else if (selectedMethod === "mpesa") {
-      // Simulate M-Pesa payment
-      alert(`M-Pesa payment initiated for KES ${finalAmount * 142}. You will receive a prompt on your phone.`)
     }
 
     setIsProcessing(false)
@@ -176,6 +209,18 @@ export default function DonatePage() {
                   />
                 </div>
 
+                {/* Phone for M-Pesa STK Push */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone Number (M-Pesa)</label>
+                  <input
+                    type="tel"
+                    value={donorInfo.phone}
+                    onChange={(e) => setDonorInfo({ ...donorInfo, phone: e.target.value })}
+                    placeholder="2547XXXXXXXX"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
+                  />
+                </div>
+
                 {/* Message */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -243,6 +288,25 @@ export default function DonatePage() {
                 </div>
               </div>
 
+              {/* M-Pesa Paybill Instructions */}
+              <div className="p-4 mb-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-800">
+                <h4 className="font-bold text-gray-900 dark:text-white mb-2">Pay via M-Pesa (Paybill)</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Use your M-Pesa app or STK Push to pay to our Paybill.</p>
+                <div className="mt-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-xs text-gray-500">Paybill</div>
+                      <div className="font-mono font-semibold text-lg">247247</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-gray-500">Account No</div>
+                      <div className="font-mono font-semibold text-lg">377899</div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-3">When prompted, enter your name or email in the account reference so we can match your donation. After payment, click 'Proceed to Payment' and confirm to mark as paid.</p>
+                </div>
+              </div>
+
               <Button
                 onClick={handleDonate}
                 disabled={isProcessing || !finalAmount}
@@ -251,6 +315,36 @@ export default function DonatePage() {
                 {isProcessing ? "Processing..." : "Proceed to Payment"}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
+
+              {stkPending && (
+                <div className="p-4 rounded-lg border border-yellow-300 bg-yellow-50 dark:bg-yellow-900/20 text-sm">
+                  <p className="font-semibold mb-2">{stkMessage}</p>
+                  <p className="mb-3">Do not enter your M-Pesa PIN on this website — enter it only on your phone when prompted by M-Pesa.</p>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={async () => {
+                        if (!stkLocalId) return
+                        try {
+                          const res = await fetch(`/api/mpesa/status?localId=${stkLocalId}`)
+                          const js = await res.json().catch(() => ({}))
+                          const status = js?.donation?.status || js?.donation?.state || 'unknown'
+                          alert(`Current payment status: ${status}`)
+                          if (status === 'success') {
+                            setStkPending(false)
+                            setStkMessage('Payment confirmed. Thank you!')
+                          }
+                        } catch (e) {
+                          alert('Could not fetch status')
+                        }
+                      }}
+                      className="bg-blue-600 hover:bg-blue-700 text-white"
+                    >
+                      I've entered PIN — Check status
+                    </Button>
+                    <Button onClick={() => { setStkPending(false); setStkLocalId(null); setStkMessage(null) }} variant="outline">Cancel</Button>
+                  </div>
+                </div>
+              )}
 
               {/* Trust Badges */}
               <div className="pt-6 border-t border-gray-200 dark:border-gray-700">

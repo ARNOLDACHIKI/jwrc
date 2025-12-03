@@ -232,9 +232,9 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { label: "Address", value: "123 Faith Street, City, State 12345" },
-              { label: "Phone", value: "(555) 123-4567" },
-              { label: "Email", value: "info@gracecommunitychurch.com" },
+              { label: "Address", value: "juja" },
+              { label: "Phone", value: "0715377835" },
+              { label: "Email", value: "jwrcjuja.1@gmail.com" },
             ].map((contact, idx) => (
               <Card key={idx} className="p-6 text-center">
                 <h3 className="font-bold text-gray-900 dark:text-white mb-2">{contact.label}</h3>

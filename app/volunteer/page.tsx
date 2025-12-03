@@ -44,10 +44,37 @@ const volunteerRoles = [
 export default function VolunteerPage() {
   const [selectedRole, setSelectedRole] = useState<number | null>(null)
   const [submitted, setSubmitted] = useState(false)
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [errors, setErrors] = useState<Record<string,string>>({})
 
-  const handleSignUp = () => {
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
+  const handleSignUp = async () => {
+    const clientErrors: Record<string,string> = {}
+    if (!name) clientErrors.name = 'Name is required'
+    if (!email) clientErrors.email = 'Email is required'
+    if (!selectedRole) clientErrors.role = 'Please select a role'
+    if (Object.keys(clientErrors).length) { setErrors(clientErrors); return }
+
+    try {
+      const role = volunteerRoles.find(r => r.id === selectedRole)
+      const res = await fetch('/api/volunteers', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, phone, roleId: selectedRole, roleTitle: role?.title }) })
+      if (res.ok) {
+        setSubmitted(true)
+        setTimeout(() => setSubmitted(false), 3000)
+        setName('')
+        setEmail('')
+        setPhone('')
+        setSelectedRole(null)
+        setErrors({})
+      } else {
+        const data = await res.json().catch(() => ({}))
+        setErrors(data?.errors || { form: data?.error || 'Failed to submit' })
+      }
+    } catch (e) {
+      console.error(e)
+      setErrors({ form: 'Failed to submit' })
+    }
   }
 
   return (
@@ -107,8 +134,11 @@ export default function VolunteerPage() {
                     <input
                       type="text"
                       placeholder="John Doe"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
                     />
+                    {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
                   </div>
 
                   <div>
@@ -116,8 +146,11 @@ export default function VolunteerPage() {
                     <input
                       type="email"
                       placeholder="john@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
                     />
+                    {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email}</p>}
                   </div>
 
                   <div>
@@ -125,6 +158,8 @@ export default function VolunteerPage() {
                     <input
                       type="tel"
                       placeholder="(555) 123-4567"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
                       className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
                     />
                   </div>
@@ -145,6 +180,7 @@ export default function VolunteerPage() {
                         </option>
                       ))}
                     </select>
+                    {errors.role && <p className="text-sm text-red-600 mt-1">{errors.role}</p>}
                   </div>
 
                   <Button

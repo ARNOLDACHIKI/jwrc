@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Menu, X, LogOut, User, Settings } from "lucide-react"
 import { useUser } from "@/contexts/user-context"
@@ -10,6 +10,22 @@ export function MainNav() {
   const [isOpen, setIsOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const { user, logout } = useUser()
+  const [unread, setUnread] = useState(0)
+
+  useEffect(() => {
+    let mounted = true
+    async function load() {
+      try {
+        const res = await fetch('/api/user/inbox', { credentials: 'include' })
+        const data = await res.json().catch(() => ({}))
+        if (!mounted) return
+        setUnread(data?.unreadCount || 0)
+      } catch (e) { /* ignore */ }
+    }
+    load()
+    const iv = setInterval(load, 10000)
+    return () => { mounted = false; clearInterval(iv) }
+  }, [user])
 
   const navItems = [
     { label: "Home", href: "/" },
@@ -28,11 +44,11 @@ export function MainNav() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <div className="w-10 h-10 bg-linear-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">GC</span>
+              <span className="text-white font-bold text-lg">JWRC</span>
             </div>
             <div className="hidden sm:flex flex-col">
-              <span className="font-bold text-blue-900 dark:text-blue-400">Grace</span>
-              <span className="text-xs text-blue-600 dark:text-blue-300">Community</span>
+              <span className="font-bold text-blue-900 dark:text-blue-400">JESUS WORSHIP</span>
+              <span className="text-xs text-blue-600 dark:text-blue-300">AND RESTORATION</span>
             </div>
           </Link>
 
@@ -44,7 +60,12 @@ export function MainNav() {
                 href={item.href}
                 className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md transition dark:text-gray-300 dark:hover:text-blue-400 dark:hover:bg-blue-900/20"
               >
-                {item.label}
+                <span className="inline-flex items-center gap-2">
+                  {item.label}
+                  {item.href === '/suggestions' && unread > 0 && (
+                    <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-semibold bg-red-600 text-white rounded-full">{unread}</span>
+                  )}
+                </span>
               </Link>
             ))}
             {/* Auth area for desktop */}

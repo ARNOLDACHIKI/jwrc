@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Sidebar } from "@/components/navigation/sidebar"
 import { MainNav } from "@/components/navigation/main-nav"
@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useUser } from "@/contexts/user-context"
 import { Heart, Users, DollarSign, Calendar, TrendingUp, Settings, Bell, BookOpen } from "lucide-react"
+import Inbox from "@/components/inbox"
 
 const statsCards = [
   { title: "Total Donations", value: "$2,450", change: "+12%", icon: DollarSign, color: "text-green-600" },
@@ -26,6 +27,61 @@ const recentActivity = [
 export default function Dashboard() {
   const { user } = useUser()
   const [showReminders, setShowReminders] = useState(true)
+  const [unreadCount, setUnreadCount] = useState(0)
+  const [latestPreview, setLatestPreview] = useState<string | null>(null)
+  const inboxLastSeenKey = 'inboxLastSeenAt'
+
+  async function loadInboxSummary() {
+    try {
+      const email = user?.email
+      if (!email) return
+      // get server-side lastSeen and unread count
+      const s = await fetch('/api/user/inbox', { credentials: 'include' })
+      const summary = await s.json().catch(() => ({}))
+      const serverLastSeen = summary?.lastSeen || null
+      const serverUnread = summary?.unreadCount || 0
+      setUnreadCount(serverUnread)
+
+      // fetch items to show latest preview (use serverLastSeen to pick preview if available)
+      const [sRes, vRes] = await Promise.all([
+        fetch(`/api/suggestions?email=${encodeURIComponent(email)}`),
+        fetch(`/api/volunteers?email=${encodeURIComponent(email)}`),
+      ])
+      const [sData, vData] = await Promise.all([sRes.json().catch(()=>({})), vRes.json().catch(()=>({}))])
+
+      const suggestions = sData?.suggestions || []
+      const volunteers = vData?.applications || []
+      const all = [
+        ...suggestions.map((s:any) => ({ when: s.respondedAt || s.createdAt, text: s.adminResponse ? `Response: ${s.adminResponse}` : s.message })),
+        ...volunteers.map((v:any) => ({ when: v.respondedAt || v.createdAt, text: v.adminMessage || `Volunteer: ${v.status}` })),
+      ].filter((x:any) => x.when)
+
+      if (all.length > 0) {
+        if (serverLastSeen) {
+          const last = new Date(serverLastSeen)
+          const unseen = all.filter((a:any)=> new Date(a.when) > last)
+          if (unseen.length > 0) setLatestPreview(unseen.sort((a:any,b:any)=> new Date(b.when).getTime() - new Date(a.when).getTime())[0].text)
+          else setLatestPreview(all.sort((a:any,b:any)=> new Date(b.when).getTime() - new Date(a.when).getTime())[0].text)
+        } else {
+          setLatestPreview(all.sort((a:any,b:any)=> new Date(b.when).getTime() - new Date(a.when).getTime())[0].text)
+        }
+      }
+    } catch (e) { console.error('Failed to load inbox summary', e) }
+  }
+
+  useEffect(() => {
+    if (!user) return
+    // automatically mark messages read when dashboard loads
+    ;(async () => {
+      try {
+        await fetch('/api/user/inbox', { method: 'PATCH', credentials: 'include' })
+        // after marking read, refresh summary
+        await loadInboxSummary()
+      } catch (e) { console.error('Failed to mark inbox read on load', e) }
+    })()
+    const iv = setInterval(loadInboxSummary, 10000)
+    return () => clearInterval(iv)
+  }, [user])
 
   if (!user) {
     return (
@@ -72,6 +128,32 @@ export default function Dashboard() {
                   >
                     ×
                   </button>
+                </div>
+              </Card>
+            )}
+
+            {/* Inbox Reminder Alert */}
+            {unreadCount > 0 && (
+              <Card className="mb-6 p-4 border-l-4 border-blue-600 bg-blue-50 dark:bg-slate-800/20">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Bell className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                    <div>
+                      <h3 className="font-semibold text-blue-900 dark:text-blue-300">You have {unreadCount} new message{unreadCount>1?'s':''}</h3>
+                      {latestPreview && <p className="text-sm text-gray-700 dark:text-gray-300">{latestPreview}</p>}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => {
+                        try { localStorage.setItem(inboxLastSeenKey, new Date().toISOString()); setUnreadCount(0) } catch(e){}
+                      }}
+                      className="text-blue-600 hover:text-blue-700 dark:text-blue-400"
+                    >
+                      Mark as read
+                    </button>
+                    <Link href="#inbox" onClick={() => { try { localStorage.setItem(inboxLastSeenKey, new Date().toISOString()); setUnreadCount(0) } catch(e){} }} className="text-sm text-white bg-blue-600 px-3 py-1 rounded">Open Inbox</Link>
+                  </div>
                 </div>
               </Card>
             )}
@@ -153,6 +235,9 @@ export default function Dashboard() {
                     </Button>
                   </Link>
                 </div>
+              </Card>
+              <Card className="p-6 mt-6" id="inbox">
+                <Inbox email={user.email} />
               </Card>
             </div>
 

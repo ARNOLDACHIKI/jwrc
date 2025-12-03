@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useUser } from "@/contexts/user-context"
 import { Mail, Phone, MapPin, Edit2, Save, X } from "lucide-react"
+import SuggestionsInbox from "@/components/suggestions-inbox"
 
 export default function ProfilePage() {
   const { user, updateProfile } = useUser()
@@ -114,6 +115,14 @@ export default function ProfilePage() {
                           ? "Thank you for serving our community!"
                           : "Interested in volunteering? Sign up today!"}
                       </p>
+                    </div>
+                    {/* Volunteer Messages */}
+                    <div className="mt-6 p-4 rounded-lg bg-white dark:bg-slate-800 border">
+                      <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Inbox & Messages</h3>
+                      <div>
+                        {/* @ts-ignore - client component */}
+                        <SuggestionsInbox email={user.email} />
+                      </div>
                     </div>
                   </div>
                 ) : (

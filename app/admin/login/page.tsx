@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Lock, Mail, Eye, EyeOff, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -17,6 +17,17 @@ export default function AdminLoginPage() {
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  // Avoid useSearchParams() here to prevent prerender/suspense issues during build.
+  // Use window.location.search at runtime instead.
+  let nextPath = "/admin/dashboard"
+  if (typeof window !== 'undefined') {
+    try {
+      const sp = new URLSearchParams(window.location.search)
+      nextPath = sp.get('next') ?? nextPath
+    } catch (e) {
+      // ignore
+    }
+  }
 
   // Sample admin credentials for testing
   const ADMIN_EMAIL = "admin@gracecommunity.com"
@@ -51,7 +62,7 @@ export default function AdminLoginPage() {
         return
       }
 
-      router.push('/admin/dashboard')
+      router.push(nextPath)
     } finally {
       setIsLoading(false)
     }
@@ -71,18 +82,7 @@ export default function AdminLoginPage() {
           <p className="text-gray-600 dark:text-gray-400">Manage Jesus Worship and Restoration Church</p>
         </div>
 
-        {/* Credential Info Box */}
-        <Card className="bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 p-4 mb-6">
-          <p className="text-sm text-blue-900 dark:text-blue-100 font-medium mb-2">Demo Admin Credentials:</p>
-          <div className="space-y-1 text-xs text-blue-800 dark:text-blue-200 font-mono">
-            <p>
-              📧 Email: <span className="font-bold">admin@gracecommunity.com</span>
-            </p>
-            <p>
-              🔐 Password: <span className="font-bold">AdminGrace2024!</span>
-            </p>
-          </div>
-        </Card>
+        {/* Credential Info Box removed */}
 
         {/* Login Form */}
         <Card className="bg-white dark:bg-slate-800 shadow-xl border-0">

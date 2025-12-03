@@ -1,16 +1,15 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useSearchParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { useToast } from '@/hooks/use-toast'
 import { CheckCircle, Copy } from "lucide-react"
 
 export default function EventSignUpPage() {
-  const searchParams = useSearchParams()
   const router = useRouter()
-  const eventId = searchParams.get('eventId') || ''
+  const [eventId, setEventId] = useState('')
 
   const [event, setEvent] = useState<any | null>(null)
   const [name, setName] = useState("")
@@ -19,6 +18,17 @@ export default function EventSignUpPage() {
   const [errors, setErrors] = useState<Record<string,string>>({})
   const [loading, setLoading] = useState(false)
   const [signupResult, setSignupResult] = useState<any | null>(null)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const sp = new URLSearchParams(window.location.search)
+        setEventId(sp.get('eventId') || '')
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, [])
 
   useEffect(() => {
     if (!eventId) return

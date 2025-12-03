@@ -3,6 +3,7 @@ import { MainNav } from "@/components/navigation/main-nav"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ArrowRight, Heart, Users, BookOpen, Music, Calendar, Zap, MessageSquare } from "lucide-react"
+import AnnouncementsCTA from "@/components/announcements-cta"
 
 export default function Home() {
   return (
@@ -15,19 +16,23 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <h1 className="text-5xl md:text-6xl font-bold text-blue-900 dark:text-white leading-tight">
-                Welcome to <span className="text-blue-600">Grace Community</span> Church
+                Welcome to <span className="text-blue-600">JESUS WORSHIP AND RESTORATION CHURCH</span>
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300">
                 Experience vibrant worship, grow in faith, and serve your community. Join us for meaningful sermons,
                 fellowship, and spiritual growth.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Link href="/sermons">
-                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto">
-                    Watch Latest Sermons
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
+                {/* CTA: if user is logged in go straight to announcements, otherwise go to login and return */}
+                {/* Use client component to check auth and redirect appropriately */}
+                {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+                {/* @ts-ignore Server -> client import handled by Next */}
+                <div>
+                  {/* dynamically import client CTA component */}
+                  {/* Keep simple synchronous import so Next can bundle it as a client component */}
+                  {/* eslint-disable-next-line react/jsx-no-undef */}
+                  <AnnouncementsCTA />
+                </div>
                 <Link href="/donate">
                   <Button
                     size="lg"
@@ -85,6 +90,44 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Get in Touch Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center text-blue-900 dark:text-white mb-8">Get in Touch</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { label: "Address", value: "juja", href: "https://maps.app.goo.gl/4ATY5qcF53dtuS668?g_st=aw" },
+              { label: "Phone", value: "0715377835" },
+              { label: "Email", value: "jwrcjuja.1@gmail.com" },
+            ].map((contact, idx) => (
+              <Card key={idx} className="p-6 text-center">
+                <h3 className="font-bold text-gray-900 dark:text-white mb-2">{contact.label}</h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {contact.href ? (
+                    <a
+                      href={contact.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline hover:text-blue-700"
+                    >
+                      {contact.value}
+                    </a>
+                  ) : (
+                    contact.value
+                  )}
+                </p>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <Link href="/suggestions">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white">Send a Suggestion</Button>
+            </Link>
+          </div>
+        </div>
+      </section>
       {/* CTA Section */}
       <section className="py-16 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
         <div className="max-w-4xl mx-auto text-center space-y-6">
@@ -159,9 +202,18 @@ export default function Home() {
           <div>
             <h4 className="font-bold mb-4">Contact</h4>
             <p className="text-blue-100 text-sm">
-              📧 info@gracecommunitychurch.com
-              <br />📞 (555) 123-4567
-              <br />📍 123 Faith Street, City, State
+              📧 jwrcjuja.1@gmail.com
+              <br />📞 0715377835
+              <br />
+              📍{' '}
+              <a
+                href="https://maps.app.goo.gl/4ATY5qcF53dtuS668?g_st=aw"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-white"
+              >
+                View on Google Maps
+              </a>
             </p>
           </div>
         </div>

@@ -22,11 +22,15 @@ import {
   Eye,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useToast } from '@/hooks/use-toast'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog"
+import { Textarea } from "@/components/ui/textarea"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 export default function AdminDashboard() {
   const [adminEmail, setAdminEmail] = useState("")
+  const [adminName, setAdminName] = useState("")
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [activeTab, setActiveTab] = useState("overview")
   const [showAddForm, setShowAddForm] = useState(false)
@@ -62,6 +66,7 @@ export default function AdminDashboard() {
           return
         }
         setAdminEmail(data.user.email)
+        setAdminName(data.user.name || '')
       } catch (e) {
         router.push('/admin/login')
       }
@@ -100,6 +105,101 @@ export default function AdminDashboard() {
       }
     })()
     return () => { mounted = false }
+  }, [activeTab])
+
+  // Volunteers state
+  const [volunteerApps, setVolunteerApps] = useState<any[]>([])
+
+  useEffect(() => {
+    if (activeTab !== 'volunteers') return
+    let mounted = true
+    ;(async () => {
+      try {
+        const res = await fetch('/api/volunteers', { credentials: 'include' })
+        const data = await res.json()
+        if (!mounted) return
+        setVolunteerApps(data?.applications || [])
+      } catch (e) {
+        console.error('Failed to load volunteer applications', e)
+      }
+    })()
+    return () => { mounted = false }
+  }, [activeTab])
+
+  // Suggestions state
+  const [suggestionsState, setSuggestionsState] = useState<any[]>([])
+  const [lastSeen, setLastSeen] = useState<string | null>(null)
+  const [unseenCount, setUnseenCount] = useState(0)
+  const [replyModalOpen, setReplyModalOpen] = useState(false)
+  const [replyTargetId, setReplyTargetId] = useState<string | null>(null)
+  const [replyText, setReplyText] = useState('')
+  const [isReplying, setIsReplying] = useState(false)
+  const [replyError, setReplyError] = useState<string | null>(null)
+  const { toast } = useToast()
+  useEffect(() => {
+    if (activeTab !== 'suggestions') return
+    let mounted = true
+    async function load() {
+      try {
+        const res = await fetch('/api/suggestions', { credentials: 'include' })
+        const data = await res.json()
+        if (!mounted) return
+        setSuggestionsState(data?.suggestions || [])
+      } catch (e) {
+        console.error('Failed to load suggestions', e)
+      }
+    }
+    load()
+    const iv = setInterval(() => { if (mounted) load() }, 8000)
+    return () => { mounted = false; clearInterval(iv) }
+  }, [activeTab])
+
+  // load lastSeen from localStorage and compute unseen counts periodically
+  useEffect(() => {
+    let mounted = true
+    try {
+      const v = typeof window !== 'undefined' ? localStorage.getItem('adminSuggestionsLastSeen') : null
+      if (v) setLastSeen(v)
+    } catch (e) {
+      // ignore
+    }
+
+    async function poll() {
+      try {
+        const res = await fetch('/api/suggestions', { credentials: 'include' })
+        if (!res.ok) return
+        const data = await res.json()
+        if (!mounted) return
+        const rows: any[] = data?.suggestions || []
+        // compute unseen relative to lastSeen
+        if (rows.length > 0) {
+          const last = lastSeen ? new Date(lastSeen) : null
+          const count = last ? rows.filter(r => new Date(r.createdAt) > last).length : rows.length
+          setUnseenCount(count)
+        } else {
+          setUnseenCount(0)
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    // initial poll and interval
+    poll()
+    const iv = setInterval(poll, 10000)
+    return () => { mounted = false; clearInterval(iv) }
+  }, [lastSeen])
+
+  // when admin opens suggestions tab, mark as seen
+  useEffect(() => {
+    if (activeTab === 'suggestions') {
+      const now = new Date().toISOString()
+      try {
+        localStorage.setItem('adminSuggestionsLastSeen', now)
+      } catch (e) {}
+      setLastSeen(now)
+      setUnseenCount(0)
+    }
   }, [activeTab])
 
   async function handleDeleteAnnouncement(id: string) {
@@ -236,7 +336,12 @@ export default function AdminDashboard() {
                 }`}
               >
                 <item.icon className="w-5 h-5" />
-                <span>{item.label}</span>
+                <span className="flex items-center gap-2">
+                  <span>{item.label}</span>
+                  {item.id === 'suggestions' && unseenCount > 0 && (
+                    <span className="text-xs bg-red-600 text-white rounded-full px-2 py-0.5">{unseenCount}</span>
+                  )}
+                </span>
               </button>
             ))}
           </nav>
@@ -316,7 +421,6 @@ export default function AdminDashboard() {
                           body: JSON.stringify({ title: newTitle, content: newContent }),
                         })
                         if (res.ok) {
-                          // refresh list
                           const data = await (await fetch('/api/announcements')).json()
                           setAnnouncementsState(data?.announcements || [])
                           setShowAddForm(false)
@@ -329,6 +433,7 @@ export default function AdminDashboard() {
                         }
                       } catch (err) {
                         console.error(err)
+                        alert('Failed to publish announcement')
                       }
                     }}
                   >
@@ -593,6 +698,144 @@ export default function AdminDashboard() {
               )}
             </div>
           )}
+
+          {activeTab === "volunteers" && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Volunteer Applications</h2>
+              </div>
+
+              <div className="space-y-3">
+                {volunteerApps.map((app) => (
+                  <Card key={app.id} className="bg-white dark:bg-slate-800 p-4 flex items-center justify-between">
+                    <div>
+                      <h3 className="font-semibold text-gray-900 dark:text-white">{app.name}</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{app.email} • {app.roleTitle || app.roleId}</p>
+                      <p className="text-sm text-gray-500">Status: {app.status}</p>
+                      {app.adminMessage && <p className="text-sm text-gray-500">Message: {app.adminMessage}</p>}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button size="sm" className="bg-green-600" onClick={async () => {
+                        const msg = prompt('Optional message to the applicant (approval note)')
+                        try {
+                          const res = await fetch('/api/volunteers', { method: 'PATCH', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: app.id, action: 'approve', message: msg }) })
+                          if (res.ok) {
+                            setVolunteerApps((prev) => prev.map(p => p.id === app.id ? { ...p, status: 'approved', adminMessage: msg } : p))
+                          } else {
+                            const err = await res.json().catch(()=>({}))
+                            alert('Failed to approve: ' + (err?.error || res.status))
+                          }
+                        } catch (e) { console.error(e); alert('Failed to approve') }
+                      }}>Approve</Button>
+                      <Button size="sm" className="bg-red-600" onClick={async () => {
+                        const msg = prompt('Message to applicant (reason for rejection)')
+                        if (msg === null) return
+                        try {
+                          const res = await fetch('/api/volunteers', { method: 'PATCH', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: app.id, action: 'reject', message: msg }) })
+                          if (res.ok) {
+                            setVolunteerApps((prev) => prev.map(p => p.id === app.id ? { ...p, status: 'rejected', adminMessage: msg } : p))
+                          } else {
+                            const err = await res.json().catch(()=>({}))
+                            alert('Failed to reject: ' + (err?.error || res.status))
+                          }
+                        } catch (e) { console.error(e); alert('Failed to reject') }
+                      }}>Reject</Button>
+                    </div>
+                  </Card>
+                ))}
+                {volunteerApps.length === 0 && <p className="text-sm text-gray-500">No volunteer applications yet.</p>}
+              </div>
+            </div>
+          )}
+
+          {activeTab === "suggestions" && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Suggestions</h2>
+                <div className="flex items-center gap-3">
+                  {unseenCount > 0 && <span className="text-sm text-white bg-red-600 rounded-full px-2 py-0.5">{unseenCount} new</span>}
+                  <Button size="sm" onClick={async () => {
+                    try {
+                      const res = await fetch('/api/suggestions', { credentials: 'include' })
+                      if (res.ok) {
+                        const data = await res.json()
+                        setSuggestionsState(data?.suggestions || [])
+                        const now = new Date().toISOString()
+                        try { localStorage.setItem('adminSuggestionsLastSeen', now) } catch (e) {}
+                        setLastSeen(now)
+                        setUnseenCount(0)
+                      } else {
+                        const err = await res.json().catch(()=>({}))
+                        alert('Failed to refresh suggestions: ' + (err?.error || res.status))
+                      }
+                    } catch (e) { console.error(e); alert('Failed to refresh suggestions') }
+                  }}>Refresh</Button>
+                </div>
+              </div>
+              <div className="space-y-3">
+                {suggestionsState.map((s) => (
+                  <Card key={s.id} className="bg-white dark:bg-slate-800 p-4 flex items-center justify-between">
+                    <div>
+                      <h3 className="font-semibold text-gray-900 dark:text-white">{s.type} from {s.name || s.email}</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{s.message}</p>
+                      {s.adminResponse && (
+                        <p className="text-sm text-gray-500">Response: {s.adminResponse} {s.responderName ? <span className="text-xs text-gray-400">(by {s.responderName})</span> : null}</p>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button size="sm" onClick={() => {
+                        setReplyTargetId(s.id)
+                        setReplyText(s.adminResponse || '')
+                        setReplyModalOpen(true)
+                      }}>Respond</Button>
+                    </div>
+                  </Card>
+                ))}
+                {suggestionsState.length === 0 && <p className="text-sm text-gray-500">No suggestions yet.</p>}
+              </div>
+            </div>
+          )}
+
+          {/* Reply Modal */}
+          <Dialog open={replyModalOpen} onOpenChange={(open) => { if (!open) { setReplyTargetId(null); setReplyText('') } setReplyModalOpen(open) }}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Respond to Suggestion</DialogTitle>
+              </DialogHeader>
+              <div className="mt-2">
+                <Textarea value={replyText} onChange={(e) => { setReplyText((e.target as HTMLTextAreaElement).value); if (replyError) setReplyError(null) }} placeholder="Write your response to the suggestion here" />
+                {replyError && <p className="text-sm text-red-600 mt-2">{replyError}</p>}
+              </div>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => { setReplyModalOpen(false); setReplyError(null) }}>Cancel</Button>
+                <Button disabled={isReplying || replyText.trim().length === 0} onClick={async () => {
+                  if (!replyTargetId) return
+                  if (replyText.trim().length === 0) { setReplyError('Response cannot be empty'); return }
+                  setIsReplying(true)
+                  setReplyError(null)
+                  try {
+                      const res = await fetch('/api/suggestions', { method: 'PATCH', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: replyTargetId, response: replyText, responderName: adminName }) })
+                    if (res.ok) {
+                        setSuggestionsState(prev => prev.map(x => x.id === replyTargetId ? { ...x, adminResponse: replyText, respondedAt: new Date().toISOString(), responderName: adminName || 'You' } : x))
+                      setReplyModalOpen(false)
+                      setReplyTargetId(null)
+                      setReplyText('')
+                      toast({ title: 'Response sent', description: 'Your reply was delivered to the user.' })
+                    } else {
+                      const err = await res.json().catch(() => ({}))
+                      const msg = err?.error || `Status ${res.status}`
+                      setReplyError('Failed to send response: ' + msg)
+                    }
+                  } catch (e) {
+                    console.error(e)
+                    setReplyError('Network or server error')
+                  } finally {
+                    setIsReplying(false)
+                  }
+                }}>{isReplying ? 'Sending...' : 'Send Response'}</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
 
         </main>
       </div>

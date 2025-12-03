@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { ChevronRight, Home, Book, Users, DollarSign, Settings, MessageSquare, Calendar } from "lucide-react"
 import { useTheme } from "@/contexts/theme-context"
+import { useUser } from "@/contexts/user-context"
 
 const sidebarItems = [
   { label: "Home", href: "/", icon: Home },
@@ -18,6 +19,36 @@ const sidebarItems = [
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false)
   const { theme } = useTheme()
+  const { user } = useUser()
+  const [unreadCount, setUnreadCount] = useState(0)
+
+  useEffect(() => {
+    let mounted = true
+    async function load() {
+      try {
+        const email = user?.email
+        if (!email) { setUnreadCount(0); return }
+        const [sRes, vRes] = await Promise.all([
+          fetch(`/api/suggestions?email=${encodeURIComponent(email)}`),
+          fetch(`/api/volunteers?email=${encodeURIComponent(email)}`),
+        ])
+        const [sData, vData] = await Promise.all([sRes.json().catch(()=>({})), vRes.json().catch(()=>({}))])
+        const suggestions = sData?.suggestions || []
+        const volunteers = vData?.applications || []
+        const all = [
+          ...suggestions.map((s:any) => ({ when: s.respondedAt || s.createdAt })),
+          ...volunteers.map((v:any) => ({ when: v.respondedAt || v.createdAt })),
+        ].filter((x:any) => x.when)
+        const lastSeen = (() => { try { return localStorage.getItem('inboxLastSeenAt') } catch(e){return null} })()
+        const lastSeenDate = lastSeen ? new Date(lastSeen) : null
+        const newItems = lastSeenDate ? all.filter((a:any)=> new Date(a.when) > lastSeenDate) : all
+        if (mounted) setUnreadCount(newItems.length)
+      } catch (e) { console.error('Failed to load sidebar inbox summary', e) }
+    }
+    load()
+    const iv = setInterval(load, 10000)
+    return () => { mounted = false; clearInterval(iv) }
+  }, [user])
 
   return (
     <div
@@ -49,6 +80,9 @@ export function Sidebar() {
             >
               <Icon className="w-5 h-5 shrink-0" />
               {!collapsed && <span className="text-sm font-medium">{item.label}</span>}
+              {!collapsed && item.href === '/suggestions' && unreadCount > 0 && (
+                <span className="ml-auto inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-semibold bg-red-600 text-white">{unreadCount}</span>
+              )}
             </Link>
           )
         })}

@@ -73,17 +73,38 @@ function UserProvider({ children }) {
         "UserProvider.useCallback[signup]": async (name, email, password)=>{
             setIsLoading(true);
             try {
-                await new Promise({
-                    "UserProvider.useCallback[signup]": (resolve)=>setTimeout(resolve, 500)
-                }["UserProvider.useCallback[signup]"]);
-                setUser({
-                    id: Date.now().toString(),
-                    name,
-                    email,
-                    role: "member",
-                    joinDate: new Date().toISOString(),
-                    isVolunteer: false
+                const res = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password
+                    })
                 });
+                if (!res.ok) {
+                    const err = await res.json().catch({
+                        "UserProvider.useCallback[signup]": ()=>({})
+                    }["UserProvider.useCallback[signup]"]);
+                    throw new Error(err?.error || 'Signup failed');
+                }
+                // fetch current user from server to populate context
+                const me = await fetch('/api/auth/me');
+                const data = await me.json().catch({
+                    "UserProvider.useCallback[signup]": ()=>({})
+                }["UserProvider.useCallback[signup]"]);
+                if (data?.user) {
+                    setUser({
+                        id: data.user.id,
+                        name: data.user.name || name || '',
+                        email: data.user.email,
+                        role: data.user.role,
+                        joinDate: data.user.createdAt || new Date().toISOString(),
+                        isVolunteer: !!data.user.isVolunteer
+                    });
+                }
             } finally{
                 setIsLoading(false);
             }
@@ -113,7 +134,7 @@ function UserProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/contexts/user-context.tsx",
-        lineNumber: 97,
+        lineNumber: 111,
         columnNumber: 5
     }, this);
 }
