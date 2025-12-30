@@ -93,6 +93,13 @@ export default function LoginPage() {
               </div>
             )}
 
+            {/* Forgot Password Link */}
+            <div className="text-right">
+              <Link href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                Forgot password?
+              </Link>
+            </div>
+
             {/* Submit Button */}
             <Button
               type="submit"

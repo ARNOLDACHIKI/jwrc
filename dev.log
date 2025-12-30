@@ -1,0 +1,29 @@
+
+> my-v0-project@0.1.0 dev /home/lod/Downloads/jwrc
+> next dev
+
+   ▲ Next.js 16.0.0 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.100.29:3000
+   - Environments: .env
+
+ ✓ Starting...
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+ ✓ Ready in 722ms
+ ○ Compiling /about ...
+ ⨯ ./app/about/page.tsx:243:7
+Parsing ecmascript source code failed
+[0m [90m 241 |[39m       [33m<[39m[33m/[39m[33msection[39m[33m>[39m
+ [90m 242 |[39m
+[31m[1m>[22m[39m[90m 243 |[39m       {[90m/* Beliefs Section */[39m}
+ [90m     |[39m       [31m[1m^[22m[39m
+ [90m 244 |[39m       [33m<[39m[33msection[39m className[33m=[39m[32m"py-16 px-4"[39m[33m>[39m
+ [90m 245 |[39m         [33m<[39m[33mdiv[39m className[33m=[39m[32m"max-w-4xl mx-auto"[39m[33m>[39m
+ [90m 246 |[39m           [33m<[39m[33mh2[39m className[33m=[39m[32m"text-4xl font-bold text-center text-blue-900 dark:text-white mb-12"[39m[33m>[39m[33mWhat[39m [33mWe[39m [33mBelieve[39m[33m<[39m[33m/[39m[33mh2[39m[33m>[39m[0m
+
+Expected '</', got '{'
+
+
+ GET /about 500 in 6.6s (compile: 6.5s, render: 178ms)
+ ELIFECYCLE  Command failed.
+[?25h

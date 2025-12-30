@@ -11,17 +11,9 @@ import { Heart, Users, DollarSign, Calendar, TrendingUp, Settings, Bell, BookOpe
 import Inbox from "@/components/inbox"
 
 const statsCards = [
-  { title: "Total Donations", value: "$2,450", change: "+12%", icon: DollarSign, color: "text-green-600" },
   { title: "Volunteer Hours", value: "180", change: "+8h", icon: Users, color: "text-blue-600" },
   { title: "Blog Articles", value: "24", change: "Last 3 mo", icon: BookOpen, color: "text-purple-600" },
   { title: "Upcoming Events", value: "5", change: "This month", icon: Calendar, color: "text-orange-600" },
-]
-
-const recentActivity = [
-  { type: "donation", message: "You donated $50", time: "2 hours ago", icon: Heart },
-  { type: "volunteer", message: "Volunteer event next Sunday", time: "5 hours ago", icon: Users },
-  { type: "sermon", message: "New sermon posted", time: "Yesterday", icon: BookOpen },
-  { type: "event", message: "Church picnic scheduled", time: "2 days ago", icon: Calendar },
 ]
 
 export default function Dashboard() {
@@ -29,6 +21,7 @@ export default function Dashboard() {
   const [showReminders, setShowReminders] = useState(true)
   const [unreadCount, setUnreadCount] = useState(0)
   const [latestPreview, setLatestPreview] = useState<string | null>(null)
+  const [recentActivity, setRecentActivity] = useState<any[]>([])
   const inboxLastSeenKey = 'inboxLastSeenAt'
 
   async function loadInboxSummary() {
@@ -69,6 +62,81 @@ export default function Dashboard() {
     } catch (e) { console.error('Failed to load inbox summary', e) }
   }
 
+  async function loadRecentActivity() {
+    try {
+      const email = user?.email
+      if (!email) return
+
+      const [announcementRes, eventRes, volunteerRes] = await Promise.all([
+        fetch('/api/announcements', { credentials: 'include' }),
+        fetch('/api/events', { credentials: 'include' }),
+        fetch(`/api/volunteers?email=${encodeURIComponent(email)}`),
+      ])
+
+      const [announcements, events, volunteers] = await Promise.all([
+        announcementRes.json().catch(() => ({})),
+        eventRes.json().catch(() => ({})),
+        volunteerRes.json().catch(() => ({})),
+      ])
+
+      const activities: any[] = []
+
+      // Add recent announcements
+      const recentAnnouncements = (announcements?.announcements || []).slice(0, 2)
+      recentAnnouncements.forEach((a: any) => {
+        activities.push({
+          type: 'announcement',
+          message: a.title || 'New announcement posted',
+          time: a.postedAt ? formatTime(new Date(a.postedAt)) : 'Recently',
+          icon: Bell,
+        })
+      })
+
+      // Add upcoming events
+      const upcomingEvents = (events?.events || [])
+        .filter((e: any) => new Date(e.startsAt) > new Date())
+        .slice(0, 1)
+      upcomingEvents.forEach((e: any) => {
+        activities.push({
+          type: 'event',
+          message: `${e.title || 'Upcoming event'}`,
+          time: e.startsAt ? formatTime(new Date(e.startsAt)) : 'Soon',
+          icon: Calendar,
+        })
+      })
+
+      // Add volunteer applications
+      const userVolunteers = (volunteers?.applications || []).slice(0, 1)
+      userVolunteers.forEach((v: any) => {
+        const status = v.status === 'approved' ? 'approved' : v.status === 'rejected' ? 'declined' : 'pending'
+        activities.push({
+          type: 'volunteer',
+          message: `Your volunteer application was ${status}`,
+          time: v.respondedAt ? formatTime(new Date(v.respondedAt)) : formatTime(new Date(v.createdAt)),
+          icon: Users,
+        })
+      })
+
+      // Sort by most recent
+      setRecentActivity(activities.slice(0, 4))
+    } catch (e) {
+      console.error('Failed to load recent activity', e)
+    }
+  }
+
+  function formatTime(date: Date): string {
+    const now = new Date()
+    const diff = now.getTime() - date.getTime()
+    const hours = Math.floor(diff / (1000 * 60 * 60))
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+
+    if (hours < 1) return 'Just now'
+    if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`
+    if (days === 1) return 'Yesterday'
+    if (days < 7) return `${days} days ago`
+    return date.toLocaleDateString()
+  }
+
   useEffect(() => {
     if (!user) return
     // automatically mark messages read when dashboard loads
@@ -77,9 +145,13 @@ export default function Dashboard() {
         await fetch('/api/user/inbox', { method: 'PATCH', credentials: 'include' })
         // after marking read, refresh summary
         await loadInboxSummary()
+        await loadRecentActivity()
       } catch (e) { console.error('Failed to mark inbox read on load', e) }
     })()
-    const iv = setInterval(loadInboxSummary, 10000)
+    const iv = setInterval(() => {
+      loadInboxSummary()
+      loadRecentActivity()
+    }, 30000) // Refresh every 30 seconds
     return () => clearInterval(iv)
   }, [user])
 
@@ -105,7 +177,16 @@ export default function Dashboard() {
           <div className="p-6 md:p-8">
             {/* Welcome Section */}
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-blue-900 dark:text-white mb-2">Welcome back, {user.name}!</h1>
+              <h1 className="text-3xl font-bold text-blue-900 dark:text-white mb-2">
+                Welcome back, {(() => {
+                  if (user.name && user.name.trim()) {
+                    return user.name.split(' ')[0]
+                  }
+                  const emailUsername = (user.email || '').split('@')[0]
+                  // Capitalize first letter
+                  return emailUsername.charAt(0).toUpperCase() + emailUsername.slice(1)
+                })()}!
+              </h1>
               <p className="text-gray-600 dark:text-gray-400">Here's what's happening in your church community today</p>
             </div>
 
@@ -158,51 +239,36 @@ export default function Dashboard() {
               </Card>
             )}
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              {statsCards.map((card, idx) => {
-                const Icon = card.icon
-                return (
-                  <Card key={idx} className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className={`p-3 rounded-lg ${card.color} bg-opacity-10`}>
-                        <Icon className={`w-6 h-6 ${card.color}`} />
-                      </div>
-                      <span className="text-sm font-semibold text-green-600">
-                        <TrendingUp className="w-4 h-4 inline mr-1" />
-                        {card.change}
-                      </span>
-                    </div>
-                    <h3 className="text-gray-600 dark:text-gray-400 text-sm font-medium mb-1">{card.title}</h3>
-                    <p className="text-2xl font-bold text-blue-900 dark:text-white">{card.value}</p>
-                  </Card>
-                )
-              })}
-            </div>
-
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Recent Activity */}
               <Card className="lg:col-span-2 p-6">
                 <h2 className="text-xl font-bold text-blue-900 dark:text-white mb-6">Recent Activity</h2>
                 <div className="space-y-4">
-                  {recentActivity.map((activity, idx) => {
-                    const Icon = activity.icon
-                    return (
-                      <div
-                        key={idx}
-                        className="flex items-center gap-4 pb-4 border-b border-gray-200 dark:border-gray-700 last:border-0"
-                      >
-                        <div className="p-3 rounded-lg bg-blue-100 dark:bg-blue-900/30">
-                          <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  {recentActivity.length === 0 ? (
+                    <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                      <p>No recent activity yet</p>
+                      <p className="text-sm mt-2">Check back later for updates</p>
+                    </div>
+                  ) : (
+                    recentActivity.map((activity, idx) => {
+                      const Icon = activity.icon
+                      return (
+                        <div
+                          key={idx}
+                          className="flex items-center gap-4 pb-4 border-b border-gray-200 dark:border-gray-700 last:border-0"
+                        >
+                          <div className="p-3 rounded-lg bg-blue-100 dark:bg-blue-900/30">
+                            <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-medium text-gray-900 dark:text-white">{activity.message}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{activity.time}</p>
+                          </div>
                         </div>
-                        <div className="flex-1">
-                          <p className="font-medium text-gray-900 dark:text-white">{activity.message}</p>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">{activity.time}</p>
-                        </div>
-                      </div>
-                    )
-                  })}
+                      )
+                    })
+                  )}
                 </div>
               </Card>
 

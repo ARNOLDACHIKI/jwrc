@@ -249,37 +249,119 @@ export default function AdminDashboard() {
     fetch('/api/auth/logout', { method: 'POST' }).finally(() => router.push('/admin/login'))
   }
 
-  // Admin Stats (static placeholders)
+  // Admin Stats (real data from database)
+  const [statsData, setStatsData] = useState({
+    volunteerCount: 0,
+    eventCount: 0,
+  })
+
+  useEffect(() => {
+    async function loadStats() {
+      try {
+        const [volunteerRes, eventRes] = await Promise.all([
+          fetch('/api/volunteers', { credentials: 'include' }),
+          fetch('/api/events', { credentials: 'include' }),
+        ])
+        const [volunteerData, eventData] = await Promise.all([
+          volunteerRes.json().catch(() => ({})),
+          eventRes.json().catch(() => ({})),
+        ])
+        
+        const approvedVolunteers = (volunteerData?.applications || []).filter((v: any) => v.status === 'approved').length
+        const upcomingEvents = (eventData?.events || []).filter((e: any) => new Date(e.startsAt) > new Date()).length
+        
+        setStatsData({
+          volunteerCount: approvedVolunteers || 0,
+          eventCount: upcomingEvents || 0,
+        })
+      } catch (err) {
+        console.error('Failed to load stats', err)
+      }
+    }
+    loadStats()
+  }, [])
+
   const stats = [
-    { label: "Total Donations", value: "$45,230", change: "+12.5%", icon: DollarSign, color: "green" },
-    { label: "Active Volunteers", value: "128", change: "+8 this month", icon: Users, color: "blue" },
-    { label: "Blog Posts", value: "24", change: "+3 new", icon: FileText, color: "purple" },
-    { label: "Upcoming Events", value: "12", change: "6 this week", icon: Calendar, color: "orange" },
+    { label: "Active Volunteers", value: statsData.volunteerCount.toString(), change: "Approved", icon: Users, color: "blue" },
+    { label: "Upcoming Events", value: statsData.eventCount.toString(), change: "This month", icon: Calendar, color: "orange" },
   ]
 
-  // Recent Activities (static placeholders)
-  const activities = [
-    { id: 1, type: "donation", user: "John Doe", amount: "$500", time: "2 hours ago", status: "completed" },
-    { id: 2, type: "volunteer", user: "Sarah Smith", role: "Youth Program", time: "4 hours ago", status: "pending" },
-    { id: 3, type: "suggestion", user: "Mike Johnson", text: "More youth activities", time: "1 day ago", status: "read" },
-    { id: 4, type: "event", title: "Bible Study Group", participants: 45, time: "2 days ago", status: "live" },
-  ]
+  // Recent Activities (real data from database)
+  const [recentActivities, setRecentActivities] = useState<any[]>([])
 
-  // Simple management placeholders
-  const sermons = [
-    { id: 1, title: "Faith in Uncertain Times", speaker: "Pastor David", date: "2024-01-14", views: 342 },
-    { id: 2, title: "Love Thy Neighbor", speaker: "Pastor Mary", date: "2024-01-07", views: 218 },
-  ]
+  useEffect(() => {
+    async function loadActivities() {
+      try {
+        const [announcementRes, volunteerRes, suggestionRes, eventRes] = await Promise.all([
+          fetch('/api/announcements', { credentials: 'include' }),
+          fetch('/api/volunteers', { credentials: 'include' }),
+          fetch('/api/suggestions', { credentials: 'include' }),
+          fetch('/api/events', { credentials: 'include' }),
+        ])
+        const [announcements, volunteers, suggestions, events] = await Promise.all([
+          announcementRes.json().catch(() => ({})),
+          volunteerRes.json().catch(() => ({})),
+          suggestionRes.json().catch(() => ({})),
+          eventRes.json().catch(() => ({})),
+        ])
 
-  const blogs = [
-    { id: 1, title: "The Power of Prayer", author: "John Smith", date: "2024-01-10", published: true },
-    { id: 2, title: "Building Community", author: "Sarah Jones", date: "2024-01-12", published: true },
-  ]
+        const activities = [
+          ...(announcements?.announcements || []).slice(0, 2).map((a: any) => ({
+            id: a.id,
+            type: 'announcement',
+            user: a.author || 'Admin',
+            text: a.title,
+            time: a.postedAt ? new Date(a.postedAt).toLocaleDateString() : 'Recent',
+            status: 'posted',
+          })),
+          ...(volunteers?.applications || []).slice(0, 2).map((v: any) => ({
+            id: v.id,
+            type: 'volunteer',
+            user: v.name || 'Volunteer',
+            role: v.roleTitle || v.status,
+            time: v.createdAt ? new Date(v.createdAt).toLocaleDateString() : 'Recent',
+            status: v.status || 'pending',
+          })),
+          ...(suggestions?.suggestions || []).slice(0, 2).map((s: any) => ({
+            id: s.id,
+            type: 'suggestion',
+            user: s.name || 'User',
+            text: s.message,
+            time: s.createdAt ? new Date(s.createdAt).toLocaleDateString() : 'Recent',
+            status: s.status || 'new',
+          })),
+          ...(events?.events || []).slice(0, 2).map((e: any) => ({
+            id: e.id,
+            type: 'event',
+            title: e.title,
+            participants: 'TBD',
+            time: e.startsAt ? new Date(e.startsAt).toLocaleDateString() : 'Recent',
+            status: 'upcoming',
+          })),
+        ].sort(() => Math.random() - 0.5).slice(0, 4)
+        setRecentActivities(activities)
+      } catch (err) {
+        console.error('Failed to load activities', err)
+      }
+    }
+    loadActivities()
+  }, [])
 
-  const events = [
-    { id: 1, title: "Sunday Worship Service", date: "2024-01-21", attendees: 250, status: "scheduled" },
-    { id: 2, title: "Bible Study Group", date: "2024-01-18", attendees: 45, status: "scheduled" },
-  ]
+  // Commented out: Mock sermon and blog data
+  // const sermons = [
+  //   { id: 1, title: "Faith in Uncertain Times", speaker: "Pastor David", date: "2024-01-14", views: 342 },
+  //   { id: 2, title: "Love Thy Neighbor", speaker: "Pastor Mary", date: "2024-01-07", views: 218 },
+  // ]
+
+  // const blogs = [
+  //   { id: 1, title: "The Power of Prayer", author: "John Smith", date: "2024-01-10", published: true },
+  //   { id: 2, title: "Building Community", author: "Sarah Jones", date: "2024-01-12", published: true },
+  // ]
+
+  // const events = [
+  //   { id: 1, title: "Sunday Worship Service", date: "2024-01-21", attendees: 250, status: "scheduled" },
+  //   { id: 2, title: "Bible Study Group", date: "2024-01-18", attendees: 45, status: "scheduled" },
+  // ]
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-slate-900">
@@ -319,12 +401,8 @@ export default function AdminDashboard() {
             {[
               { label: "Overview", icon: BarChart3, id: "overview" },
               { label: "Announcements", icon: MessageSquare, id: "announcements" },
-              { label: "Sermons", icon: BookOpen, id: "sermons" },
-              { label: "Blog Posts", icon: FileText, id: "blog" },
               { label: "Events", icon: Calendar, id: "events" },
-              { label: "Donations", icon: DollarSign, id: "donations" },
               { label: "Volunteers", icon: Users, id: "volunteers" },
-              { label: "Trivia Management", icon: BarChart3, id: "trivia" },
               { label: "Suggestions", icon: MessageSquare, id: "suggestions" },
               { label: "Settings", icon: Settings, id: "settings" },
             ].map((item) => (
@@ -375,18 +453,18 @@ export default function AdminDashboard() {
                   Recent Activity
                 </h2>
                 <div className="space-y-3">
-                  {activities.map((activity) => (
+                  {recentActivities.map((activity) => (
                     <div key={activity.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-700 rounded-lg">
                       <div>
                         <p className="font-medium text-gray-900 dark:text-white">
-                          {activity.type === "donation" && `${activity.user} donated ${activity.amount}`}
                           {activity.type === "volunteer" && `${activity.user} signed up for ${activity.role}`}
                           {activity.type === "suggestion" && `${activity.user}: "${activity.text}"`}
-                          {activity.type === "event" && `${activity.title} - ${activity.participants} participants`}
+                          {activity.type === "event" && `${activity.title} coming up`}
+                          {activity.type === "announcement" && `Announcement: ${activity.text}`}
                         </p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">{activity.time}</p>
                       </div>
-                      <Badge className={`${activity.status === "completed" ? "bg-green-600" : activity.status === "pending" ? "bg-yellow-600" : activity.status === "live" ? "bg-blue-600" : "bg-gray-600"}`}>
+                      <Badge className={`${activity.status === "completed" || activity.status === "posted" ? "bg-green-600" : activity.status === "pending" ? "bg-yellow-600" : activity.status === "upcoming" ? "bg-blue-600" : "bg-gray-600"}`}>
                         {activity.status}
                       </Badge>
                     </div>
@@ -470,60 +548,6 @@ export default function AdminDashboard() {
                       <Badge className="bg-green-600">active</Badge>
                       <Button size="sm" variant="outline"><Edit2 className="w-4 h-4" /></Button>
                       <Button size="sm" variant="outline" className="text-red-600 border-red-200 bg-transparent" onClick={() => handleDeleteAnnouncement(item.id)}><Trash2 className="w-4 h-4" /></Button>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === "sermons" && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Manage Sermons</h2>
-                <Button className="bg-blue-600 hover:bg-blue-700"><Plus className="w-4 h-4 mr-2" />Add Sermon</Button>
-              </div>
-
-              <div className="space-y-3">
-                {sermons.map((sermon) => (
-                  <Card key={sermon.id} className="bg-white dark:bg-slate-800 p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-semibold text-gray-900 dark:text-white">{sermon.title}</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">By {sermon.speaker} • {sermon.date} • {sermon.views} views</p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Button size="sm" variant="outline"><Eye className="w-4 h-4 mr-1" />View</Button>
-                        <Button size="sm" variant="outline"><Edit2 className="w-4 h-4" /></Button>
-                        <Button size="sm" variant="outline" className="text-red-600 border-red-200 bg-transparent"><Trash2 className="w-4 h-4" /></Button>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === "blog" && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Manage Blog Posts</h2>
-                <Button className="bg-blue-600 hover:bg-blue-700"><Plus className="w-4 h-4 mr-2" />Add Blog Post</Button>
-              </div>
-
-              <div className="space-y-3">
-                {blogs.map((blog) => (
-                  <Card key={blog.id} className="bg-white dark:bg-slate-800 p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-semibold text-gray-900 dark:text-white">{blog.title}</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">By {blog.author} • {blog.date}</p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Badge className={blog.published ? "bg-green-600" : "bg-yellow-600"}>{blog.published ? "Published" : "Draft"}</Badge>
-                        <Button size="sm" variant="outline"><Edit2 className="w-4 h-4" /></Button>
-                        <Button size="sm" variant="outline" className="text-red-600 border-red-200 bg-transparent"><Trash2 className="w-4 h-4" /></Button>
-                      </div>
                     </div>
                   </Card>
                 ))}
@@ -837,8 +861,129 @@ export default function AdminDashboard() {
             </DialogContent>
           </Dialog>
 
+          {/* Settings Tab */}
+          {activeTab === "settings" && (
+            <ChurchSettings adminName={adminName} toast={toast} />
+          )}
+
         </main>
       </div>
+    </div>
+  )
+}
+
+function ChurchSettings({ adminName, toast }: { adminName: string, toast: any }) {
+  const [activeMembers, setActiveMembers] = useState('')
+  const [ministryPartnerships, setMinistryPartnerships] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    loadSettings()
+  }, [])
+
+  async function loadSettings() {
+    setLoading(true)
+    try {
+      const res = await fetch('/api/settings', { credentials: 'include' })
+      const data = await res.json()
+      if (data?.settings) {
+        setActiveMembers(String(data.settings.activeMembers || ''))
+        setMinistryPartnerships(String(data.settings.ministryPartnerships || ''))
+      }
+    } catch (e) {
+      console.error('Failed to load settings', e)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function saveSettings() {
+    setSaving(true)
+    try {
+      const res = await fetch('/api/settings', {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          activeMembers: Number(activeMembers) || 0,
+          ministryPartnerships: Number(ministryPartnerships) || 0,
+        }),
+      })
+
+      if (res.ok) {
+        toast({ title: 'Settings saved', description: 'Church statistics have been updated.' })
+      } else {
+        toast({ title: 'Error', description: 'Failed to save settings', variant: 'destructive' })
+      }
+    } catch (e) {
+      console.error('Failed to save settings', e)
+      toast({ title: 'Error', description: 'Network error', variant: 'destructive' })
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-gray-500">Loading settings...</div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Church Settings</h2>
+        <p className="text-gray-600 dark:text-gray-400">Manage church statistics displayed on the About page</p>
+      </div>
+
+      <Card className="p-6">
+        <div className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Active Members
+            </label>
+            <input
+              type="number"
+              value={activeMembers}
+              onChange={(e) => setActiveMembers(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+              placeholder="2000"
+              min="0"
+            />
+            <p className="text-sm text-gray-500 mt-1">Number of active church members</p>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Ministry Partnerships
+            </label>
+            <input
+              type="number"
+              value={ministryPartnerships}
+              onChange={(e) => setMinistryPartnerships(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+              placeholder="50"
+              min="0"
+            />
+            <p className="text-sm text-gray-500 mt-1">Number of ministry partnerships</p>
+          </div>
+
+          <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mb-4">
+              <p className="text-sm text-gray-700 dark:text-gray-300">
+                <strong>Note:</strong> Years Serving is automatically calculated from Feb 7, 2020 (founding date).
+                Weekly Programs count is automatically calculated from scheduled events in the next 7 days.
+              </p>
+            </div>
+            <Button onClick={saveSettings} disabled={saving} className="w-full sm:w-auto">
+              {saving ? 'Saving...' : 'Save Settings'}
+            </Button>
+          </div>
+        </div>
+      </Card>
     </div>
   )
 }

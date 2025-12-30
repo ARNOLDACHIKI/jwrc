@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Menu, X, LogOut, User, Settings } from "lucide-react"
 import { useUser } from "@/contexts/user-context"
 import { Button } from "@/components/ui/button"
@@ -11,6 +12,7 @@ export function MainNav() {
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const { user, logout } = useUser()
   const [unread, setUnread] = useState(0)
+  const [logoSrc, setLogoSrc] = useState("/jwrc-logo.png")
 
   useEffect(() => {
     let mounted = true
@@ -33,7 +35,6 @@ export function MainNav() {
     { label: "Announcements", href: "/announcements" },
     { label: "Events", href: "/events" },
     { label: "Volunteer", href: "/volunteer" },
-    { label: "Donate", href: "/donate" },
     { label: "Suggestions", href: "/suggestions" },
   ]
 
@@ -43,8 +44,18 @@ export function MainNav() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-linear-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">JWRC</span>
+            <div className="[perspective:1200px]">
+              <div className="relative h-11 w-11 rounded-full overflow-hidden shadow-lg shadow-blue-500/30 ring-1 ring-blue-200/60 dark:ring-blue-800/60 transform-gpu transition-transform duration-700 ease-out hover:[transform:rotateY(360deg)]">
+                <Image
+                  src={logoSrc}
+                  alt="Jesus Worship and Restoration Centre logo"
+                  fill
+                  sizes="44px"
+                  className="object-cover"
+                  priority
+                  onError={() => setLogoSrc("/jwrc-logo.svg")}
+                />
+              </div>
             </div>
             <div className="hidden sm:flex flex-col">
               <span className="font-bold text-blue-900 dark:text-blue-400">JESUS WORSHIP</span>

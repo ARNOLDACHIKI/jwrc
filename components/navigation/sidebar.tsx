@@ -12,7 +12,6 @@ const sidebarItems = [
   { label: "Announcements", href: "/announcements", icon: MessageSquare },
   { label: "Events", href: "/events", icon: Calendar },
   { label: "Volunteer", href: "/volunteer", icon: Users },
-  { label: "Donate", href: "/donate", icon: DollarSign },
   { label: "Suggestions", href: "/suggestions", icon: Settings },
 ]
 

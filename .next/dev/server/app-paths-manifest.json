@@ -1,9 +1,5 @@
 {
-  "/about/page": "app/about/page.js",
-  "/api/donations/route": "app/api/donations/route.js",
-  "/api/mpesa/stk/route": "app/api/mpesa/stk/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/api/user/inbox/route": "app/api/user/inbox/route.js",
-  "/donate/page": "app/donate/page.js",
-  "/login/page": "app/login/page.js",
   "/page": "app/page.js"
 }
