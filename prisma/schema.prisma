@@ -48,39 +48,8 @@ model Announcement {
 
 model Donation {
   id        String   @id @default(uuid())
-  donorName   String?
-  donorEmail  String?
-  amount      Float
-  currency    String?  @default("USD")
-  kesAmount   Int?
-  method      String?
-  note        String?
-  createdAt   DateTime @default(now())
-}
-
-model EventSignup {
-  id        String   @id @default(uuid())
-  eventId   String
-  ref       String?  @unique
-  name      String
-  email     String
-  phone     String?
+  donorName  String?
+  amount    Float
+  method    String?
   createdAt DateTime @default(now())
-}
-
-model MpesaDonation {
-  id                 Int      @id @default(autoincrement())
-  amount             Float
-  phone              String
-  accountReference   String?
-  transactionDesc    String?
-  merchantRequestId  String?
-  checkoutRequestId  String?
-  status             String   @default("pending")
-  mpesaTransactionId String?
-  responseCode       String?
-  responseDescription String?
-  providerResponse   Json?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
 }

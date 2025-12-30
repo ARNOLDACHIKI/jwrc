@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server"
-import { PrismaClient } from "@prisma/client"
+import { prisma } from '@/lib/db'
 import jwt from "jsonwebtoken"
-
-const prisma = new PrismaClient()
 
 function getTokenFromHeaders(req: Request) {
   const cookie = req.headers.get("cookie") || ""

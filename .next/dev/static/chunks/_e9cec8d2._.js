@@ -51,7 +51,17 @@ function UserProvider({ children }) {
                         joinDate: new Date().toISOString(),
                         isVolunteer: false
                     });
+                    return {
+                        id: data.user.id,
+                        name: data.user.name || '',
+                        email: data.user.email,
+                        role: data.user.role,
+                        profileImage: data.user.profileImage,
+                        joinDate: new Date().toISOString(),
+                        isVolunteer: false
+                    };
                 }
+                return null;
             } finally{
                 setIsLoading(false);
             }
@@ -134,7 +144,7 @@ function UserProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/contexts/user-context.tsx",
-        lineNumber: 111,
+        lineNumber: 121,
         columnNumber: 5
     }, this);
 }

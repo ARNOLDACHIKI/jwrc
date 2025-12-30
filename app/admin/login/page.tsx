@@ -17,17 +17,8 @@ export default function AdminLoginPage() {
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
-  // Avoid useSearchParams() here to prevent prerender/suspense issues during build.
-  // Use window.location.search at runtime instead.
-  let nextPath = "/admin/dashboard"
-  if (typeof window !== 'undefined') {
-    try {
-      const sp = new URLSearchParams(window.location.search)
-      nextPath = sp.get('next') ?? nextPath
-    } catch (e) {
-      // ignore
-    }
-  }
+  const searchParams = useSearchParams()
+  const nextPath = searchParams?.get("next") ?? "/admin/dashboard"
 
   // Sample admin credentials for testing
   const ADMIN_EMAIL = "admin@gracecommunity.com"

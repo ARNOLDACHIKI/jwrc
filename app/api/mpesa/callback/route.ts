@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server"
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma, safeExecute, safeQuery } from '@/lib/db'
 
 function extractMpesaReceipt(callbackBody: any) {
   try {
@@ -34,11 +32,11 @@ export async function POST(req: Request) {
     // Try to match existing mpesa_donations by checkout_request_id or merchant_request_id
     let found: any = null
     if (checkoutRequestId) {
-      const rows: any = await prisma.$queryRawUnsafe(`SELECT id FROM mpesa_donations WHERE checkout_request_id=$1 LIMIT 1`, checkoutRequestId)
+      const rows: any = await safeQuery(`SELECT id FROM mpesa_donations WHERE checkout_request_id=$1 LIMIT 1`, checkoutRequestId)
       found = rows?.[0]
     }
     if (!found && merchantRequestId) {
-      const rows: any = await prisma.$queryRawUnsafe(`SELECT id FROM mpesa_donations WHERE merchant_request_id=$1 LIMIT 1`, merchantRequestId)
+      const rows: any = await safeQuery(`SELECT id FROM mpesa_donations WHERE merchant_request_id=$1 LIMIT 1`, merchantRequestId)
       found = rows?.[0]
     }
 
@@ -46,7 +44,7 @@ export async function POST(req: Request) {
 
     if (found?.id) {
       const status = resultCode === 0 ? 'success' : 'failed'
-      await prisma.$executeRawUnsafe(`UPDATE mpesa_donations SET status=$1, mpesa_transaction_id=$2, response_code=$3, response_description=$4, provider_response=$5::jsonb, updated_at=NOW() WHERE id=$6`,
+      await safeExecute(`UPDATE mpesa_donations SET status=$1, mpesa_transaction_id=$2, response_code=$3, response_description=$4, provider_response=$5::jsonb, updated_at=NOW() WHERE id=$6`,
         status, mpesaReceipt || null, String(resultCode), resultDesc || null, JSON.stringify(body || {}), found.id)
       console.log('Updated mpesa_donations id', found.id, 'status', status)
     } else {

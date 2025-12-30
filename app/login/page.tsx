@@ -26,8 +26,14 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
-      await login(email, password)
-      router.push("/dashboard")
+      const loggedIn = await login(email, password)
+      
+      // Redirect based on user role
+      if (loggedIn?.role === 'admin') {
+        router.push('/admin/dashboard')
+      } else {
+        router.push('/dashboard')
+      }
     } catch (err) {
       setError("Invalid email or password")
     } finally {
@@ -92,6 +98,13 @@ export default function LoginPage() {
                 <p className="text-red-700 dark:text-red-400 text-sm">{error}</p>
               </div>
             )}
+
+            {/* Forgot Password Link */}
+            <div className="text-right">
+              <Link href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+                Forgot password?
+              </Link>
+            </div>
 
             {/* Submit Button */}
             <Button

@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server"
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma, safeExecute, safeQuery } from '@/lib/db'
 const SANDBOX_BASE = 'https://sandbox.safaricom.co.ke'
 const LIVE_BASE = 'https://api.safaricom.co.ke'
 
@@ -28,7 +26,7 @@ async function getOAuthToken(baseUrl: string, key: string, secret: string) {
 }
 
 async function ensureMpesaTable() {
-  await prisma.$executeRawUnsafe(`
+  await safeExecute(`
     CREATE TABLE IF NOT EXISTS mpesa_donations (
       id SERIAL PRIMARY KEY,
       amount NUMERIC,
@@ -54,6 +52,23 @@ export async function POST(req: Request) {
     const { phone, amount, accountReference, transactionDesc } = body || {}
     if (!phone || !amount) return NextResponse.json({ error: 'Missing phone or amount' }, { status: 400 })
 
+    // Normalize and validate phone number
+    let normalizedPhone = String(phone).replace(/\D/g, '') // Remove non-digits
+    
+    // Handle different formats: 0712345678, 712345678, 254712345678, +254712345678
+    if (normalizedPhone.startsWith('0')) {
+      normalizedPhone = '254' + normalizedPhone.substring(1)
+    } else if (normalizedPhone.startsWith('7') || normalizedPhone.startsWith('1')) {
+      normalizedPhone = '254' + normalizedPhone
+    }
+    
+    // Validate format: Must be 254XXXXXXXXX (12 digits)
+    if (!/^254\d{9}$/.test(normalizedPhone)) {
+      return NextResponse.json({ 
+        error: 'Invalid phone number format. Use 254XXXXXXXXX (e.g., 254712345678)' 
+      }, { status: 400 })
+    }
+
     const env = process.env.MPESA_ENV || 'sandbox'
     const baseUrl = env === 'production' ? LIVE_BASE : SANDBOX_BASE
 
@@ -71,7 +86,7 @@ export async function POST(req: Request) {
     // credentials to allow testing. In production do not override.
     if (env === 'sandbox') {
       const sandboxShortcode = '174379'
-      const sandboxPasskey = 'bfb279f9aa9bdbcf1xxxxxxxxxxxxxxxxxxxxxxxxxxxx' // replace with actual sandbox passkey if you have it
+      const sandboxPasskey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
       if (!shortcode || !passkey || shortcode === '247247') {
         console.warn('Using sandbox shortcode/passkey fallback for STK testing')
         shortcode = sandboxShortcode
@@ -84,14 +99,23 @@ export async function POST(req: Request) {
     await ensureMpesaTable()
 
     // create pending record before calling provider
-    const inserted: any = await prisma.$queryRawUnsafe(`INSERT INTO mpesa_donations (amount, phone, account_reference, transaction_desc, status, created_at, updated_at) VALUES ($1,$2,$3,$4,'pending',NOW(),NOW()) RETURNING id`,
-      amount, phone, accountReference || null, transactionDesc || null)
+    const inserted: any = await safeQuery(`INSERT INTO mpesa_donations (amount, phone, account_reference, transaction_desc, status, created_at, updated_at) VALUES ($1,$2,$3,$4,'pending',NOW(),NOW()) RETURNING id`,
+      amount, normalizedPhone, accountReference || null, transactionDesc || null)
     const localId = inserted?.[0]?.id || null
 
     // 1) Get OAuth token
-    const oauth = await getOAuthToken(baseUrl, consumerKey, consumerSecret)
+    let oauth: any
+    try {
+      oauth = await getOAuthToken(baseUrl, consumerKey, consumerSecret)
+    } catch (oauthErr: any) {
+      console.error('OAuth token fetch failed:', oauthErr?.message || oauthErr)
+      return NextResponse.json({ error: 'Failed to get OAuth token from M-Pesa', details: oauthErr?.message }, { status: 502 })
+    }
     const accessToken = oauth?.access_token
-    if (!accessToken) return NextResponse.json({ error: 'Failed to retrieve access token' }, { status: 500 })
+    if (!accessToken) {
+      console.error('OAuth response missing access_token:', oauth)
+      return NextResponse.json({ error: 'Failed to retrieve access token', oauth }, { status: 500 })
+    }
 
     // 2) Build password and timestamp
     const timestamp = formatTimestamp()
@@ -103,11 +127,11 @@ export async function POST(req: Request) {
       Timestamp: timestamp,
       TransactionType: 'CustomerPayBillOnline',
       Amount: amount,
-      PartyA: phone,
+      PartyA: normalizedPhone,
       PartyB: shortcode,
-      PhoneNumber: phone,
+      PhoneNumber: normalizedPhone,
       CallBackURL: callbackUrl,
-      AccountReference: accountReference || String(phone),
+      AccountReference: accountReference || String(normalizedPhone),
       TransactionDesc: transactionDesc || 'Donation',
     }
 
@@ -121,10 +145,14 @@ export async function POST(req: Request) {
     })
 
     const data = await stkRes.json().catch(() => ({}))
+    
+    if (!stkRes.ok) {
+      console.error('STK Push API failed:', { status: stkRes.status, statusText: stkRes.statusText, response: data })
+    }
 
     // update local record with provider response identifiers
     try {
-      await prisma.$executeRawUnsafe(`UPDATE mpesa_donations SET merchant_request_id=$1, checkout_request_id=$2, response_code=$3, response_description=$4, provider_response=$5::jsonb, updated_at=NOW() WHERE id=$6`,
+      await safeExecute(`UPDATE mpesa_donations SET merchant_request_id=$1, checkout_request_id=$2, response_code=$3, response_description=$4, provider_response=$5::jsonb, updated_at=NOW() WHERE id=$6`,
         data?.MerchantRequestID || data?.merchantRequestID || null,
         data?.CheckoutRequestID || data?.checkoutRequestID || null,
         data?.ResponseCode || data?.responseCode || null,

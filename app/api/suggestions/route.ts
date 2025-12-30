@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server"
-import { PrismaClient } from "@prisma/client"
+import { prisma, safeExecute, safeQuery } from '@/lib/db'
 import { randomUUID } from "crypto"
 import jwt from "jsonwebtoken"
 
-const prisma = new PrismaClient()
-
 async function ensureTable() {
-  await prisma.$executeRawUnsafe(`
+  await safeExecute(`
     CREATE TABLE IF NOT EXISTS suggestions (
       id TEXT PRIMARY KEY,
       name TEXT,
@@ -39,7 +37,7 @@ export async function POST(req: Request) {
 
     await ensureTable()
     const id = randomUUID()
-    await prisma.$executeRawUnsafe(`INSERT INTO suggestions (id, name, email, type, message, created_at) VALUES ($1,$2,$3,$4,$5,NOW())`, id, name ? String(name) : null, String(email), type ? String(type) : 'suggestion', String(message))
+    await safeExecute(`INSERT INTO suggestions (id, name, email, type, message, created_at) VALUES ($1,$2,$3,$4,$5,NOW())`, id, name ? String(name) : null, String(email), type ? String(type) : 'suggestion', String(message))
     return NextResponse.json({ suggestion: { id, name, email, type, message } }, { status: 201 })
   } catch (e) {
     console.error(e)
@@ -55,7 +53,7 @@ export async function GET(req: Request) {
 
     await ensureTable()
     if (email) {
-      const rows: any[] = await prisma.$queryRawUnsafe(`SELECT id, name, email, type, message, admin_response as "adminResponse", responder_name as "responderName", created_at as "createdAt", responded_at as "respondedAt" FROM suggestions WHERE LOWER(email) = LOWER($1) ORDER BY created_at DESC`, String(email))
+      const rows: any[] = await safeQuery(`SELECT id, name, email, type, message, admin_response as "adminResponse", responder_name as "responderName", created_at as "createdAt", responded_at as "respondedAt" FROM suggestions WHERE LOWER(email) = LOWER($1) ORDER BY created_at DESC`, String(email))
       return NextResponse.json({ suggestions: rows })
     }
 
@@ -76,7 +74,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
-    const rows: any[] = await prisma.$queryRawUnsafe(`SELECT id, name, email, type, message, admin_response as "adminResponse", responder_name as "responderName", created_at as "createdAt", responded_at as "respondedAt" FROM suggestions ORDER BY created_at DESC`)
+    const rows: any[] = await safeQuery(`SELECT id, name, email, type, message, admin_response as "adminResponse", responder_name as "responderName", created_at as "createdAt", responded_at as "respondedAt" FROM suggestions ORDER BY created_at DESC`)
     return NextResponse.json({ suggestions: rows })
   } catch (e) {
     console.error(e)
@@ -105,7 +103,7 @@ export async function PATCH(req: Request) {
 
     await ensureTable()
     const responder = responderName || payload.email || payload.name || 'admin'
-    await prisma.$executeRawUnsafe(`UPDATE suggestions SET admin_response = $1, responder_name = $3, responded_at = NOW() WHERE id = $2`, String(response), id, String(responder))
+    await safeExecute(`UPDATE suggestions SET admin_response = $1, responder_name = $3, responded_at = NOW() WHERE id = $2`, String(response), id, String(responder))
     return NextResponse.json({ ok: true })
   } catch (e) {
     console.error(e)

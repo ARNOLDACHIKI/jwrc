@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server"
-import { PrismaClient } from "@prisma/client"
+import { prisma, safeExecute } from '@/lib/db'
 import { randomBytes } from "crypto"
 import bcrypt from "bcryptjs"
 
-const prisma = new PrismaClient()
+ 
 
 async function ensureTable() {
-  await prisma.$executeRawUnsafe(`
+  await safeExecute(`
     CREATE TABLE IF NOT EXISTS password_reset_tokens (
       id TEXT PRIMARY KEY,
       user_id TEXT NOT NULL,
@@ -17,7 +17,7 @@ async function ensureTable() {
       used_at TIMESTAMP WITH TIME ZONE
     )
   `)
-  await prisma.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS password_reset_tokens_token_idx ON password_reset_tokens(token)`)
+  await safeExecute(`CREATE INDEX IF NOT EXISTS password_reset_tokens_token_idx ON password_reset_tokens(token)`)
 }
 
 async function findUserByEmail(email: string) {
@@ -48,9 +48,10 @@ export async function POST(req: Request) {
     const id = randomBytes(12).toString('hex')
     const expiresAt = new Date(Date.now() + 1000 * 60 * 60) // 1 hour
 
-    await prisma.$executeRawUnsafe(`INSERT INTO password_reset_tokens (id, user_id, token, expires_at, used, created_at) VALUES ($1,$2,$3,$4,false,NOW())`, id, user.id, token, expiresAt)
+    await safeExecute(`INSERT INTO password_reset_tokens (id, user_id, token, expires_at, used, created_at) VALUES ($1,$2,$3,$4,false,NOW())`, id, user.id, token, expiresAt)
 
     // try to send email if SMTP configured
+    let emailSent = false
     try {
       if (process.env.SMTP_HOST && process.env.SMTP_USER) {
         const nodemailer = await import('nodemailer')
@@ -68,14 +69,21 @@ export async function POST(req: Request) {
           subject: 'Password reset request',
           text: `You requested a password reset. Use this link to reset your password: ${resetLink} (expires in 1 hour)`
         })
-        return NextResponse.json({ ok: true })
+        emailSent = true
+        console.log('Password reset email sent to:', user.email)
       }
     } catch (e) {
       console.warn('Failed to send password reset email', e)
     }
 
-    // SMTP not configured or send failed — return token for manual testing (only in dev)
-    if ((process.env.NODE_ENV || 'development') === 'development') {
+    // In development, always return token for manual testing (useful for testing the reset flow)
+    const isDev = (process.env.NODE_ENV || 'development') === 'development'
+    if (isDev) {
+      return NextResponse.json({ ok: true, token, emailSent })
+    }
+
+    // In production, only return token if email send failed (for debugging)
+    if (!emailSent) {
       return NextResponse.json({ ok: true, token })
     }
 

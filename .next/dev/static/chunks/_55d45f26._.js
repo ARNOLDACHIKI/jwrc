@@ -628,23 +628,23 @@ var _s = __turbopack_context__.k.signature();
 ;
 const donationTiers = [
     {
-        amount: 25,
-        label: "$25",
+        amount: 500,
+        label: "KES 500",
         description: "Support general operations"
     },
     {
-        amount: 50,
-        label: "$50",
+        amount: 1000,
+        label: "KES 1,000",
         description: "Help community outreach"
     },
     {
-        amount: 100,
-        label: "$100",
+        amount: 2500,
+        label: "KES 2,500",
         description: "Support missions & ministry"
     },
     {
-        amount: 250,
-        label: "$250",
+        amount: 5000,
+        label: "KES 5,000",
         description: "Premium partnership"
     }
 ];
@@ -659,7 +659,7 @@ const paymentMethods = [
 ];
 function DonatePage() {
     _s();
-    const [selectedAmount, setSelectedAmount] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(50);
+    const [selectedAmount, setSelectedAmount] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(1000);
     const [customAmount, setCustomAmount] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [selectedMethod, setSelectedMethod] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("mpesa");
     const [donorInfo, setDonorInfo] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
@@ -678,17 +678,18 @@ function DonatePage() {
             alert("Please fill in your name and email");
             return;
         }
+        if (!finalAmount || Number.isNaN(finalAmount) || finalAmount <= 0) {
+            alert('Please enter a donation amount in KES');
+            return;
+        }
         if (selectedMethod === 'mpesa' && !donorInfo.phone) {
             alert('Please enter your phone number for M-Pesa STK Push (e.g. 2547XXXXXXXX)');
             return;
         }
         setIsProcessing(true);
         if (selectedMethod === "mpesa") {
-            // Show M-Pesa paybill instructions and ask user to complete payment on their phone.
-            // We'll convert USD->KES roughly using a fixed rate for display (adjust as needed).
-            const rate = 142 // KES per USD (example rate)
-            ;
-            const kes = Math.round(finalAmount * rate);
+            // Use Kenyan Shillings directly. Round to whole shillings for STK.
+            const kes = Math.max(1, Math.round(finalAmount || 0));
             // Attempt STK Push first
             try {
                 const res = await fetch('/api/mpesa/stk', {
@@ -725,9 +726,9 @@ function DonatePage() {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            amount: finalAmount,
+                            amount: kes,
                             method: 'mpesa',
-                            currency: 'USD',
+                            currency: 'KES',
                             kesAmount: kes,
                             donor: donorInfo,
                             note: 'Manual Paybill fallback'
@@ -748,9 +749,9 @@ function DonatePage() {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        amount: finalAmount,
+                        amount: kes,
                         method: 'mpesa',
-                        currency: 'USD',
+                        currency: 'KES',
                         kesAmount: kes,
                         donor: donorInfo,
                         note: 'Manual Paybill fallback (network error)'
@@ -766,7 +767,7 @@ function DonatePage() {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$navigation$2f$main$2d$nav$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MainNav"], {}, void 0, false, {
                 fileName: "[project]/app/donate/page.tsx",
-                lineNumber: 117,
+                lineNumber: 120,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -782,7 +783,7 @@ function DonatePage() {
                                         className: "w-8 h-8 text-red-600"
                                     }, void 0, false, {
                                         fileName: "[project]/app/donate/page.tsx",
-                                        lineNumber: 123,
+                                        lineNumber: 126,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -790,20 +791,20 @@ function DonatePage() {
                                         children: "Support Our Mission"
                                     }, void 0, false, {
                                         fileName: "[project]/app/donate/page.tsx",
-                                        lineNumber: 124,
+                                        lineNumber: 127,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$454$2e$0_react$40$19$2e$2$2e$0$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$heart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Heart$3e$__["Heart"], {
                                         className: "w-8 h-8 text-red-600"
                                     }, void 0, false, {
                                         fileName: "[project]/app/donate/page.tsx",
-                                        lineNumber: 125,
+                                        lineNumber: 128,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/donate/page.tsx",
-                                lineNumber: 122,
+                                lineNumber: 125,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -811,13 +812,13 @@ function DonatePage() {
                                 children: "Your generous donation helps us continue our ministry, community outreach, and spiritual growth programs."
                             }, void 0, false, {
                                 fileName: "[project]/app/donate/page.tsx",
-                                lineNumber: 127,
+                                lineNumber: 130,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/donate/page.tsx",
-                        lineNumber: 121,
+                        lineNumber: 124,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -831,10 +832,10 @@ function DonatePage() {
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                                                 className: "text-2xl font-bold text-blue-900 dark:text-white mb-6",
-                                                children: "Select Amount"
+                                                children: "Select Amount (KES)"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/donate/page.tsx",
-                                                lineNumber: 137,
+                                                lineNumber: 140,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -851,7 +852,7 @@ function DonatePage() {
                                                                 children: tier.label
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/donate/page.tsx",
-                                                                lineNumber: 154,
+                                                                lineNumber: 157,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -859,18 +860,18 @@ function DonatePage() {
                                                                 children: tier.description
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/donate/page.tsx",
-                                                                lineNumber: 155,
+                                                                lineNumber: 158,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, tier.amount, true, {
                                                         fileName: "[project]/app/donate/page.tsx",
-                                                        lineNumber: 142,
+                                                        lineNumber: 145,
                                                         columnNumber: 19
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/app/donate/page.tsx",
-                                                lineNumber: 140,
+                                                lineNumber: 143,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -880,7 +881,7 @@ function DonatePage() {
                                                         children: "Or enter custom amount"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/donate/page.tsx",
-                                                        lineNumber: 162,
+                                                        lineNumber: 165,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -888,10 +889,10 @@ function DonatePage() {
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                 className: "text-2xl font-bold text-gray-600 dark:text-gray-400",
-                                                                children: "$"
+                                                                children: "KES"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/donate/page.tsx",
-                                                                lineNumber: 166,
+                                                                lineNumber: 169,
                                                                 columnNumber: 19
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -905,25 +906,25 @@ function DonatePage() {
                                                                 className: "flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/donate/page.tsx",
-                                                                lineNumber: 167,
+                                                                lineNumber: 170,
                                                                 columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/donate/page.tsx",
-                                                        lineNumber: 165,
+                                                        lineNumber: 168,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/donate/page.tsx",
-                                                lineNumber: 161,
+                                                lineNumber: 164,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/donate/page.tsx",
-                                        lineNumber: 136,
+                                        lineNumber: 139,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -934,7 +935,7 @@ function DonatePage() {
                                                 children: "Your Information"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/donate/page.tsx",
-                                                lineNumber: 183,
+                                                lineNumber: 186,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -947,7 +948,7 @@ function DonatePage() {
                                                                 children: "Full Name"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/donate/page.tsx",
-                                                                lineNumber: 188,
+                                                                lineNumber: 191,
                                                                 columnNumber: 19
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -961,13 +962,13 @@ function DonatePage() {
                                                                 className: "w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/donate/page.tsx",
-                                                                lineNumber: 189,
+                                                                lineNumber: 192,
                                                                 columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/donate/page.tsx",
-                                                        lineNumber: 187,
+                                                        lineNumber: 190,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -977,7 +978,7 @@ function DonatePage() {
                                                                 children: "Email Address"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/donate/page.tsx",
-                                                                lineNumber: 200,
+                                                                lineNumber: 203,
                                                                 columnNumber: 19
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -991,13 +992,13 @@ function DonatePage() {
                                                                 className: "w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/donate/page.tsx",
-                                                                lineNumber: 203,
+                                                                lineNumber: 206,
                                                                 columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/donate/page.tsx",
-                                                        lineNumber: 199,
+                                                        lineNumber: 202,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1007,7 +1008,7 @@ function DonatePage() {
                                                                 children: "Phone Number (M-Pesa)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/donate/page.tsx",
-                                                                lineNumber: 214,
+                                                                lineNumber: 217,
                                                                 columnNumber: 19
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1021,13 +1022,13 @@ function DonatePage() {
                                                                 className: "w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/donate/page.tsx",
-                                                                lineNumber: 215,
+                                                                lineNumber: 218,
                                                                 columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/donate/page.tsx",
-                                                        lineNumber: 213,
+                                                        lineNumber: 216,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1037,7 +1038,7 @@ function DonatePage() {
                                                                 children: "Prayer Request or Message (Optional)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/donate/page.tsx",
-                                                                lineNumber: 226,
+                                                                lineNumber: 229,
                                                                 columnNumber: 19
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -1051,25 +1052,25 @@ function DonatePage() {
                                                                 className: "w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/donate/page.tsx",
-                                                                lineNumber: 229,
+                                                                lineNumber: 232,
                                                                 columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/donate/page.tsx",
-                                                        lineNumber: 225,
+                                                        lineNumber: 228,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/donate/page.tsx",
-                                                lineNumber: 185,
+                                                lineNumber: 188,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/donate/page.tsx",
-                                        lineNumber: 182,
+                                        lineNumber: 185,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1080,7 +1081,7 @@ function DonatePage() {
                                                 children: "Payment Method"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/donate/page.tsx",
-                                                lineNumber: 242,
+                                                lineNumber: 245,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1098,7 +1099,7 @@ function DonatePage() {
                                                                         className: `w-6 h-6 ${method.color}`
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/donate/page.tsx",
-                                                                        lineNumber: 258,
+                                                                        lineNumber: 261,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1106,13 +1107,13 @@ function DonatePage() {
                                                                         children: method.name
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/donate/page.tsx",
-                                                                        lineNumber: 259,
+                                                                        lineNumber: 262,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/donate/page.tsx",
-                                                                lineNumber: 257,
+                                                                lineNumber: 260,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1120,31 +1121,31 @@ function DonatePage() {
                                                                 children: method.description
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/donate/page.tsx",
-                                                                lineNumber: 261,
+                                                                lineNumber: 264,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, method.id, true, {
                                                         fileName: "[project]/app/donate/page.tsx",
-                                                        lineNumber: 248,
+                                                        lineNumber: 251,
                                                         columnNumber: 21
                                                     }, this);
                                                 })
                                             }, void 0, false, {
                                                 fileName: "[project]/app/donate/page.tsx",
-                                                lineNumber: 244,
+                                                lineNumber: 247,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/donate/page.tsx",
-                                        lineNumber: 241,
+                                        lineNumber: 244,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/donate/page.tsx",
-                                lineNumber: 134,
+                                lineNumber: 137,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1156,7 +1157,7 @@ function DonatePage() {
                                             children: "Donation Summary"
                                         }, void 0, false, {
                                             fileName: "[project]/app/donate/page.tsx",
-                                            lineNumber: 272,
+                                            lineNumber: 275,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1169,24 +1170,24 @@ function DonatePage() {
                                                             children: "Amount:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/donate/page.tsx",
-                                                            lineNumber: 276,
+                                                            lineNumber: 279,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             className: "font-bold text-gray-900 dark:text-white",
                                                             children: [
-                                                                "$",
-                                                                finalAmount.toFixed(2)
+                                                                "KES ",
+                                                                Math.max(0, finalAmount).toFixed(0)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/donate/page.tsx",
-                                                            lineNumber: 277,
+                                                            lineNumber: 280,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/donate/page.tsx",
-                                                    lineNumber: 275,
+                                                    lineNumber: 278,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1196,7 +1197,7 @@ function DonatePage() {
                                                             children: "Method:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/donate/page.tsx",
-                                                            lineNumber: 280,
+                                                            lineNumber: 283,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1204,13 +1205,13 @@ function DonatePage() {
                                                             children: paymentMethods.find((m)=>m.id === selectedMethod)?.name
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/donate/page.tsx",
-                                                            lineNumber: 281,
+                                                            lineNumber: 284,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/donate/page.tsx",
-                                                    lineNumber: 279,
+                                                    lineNumber: 282,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1221,30 +1222,30 @@ function DonatePage() {
                                                             children: "Total:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/donate/page.tsx",
-                                                            lineNumber: 286,
+                                                            lineNumber: 289,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             className: "text-2xl font-bold text-blue-600 dark:text-blue-400",
                                                             children: [
-                                                                "$",
-                                                                finalAmount.toFixed(2)
+                                                                "KES ",
+                                                                Math.max(0, finalAmount).toFixed(0)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/donate/page.tsx",
-                                                            lineNumber: 287,
+                                                            lineNumber: 290,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/donate/page.tsx",
-                                                    lineNumber: 285,
+                                                    lineNumber: 288,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/donate/page.tsx",
-                                            lineNumber: 274,
+                                            lineNumber: 277,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1255,7 +1256,7 @@ function DonatePage() {
                                                     children: "Pay via M-Pesa (Paybill)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/donate/page.tsx",
-                                                    lineNumber: 293,
+                                                    lineNumber: 296,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1263,7 +1264,7 @@ function DonatePage() {
                                                     children: "Use your M-Pesa app or STK Push to pay to our Paybill."
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/donate/page.tsx",
-                                                    lineNumber: 294,
+                                                    lineNumber: 297,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1279,7 +1280,7 @@ function DonatePage() {
                                                                             children: "Paybill"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/donate/page.tsx",
-                                                                            lineNumber: 298,
+                                                                            lineNumber: 301,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1287,13 +1288,13 @@ function DonatePage() {
                                                                             children: "247247"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/donate/page.tsx",
-                                                                            lineNumber: 299,
+                                                                            lineNumber: 302,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/donate/page.tsx",
-                                                                    lineNumber: 297,
+                                                                    lineNumber: 300,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1303,7 +1304,7 @@ function DonatePage() {
                                                                             children: "Account No"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/donate/page.tsx",
-                                                                            lineNumber: 302,
+                                                                            lineNumber: 305,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1311,19 +1312,19 @@ function DonatePage() {
                                                                             children: "377899"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/donate/page.tsx",
-                                                                            lineNumber: 303,
+                                                                            lineNumber: 306,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/donate/page.tsx",
-                                                                    lineNumber: 301,
+                                                                    lineNumber: 304,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/donate/page.tsx",
-                                                            lineNumber: 296,
+                                                            lineNumber: 299,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1331,19 +1332,19 @@ function DonatePage() {
                                                             children: "When prompted, enter your name or email in the account reference so we can match your donation. After payment, click 'Proceed to Payment' and confirm to mark as paid."
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/donate/page.tsx",
-                                                            lineNumber: 306,
+                                                            lineNumber: 309,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/donate/page.tsx",
-                                                    lineNumber: 295,
+                                                    lineNumber: 298,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/donate/page.tsx",
-                                            lineNumber: 292,
+                                            lineNumber: 295,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1356,13 +1357,13 @@ function DonatePage() {
                                                     className: "w-4 h-4 ml-2"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/donate/page.tsx",
-                                                    lineNumber: 316,
+                                                    lineNumber: 319,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/donate/page.tsx",
-                                            lineNumber: 310,
+                                            lineNumber: 313,
                                             columnNumber: 15
                                         }, this),
                                         stkPending && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1373,7 +1374,7 @@ function DonatePage() {
                                                     children: stkMessage
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/donate/page.tsx",
-                                                    lineNumber: 321,
+                                                    lineNumber: 324,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1381,7 +1382,7 @@ function DonatePage() {
                                                     children: "Do not enter your M-Pesa PIN on this website — enter it only on your phone when prompted by M-Pesa."
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/donate/page.tsx",
-                                                    lineNumber: 322,
+                                                    lineNumber: 325,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1407,7 +1408,7 @@ function DonatePage() {
                                                             children: "I've entered PIN — Check status"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/donate/page.tsx",
-                                                            lineNumber: 324,
+                                                            lineNumber: 327,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1420,19 +1421,19 @@ function DonatePage() {
                                                             children: "Cancel"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/donate/page.tsx",
-                                                            lineNumber: 344,
+                                                            lineNumber: 347,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/donate/page.tsx",
-                                                    lineNumber: 323,
+                                                    lineNumber: 326,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/donate/page.tsx",
-                                            lineNumber: 320,
+                                            lineNumber: 323,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1443,7 +1444,7 @@ function DonatePage() {
                                                     children: "YOUR DONATION IS SECURE"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/donate/page.tsx",
-                                                    lineNumber: 351,
+                                                    lineNumber: 354,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1456,7 +1457,7 @@ function DonatePage() {
                                                                     className: "w-4 h-4 text-green-600"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/donate/page.tsx",
-                                                                    lineNumber: 354,
+                                                                    lineNumber: 357,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1464,13 +1465,13 @@ function DonatePage() {
                                                                     children: "Encrypted & secure"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/donate/page.tsx",
-                                                                    lineNumber: 355,
+                                                                    lineNumber: 358,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/donate/page.tsx",
-                                                            lineNumber: 353,
+                                                            lineNumber: 356,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1480,7 +1481,7 @@ function DonatePage() {
                                                                     className: "w-4 h-4 text-green-600"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/donate/page.tsx",
-                                                                    lineNumber: 358,
+                                                                    lineNumber: 361,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1488,13 +1489,13 @@ function DonatePage() {
                                                                     children: "100% tax deductible"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/donate/page.tsx",
-                                                                    lineNumber: 359,
+                                                                    lineNumber: 362,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/donate/page.tsx",
-                                                            lineNumber: 357,
+                                                            lineNumber: 360,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1504,7 +1505,7 @@ function DonatePage() {
                                                                     className: "w-4 h-4 text-green-600"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/donate/page.tsx",
-                                                                    lineNumber: 362,
+                                                                    lineNumber: 365,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1512,58 +1513,58 @@ function DonatePage() {
                                                                     children: "Receipt emailed"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/donate/page.tsx",
-                                                                    lineNumber: 363,
+                                                                    lineNumber: 366,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/donate/page.tsx",
-                                                            lineNumber: 361,
+                                                            lineNumber: 364,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/donate/page.tsx",
-                                                    lineNumber: 352,
+                                                    lineNumber: 355,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/donate/page.tsx",
-                                            lineNumber: 350,
+                                            lineNumber: 353,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/donate/page.tsx",
-                                    lineNumber: 271,
+                                    lineNumber: 274,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/app/donate/page.tsx",
-                                lineNumber: 270,
+                                lineNumber: 273,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/donate/page.tsx",
-                        lineNumber: 132,
+                        lineNumber: 135,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/donate/page.tsx",
-                lineNumber: 119,
+                lineNumber: 122,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/donate/page.tsx",
-        lineNumber: 116,
+        lineNumber: 119,
         columnNumber: 5
     }, this);
 }
-_s(DonatePage, "rbnR+Q+xD2W068StyL90VDQTkLs=");
+_s(DonatePage, "GXYIhkfHNoMXcqMmn7B2u9fpl2A=");
 _c = DonatePage;
 var _c;
 __turbopack_context__.k.register(_c, "DonatePage");

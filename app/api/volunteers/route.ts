@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server"
-import { PrismaClient } from "@prisma/client"
+import { prisma, safeExecute, safeQuery } from '@/lib/db'
 import { randomUUID } from "crypto"
 import jwt from "jsonwebtoken"
 
-const prisma = new PrismaClient()
-
 async function ensureTable() {
-  await prisma.$executeRawUnsafe(`
+  await safeExecute(`
     CREATE TABLE IF NOT EXISTS volunteer_applications (
       id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
@@ -20,7 +18,7 @@ async function ensureTable() {
       responded_at TIMESTAMP WITH TIME ZONE
     )
   `)
-  await prisma.$executeRawUnsafe(`ALTER TABLE volunteer_applications ADD COLUMN IF NOT EXISTS admin_message TEXT`)
+  await safeExecute(`ALTER TABLE volunteer_applications ADD COLUMN IF NOT EXISTS admin_message TEXT`)
 }
 
 function getTokenFromHeaders(req: Request) {
@@ -43,7 +41,7 @@ export async function POST(req: Request) {
 
     await ensureTable()
     const id = randomUUID()
-    await prisma.$executeRawUnsafe(`INSERT INTO volunteer_applications (id, name, email, phone, role_id, role_title, status, created_at) VALUES ($1,$2,$3,$4,$5,$6,'pending',NOW())`, id, String(name), String(email), phone ? String(phone) : null, roleId ? String(roleId) : null, roleTitle ? String(roleTitle) : null)
+    await safeExecute(`INSERT INTO volunteer_applications (id, name, email, phone, role_id, role_title, status, created_at) VALUES ($1,$2,$3,$4,$5,$6,'pending',NOW())`, id, String(name), String(email), phone ? String(phone) : null, roleId ? String(roleId) : null, roleTitle ? String(roleTitle) : null)
     return NextResponse.json({ application: { id, name, email, phone, roleId, roleTitle, status: 'pending' } }, { status: 201 })
   } catch (e) {
     console.error(e)
@@ -58,7 +56,7 @@ export async function GET(req: Request) {
     // if email provided return applications for that email (public for user dashboard)
     await ensureTable()
     if (forEmail) {
-      const rows: any[] = await prisma.$queryRawUnsafe(`SELECT id, name, email, phone, role_id as "roleId", role_title as "roleTitle", status, admin_message as "adminMessage", created_at as "createdAt", responded_at as "respondedAt" FROM volunteer_applications WHERE lower(email) = lower($1) ORDER BY created_at DESC`, forEmail)
+      const rows: any[] = await safeQuery(`SELECT id, name, email, phone, role_id as "roleId", role_title as "roleTitle", status, admin_message as "adminMessage", created_at as "createdAt", responded_at as "respondedAt" FROM volunteer_applications WHERE lower(email) = lower($1) ORDER BY created_at DESC`, forEmail)
       return NextResponse.json({ applications: rows })
     }
 
@@ -70,7 +68,7 @@ export async function GET(req: Request) {
     try { payload = jwt.verify(token, secret) } catch (e) { return NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) }
     if (payload.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
-    const rows: any[] = await prisma.$queryRawUnsafe(`SELECT id, name, email, phone, role_id as "roleId", role_title as "roleTitle", status, admin_message as "adminMessage", created_at as "createdAt", responded_at as "respondedAt" FROM volunteer_applications ORDER BY created_at DESC`)
+    const rows: any[] = await safeQuery(`SELECT id, name, email, phone, role_id as "roleId", role_title as "roleTitle", status, admin_message as "adminMessage", created_at as "createdAt", responded_at as "respondedAt" FROM volunteer_applications ORDER BY created_at DESC`)
     return NextResponse.json({ applications: rows })
   } catch (e) {
     console.error(e)
@@ -95,7 +93,7 @@ export async function PATCH(req: Request) {
 
     await ensureTable()
     const status = action === 'approve' ? 'approved' : 'rejected'
-    await prisma.$executeRawUnsafe(`UPDATE volunteer_applications SET status = $1, admin_message = $2, responded_at = NOW() WHERE id = $3`, status, message ? String(message) : null, id)
+    await safeExecute(`UPDATE volunteer_applications SET status = $1, admin_message = $2, responded_at = NOW() WHERE id = $3`, status, message ? String(message) : null, id)
     return NextResponse.json({ ok: true })
   } catch (e) {
     console.error(e)

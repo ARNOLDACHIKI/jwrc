@@ -7,10 +7,10 @@ import { Button } from "@/components/ui/button"
 import { Heart, Smartphone, ArrowRight, Check } from "lucide-react"
 
 const donationTiers = [
-  { amount: 25, label: "$25", description: "Support general operations" },
-  { amount: 50, label: "$50", description: "Help community outreach" },
-  { amount: 100, label: "$100", description: "Support missions & ministry" },
-  { amount: 250, label: "$250", description: "Premium partnership" },
+  { amount: 500, label: "KES 500", description: "Support general operations" },
+  { amount: 1000, label: "KES 1,000", description: "Help community outreach" },
+  { amount: 2500, label: "KES 2,500", description: "Support missions & ministry" },
+  { amount: 5000, label: "KES 5,000", description: "Premium partnership" },
 ]
 
 const paymentMethods = [
@@ -24,7 +24,7 @@ const paymentMethods = [
 ]
 
 export default function DonatePage() {
-  const [selectedAmount, setSelectedAmount] = useState(50)
+  const [selectedAmount, setSelectedAmount] = useState(1000)
   const [customAmount, setCustomAmount] = useState("")
   const [selectedMethod, setSelectedMethod] = useState("mpesa")
   const [donorInfo, setDonorInfo] = useState({
@@ -46,6 +46,11 @@ export default function DonatePage() {
       return
     }
 
+    if (!finalAmount || Number.isNaN(finalAmount) || finalAmount <= 0) {
+      alert('Please enter a donation amount in KES')
+      return
+    }
+
     if (selectedMethod === 'mpesa' && !donorInfo.phone) {
       alert('Please enter your phone number for M-Pesa STK Push (e.g. 2547XXXXXXXX)')
       return
@@ -54,10 +59,8 @@ export default function DonatePage() {
     setIsProcessing(true)
 
     if (selectedMethod === "mpesa") {
-      // Show M-Pesa paybill instructions and ask user to complete payment on their phone.
-      // We'll convert USD->KES roughly using a fixed rate for display (adjust as needed).
-      const rate = 142 // KES per USD (example rate)
-      const kes = Math.round(finalAmount * rate)
+      // Use Kenyan Shillings directly. Round to whole shillings for STK.
+      const kes = Math.max(1, Math.round(finalAmount || 0))
 
       // Attempt STK Push first
       try {
@@ -90,7 +93,7 @@ export default function DonatePage() {
           await fetch('/api/donations', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ amount: finalAmount, method: 'mpesa', currency: 'USD', kesAmount: kes, donor: donorInfo, note: 'Manual Paybill fallback' })
+            body: JSON.stringify({ amount: kes, method: 'mpesa', currency: 'KES', kesAmount: kes, donor: donorInfo, note: 'Manual Paybill fallback' })
           }).catch(() => null)
           alert('Recorded manual donation attempt. We will confirm once payment is verified.')
         }
@@ -103,7 +106,7 @@ export default function DonatePage() {
         await fetch('/api/donations', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ amount: finalAmount, method: 'mpesa', currency: 'USD', kesAmount: kes, donor: donorInfo, note: 'Manual Paybill fallback (network error)' })
+          body: JSON.stringify({ amount: kes, method: 'mpesa', currency: 'KES', kesAmount: kes, donor: donorInfo, note: 'Manual Paybill fallback (network error)' })
         }).catch(() => null)
         alert('Recorded manual donation attempt. We will confirm once payment is verified.')
       }
@@ -134,7 +137,7 @@ export default function DonatePage() {
           <div className="lg:col-span-2 space-y-8">
             {/* Amount Selection */}
             <Card className="p-8">
-              <h2 className="text-2xl font-bold text-blue-900 dark:text-white mb-6">Select Amount</h2>
+              <h2 className="text-2xl font-bold text-blue-900 dark:text-white mb-6">Select Amount (KES)</h2>
 
               {/* Preset Amounts */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -163,7 +166,7 @@ export default function DonatePage() {
                   Or enter custom amount
                 </label>
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl font-bold text-gray-600 dark:text-gray-400">$</span>
+                  <span className="text-2xl font-bold text-gray-600 dark:text-gray-400">KES</span>
                   <input
                     type="number"
                     value={customAmount}
@@ -274,7 +277,7 @@ export default function DonatePage() {
               <div className="space-y-4 mb-8">
                 <div className="flex justify-between text-gray-600 dark:text-gray-400">
                   <span>Amount:</span>
-                  <span className="font-bold text-gray-900 dark:text-white">${finalAmount.toFixed(2)}</span>
+                  <span className="font-bold text-gray-900 dark:text-white">KES {Math.max(0, finalAmount).toFixed(0)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600 dark:text-gray-400">
                   <span>Method:</span>
@@ -284,7 +287,7 @@ export default function DonatePage() {
                 </div>
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-4 flex justify-between">
                   <span className="font-bold text-gray-900 dark:text-white">Total:</span>
-                  <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">${finalAmount.toFixed(2)}</span>
+                  <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">KES {Math.max(0, finalAmount).toFixed(0)}</span>
                 </div>
               </div>
 

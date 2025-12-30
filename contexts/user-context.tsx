@@ -15,7 +15,7 @@ export interface User {
 export interface UserContextType {
   user: User | null
   isLoading: boolean
-  login: (email: string, password: string) => Promise<void>
+  login: (email: string, password: string) => Promise<User | null>
   logout: () => void
   signup: (name: string, email: string, password: string) => Promise<void>
   updateProfile: (updates: Partial<User>) => Promise<void>
@@ -52,7 +52,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
           joinDate: new Date().toISOString(),
           isVolunteer: false,
         })
+        return {
+          id: data.user.id,
+          name: data.user.name || '',
+          email: data.user.email,
+          role: data.user.role,
+          profileImage: data.user.profileImage,
+          joinDate: new Date().toISOString(),
+          isVolunteer: false,
+        } as User
       }
+      return null
     } finally {
       setIsLoading(false)
     }

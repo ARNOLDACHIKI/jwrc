@@ -13,6 +13,9 @@
     "db:seed-sql": "psql $DATABASE_URL -f prisma/seed.sql",
     "db:seed": "ts-node prisma/seed.ts"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@prisma/client": "4.16.0",

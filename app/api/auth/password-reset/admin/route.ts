@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server"
-import { PrismaClient } from "@prisma/client"
+import { prisma, safeExecute } from '@/lib/db'
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
-
-const prisma = new PrismaClient()
 
 function getTokenFromHeaders(req: Request) {
   const cookie = req.headers.get('cookie') || ''
@@ -33,7 +31,7 @@ export async function POST(req: Request) {
     if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
     const hash = await bcrypt.hash(String(newPassword), 12)
-    await prisma.$executeRawUnsafe(`UPDATE "User" SET password = $1 WHERE id = $2`, hash, user.id)
+    await safeExecute(`UPDATE "User" SET password = $1 WHERE id = $2`, hash, user.id)
     return NextResponse.json({ ok: true })
   } catch (e) {
     console.error(e)

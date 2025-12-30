@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import {
   BarChart3,
@@ -135,7 +135,25 @@ export default function AdminDashboard() {
   const [replyText, setReplyText] = useState('')
   const [isReplying, setIsReplying] = useState(false)
   const [replyError, setReplyError] = useState<string | null>(null)
+  const [donations, setDonations] = useState<any[]>([])
+  const [donationsLoading, setDonationsLoading] = useState(false)
+  const [donationsError, setDonationsError] = useState<string | null>(null)
   const { toast } = useToast()
+
+  const loadDonations = useCallback(async () => {
+    setDonationsLoading(true)
+    setDonationsError(null)
+    try {
+      const res = await fetch('/api/donations', { credentials: 'include' })
+      if (!res.ok) throw new Error(`Failed to load donations (${res.status})`)
+      const data = await res.json()
+      setDonations(data?.donations || [])
+    } catch (err: any) {
+      setDonationsError(err?.message || 'Failed to load donations')
+    } finally {
+      setDonationsLoading(false)
+    }
+  }, [])
   useEffect(() => {
     if (activeTab !== 'suggestions') return
     let mounted = true
@@ -189,6 +207,11 @@ export default function AdminDashboard() {
     const iv = setInterval(poll, 10000)
     return () => { mounted = false; clearInterval(iv) }
   }, [lastSeen])
+
+  useEffect(() => {
+    if (activeTab !== 'donations') return
+    loadDonations()
+  }, [activeTab, loadDonations])
 
   // when admin opens suggestions tab, mark as seen
   useEffect(() => {
@@ -248,6 +271,16 @@ export default function AdminDashboard() {
   const handleLogout = () => {
     fetch('/api/auth/logout', { method: 'POST' }).finally(() => router.push('/admin/login'))
   }
+
+  const formatKes = (val: number) => `KES ${Math.round(val || 0).toLocaleString('en-KE')}`
+  const toNumber = (v: any) => {
+    const n = Number(v)
+    return Number.isFinite(n) ? n : 0
+  }
+  const totalKes = donations.reduce((sum, d) => sum + toNumber(d.amount), 0)
+  const successCount = donations.filter((d) => (d.status || '').toLowerCase() === 'success' || d.status === 'recorded').length
+  const pendingCount = donations.filter((d) => (d.status || '').toLowerCase() === 'pending').length
+  const failedCount = donations.filter((d) => (d.status || '').toLowerCase() === 'failed').length
 
   // Admin Stats (static placeholders)
   const stats = [
@@ -391,6 +424,95 @@ export default function AdminDashboard() {
                       </Badge>
                     </div>
                   ))}
+                </div>
+              </Card>
+            </div>
+          )}
+
+          {activeTab === "donations" && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Donations & M-Pesa</h2>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Live + sandbox payments, STK callbacks, and manual records</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Button variant="outline" onClick={loadDonations} disabled={donationsLoading}>
+                    {donationsLoading ? 'Refreshing...' : 'Refresh'}
+                  </Button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <Card className="bg-white dark:bg-slate-800 p-4">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Total received</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{formatKes(totalKes)}</p>
+                </Card>
+                <Card className="bg-white dark:bg-slate-800 p-4">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Successful</p>
+                  <p className="text-2xl font-bold text-green-600 mt-1">{successCount}</p>
+                </Card>
+                <Card className="bg-white dark:bg-slate-800 p-4">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Pending</p>
+                  <p className="text-2xl font-bold text-yellow-600 mt-1">{pendingCount}</p>
+                </Card>
+                <Card className="bg-white dark:bg-slate-800 p-4">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Failed</p>
+                  <p className="text-2xl font-bold text-red-600 mt-1">{failedCount}</p>
+                </Card>
+              </div>
+
+              <Card className="bg-white dark:bg-slate-800 p-0 overflow-hidden">
+                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recent donations</h3>
+                    <p className="text-sm text-gray-500">Last 200 records (manual + M-Pesa)</p>
+                  </div>
+                  {donationsError && <span className="text-sm text-red-600">{donationsError}</span>}
+                </div>
+
+                <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                  {donationsLoading && (
+                    <div className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">Loading donations...</div>
+                  )}
+                  {!donationsLoading && donations.length === 0 && (
+                    <div className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">No donations recorded yet.</div>
+                  )}
+                  {donations.map((d) => {
+                    const status = (d.status || '').toLowerCase()
+                    const badgeClass = status === 'success'
+                      ? 'bg-green-600'
+                      : status === 'failed'
+                        ? 'bg-red-600'
+                        : status === 'recorded'
+                          ? 'bg-blue-600'
+                          : 'bg-yellow-600'
+                    return (
+                      <div key={d.id} className="px-6 py-4 flex items-start justify-between gap-4">
+                        <div className="w-32">
+                          <p className="font-semibold text-gray-900 dark:text-white">{formatKes(toNumber(d.amount))}</p>
+                          <p className="text-xs text-gray-500 uppercase">{(d.method || 'mpesa')}</p>
+                        </div>
+                        <div className="flex-1">
+                          <p className="font-medium text-gray-900 dark:text-white">{d.type === 'mpesa' ? (d.phone || 'M-Pesa') : (d.donorName || 'Anonymous')}</p>
+                          <p className="text-xs text-gray-500 truncate">
+                            {d.type === 'mpesa'
+                              ? (d.accountReference || d.checkoutRequestId || d.merchantRequestId || d.mpesaReceipt || 'Checkout pending')
+                              : (d.donorEmail || d.note || 'Manual record')}
+                          </p>
+                        </div>
+                        <div className="w-48 text-right">
+                          <p className="text-sm text-gray-700 dark:text-gray-300">{d.createdAt ? new Date(d.createdAt).toLocaleString() : ''}</p>
+                          <div className={`inline-flex text-xs text-white px-2 py-1 rounded-full mt-1 ${badgeClass}`}>
+                            {status || 'pending'}
+                          </div>
+                          {d.type === 'mpesa' && (
+                            <p className="text-xs text-gray-500 mt-1 truncate">{d.mpesaReceipt || d.checkoutRequestId || d.merchantRequestId || ''}</p>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
                 </div>
               </Card>
             </div>

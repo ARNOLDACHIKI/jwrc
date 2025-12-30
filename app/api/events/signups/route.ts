@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server"
-import { PrismaClient } from "@prisma/client"
+import { prisma, safeExecute, safeQuery } from '@/lib/db'
 import jwt from "jsonwebtoken"
 import { randomUUID } from "crypto"
 
-const prisma = new PrismaClient()
+ 
 
 function getTokenFromHeaders(req: Request) {
   const cookie = req.headers.get("cookie") || ""
@@ -14,7 +14,7 @@ function getTokenFromHeaders(req: Request) {
 
 async function ensureTable() {
   // create a simple signups table if it doesn't exist
-  await prisma.$executeRawUnsafe(`
+  await safeExecute(`
     CREATE TABLE IF NOT EXISTS event_signups (
       id TEXT PRIMARY KEY,
       event_id TEXT NOT NULL,
@@ -26,8 +26,8 @@ async function ensureTable() {
     )
   `)
   // ensure ref column exists (if table pre-existed without it)
-  await prisma.$executeRawUnsafe(`ALTER TABLE event_signups ADD COLUMN IF NOT EXISTS ref TEXT`) 
-  await prisma.$executeRawUnsafe(`CREATE UNIQUE INDEX IF NOT EXISTS event_signups_ref_idx ON event_signups(ref)`) 
+  await safeExecute(`ALTER TABLE event_signups ADD COLUMN IF NOT EXISTS ref TEXT`)
+  await safeExecute(`CREATE UNIQUE INDEX IF NOT EXISTS event_signups_ref_idx ON event_signups(ref)`)
 }
 
 export async function POST(req: Request) {
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     await ensureTable()
 
     // dedupe: prevent same email signing up multiple times for same event
-    const exists: any[] = await prisma.$queryRawUnsafe(`SELECT id FROM event_signups WHERE event_id = $1 AND lower(email) = lower($2) LIMIT 1`, eventId, String(email))
+    const exists: any[] = await safeQuery(`SELECT id FROM event_signups WHERE event_id = $1 AND lower(email) = lower($2) LIMIT 1`, eventId, String(email))
     if (exists && exists.length > 0) {
       return NextResponse.json({ error: 'Already signed up' }, { status: 409 })
     }
@@ -62,13 +62,13 @@ export async function POST(req: Request) {
     let ref = genRef()
     // ensure unique ref
     for (let i = 0; i < 5; i++) {
-      const r: any = await prisma.$queryRawUnsafe(`SELECT id FROM event_signups WHERE ref = $1 LIMIT 1`, ref)
-      if (!Array.isArray(r) || r.length === 0) break
+      const r = await safeQuery(`SELECT id FROM event_signups WHERE ref = $1 LIMIT 1`, ref)
+      if (!(r && r.length > 0)) break
       ref = genRef()
     }
 
     const id = randomUUID()
-    await prisma.$executeRawUnsafe(
+    await safeExecute(
       `INSERT INTO event_signups (id, event_id, ref, name, email, phone, created_at) VALUES ($1,$2,$3,$4,$5,$6,NOW())`,
       id,
       eventId,
@@ -126,7 +126,7 @@ export async function DELETE(req: Request) {
 
     await ensureTable()
     try {
-      await prisma.$executeRawUnsafe(`DELETE FROM event_signups WHERE id = $1`, id)
+      await safeExecute(`DELETE FROM event_signups WHERE id = $1`, id)
       return NextResponse.json({ ok: true })
     } catch (e) {
       console.error(e)
@@ -158,7 +158,7 @@ export async function GET(req: Request) {
 
     await ensureTable()
 
-    const rows: any[] = await prisma.$queryRawUnsafe(`SELECT id, ref, event_id as eventId, name, email, phone, created_at as "createdAt" FROM event_signups WHERE event_id = $1 ORDER BY created_at DESC`, eventId)
+    const rows: any[] = await safeQuery(`SELECT id, ref, event_id as eventId, name, email, phone, created_at as "createdAt" FROM event_signups WHERE event_id = $1 ORDER BY created_at DESC`, eventId)
 
     return NextResponse.json({ signups: rows })
   } catch (err) {
