@@ -1,18 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MainNav } from "@/components/navigation/main-nav"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Users, Heart, ArrowRight, CheckCircle } from "lucide-react"
 
-const volunteerRoles = [
+const baseVolunteerRoles = [
   {
     id: 1,
     title: "Worship Leader",
     description: "Lead music and worship during services",
     commitment: "2 hours/week",
-    volunteers: 12,
+    volunteers: 0,
     color: "text-purple-600",
   },
   {
@@ -20,7 +20,7 @@ const volunteerRoles = [
     title: "Usher & Greeter",
     description: "Welcome members and guests at the door",
     commitment: "3 hours/week",
-    volunteers: 24,
+    volunteers: 0,
     color: "text-blue-600",
   },
   {
@@ -28,7 +28,7 @@ const volunteerRoles = [
     title: "Children's Ministry",
     description: "Help care for and teach our children",
     commitment: "2 hours/week",
-    volunteers: 18,
+    volunteers: 0,
     color: "text-pink-600",
   },
   {
@@ -36,18 +36,58 @@ const volunteerRoles = [
     title: "Community Outreach",
     description: "Serve those in need in our community",
     commitment: "4 hours/week",
-    volunteers: 15,
+    volunteers: 0,
     color: "text-green-600",
   },
 ]
 
 export default function VolunteerPage() {
+  const [volunteerRoles, setVolunteerRoles] = useState(baseVolunteerRoles)
   const [selectedRole, setSelectedRole] = useState<number | null>(null)
   const [submitted, setSubmitted] = useState(false)
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
   const [errors, setErrors] = useState<Record<string,string>>({})
+
+  useEffect(() => {
+    let cancelled = false
+    async function loadRoleSummary() {
+      try {
+        const res = await fetch('/api/volunteers?summary=roles')
+        if (!res.ok) return
+        const data = await res.json().catch(() => ({}))
+        const summaries = Array.isArray(data?.roles) ? data.roles : []
+
+        if (cancelled) return
+        setVolunteerRoles((prev) =>
+          prev.map((role) => {
+            const match = summaries.find((s: any) => {
+              const roleIdMatch = s?.roleId && Number(s.roleId) === role.id
+              const titleMatch = s?.roleTitle && String(s.roleTitle).toLowerCase() === role.title.toLowerCase()
+              return roleIdMatch || titleMatch
+            })
+
+            const volunteers =
+              typeof match?.approved === 'number'
+                ? match.approved
+                : typeof match?.total === 'number'
+                  ? match.total
+                  : role.volunteers || 0
+
+            return { ...role, volunteers }
+          })
+        )
+      } catch (e) {
+        console.error('Failed to load volunteer summary', e)
+      }
+    }
+
+    loadRoleSummary()
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   const handleSignUp = async () => {
     const clientErrors: Record<string,string> = {}
@@ -78,7 +118,12 @@ export default function VolunteerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
+    <div className="relative min-h-screen overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(229,236,249,0.94)_0%,rgba(236,233,224,0.92)_18%,rgba(218,206,190,0.88)_38%,rgba(185,151,118,0.82)_56%,rgba(116,142,186,0.88)_76%,rgba(68,98,139,0.92)_90%,rgba(45,68,99,0.95)_100%)]"
+      />
+      <div className="relative z-10">
       <MainNav />
 
       <div className="max-w-6xl mx-auto px-4 py-12">
@@ -95,10 +140,10 @@ export default function VolunteerPage() {
               <Card
                 key={role.id}
                 onClick={() => setSelectedRole(role.id)}
-                className={`p-6 cursor-pointer transition ${
+                className={`group relative p-6 cursor-pointer transition-all duration-500 overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2 ${
                   selectedRole === role.id
-                    ? "border-2 border-blue-600 bg-blue-50 dark:bg-blue-900/20"
-                    : "hover:shadow-lg"
+                    ? "border-2 border-blue-600 bg-gradient-to-br from-blue-50 via-white to-blue-40 dark:bg-blue-900/20"
+                    : "bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] hover:from-[#e8ddd0] hover:via-[#f5ebe0] hover:to-[#e0d5c8]"
                 }`}
               >
                 <div className="flex items-start justify-between mb-4">
@@ -202,6 +247,7 @@ export default function VolunteerPage() {
             </Card>
           </div>
         </div>
+      </div>
       </div>
     </div>
   )

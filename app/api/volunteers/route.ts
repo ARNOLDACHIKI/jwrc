@@ -55,8 +55,39 @@ export async function GET(req: Request) {
   try {
     const url = new URL(req.url)
     const forEmail = url.searchParams.get('email')
+    const summary = url.searchParams.get('summary')
     // if email provided return applications for that email (public for user dashboard)
     await ensureTable()
+
+    if (summary === 'roles') {
+      const rows: any[] = await prisma.$queryRawUnsafe(
+        `SELECT role_id as "roleId", role_title as "roleTitle", status, COUNT(*)::int as count FROM volunteer_applications GROUP BY role_id, role_title, status`
+      )
+
+      const aggregated: Record<string, any> = {}
+      for (const row of rows) {
+        const key = `${row.roleId ?? ''}|${row.roleTitle ?? ''}`
+        if (!aggregated[key]) {
+          aggregated[key] = {
+            roleId: row.roleId || null,
+            roleTitle: row.roleTitle || null,
+            total: 0,
+            approved: 0,
+            pending: 0,
+            rejected: 0,
+          }
+        }
+        const bucket = aggregated[key]
+        const count = typeof row.count === 'number' ? row.count : Number(row.count || 0)
+        bucket.total += count
+        if (row.status === 'approved') bucket.approved += count
+        else if (row.status === 'pending') bucket.pending += count
+        else if (row.status === 'rejected') bucket.rejected += count
+      }
+
+      return NextResponse.json({ roles: Object.values(aggregated) })
+    }
+
     if (forEmail) {
       const rows: any[] = await prisma.$queryRawUnsafe(`SELECT id, name, email, phone, role_id as "roleId", role_title as "roleTitle", status, admin_message as "adminMessage", created_at as "createdAt", responded_at as "respondedAt" FROM volunteer_applications WHERE lower(email) = lower($1) ORDER BY created_at DESC`, forEmail)
       return NextResponse.json({ applications: rows })

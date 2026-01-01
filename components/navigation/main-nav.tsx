@@ -39,13 +39,13 @@ export function MainNav() {
   ]
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-blue-200 bg-white shadow-sm dark:border-blue-900 dark:bg-slate-900">
+    <nav className="sticky top-0 z-50 w-full border-b border-[var(--border)] bg-gradient-to-r from-[#f5ebe0] via-[#efe3d6] to-[#e4d5c5] backdrop-blur supports-[backdrop-filter]:bg-gradient-to-r supports-[backdrop-filter]:from-[#f5ebe0] supports-[backdrop-filter]:via-[#efe3d6] supports-[backdrop-filter]:to-[#e4d5c5] shadow-sm">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <div className="[perspective:1200px]">
-              <div className="relative h-11 w-11 rounded-full overflow-hidden shadow-lg shadow-blue-500/30 ring-1 ring-blue-200/60 dark:ring-blue-800/60 transform-gpu transition-transform duration-700 ease-out hover:[transform:rotateY(360deg)]">
+              <div className="relative h-11 w-11 rounded-full overflow-hidden shadow-lg shadow-[rgba(0,71,171,0.35)] ring-1 ring-[var(--border)] transform-gpu logo-spin hover:[transform:rotateY(360deg)]">
                 <Image
                   src={logoSrc}
                   alt="Jesus Worship and Restoration Centre logo"
@@ -58,8 +58,8 @@ export function MainNav() {
               </div>
             </div>
             <div className="hidden sm:flex flex-col">
-              <span className="font-bold text-blue-900 dark:text-blue-400">JESUS WORSHIP</span>
-              <span className="text-xs text-blue-600 dark:text-blue-300">AND RESTORATION</span>
+              <span className="font-bold text-[var(--primary)]">JESUS WORSHIP</span>
+              <span className="text-xs text-[var(--accent)]">AND RESTORATION</span>
             </div>
           </Link>
 
@@ -69,7 +69,7 @@ export function MainNav() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md transition dark:text-gray-300 dark:hover:text-blue-400 dark:hover:bg-blue-900/20"
+                className="px-3 py-2 text-sm font-medium text-[var(--foreground)] hover:text-[var(--primary)] hover:bg-[var(--muted)] rounded-md transition"
               >
                 <span className="inline-flex items-center gap-2">
                   {item.label}
@@ -86,15 +86,15 @@ export function MainNav() {
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
-                  <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-semibold">
+                  <div className="w-8 h-8 rounded-full bg-[var(--primary)] text-[var(--primary-foreground)] flex items-center justify-center text-sm font-semibold">
                     {user.name ? user.name.split(' ').map(n=>n[0]).slice(0,2).join('') : user.email.split('@')[0].slice(0,2)}
                   </div>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{user.name || user.email}</span>
+                  <span className="text-sm font-medium text-[var(--foreground)]">{user.name || user.email}</span>
                 </button>
 
                 {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-md shadow-lg z-50">
-                    <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-200">
+                  <div className="absolute right-0 mt-2 w-40 bg-[var(--card)] border border-[var(--border)] rounded-md shadow-lg z-50">
+                    <Link href="/dashboard" className="block px-4 py-2 text-sm text-[var(--foreground)] hover:bg-[var(--muted)]">
                       Dashboard
                     </Link>
                     <button
@@ -102,7 +102,7 @@ export function MainNav() {
                         setUserMenuOpen(false)
                         logout()
                       }}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10"
+                      className="w-full text-left px-4 py-2 text-sm text-[var(--secondary)] hover:bg-[var(--muted)]"
                     >
                       Logout
                     </button>
@@ -117,12 +117,12 @@ export function MainNav() {
             {!user ? (
               <div className="flex items-center gap-2">
                 <Link href="/login">
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" className="border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--muted)]">
                     Login
                   </Button>
                 </Link>
                 <Link href="/signup">
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
+                  <Button size="sm" className="bg-[var(--secondary)] hover:bg-[color-mix(in_srgb,var(--secondary)_90%,black_10%)] text-[var(--secondary-foreground)]">
                     Sign Up
                   </Button>
                 </Link>
@@ -148,7 +148,7 @@ export function MainNav() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md dark:text-gray-300 dark:hover:text-blue-400 dark:hover:bg-blue-900/20"
+                className="block px-3 py-2 text-sm font-medium text-[var(--foreground)] hover:text-[var(--primary)] hover:bg-[var(--muted)] rounded-md"
                 onClick={() => setIsOpen(false)}
               >
                 {item.label}
@@ -158,16 +158,16 @@ export function MainNav() {
             {/* Mobile auth actions */}
             {!user ? (
               <>
-                <Link href="/login" className="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md">
+                <Link href="/login" className="block px-3 py-2 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--muted)] rounded-md">
                   Login
                 </Link>
-                <Link href="/signup" className="block px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-md mt-2">
+                <Link href="/signup" className="block px-3 py-2 text-sm font-medium text-[var(--secondary-foreground)] bg-[var(--secondary)] rounded-md mt-2">
                   Sign Up
                 </Link>
               </>
             ) : (
               <>
-                <Link href="/dashboard" className="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md">
+                <Link href="/dashboard" className="block px-3 py-2 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--muted)] rounded-md">
                   Dashboard
                 </Link>
                 <button
@@ -175,7 +175,7 @@ export function MainNav() {
                     setIsOpen(false)
                     logout()
                   }}
-                  className="w-full text-left px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-md"
+                  className="w-full text-left px-3 py-2 text-sm font-medium text-[var(--secondary)] hover:bg-[var(--muted)] rounded-md"
                 >
                   Logout
                 </button>
@@ -184,7 +184,7 @@ export function MainNav() {
 
             <Link
               href="/admin/login"
-              className="block px-3 py-2 text-sm font-medium text-purple-600 hover:bg-purple-50"
+              className="block px-3 py-2 text-sm font-medium text-[var(--primary)] hover:bg-[var(--muted)]"
             >
               Admin Portal
             </Link>

@@ -20,7 +20,7 @@ export default function EventsPage() {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(6)
   const [total, setTotal] = useState(0)
-  const [futureOnly, setFutureOnly] = useState(true)
+  const [futureOnly, setFutureOnly] = useState(false)
 
   useEffect(() => {
     let mounted = true
@@ -59,7 +59,12 @@ export default function EventsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
+    <div className="relative min-h-screen overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(229,236,249,0.94)_0%,rgba(236,233,224,0.92)_18%,rgba(218,206,190,0.88)_38%,rgba(185,151,118,0.82)_56%,rgba(116,142,186,0.88)_76%,rgba(68,98,139,0.92)_90%,rgba(45,68,99,0.95)_100%)]"
+      />
+      <div className="relative z-10">
       <MainNav />
 
       <div className="max-w-6xl mx-auto px-4 py-12">
@@ -98,59 +103,47 @@ export default function EventsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {loading && <p className="text-center col-span-full">Loading events…</p>}
           {!loading && events.length === 0 && <p className="text-center col-span-full">No upcoming events</p>}
-
           {events.map((event) => {
-            const dt = formatDateRange(event)
+            const { date, time } = formatDateRange(event)
             return (
-              <Card key={event.id} className="overflow-hidden hover:shadow-lg transition flex flex-col">
-                <div className="h-3 bg-gradient-to-r from-blue-500 to-blue-600"></div>
-
-                <div className="p-6 flex-1 flex flex-col">
-                  <span className="inline-block w-fit px-3 py-1 text-xs font-semibold text-white bg-blue-600 rounded-full mb-3">Event</span>
-
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">{event.title}</h3>
-
-                  <div className="space-y-3 mb-4 flex-1">
-                    <div className="flex items-start gap-3">
-                      <Calendar className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                      <div className="text-sm text-gray-600 dark:text-gray-400">
-                        <p className="font-medium text-gray-900 dark:text-white">{dt.date}</p>
-                        <p className="text-xs mt-1">{dt.time}</p>
+              <Card key={event.id} className="group relative p-6 h-full overflow-hidden bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] hover:from-[#e8ddd0] hover:via-[#f5ebe0] hover:to-[#e0d5c8] transition-all duration-500 cursor-pointer border border-[var(--border)] shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="relative z-10 space-y-3">
+                  <h3 className="text-xl font-bold text-blue-900 dark:text-white group-hover:text-blue-700">{event.title}</h3>
+                  {event.description && <p className="text-gray-600 dark:text-gray-400 text-sm">{event.description}</p>}
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                      <Calendar className="w-4 h-4" />
+                      <span>{date}</span>
+                    </div>
+                    {time && (
+                      <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                        <span className="w-4 h-4">🕐</span>
+                        <span>{time}</span>
                       </div>
-                    </div>
-
-                    <div className="flex items-start gap-3">
-                      <MapPin className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                      <p className="text-sm text-gray-600 dark:text-gray-400">{event.location || '—'}</p>
-                    </div>
-
-                    <div className="flex items-start gap-3">
-                      <Users className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                      <a href={`/events/sign-up?eventId=${event.id}`} className="text-sm text-blue-600 hover:underline">I'm interested — sign up</a>
-                    </div>
+                    )}
+                    {event.location && (
+                      <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                        <MapPin className="w-4 h-4" />
+                        <span>{event.location}</span>
+                      </div>
+                    )}
                   </div>
-
-                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 pb-4 border-t border-gray-200 dark:border-gray-700">
-                    {event.description || ''}
-                  </p>
-
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                    Learn More
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
                 </div>
               </Card>
             )
           })}
         </div>
-        </div>
 
         {/* Pagination */}
-        <div className="max-w-6xl mx-auto px-4 py-6 flex items-center justify-center gap-4">
-          <Button disabled={page <= 1} onClick={() => setPage(p => Math.max(1, p - 1))}>Previous</Button>
-          <div className="text-sm text-gray-700 dark:text-gray-300">Page {page} / {Math.max(1, Math.ceil(total / pageSize))}</div>
-          <Button disabled={page >= Math.ceil(total / pageSize)} onClick={() => setPage(p => p + 1)}>Next</Button>
+        <div className="flex justify-center gap-2 mt-8">
+          <button disabled={page === 1} onClick={() => setPage(page - 1)} className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50">Prev</button>
+          <span className="px-4 py-2 text-gray-700 dark:text-gray-300">Page {page}</span>
+          <button disabled={page * pageSize >= total} onClick={() => setPage(page + 1)} className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50">Next</button>
         </div>
+      </div>
+      </div>
     </div>
   )
 }

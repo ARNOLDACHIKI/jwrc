@@ -1,5 +1,13 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
+  "/admin/dashboard/page": "app/admin/dashboard/page.js",
+  "/announcements/page": "app/announcements/page.js",
+  "/api/announcements/route": "app/api/announcements/route.js",
+  "/api/auth/me/route": "app/api/auth/me/route.js",
+  "/api/events/route": "app/api/events/route.js",
+  "/api/suggestions/route": "app/api/suggestions/route.js",
   "/api/user/inbox/route": "app/api/user/inbox/route.js",
-  "/page": "app/page.js"
+  "/api/volunteers/route": "app/api/volunteers/route.js",
+  "/events/page": "app/events/page.js",
+  "/suggestions/page": "app/suggestions/page.js"
 }

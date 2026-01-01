@@ -51,7 +51,12 @@ export default function SuggestionsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
+    <div className="relative min-h-screen overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(229,236,249,0.94)_0%,rgba(236,233,224,0.92)_18%,rgba(218,206,190,0.88)_38%,rgba(185,151,118,0.82)_56%,rgba(116,142,186,0.88)_76%,rgba(68,98,139,0.92)_90%,rgba(45,68,99,0.95)_100%)]"
+      />
+      <div className="relative z-10">
       <MainNav />
 
       <div className="max-w-2xl mx-auto px-4 py-12">
@@ -66,7 +71,10 @@ export default function SuggestionsPage() {
           </p>
         </div>
 
-        <Card className="p-8">
+        <Card className="group relative p-8 overflow-hidden bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] border border-[var(--border)] shadow-lg hover:shadow-2xl transition-all duration-500">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          <div className="relative z-10">
           {!submitted ? (
             <form onSubmit={handleSubmit} className="space-y-6">
               {errors?.form && (
@@ -143,7 +151,9 @@ export default function SuggestionsPage() {
               <p className="text-sm text-gray-500 dark:text-gray-400">Redirecting...</p>
             </div>
           )}
+          </div>
         </Card>
+      </div>
       </div>
     </div>
   )

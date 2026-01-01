@@ -4,13 +4,12 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Brand palette derived from the provided logo */
-  --logo-navy: #0f4f73;
-  --logo-sky: #5a9dcf;
-  --logo-ivory: #f4f6fa;
-  --logo-charcoal: #1f2a36;
-  --logo-red: #c5302f;
-  --logo-gold: #d6a24a;
+  /* Brand palette aligned to inspiration: deep brown, church red, cobalt blue, clean ivory */
+  --logo-brown: #6b5444;
+  --logo-red: #b22222;
+  --logo-blue: #0047ab;
+  --logo-ivory: #f5f3ef;
+  --logo-charcoal: #1f242b;
 
   --background: var(--logo-ivory);
   --foreground: var(--logo-charcoal);
@@ -18,68 +17,77 @@
   --card-foreground: var(--logo-charcoal);
   --popover: #ffffff;
   --popover-foreground: var(--logo-charcoal);
-  --primary: var(--logo-navy);
-  --primary-foreground: #f5fbff;
-  --secondary: var(--logo-gold);
-  --secondary-foreground: #1d1202;
-  --muted: #e4ebf4;
-  --muted-foreground: #425065;
-  --accent: var(--logo-red);
-  --accent-foreground: #fff6f6;
-  --destructive: #b42318;
-  --destructive-foreground: #fff7f5;
-  --border: #d5deea;
-  --input: #d5deea;
-  --ring: var(--logo-navy);
+  --primary: var(--logo-blue);
+  --primary-foreground: #f7fbff;
+  --secondary: var(--logo-red);
+  --secondary-foreground: #fff6f6;
+  --muted: #e8e3dc;
+  --muted-foreground: #4a4f57;
+  --accent: var(--logo-brown);
+  --accent-foreground: #fdfaf6;
+  --destructive: #a01818;
+  --destructive-foreground: #fff8f6;
+  --border: #d7cfc6;
+  --input: #d7cfc6;
+  --ring: var(--logo-blue);
   --chart-1: var(--logo-red);
-  --chart-2: var(--logo-navy);
-  --chart-3: var(--logo-gold);
-  --chart-4: var(--logo-sky);
-  --chart-5: #6b7c8f;
+  --chart-2: var(--logo-blue);
+  --chart-3: var(--logo-brown);
+  --chart-4: #6a91d6;
+  --chart-5: #8f6c54;
   --radius: 0.625rem;
-  --sidebar: #f8fafd;
+  --sidebar: #faf7f3;
   --sidebar-foreground: var(--logo-charcoal);
-  --sidebar-primary: var(--logo-navy);
-  --sidebar-primary-foreground: #f5fbff;
-  --sidebar-accent: var(--logo-gold);
-  --sidebar-accent-foreground: #1d1202;
-  --sidebar-border: #d5deea;
-  --sidebar-ring: var(--logo-navy);
+  --sidebar-primary: var(--logo-blue);
+  --sidebar-primary-foreground: #f7fbff;
+  --sidebar-accent: var(--logo-red);
+  --sidebar-accent-foreground: #fff6f6;
+  --sidebar-border: #d7cfc6;
+  --sidebar-ring: var(--logo-blue);
 }
 
 .dark {
-  --background: #0e1823;
-  --foreground: #e8ecf3;
-  --card: #111c28;
-  --card-foreground: #e8ecf3;
-  --popover: #111c28;
-  --popover-foreground: #e8ecf3;
-  --primary: #77b6e6;
-  --primary-foreground: #0d1620;
-  --secondary: #e0b86a;
-  --secondary-foreground: #1b1104;
-  --muted: #1a2735;
-  --muted-foreground: #9db1cb;
-  --accent: #e16a63;
-  --accent-foreground: #0f0a0a;
-  --destructive: #d34a3c;
-  --destructive-foreground: #0f0706;
-  --border: #1f3045;
-  --input: #1f3045;
-  --ring: #77b6e6;
-  --chart-1: #e16a63;
-  --chart-2: #77b6e6;
-  --chart-3: #e0b86a;
-  --chart-4: #5a9dcf;
-  --chart-5: #8aa4c2;
-  --sidebar: #0f1823;
-  --sidebar-foreground: #e8ecf3;
-  --sidebar-primary: #77b6e6;
-  --sidebar-primary-foreground: #0d1620;
-  --sidebar-accent: #e0b86a;
-  --sidebar-accent-foreground: #1b1104;
-  --sidebar-border: #1f3045;
-  --sidebar-ring: #77b6e6;
+  --background: #0f1319;
+  --foreground: #f1f0ec;
+  --card: #141a22;
+  --card-foreground: #f1f0ec;
+  --popover: #141a22;
+  --popover-foreground: #f1f0ec;
+  --primary: #6ea3ff;
+  --primary-foreground: #0b0f16;
+  --secondary: #d36666;
+  --secondary-foreground: #130808;
+  --muted: #1c242f;
+  --muted-foreground: #a9b0bd;
+  --accent: #8a6e5a;
+  --accent-foreground: #f8f4ed;
+  --destructive: #c23a3a;
+  --destructive-foreground: #fdf1ef;
+  --border: #1f2933;
+  --input: #1f2933;
+  --ring: #6ea3ff;
+  --chart-1: #d36666;
+  --chart-2: #6ea3ff;
+  --chart-3: #6b4b36;
+  --chart-4: #4f6ea8;
+  --chart-5: #9b7b63;
+  --sidebar: #0f1319;
+  --sidebar-foreground: #f1f0ec;
+  --sidebar-primary: #6ea3ff;
+  --sidebar-primary-foreground: #0b0f16;
+  --sidebar-accent: #d36666;
+  --sidebar-accent-foreground: #130808;
+  --sidebar-border: #1f2933;
+  --sidebar-ring: #6ea3ff;
+}
+
+@layer utilities {
+  .logo-spin {
+    @apply transition-transform duration-700 ease-out;
+  }
+  .logo-spin:hover {
+    transform: rotate(360deg);
+  }
 }
 
 @theme inline {
@@ -129,5 +137,29 @@
   }
   body {
     @apply bg-background text-foreground;
+    position: relative;
+    min-height: 100vh;
+    isolation: isolate;
   }
+
+  body > *:not(.site-watermark) {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.site-watermark {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("/praying-hands.png");
+  background-repeat: repeat;
+  background-size: 280px 280px;
+  background-attachment: fixed;
+  opacity: 0.08;
+  mix-blend-mode: multiply;
 }

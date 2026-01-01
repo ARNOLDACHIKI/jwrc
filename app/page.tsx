@@ -2,65 +2,28 @@ import Link from "next/link"
 import { MainNav } from "@/components/navigation/main-nav"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { ArrowRight, Heart, Users, BookOpen, Music, Calendar, Zap, MessageSquare } from "lucide-react"
-import AnnouncementsCTA from "@/components/announcements-cta"
+import { Heart, Users, BookOpen, Music, Calendar, Zap, MessageSquare } from "lucide-react"
+import { Hero } from "@/components/hero"
 
-export default function Home() {
+export default function Home({ searchParams }: { searchParams?: { embedded?: string } }) {
+  const embedded = searchParams?.embedded === "1"
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-slate-950 dark:to-slate-900">
-      <MainNav />
+    <div className="relative min-h-screen overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(229,236,249,0.94)_0%,rgba(236,233,224,0.92)_18%,rgba(218,206,190,0.88)_38%,rgba(185,151,118,0.82)_56%,rgba(116,142,186,0.88)_76%,rgba(68,98,139,0.92)_90%,rgba(45,68,99,0.95)_100%)]"
+      />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h1 className="text-5xl md:text-6xl font-bold text-blue-900 dark:text-white leading-tight">
-                Welcome to <span className="text-blue-600">JESUS WORSHIP AND RESTORATION CHURCH</span>
-              </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300">
-                Experience vibrant worship, grow in faith, and serve your community. Join us for meaningful sermons,
-                fellowship, and spiritual growth.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                {/* CTA: if user is logged in go straight to announcements, otherwise go to login and return */}
-                {/* Use client component to check auth and redirect appropriately */}
-                {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-                {/* @ts-ignore Server -> client import handled by Next */}
-                <div>
-                  {/* dynamically import client CTA component */}
-                  {/* Keep simple synchronous import so Next can bundle it as a client component */}
-                  {/* eslint-disable-next-line react/jsx-no-undef */}
-                  <AnnouncementsCTA />
-                </div>
-                <Link href="/donate">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="border-blue-300 text-blue-600 hover:bg-blue-50 w-full sm:w-auto bg-transparent"
-                  >
-                    <Heart className="w-4 h-4 mr-2" />
-                    Donate Now
-                  </Button>
-                </Link>
-              </div>
-            </div>
-            <div className="relative h-96 lg:h-full">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg opacity-10 blur-3xl"></div>
-              <img
-                src="/modern-church-interior-with-spiritual-light.jpg"
-                alt="Church interior"
-                className="relative w-full h-full object-cover rounded-lg shadow-2xl"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="relative z-10">
+        <MainNav />
+
+        <Hero embedded={embedded} />
 
       {/* Features Section */}
-      <section className="py-16 px-4 bg-white dark:bg-slate-900">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-blue-900 dark:text-white mb-12">Our Services</h2>
+      <section className="relative py-16 px-4">
+        <div className="absolute inset-0 bg-[#f6eee4]/70 dark:bg-slate-900/70 backdrop-blur-sm border-y border-white/10" aria-hidden />
+        <div className="relative max-w-7xl mx-auto">
+          <h2 className="text-4xl font-bold text-center text-[var(--primary)] dark:text-white mb-12">Our Services</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -76,12 +39,17 @@ export default function Home() {
               const Icon = feature.icon
               return (
                 <Link key={idx} href={feature.href}>
-                  <Card className="p-6 hover:shadow-lg hover:scale-105 transition duration-300 cursor-pointer h-full">
-                    <div className="bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                      <Icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  <Card className="group relative p-6 h-full overflow-hidden bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] hover:from-[#e8ddd0] hover:via-[#f5ebe0] hover:to-[#e0d5c8] transition-all duration-500 cursor-pointer border border-[var(--border)] shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2 hover:rotate-1">
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    
+                    <div className="relative z-10">
+                      <div className="bg-gradient-to-br from-[var(--primary)]/20 to-[var(--primary)]/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4 shadow-md group-hover:shadow-lg transition-shadow duration-300">
+                        <Icon className="w-6 h-6 text-[var(--primary)] group-hover:scale-110 transition-transform duration-300" />
+                      </div>
+                      <h3 className="font-bold text-lg text-[var(--primary)] dark:text-white mb-2">{feature.label}</h3>
+                      <p className="text-[var(--muted-foreground)] dark:text-gray-400 text-sm">{feature.desc}</p>
                     </div>
-                    <h3 className="font-bold text-lg text-blue-900 dark:text-white mb-2">{feature.label}</h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">{feature.desc}</p>
                   </Card>
                 </Link>
               )
@@ -91,8 +59,9 @@ export default function Home() {
       </section>
 
       {/* Get in Touch Section */}
-      <section className="py-16 px-4">
-        <div className="max-w-4xl mx-auto">
+      <section className="relative py-16 px-4">
+        <div className="absolute inset-0 bg-white/40 dark:bg-slate-900/60 backdrop-blur-sm border-t border-white/15" aria-hidden />
+        <div className="relative max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center text-blue-900 dark:text-white mb-8">Get in Touch</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -129,13 +98,14 @@ export default function Home() {
         </div>
       </section>
       {/* CTA Section */}
-      <section className="py-16 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
+      <section className="relative py-16 px-4 text-white">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#364e78] to-[#2d4463] opacity-95 border-y border-white/10" aria-hidden />
+        <div className="relative max-w-4xl mx-auto text-center space-y-6">
           <h2 className="text-4xl font-bold">Ready to Join Our Community?</h2>
-          <p className="text-xl text-blue-100">Sign up today and start your spiritual journey with us</p>
+          <p className="text-xl text-[#d4dce8]">Sign up today and start your spiritual journey with us</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Link href="/signup">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 w-full sm:w-auto">
+              <Button size="lg" className="bg-white text-[#364e78] hover:bg-gray-50 w-full sm:w-auto">
                 Get Started
               </Button>
             </Link>
@@ -143,7 +113,7 @@ export default function Home() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white text-white hover:bg-blue-500 w-full sm:w-auto bg-transparent"
+                className="border-white text-white hover:bg-[#445b8a] w-full sm:w-auto bg-transparent"
               >
                 Learn More
               </Button>
@@ -153,15 +123,16 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-blue-900 dark:bg-slate-950 text-white py-12 px-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+      <footer className="relative bg-[#2d4463] dark:bg-slate-950 text-white py-12 px-4">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.06),transparent_40%),radial-gradient(circle_at_70%_0%,rgba(255,255,255,0.04),transparent_35%)]" aria-hidden />
+        <div className="relative max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="font-bold mb-4">Jesus Worship and Restoration Church</h3>
-            <p className="text-blue-100 text-sm">Your spiritual home for worship, growth, and service.</p>
+            <p className="text-[#d4dce8] text-sm">Your spiritual home for worship, growth, and service.</p>
           </div>
           <div>
             <h4 className="font-bold mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-sm text-blue-100">
+            <ul className="space-y-2 text-sm text-[#d4dce8]">
               <li>
                 <Link href="/about" className="hover:text-white">
                   About
@@ -181,7 +152,7 @@ export default function Home() {
           </div>
           <div>
             <h4 className="font-bold mb-4">Get Involved</h4>
-            <ul className="space-y-2 text-sm text-blue-100">
+            <ul className="space-y-2 text-sm text-[#d4dce8]">
               <li>
                 <Link href="/volunteer" className="hover:text-white">
                   Volunteer
@@ -201,7 +172,7 @@ export default function Home() {
           </div>
           <div>
             <h4 className="font-bold mb-4">Contact</h4>
-            <p className="text-blue-100 text-sm">
+            <p className="text-[#d4dce8] text-sm">
               📧 jwrcjuja.1@gmail.com
               <br />📞 0715377835
               <br />
@@ -217,10 +188,11 @@ export default function Home() {
             </p>
           </div>
         </div>
-        <div className="border-t border-blue-800 mt-8 pt-8 text-center text-blue-100 text-sm">
+        <div className="relative border-t border-[#445b8a] mt-8 pt-8 text-center text-[#d4dce8] text-sm">
           <p>&copy; 2025 Jesus Worship and Restoration Church. All rights reserved.</p>
         </div>
       </footer>
+      </div>
     </div>
   )
 }

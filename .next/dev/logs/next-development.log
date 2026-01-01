@@ -1,141 +1,573 @@
-[00:00:01.801] Server  LOG      ✓ Ready in 1107ms
-[00:00:04.878] Server  LOG      ○ Compiling / ...
-[00:00:12.238] Server  ERROR   PrismaClientKnownRequestError: 
+[00:00:01.168] Server  LOG      ✓ Ready in 759ms
+[00:00:15.234] Server  LOG      ○ Compiling /admin/dashboard ...
+[00:00:28.249] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:28.255] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:28.860] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:28.860] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/dashboard","route":"/admin/dashboard"}
+[00:00:28.860] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767252746064}
+[00:00:28.912] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:28.913] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events","route":"/events"}
+[00:00:28.913] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767252746309}
+[00:00:31.249] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:00:15.557] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:15.558] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:15.558] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:00:15.558] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767132284662}
-[00:00:15.975] Server  ERROR   PrismaClientKnownRequestError: 
+[00:00:38.906] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:00:25.459] Server  ERROR   PrismaClientKnownRequestError: 
+[00:00:48.878] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:00:36.257] Server  ERROR   PrismaClientKnownRequestError: 
+[00:00:58.957] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:00:46.283] Server  ERROR   PrismaClientKnownRequestError: 
+[00:01:08.913] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:00:56.238] Server  ERROR   PrismaClientKnownRequestError: 
+[00:01:19.010] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:01:06.237] Server  ERROR   PrismaClientKnownRequestError: 
+[00:01:28.850] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:01:16.186] Server  ERROR   PrismaClientKnownRequestError: 
+[00:01:39.862] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:01:26.195] Server  ERROR   PrismaClientKnownRequestError: 
+[00:01:49.852] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:01:46.250] Server  ERROR   PrismaClientKnownRequestError: 
+[00:01:59.894] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:02:46.275] Server  ERROR   PrismaClientKnownRequestError: 
+[00:02:09.946] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:03:23.279] Server  ERROR   PrismaClientKnownRequestError: 
+[00:02:19.851] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:03:23.283] Server  LOG      ✓ Compiled in 0ms
-[00:03:46.294] Server  ERROR   PrismaClientKnownRequestError: 
+[00:02:29.831] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:04:26.960] Server  ERROR   PrismaClientKnownRequestError: 
+[00:03:10.951] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:04:35.494] Server  ERROR   PrismaClientKnownRequestError: 
+[00:04:10.872] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:04:45.449] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:10.948] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:04:55.423] Server  ERROR   PrismaClientKnownRequestError: 
+[00:06:10.925] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:05:05.484] Server  ERROR   PrismaClientKnownRequestError: 
+[00:07:10.931] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:05:15.400] Server  ERROR   PrismaClientKnownRequestError: 
+[00:08:10.913] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:05:25.529] Server  ERROR   PrismaClientKnownRequestError: 
+[00:09:10.950] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:05:35.541] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:10.846] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:05:45.519] Server  ERROR   PrismaClientKnownRequestError: 
+[00:11:10.917] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:05:56.236] Server  ERROR   PrismaClientKnownRequestError: 
+[00:12:10.955] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:06:06.233] Server  ERROR   PrismaClientKnownRequestError: 
+[00:13:10.911] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:06:16.242] Server  ERROR   PrismaClientKnownRequestError: 
+[00:13:32.399] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:06:26.201] Server  ERROR   PrismaClientKnownRequestError: 
+[00:13:37.856] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/announcements color: rgb(120, 120, 120) color: inherit {"dp":"/announcements","o":"http://localhost:3000/announcements","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767253535246}
+[00:13:38.256] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:06:36.276] Server  ERROR   PrismaClientKnownRequestError: 
+[00:13:38.724] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:13:40.560] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:13:40.571] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767253537856}
+[00:13:41.305] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:13:50.904] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:14:00.961] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:14:10.847] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:14:20.915] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:14:30.844] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:14:40.874] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:14:50.868] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:00.932] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:10.874] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:16:10.913] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:16:38.037] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:16:40.497] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:16:50.530] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:17:00.495] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:17:10.490] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:17:20.507] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:17:30.544] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:17:33.332] Server  LOG      ✓ Compiled in 562ms
+[00:17:33.659] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:17:43.675] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:17:53.954] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:03.846] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:13.805] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:23.837] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:33.821] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:43.875] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:10.850] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:20:10.927] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:21:10.960] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:22:10.940] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:23:10.896] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:24:10.871] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:25:10.913] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:26:10.962] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:26:17.237] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:26:23.580] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:26:33.700] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:26:34.051] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/suggestions color: rgb(120, 120, 120) color: inherit {"dp":"/suggestions","o":"http://localhost:3000/suggestions","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767254312462}
+[00:26:34.247] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:26:34.398] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:26:45.083] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:26:54.862] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:27:04.829] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:27:14.875] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:27:24.873] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:27:34.879] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:28:10.890] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:29:10.834] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:30:10.951] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:31:10.925] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:32:10.889] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:33:10.942] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:34:10.916] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:35:10.863] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:36:10.936] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:37:10.969] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:38:10.869] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:39:10.937] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:40:10.884] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:41:10.897] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:42:10.928] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:43:10.850] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:44:11.659] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:45:11.059] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:46:11.152] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:47:11.113] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:48:11.088] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:49:11.103] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:50:11.132] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:51:11.076] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:52:11.061] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:53:11.088] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:54:11.050] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:54:56.462] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:55:04.944] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:55:14.870] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:55:24.887] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:55:34.839] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:55:44.837] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:55:54.835] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:56:10.897] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:57:10.943] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:58:10.913] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:59:10.906] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[01:00:10.897] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 

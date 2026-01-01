@@ -30,6 +30,16 @@ const values = [
   },
 ]
 
+const deepOceanGradient = "bg-[radial-gradient(circle_at_20%_20%,#2f65c6_0%,#214c8e_35%,#0f274f_75%,#081a3a_100%)]"
+const sandCanvasGradient = "bg-[radial-gradient(circle_at_20%_20%,#f6ede1_0%,#e9dcc9_45%,#d6c4ad_85%,#c9b69c_100%)]"
+const card3dBase =
+  "group relative overflow-hidden rounded-3xl border border-white/30 bg-gradient-to-br from-[rgba(246,237,225,0.95)] via-[rgba(234,215,195,0.9)] to-[rgba(216,193,170,0.88)] dark:from-[rgba(43,74,133,0.7)] dark:via-[rgba(27,47,93,0.82)] dark:to-[rgba(14,27,52,0.9)] shadow-[0_35px_90px_-45px_rgba(15,23,42,0.65)] backdrop-blur-xl transform transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-4 hover:scale-[1.02] hover:rotate-[0.6deg] dark:border-white/10"
+const cardHighlight =
+  "before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.32),transparent_50%)] before:opacity-70 before:transition-opacity before:duration-500 group-hover:before:opacity-100"
+const cardGlow =
+  "after:absolute after:-inset-10 after:bg-[radial-gradient(circle_at_30%_20%,rgba(47,101,198,0.25),transparent_55%)] after:opacity-0 after:transition-all after:duration-700 group-hover:after:opacity-100 group-hover:after:scale-110"
+const cardContent = "relative z-10"
+
 export default function AboutPage() {
   const [stats, setStats] = useState({
     activeMembers: 0,
@@ -77,14 +87,15 @@ export default function AboutPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_10%_15%,#2f65c6_0%,#1b3563_45%,#0c1d3f_100%)] text-slate-100">
       <MainNav />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-16 px-4">
-        <div className="max-w-6xl mx-auto text-center">
+      <section className={`${deepOceanGradient} relative overflow-hidden text-white py-16 px-4`}>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.06),transparent_50%)]" />
+        <div className="max-w-6xl mx-auto text-center relative z-10">
           <h1 className="text-5xl font-bold mb-6">About Jesus Worship and Restoration Church</h1>
-          <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+          <p className="text-xl text-blue-100/90 max-w-3xl mx-auto">
             Founded in faith, built on love, dedicated to serving Christ and our community. We believe in the power of
             worship, the importance of discipleship, and the call to serve others.
           </p>
@@ -92,128 +103,142 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-16 px-4">
+      <section className={`${sandCanvasGradient} text-slate-900 py-16 px-4`}>
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {/* Mission */}
-            <Card className="p-8">
-              <h2 className="text-2xl font-bold text-blue-900 dark:text-white mb-4">Our Mission</h2>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                To know Christ deeply, grow spiritually, and impact our community through authentic worship, biblical
-                teaching, and sacrificial service. We exist to glorify God and advance His kingdom through the Gospel of
-                Jesus Christ.
-              </p>
+            <Card className={`${card3dBase} ${cardHighlight} ${cardGlow} p-8`}>
+              <div className={cardContent}>
+                <h2 className="text-2xl font-bold text-[#0f2b52] dark:text-white mb-4">Our Mission</h2>
+                <p className="text-gray-700 dark:text-gray-200 leading-relaxed">
+                  To know Christ deeply, grow spiritually, and impact our community through authentic worship, biblical
+                  teaching, and sacrificial service. We exist to glorify God and advance His kingdom through the Gospel
+                  of Jesus Christ.
+                </p>
+              </div>
             </Card>
 
             {/* Vision */}
-            <Card className="p-8">
-              <h2 className="text-2xl font-bold text-blue-900 dark:text-white mb-4">Our Vision</h2>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                A thriving community of believers transformed by God's grace, marked by passionate worship, authentic
-                relationships, biblical depth, and genuine compassion for those far from God. We aspire to be a beacon
-                of hope in our city.
-              </p>
+            <Card className={`${card3dBase} ${cardHighlight} ${cardGlow} p-8`}>
+              <div className={cardContent}>
+                <h2 className="text-2xl font-bold text-[#0f2b52] dark:text-white mb-4">Our Vision</h2>
+                <p className="text-gray-700 dark:text-gray-200 leading-relaxed">
+                  A thriving community of believers transformed by God's grace, marked by passionate worship, authentic
+                  relationships, biblical depth, and genuine compassion for those far from God. We aspire to be a beacon
+                  of hope in our city.
+                </p>
+              </div>
             </Card>
           </div>
 
           {/* History */}
-          <Card className="p-8 mb-8">
-            <h2 className="text-2xl font-bold text-blue-900 dark:text-white mb-6">Our Story</h2>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
-              Jesus Worship and Restoration Church was founded in 2008 by a small group of believers who shared a passion for
-              authentic worship and biblical teaching. What started as a gathering of 45 people in a community center
-              has grown into a thriving congregation of over 2,000 members from diverse backgrounds.
-            </p>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
-              Over the past 16 years, we have witnessed God's faithfulness through seasons of growth, challenge, and
-              transformation. We've seen lives changed, families restored, and our community impacted through outreach
-              ministries and service initiatives.
-            </p>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-              Today, Jesus Worship and Restoration Church remains committed to our core mission: to help people know Jesus, grow in
-              faith, and make a difference in our world. We invite you to join us on this incredible journey.
-            </p>
+          <Card className={`${card3dBase} ${cardHighlight} ${cardGlow} p-8 mb-8`}>
+            <div className={cardContent}>
+              <h2 className="text-2xl font-bold text-[#0f2b52] dark:text-white mb-6">Our Story</h2>
+              <p className="text-gray-700 dark:text-gray-200 leading-relaxed mb-4">
+                Jesus Worship and Restoration Church was founded in 2008 by a small group of believers who shared a passion for
+                authentic worship and biblical teaching. What started as a gathering of 45 people in a community center
+                has grown into a thriving congregation of over 2,000 members from diverse backgrounds.
+              </p>
+              <p className="text-gray-700 dark:text-gray-200 leading-relaxed mb-4">
+                Over the past 16 years, we have witnessed God's faithfulness through seasons of growth, challenge, and
+                transformation. We've seen lives changed, families restored, and our community impacted through outreach
+                ministries and service initiatives.
+              </p>
+              <p className="text-gray-700 dark:text-gray-200 leading-relaxed">
+                Today, Jesus Worship and Restoration Church remains committed to our core mission: to help people know Jesus, grow in
+                faith, and make a difference in our world. We invite you to join us on this incredible journey.
+              </p>
+            </div>
           </Card>
         </div>
       </section>
 
       {/* Core Values */}
-      <section className="py-16 px-4 bg-blue-50 dark:bg-blue-900/10">
+      <section className={`${deepOceanGradient} py-16 px-4 text-white`}>
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-blue-900 dark:text-white mb-12">Our Leadership Team</h2>
+          <h2 className="text-4xl font-bold text-center mb-12">Our Leadership Team</h2>
           
           {/* Leadership Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             {/* Main Pastor */}
-            <Card className="p-8 text-center">
-              <div className="mb-6 flex justify-center">
-                <div className="w-40 h-40 rounded-full overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700">
-                  <img 
-                    src="/rev_caroline.png" 
-                    alt="Reverend Caroline Nyagechi" 
-                    className="w-full h-full object-cover"
-                  />
+            <Card className={`${card3dBase} ${cardHighlight} ${cardGlow} p-8 text-center`}>
+              <div className={cardContent}>
+                <div className="mb-6 flex justify-center">
+                  <div className="w-40 h-40 rounded-full overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700">
+                    <img 
+                      src="/rev_caroline.png" 
+                      alt="Reverend Caroline Nyagechi" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
+                <h3 className="text-2xl font-bold text-[#0f2b52] dark:text-white mb-2">Rev. Caroline Nyagechi</h3>
+                <p className="text-[#1f4f9c] dark:text-blue-300 font-semibold text-lg mb-4">Main Pastor</p>
+                <p className="text-gray-700 dark:text-gray-200 leading-relaxed">
+                  Leading with vision, wisdom, and a heart for God's people. Committed to biblical teaching and spiritual growth.
+                </p>
               </div>
-              <h3 className="text-2xl font-bold text-blue-900 dark:text-white mb-2">Rev. Caroline Nyagechi</h3>
-              <p className="text-blue-600 dark:text-blue-400 font-semibold text-lg mb-4">Main Pastor</p>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                Leading with vision, wisdom, and a heart for God's people. Committed to biblical teaching and spiritual growth.
-              </p>
             </Card>
 
             {/* Worship Leader */}
-            <Card className="p-8 text-center">
-              <div className="mb-6 flex justify-center">
-                <div className="w-40 h-40 rounded-full overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700">
-                  <img 
-                    src="/humprey.png" 
-                    alt="Humphrey" 
-                    className="w-full h-full object-cover"
-                  />
+            <Card className={`${card3dBase} ${cardHighlight} ${cardGlow} p-8 text-center`}>
+              <div className={cardContent}>
+                <div className="mb-6 flex justify-center">
+                  <div className="w-40 h-40 rounded-full overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700">
+                    <img 
+                      src="/humprey.png" 
+                      alt="Humphrey" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
+                <h3 className="text-2xl font-bold text-[#0f2b52] dark:text-white mb-2">Humphrey</h3>
+                <p className="text-[#1f4f9c] dark:text-blue-300 font-semibold text-lg mb-4">Worship Leader</p>
+                <p className="text-gray-700 dark:text-gray-200 leading-relaxed">
+                  Passionate about leading people into God's presence through authentic and powerful worship experiences.
+                </p>
               </div>
-              <h3 className="text-2xl font-bold text-blue-900 dark:text-white mb-2">Humphrey</h3>
-              <p className="text-blue-600 dark:text-blue-400 font-semibold text-lg mb-4">Worship Leader</p>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                Passionate about leading people into God's presence through authentic and powerful worship experiences.
-              </p>
             </Card>
 
             {/* Community Outreach */}
-            <Card className="p-8 text-center">
-              <div className="mb-6 flex justify-center">
-                <div className="w-40 h-40 rounded-full overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700">
-                  <img 
-                    src="/mzee-kigo.png" 
-                    alt="Mzee Kigo" 
-                    className="w-full h-full object-cover"
-                  />
+            <Card className={`${card3dBase} ${cardHighlight} ${cardGlow} p-8 text-center`}>
+              <div className={cardContent}>
+                <div className="mb-6 flex justify-center">
+                  <div className="w-40 h-40 rounded-full overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700">
+                    <img 
+                      src="/mzee-kigo.png" 
+                      alt="Mzee Kigo" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
+                <h3 className="text-2xl font-bold text-[#0f2b52] dark:text-white mb-2">Mzee Kigo</h3>
+                <p className="text-[#1f4f9c] dark:text-blue-300 font-semibold text-lg mb-4">Community Outreach</p>
+                <p className="text-gray-700 dark:text-gray-200 leading-relaxed">
+                  Dedicated to serving our community and reaching those in need with compassion and Christ's love.
+                </p>
               </div>
-              <h3 className="text-2xl font-bold text-blue-900 dark:text-white mb-2">Mzee Kigo</h3>
-              <p className="text-blue-600 dark:text-blue-400 font-semibold text-lg mb-4">Community Outreach</p>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                Dedicated to serving our community and reaching those in need with compassion and Christ's love.
-              </p>
             </Card>
           </div>
         </div>
       </section>
 
       {/* Core Values */}
-      <section className="py-16 px-4 bg-white dark:bg-slate-900">
+      <section className={`${sandCanvasGradient} py-16 px-4`}>
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-blue-900 dark:text-white mb-12">Our Core Values</h2>
+          <h2 className="text-4xl font-bold text-center text-[#0f2b52] dark:text-white mb-12">Our Core Values</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value, idx) => {
               const Icon = value.icon
               return (
-                <Card key={idx} className="p-6 text-center">
-                  <Icon className="w-12 h-12 text-blue-600 dark:text-blue-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{value.title}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{value.description}</p>
+                <Card key={idx} className={`${card3dBase} ${cardHighlight} ${cardGlow} p-6 text-center`}>
+                  <div className={cardContent}>
+                    <Icon className="w-12 h-12 text-[#1f4f9c] dark:text-blue-300 mx-auto mb-4" />
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{value.title}</h3>
+                    <p className="text-sm text-gray-700 dark:text-gray-200">{value.description}</p>
+                  </div>
                 </Card>
               )
             })}
@@ -222,7 +247,7 @@ export default function AboutPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+      <section className={`py-16 px-4 ${deepOceanGradient} text-white border-t border-white/10`}>
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
@@ -254,12 +279,12 @@ export default function AboutPage() {
       </section>
 
       {/* Beliefs Section */}
-      <section className="py-16 px-4">
+      <section className={`${sandCanvasGradient} py-16 px-4`}>
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-blue-900 dark:text-white mb-12">What We Believe</h2>
+          <h2 className="text-4xl font-bold text-center text-[#0f2b52] dark:text-white mb-12">What We Believe</h2>
 
-          <Card className="p-8">
-            <div className="space-y-4">
+          <Card className={`${card3dBase} ${cardHighlight} ${cardGlow} p-8`}>
+            <div className={`${cardContent} space-y-4`}>
               {[
                 "The authority and reliability of the Bible as God's Word",
                 "Jesus Christ is the Son of God, Savior, and Lord of all",
@@ -281,21 +306,21 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-4 bg-blue-50 dark:bg-blue-900/10">
+      <section className={`${deepOceanGradient} py-16 px-4 text-white`}> 
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-blue-900 dark:text-white mb-6">Join Our Community</h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
+          <h2 className="text-3xl font-bold mb-6">Join Our Community</h2>
+          <p className="text-blue-100/90 mb-8 text-lg">
             Whether you're exploring faith for the first time or looking for a church home, we'd love to meet you!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/sermons">
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button className="relative overflow-hidden bg-white text-[#0f2b52] hover:bg-blue-50 border border-white/70 shadow-[0_18px_40px_-18px_rgba(8,26,58,0.55)] transform transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:scale-[1.03] active:scale-[0.99]">
                 Watch Sermons
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </Link>
             <Link href="/events">
-              <Button variant="outline" className="border-blue-300 text-blue-600 hover:bg-blue-50 bg-transparent">
+              <Button className="relative overflow-hidden bg-white text-[#0f2b52] hover:bg-blue-50 border border-white/70 shadow-[0_18px_40px_-18px_rgba(8,26,58,0.55)] transform transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:scale-[1.03] active:scale-[0.99]">
                 View Events
               </Button>
             </Link>
@@ -304,9 +329,9 @@ export default function AboutPage() {
       </section>
 
       {/* Contact Section */}
-      <section className="py-16 px-4">
+      <section className={`${sandCanvasGradient} py-16 px-4`}>
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-blue-900 dark:text-white mb-8">Get in Touch</h2>
+          <h2 className="text-3xl font-bold text-center text-[#0f2b52] dark:text-white mb-8">Get in Touch</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
@@ -314,16 +339,29 @@ export default function AboutPage() {
               { label: "Phone", value: "0715377835" },
               { label: "Email", value: "jwrcjuja.1@gmail.com" },
             ].map((contact, idx) => (
-              <Card key={idx} className="p-6 text-center">
-                <h3 className="font-bold text-gray-900 dark:text-white mb-2">{contact.label}</h3>
-                <p className="text-gray-600 dark:text-gray-400">{contact.value}</p>
+              <Card key={idx} className={`${card3dBase} ${cardHighlight} ${cardGlow} p-6 text-center`}>
+                <div className={cardContent}>
+                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">{contact.label}</h3>
+                  {contact.label === "Address" ? (
+                    <a
+                      href="https://maps.app.goo.gl/4ATY5qcF53dtuS668?g_st=aw"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[#1f4f9c] dark:text-blue-300 font-semibold underline-offset-4 hover:underline"
+                    >
+                      {contact.value}
+                    </a>
+                  ) : (
+                    <p className="text-gray-700 dark:text-gray-200">{contact.value}</p>
+                  )}
+                </div>
               </Card>
             ))}
           </div>
 
           <div className="text-center mt-8">
             <Link href="/suggestions">
-              <Button className="bg-blue-600 hover:bg-blue-700">Send us a Message</Button>
+              <Button className="bg-[#1f4f9c] hover:bg-[#163d7c]">Send us a Message</Button>
             </Link>
           </div>
         </div>
