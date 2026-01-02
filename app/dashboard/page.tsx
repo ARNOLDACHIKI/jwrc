@@ -7,7 +7,7 @@ import { MainNav } from "@/components/navigation/main-nav"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useUser } from "@/contexts/user-context"
-import { Heart, Users, DollarSign, Calendar, TrendingUp, Settings, Bell, BookOpen } from "lucide-react"
+import { Heart, Users, DollarSign, Calendar, TrendingUp, Settings, Bell, BookOpen, Shield } from "lucide-react"
 import Inbox from "@/components/inbox"
 
 const statsCards = [
@@ -276,6 +276,14 @@ export default function Dashboard() {
               <Card className="p-6">
                 <h2 className="text-xl font-bold text-blue-900 dark:text-white mb-6">Quick Actions</h2>
                 <div className="space-y-3">
+                  {user?.role === 'admin' && (
+                    <Link href="/admin/dashboard">
+                      <Button className="w-full bg-purple-600 hover:bg-purple-700 justify-start">
+                        <Shield className="w-4 h-4 mr-2" />
+                        Switch to Admin Panel
+                      </Button>
+                    </Link>
+                  )}
                   <Link href="/donate">
                     <Button className="w-full bg-green-600 hover:bg-green-700 justify-start">
                       <Heart className="w-4 h-4 mr-2" />

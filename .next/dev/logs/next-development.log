@@ -1,573 +1,980 @@
-[00:00:01.168] Server  LOG      ✓ Ready in 759ms
-[00:00:15.234] Server  LOG      ○ Compiling /admin/dashboard ...
-[00:00:28.249] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:28.255] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:28.860] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:28.860] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/dashboard","route":"/admin/dashboard"}
-[00:00:28.860] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767252746064}
-[00:00:28.912] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:28.913] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events","route":"/events"}
-[00:00:28.913] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767252746309}
-[00:00:31.249] Server  ERROR   PrismaClientKnownRequestError: 
+[00:00:01.835] Server  LOG      ✓ Ready in 1361ms
+[00:00:04.901] Server  LOG      ○ Compiling /login ...
+[00:00:11.684] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:11.973] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:11.973] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
+[00:00:11.973] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348182796}
+[00:02:28.790] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:00:38.906] Server  ERROR   PrismaClientKnownRequestError: 
+[00:02:30.058] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:00:48.878] Server  ERROR   PrismaClientKnownRequestError: 
+[00:02:30.063] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348320635}
+[00:02:30.307] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:00:58.957] Server  ERROR   PrismaClientKnownRequestError: 
+[00:02:30.608] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:01:08.913] Server  ERROR   PrismaClientKnownRequestError: 
+[00:02:30.970] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:01:19.010] Server  ERROR   PrismaClientKnownRequestError: 
+[00:02:35.667] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348326421}
+[00:03:03.046] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:03.321] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:03:03.321] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/login","route":"/admin/login"}
+[00:03:03.321] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/login color: rgb(120, 120, 120) color: inherit {"dp":"/admin/login","o":"http://localhost:3000/admin/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348354145}
+[00:03:05.938] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:06.191] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:03:06.191] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard","route":"/dashboard"}
+[00:03:06.191] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348357014}
+[00:03:07.735] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:01:28.850] Server  ERROR   PrismaClientKnownRequestError: 
+[00:03:07.751] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348358381}
+[00:03:07.902] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:01:39.862] Server  ERROR   PrismaClientKnownRequestError: 
+[00:03:13.186] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:01:49.852] Server  ERROR   PrismaClientKnownRequestError: 
+[00:03:13.212] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348364001}
+[00:03:13.471] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:01:59.894] Server  ERROR   PrismaClientKnownRequestError: 
+[00:03:13.748] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:02:09.946] Server  ERROR   PrismaClientKnownRequestError: 
+[00:03:13.871] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:02:19.851] Server  ERROR   PrismaClientKnownRequestError: 
+[00:03:14.080] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:02:29.831] Server  ERROR   PrismaClientKnownRequestError: 
+[00:03:18.303] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/announcements color: rgb(120, 120, 120) color: inherit {"dp":"/announcements","o":"http://localhost:3000/announcements","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348368995}
+[00:03:18.799] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:03:10.951] Server  ERROR   PrismaClientKnownRequestError: 
+[00:03:19.036] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:04:10.872] Server  ERROR   PrismaClientKnownRequestError: 
+[00:03:28.844] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:05:10.948] Server  ERROR   PrismaClientKnownRequestError: 
+[00:03:38.922] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:06:10.925] Server  ERROR   PrismaClientKnownRequestError: 
+[00:03:48.860] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:07:10.931] Server  ERROR   PrismaClientKnownRequestError: 
+[00:03:58.856] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:08:10.913] Server  ERROR   PrismaClientKnownRequestError: 
+[00:04:08.908] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:09:10.950] Server  ERROR   PrismaClientKnownRequestError: 
+[00:04:18.912] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:10:10.846] Server  ERROR   PrismaClientKnownRequestError: 
+[00:04:36.963] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:11:10.917] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:06.625] Browser ERROR   Failed to create event {"error":"Forbidden"}
+[00:05:14.852] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:15.290] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:05:15.290] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/dashboard","route":"/admin/dashboard"}
+[00:05:15.290] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348486006}
+[00:05:15.688] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/login color: rgb(120, 120, 120) color: inherit {"dp":"/admin/login","o":"http://localhost:3000/admin/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348486508}
+[00:05:22.402] Server  WARN    Error: Route "/" used `searchParams.embedded`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+[00:05:23.116] Server  WARN    Error: Route "/" used `searchParams.embedded`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+[00:05:23.447] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348493900}
+[00:05:23.739] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:12:10.955] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:23.799] Server  WARN    Error: Route "/" used `searchParams.embedded`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+[00:05:24.242] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:13:10.911] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:25.657] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:13:32.399] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:25.733] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:05:25.733] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:05:25.733] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/?embedded=1 color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/?embedded=1","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348496206}
+[00:05:25.734] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:05:25.734] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:05:25.734] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/?embedded=1 color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/?embedded=1","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348496189}
+[00:05:26.072] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:13:37.856] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/announcements color: rgb(120, 120, 120) color: inherit {"dp":"/announcements","o":"http://localhost:3000/announcements","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767253535246}
-[00:13:38.256] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:26.524] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:13:38.724] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:26.527] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348497191}
+[00:05:26.694] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:13:40.560] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:36.530] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:13:40.571] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767253537856}
-[00:13:41.305] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:36.883] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:13:50.904] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:41.982] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:14:00.961] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:42.318] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:14:10.847] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:42.325] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348513007}
+[00:05:42.486] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:14:20.915] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:42.736] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:14:30.844] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:42.890] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:14:40.874] Server  ERROR   PrismaClientKnownRequestError: 
+[00:05:45.543] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348516320}
+[00:06:22.646] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:14:50.868] Server  ERROR   PrismaClientKnownRequestError: 
+[00:06:25.435] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348556242}
+[00:06:25.659] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:15:00.932] Server  ERROR   PrismaClientKnownRequestError: 
+[00:06:25.847] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:15:10.874] Server  ERROR   PrismaClientKnownRequestError: 
+[00:06:29.197] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:29.589] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:16:10.913] Server  ERROR   PrismaClientKnownRequestError: 
+[00:06:29.593] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:06:29.593] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events/sign-up","route":"/events/sign-up"}
+[00:06:29.593] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events/sign-up?eventId=62e8ea93-38a0-473c-8550-24bfcd984352 color: rgb(120, 120, 120) color: inherit {"dp":"/events/sign-up","o":"http://localhost:3000/events/sign-up?eventId=62e8ea93-38a0-473c-8550-24bfcd984352","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348560284}
+[00:06:39.478] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:16:38.037] Server  ERROR   PrismaClientKnownRequestError: 
+[00:06:48.666] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/volunteer color: rgb(120, 120, 120) color: inherit {"dp":"/volunteer","o":"http://localhost:3000/volunteer","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348579459}
+[00:06:49.165] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:16:40.497] Server  ERROR   PrismaClientKnownRequestError: 
+[00:06:49.523] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:16:50.530] Server  ERROR   PrismaClientKnownRequestError: 
+[00:06:58.876] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:17:00.495] Server  ERROR   PrismaClientKnownRequestError: 
+[00:07:01.467] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/suggestions color: rgb(120, 120, 120) color: inherit {"dp":"/suggestions","o":"http://localhost:3000/suggestions","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348592281}
+[00:07:01.733] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:17:10.490] Server  ERROR   PrismaClientKnownRequestError: 
+[00:07:02.073] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:17:20.507] Server  ERROR   PrismaClientKnownRequestError: 
+[00:07:11.697] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:17:30.544] Server  ERROR   PrismaClientKnownRequestError: 
+[00:07:21.550] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:17:33.332] Server  LOG      ✓ Compiled in 562ms
-[00:17:33.659] Server  ERROR   PrismaClientKnownRequestError: 
+[00:07:31.564] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:17:43.675] Server  ERROR   PrismaClientKnownRequestError: 
+[00:07:41.513] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:17:53.954] Server  ERROR   PrismaClientKnownRequestError: 
+[00:07:51.514] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:18:03.846] Server  ERROR   PrismaClientKnownRequestError: 
+[00:08:01.524] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:18:13.805] Server  ERROR   PrismaClientKnownRequestError: 
+[00:08:11.599] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:18:23.837] Server  ERROR   PrismaClientKnownRequestError: 
+[00:08:21.584] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:18:33.821] Server  ERROR   PrismaClientKnownRequestError: 
+[00:08:31.921] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:18:43.875] Server  ERROR   PrismaClientKnownRequestError: 
+[00:08:35.640] Server  LOG      ✓ Compiled in 305ms
+[00:08:35.662] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./contexts/user-context.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:08:35.673] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./contexts/user-context.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:08:35.684] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./contexts/user-context.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:08:39.692] Server  LOG      ✓ Compiled in 212ms
+[00:08:39.700] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./contexts/user-context.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:08:42.691] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:42.972] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:44.221] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:19:10.850] Server  ERROR   PrismaClientKnownRequestError: 
+[00:08:44.247] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:08:44.247] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/suggestions","route":"/suggestions"}
+[00:08:44.247] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/suggestions color: rgb(120, 120, 120) color: inherit {"dp":"/suggestions","o":"http://localhost:3000/suggestions","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348694261}
+[00:08:44.586] Server  WARN    warn(prisma-client) This is the 10th instance of Prisma Client being started. Make sure this is intentional.
+[00:08:44.779] Server  LOG      ✓ Compiled in 296ms
+[00:08:44.779] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:08:44.780] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/dashboard","route":"/admin/dashboard"}
+[00:08:44.780] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348694604}
+[00:08:44.789] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./contexts/user-context.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:08:44.848] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./contexts/user-context.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:08:46.588] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:48.730] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:08:48.730] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/login","route":"/admin/login"}
+[00:08:48.730] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/login color: rgb(120, 120, 120) color: inherit {"dp":"/admin/login","o":"http://localhost:3000/admin/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348699224}
+[00:08:49.011] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:49.042] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:49.844] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:20:10.927] Server  ERROR   PrismaClientKnownRequestError: 
+[00:08:49.901] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:08:49.901] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/suggestions","route":"/suggestions"}
+[00:08:49.901] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/suggestions color: rgb(120, 120, 120) color: inherit {"dp":"/suggestions","o":"http://localhost:3000/suggestions","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348700307}
+[00:08:50.732] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:08:50.732] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/dashboard","route":"/admin/dashboard"}
+[00:08:50.732] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348700705}
+[00:08:59.961] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:21:10.960] Server  ERROR   PrismaClientKnownRequestError: 
+[00:09:10.501] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:22:10.940] Server  ERROR   PrismaClientKnownRequestError: 
+[00:09:14.147] Server  LOG      ✓ Compiled in 558ms
+[00:09:14.172] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./contexts/user-context.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:09:14.178] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./contexts/user-context.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:09:14.201] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./contexts/user-context.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:09:19.771] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:19.941] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:20.354] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:20.757] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:09:20.758] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/login","route":"/admin/login"}
+[00:09:20.758] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/login color: rgb(120, 120, 120) color: inherit {"dp":"/admin/login","o":"http://localhost:3000/admin/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348731483}
+[00:09:22.532] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:23:10.896] Server  ERROR   PrismaClientKnownRequestError: 
+[00:09:22.715] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:09:22.715] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/suggestions","route":"/suggestions"}
+[00:09:22.715] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/suggestions color: rgb(120, 120, 120) color: inherit {"dp":"/suggestions","o":"http://localhost:3000/suggestions","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348732253}
+[00:09:22.715] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:09:22.715] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/dashboard","route":"/admin/dashboard"}
+[00:09:22.715] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348731778}
+[00:09:23.350] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:24:10.871] Server  ERROR   PrismaClientKnownRequestError: 
+[00:09:34.697] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:25:10.913] Server  ERROR   PrismaClientKnownRequestError: 
+[00:09:43.871] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:26:10.962] Server  ERROR   PrismaClientKnownRequestError: 
+[00:09:53.910] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:26:17.237] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:03.161] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:26:23.580] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:13.247] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:26:33.700] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:15.282] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/announcements color: rgb(120, 120, 120) color: inherit {"dp":"/announcements","o":"http://localhost:3000/announcements","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348786092}
+[00:10:15.465] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:26:34.051] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/suggestions color: rgb(120, 120, 120) color: inherit {"dp":"/suggestions","o":"http://localhost:3000/suggestions","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767254312462}
-[00:26:34.247] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:15.631] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:26:34.398] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:17.029] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348787838}
+[00:10:17.243] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:26:45.083] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:17.416] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:26:54.862] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:19.477] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:10:19.848] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:27:04.829] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:19.868] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:10:19.868] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events/sign-up","route":"/events/sign-up"}
+[00:10:19.868] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events/sign-up?eventId=62e8ea93-38a0-473c-8550-24bfcd984352 color: rgb(120, 120, 120) color: inherit {"dp":"/events/sign-up","o":"http://localhost:3000/events/sign-up?eventId=62e8ea93-38a0-473c-8550-24bfcd984352","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348790523}
+[00:10:20.017] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:27:14.875] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:26.402] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/volunteer color: rgb(120, 120, 120) color: inherit {"dp":"/volunteer","o":"http://localhost:3000/volunteer","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348797190}
+[00:10:26.552] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:27:24.873] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:26.830] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:27:34.879] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:29.122] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/suggestions color: rgb(120, 120, 120) color: inherit {"dp":"/suggestions","o":"http://localhost:3000/suggestions","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348799938}
+[00:10:29.348] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:28:10.890] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:29.844] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:29:10.834] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:39.340] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:30:10.951] Server  ERROR   PrismaClientKnownRequestError: 
+[00:10:49.398] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:31:10.925] Server  ERROR   PrismaClientKnownRequestError: 
+[00:11:00.031] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:32:10.889] Server  ERROR   PrismaClientKnownRequestError: 
+[00:11:10.076] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:33:10.942] Server  ERROR   PrismaClientKnownRequestError: 
+[00:11:14.588] Server  LOG      ✓ Compiled in 233ms
+[00:11:15.111] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:34:10.916] Server  ERROR   PrismaClientKnownRequestError: 
+[00:11:25.149] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:35:10.863] Server  ERROR   PrismaClientKnownRequestError: 
+[00:11:34.936] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:36:10.936] Server  ERROR   PrismaClientKnownRequestError: 
+[00:11:44.942] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:37:10.969] Server  ERROR   PrismaClientKnownRequestError: 
+[00:11:54.783] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:38:10.869] Server  ERROR   PrismaClientKnownRequestError: 
+[00:11:55.549] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:39:10.937] Server  ERROR   PrismaClientKnownRequestError: 
+[00:11:55.553] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/volunteer color: rgb(120, 120, 120) color: inherit {"dp":"/volunteer","o":"http://localhost:3000/volunteer","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348886272}
+[00:11:55.675] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:40:10.884] Server  ERROR   PrismaClientKnownRequestError: 
+[00:12:05.842] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:41:10.897] Server  ERROR   PrismaClientKnownRequestError: 
+[00:12:15.108] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/announcements color: rgb(120, 120, 120) color: inherit {"dp":"/announcements","o":"http://localhost:3000/announcements","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348905903}
+[00:12:15.228] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:42:10.928] Server  ERROR   PrismaClientKnownRequestError: 
+[00:12:15.430] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:43:10.850] Server  ERROR   PrismaClientKnownRequestError: 
+[00:12:17.460] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/about color: rgb(120, 120, 120) color: inherit {"dp":"/about","o":"http://localhost:3000/about","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348908172}
+[00:12:17.683] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:44:11.659] Server  ERROR   PrismaClientKnownRequestError: 
+[00:12:17.913] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:45:11.059] Server  ERROR   PrismaClientKnownRequestError: 
+[00:12:18.697] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:46:11.152] Server  ERROR   PrismaClientKnownRequestError: 
+[00:12:18.714] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/announcements color: rgb(120, 120, 120) color: inherit {"dp":"/announcements","o":"http://localhost:3000/announcements","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767348909401}
+[00:12:18.861] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:47:11.113] Server  ERROR   PrismaClientKnownRequestError: 
+[00:12:28.587] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:48:11.088] Server  ERROR   PrismaClientKnownRequestError: 
+[00:12:39.010] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:49:11.103] Server  ERROR   PrismaClientKnownRequestError: 
+[00:12:48.945] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:50:11.132] Server  ERROR   PrismaClientKnownRequestError: 
+[00:12:58.871] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:51:11.076] Server  ERROR   PrismaClientKnownRequestError: 
+[00:13:08.913] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:52:11.061] Server  ERROR   PrismaClientKnownRequestError: 
+[00:13:18.923] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:53:11.088] Server  ERROR   PrismaClientKnownRequestError: 
+[00:13:28.866] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:54:11.050] Server  ERROR   PrismaClientKnownRequestError: 
+[00:13:38.585] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:54:56.462] Server  ERROR   PrismaClientKnownRequestError: 
+[00:13:48.749] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:55:04.944] Server  ERROR   PrismaClientKnownRequestError: 
+[00:13:58.605] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:55:14.870] Server  ERROR   PrismaClientKnownRequestError: 
+[00:14:08.588] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:55:24.887] Server  ERROR   PrismaClientKnownRequestError: 
+[00:14:18.587] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:55:34.839] Server  ERROR   PrismaClientKnownRequestError: 
+[00:14:28.590] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:55:44.837] Server  ERROR   PrismaClientKnownRequestError: 
+[00:14:38.583] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:55:54.835] Server  ERROR   PrismaClientKnownRequestError: 
+[00:14:48.696] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:56:10.897] Server  ERROR   PrismaClientKnownRequestError: 
+[00:14:58.832] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:57:10.943] Server  ERROR   PrismaClientKnownRequestError: 
+[00:15:02.547] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349073215}
+[00:15:03.078] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:58:10.913] Server  ERROR   PrismaClientKnownRequestError: 
+[00:15:03.847] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[00:59:10.906] Server  ERROR   PrismaClientKnownRequestError: 
+[00:15:04.528] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 
 Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
-[01:00:10.897] Server  ERROR   PrismaClientKnownRequestError: 
+[00:15:04.787] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:10.243] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/settings color: rgb(120, 120, 120) color: inherit {"dp":"/settings","o":"http://localhost:3000/settings","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349081017}
+[00:15:10.670] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:10.978] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:18.634] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/announcements color: rgb(120, 120, 120) color: inherit {"dp":"/announcements","o":"http://localhost:3000/announcements","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349089444}
+[00:15:18.912] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:19.228] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:23.028] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349093822}
+[00:15:23.324] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:23.684] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:23.876] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:24.529] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:26.067] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/settings color: rgb(120, 120, 120) color: inherit {"dp":"/settings","o":"http://localhost:3000/settings","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349096854}
+[00:15:26.375] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:26.629] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:36.115] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:46.400] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:15:56.318] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:16:06.163] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:16:16.436] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:16:27.936] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:16:37.688] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:16:47.138] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:16:57.351] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:17:07.533] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:17:25.769] Server  LOG      ✓ Compiled in 679ms
+[00:17:30.846] Server  LOG      ✓ Compiled in 218ms
+[00:17:37.734] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:17:52.606] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:17:57.041] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:01.947] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349252727}
+[00:18:07.676] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:07.680] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349258415}
+[00:18:08.160] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:08.541] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:08.772] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:09.069] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:10.922] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349261696}
+[00:18:11.401] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:11.637] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:15.548] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:18:16.227] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:16.256] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:18:16.257] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events/sign-up","route":"/events/sign-up"}
+[00:18:16.257] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events/sign-up?eventId=62e8ea93-38a0-473c-8550-24bfcd984352 color: rgb(120, 120, 120) color: inherit {"dp":"/events/sign-up","o":"http://localhost:3000/events/sign-up?eventId=62e8ea93-38a0-473c-8550-24bfcd984352","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349266787}
+[00:18:16.443] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:26.917] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:36.893] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:46.928] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:18:56.874] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:06.881] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:08.088] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:19:08.493] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:19:08.493] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/dashboard","route":"/admin/dashboard"}
+[00:19:08.493] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349319242}
+[00:19:08.737] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/login color: rgb(120, 120, 120) color: inherit {"dp":"/admin/login","o":"http://localhost:3000/admin/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349319553}
+[00:19:11.231] Server  WARN    Error: Route "/" used `searchParams.embedded`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+[00:19:11.711] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349322483}
+[00:19:11.752] Server  WARN    Error: Route "/" used `searchParams.embedded`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+[00:19:12.687] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:12.872] Server  WARN    Error: Route "/" used `searchParams.embedded`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+[00:19:13.069] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:14.549] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:14.565] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:19:14.565] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:19:14.565] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/?embedded=1 color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/?embedded=1","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349325389}
+[00:19:14.574] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:19:14.574] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:19:14.574] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/?embedded=1 color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/?embedded=1","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349325388}
+[00:19:14.728] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:14.881] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:15.560] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:16.287] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:21.686] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:24.408] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349335227}
+[00:19:40.506] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:40.885] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349351683}
+[00:19:41.066] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:41.628] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:41.957] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:42.115] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:46.880] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:19:47.478] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1767349358199}
+[00:19:56.925] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:20:06.965] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:20:17.010] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:20:26.898] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:20:36.855] Server  ERROR   PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `22023`. Message: `db error: ERROR: time zone "gmt+0300" not recognized`
+[00:21:37.112] Server  ERROR   PrismaClientKnownRequestError: 
 Invalid `prisma.$queryRawUnsafe()` invocation:
 
 

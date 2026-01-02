@@ -48,7 +48,11 @@ export async function POST(req: Request) {
     } catch (e) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-    if (payload.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    
+    // Verify user exists and check role from database (in case role was updated)
+    const user = await prisma.user.findUnique({ where: { id: payload.userId } })
+    if (!user) return NextResponse.json({ error: 'User not found' }, { status: 401 })
+    if (user.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
     const body = await req.json()
     const { title, description, location, startsAt, endsAt } = body || {}
@@ -101,7 +105,11 @@ export async function DELETE(req: Request) {
     } catch (e) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-    if (payload.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    
+    // Verify user exists and check role from database (in case role was updated)
+    const user = await prisma.user.findUnique({ where: { id: payload.userId } })
+    if (!user) return NextResponse.json({ error: 'User not found' }, { status: 401 })
+    if (user.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
     const body = await req.json()
     const { id } = body || {}

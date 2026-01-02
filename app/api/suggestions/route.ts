@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { PrismaClient } from "@prisma/client"
 import { randomUUID } from "crypto"
 import jwt from "jsonwebtoken"
+import { getSuggestionConfirmationEmail } from "@/lib/email-templates"
 
 const prisma = new PrismaClient()
 
@@ -40,6 +41,39 @@ export async function POST(req: Request) {
     await ensureTable()
     const id = randomUUID()
     await prisma.$executeRawUnsafe(`INSERT INTO suggestions (id, name, email, type, message, created_at) VALUES ($1,$2,$3,$4,$5,NOW())`, id, name ? String(name) : null, String(email), type ? String(type) : 'suggestion', String(message))
+    
+    // Send professional confirmation email
+    try {
+      if (process.env.SMTP_HOST && process.env.SMTP_USER) {
+        try {
+          const nodemailer = await import('nodemailer')
+          const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST,
+            port: Number(process.env.SMTP_PORT || 587),
+            secure: (process.env.SMTP_SECURE === 'true'),
+            auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+          })
+          
+          const emailContent = getSuggestionConfirmationEmail(
+            name ? String(name) : '',
+            type ? String(type) : 'suggestion'
+          )
+          
+          await transporter.sendMail({
+            from: process.env.SMTP_FROM || process.env.SMTP_USER,
+            to: String(email),
+            subject: emailContent.subject,
+            html: emailContent.html,
+            text: emailContent.text,
+          })
+        } catch (e) {
+          console.warn('Failed to send confirmation email', e)
+        }
+      }
+    } catch (e) {
+      console.warn('Email send skipped', e)
+    }
+    
     return NextResponse.json({ suggestion: { id, name, email, type, message } }, { status: 201 })
   } catch (e) {
     console.error(e)

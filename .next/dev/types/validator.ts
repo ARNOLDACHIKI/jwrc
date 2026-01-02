@@ -299,6 +299,24 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../../app/api/auth/refresh/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/auth/refresh">> = Specific
+  const handler = {} as typeof import("../../../app/api/auth/refresh/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/api/auth/send-welcome-email/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/auth/send-welcome-email">> = Specific
+  const handler = {} as typeof import("../../../app/api/auth/send-welcome-email/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../app/api/auth/signup/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/auth/signup">> = Specific
@@ -330,6 +348,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/events/signups">> = Specific
   const handler = {} as typeof import("../../../app/api/events/signups/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/api/events/signups/send-reminder/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/events/signups/send-reminder">> = Specific
+  const handler = {} as typeof import("../../../app/api/events/signups/send-reminder/route.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

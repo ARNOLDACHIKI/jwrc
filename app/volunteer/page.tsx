@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { MainNav } from "@/components/navigation/main-nav"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { useUser } from "@/contexts/user-context"
 import { Users, Heart, ArrowRight, CheckCircle } from "lucide-react"
 
 const baseVolunteerRoles = [
@@ -42,6 +43,7 @@ const baseVolunteerRoles = [
 ]
 
 export default function VolunteerPage() {
+  const { user } = useUser()
   const [volunteerRoles, setVolunteerRoles] = useState(baseVolunteerRoles)
   const [selectedRole, setSelectedRole] = useState<number | null>(null)
   const [submitted, setSubmitted] = useState(false)
@@ -49,6 +51,15 @@ export default function VolunteerPage() {
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
   const [errors, setErrors] = useState<Record<string,string>>({})
+
+  // Auto-fill form fields when user is logged in
+  useEffect(() => {
+    if (user) {
+      if (user.name) setName(user.name)
+      if (user.email) setEmail(user.email)
+      if (user.phone) setPhone(user.phone)
+    }
+  }, [user])
 
   useEffect(() => {
     let cancelled = false
@@ -237,10 +248,16 @@ export default function VolunteerPage() {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <CheckCircle className="w-12 h-12 text-green-600 mx-auto mb-4" />
-                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">Thank You!</h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    Your volunteer application has been submitted. We'll be in touch soon!
+                  <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Thank You for Your Application!</h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-2">
+                    We have received your volunteer application for <strong>{volunteerRoles.find(r => r.id === selectedRole)?.title || 'the selected position'}</strong>.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                    Our team will review your application and get back to you soon. A confirmation email has been sent to your inbox.
+                  </p>
+                  <p className="text-gray-500 dark:text-gray-500 text-xs italic mt-4">
+                    "Each of you should use whatever gift you have received to serve others, as faithful stewards of God's grace in its various forms." - 1 Peter 4:10
                   </p>
                 </div>
               )}

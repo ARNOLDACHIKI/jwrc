@@ -130,6 +130,16 @@ export default function EventsPage() {
                       </div>
                     )}
                   </div>
+                  <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <Button
+                      onClick={() => window.location.href = `/events/sign-up?eventId=${event.id}`}
+                      className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                    >
+                      <Users className="w-4 h-4 mr-2" />
+                      Sign Up to Attend
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </div>
                 </div>
               </Card>
             )

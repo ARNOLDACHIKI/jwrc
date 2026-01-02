@@ -40,9 +40,12 @@ export async function POST(req: Request) {
     if (!email) return NextResponse.json({ error: 'Email required' }, { status: 400 })
 
     const user = await findUserByEmail(String(email))
-    // do not reveal whether user exists
     await ensureTable()
-    if (!user) return NextResponse.json({ ok: true })
+    if (!user) {
+      return NextResponse.json({ 
+        error: 'No account found with this email address. Please register first.' 
+      }, { status: 404 })
+    }
 
     const token = randomBytes(24).toString('hex')
     const id = randomBytes(12).toString('hex')

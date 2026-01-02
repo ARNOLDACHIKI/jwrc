@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { PrismaClient } from "@prisma/client"
 import jwt from "jsonwebtoken"
 import { randomUUID } from "crypto"
+import { getEventSignupConfirmationEmail } from "@/lib/email-templates"
 
 const prisma = new PrismaClient()
 
@@ -78,7 +79,7 @@ export async function POST(req: Request) {
       phone ? String(phone) : null
     )
 
-    // try send confirmation email if SMTP env provided (optional)
+    // Send professional confirmation email
     try {
       if (process.env.SMTP_HOST && process.env.SMTP_USER) {
         try {
@@ -89,11 +90,32 @@ export async function POST(req: Request) {
             secure: (process.env.SMTP_SECURE === 'true'),
             auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
           })
+          
+          const formatDate = (date: Date) => {
+            return date.toLocaleString('en-US', { 
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })
+          }
+          
+          const emailContent = getEventSignupConfirmationEmail(
+            name,
+            ev.title,
+            formatDate(new Date(ev.startsAt)),
+            ev.location || undefined,
+            ref || undefined
+          )
+          
           await transporter.sendMail({
             from: process.env.SMTP_FROM || process.env.SMTP_USER,
             to: String(email),
-            subject: `Signup confirmation for ${ev.title}`,
-            text: `Thanks ${name},\n\nYou have been registered as interested in ${ev.title} on ${ev.startsAt}.\n\n- ${process.env.SITE_NAME || 'Site'}`,
+            subject: emailContent.subject,
+            html: emailContent.html,
+            text: emailContent.text,
           })
         } catch (e) {
           console.warn('Failed to send confirmation email', e)

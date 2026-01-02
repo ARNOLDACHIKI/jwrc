@@ -93,10 +93,15 @@ export function MainNav() {
                 </button>
 
                 {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-40 bg-[var(--card)] border border-[var(--border)] rounded-md shadow-lg z-50">
+                  <div className="absolute right-0 mt-2 w-48 bg-[var(--card)] border border-[var(--border)] rounded-md shadow-lg z-50">
                     <Link href="/dashboard" className="block px-4 py-2 text-sm text-[var(--foreground)] hover:bg-[var(--muted)]">
                       Dashboard
                     </Link>
+                    {user.role === 'admin' && (
+                      <Link href="/admin/dashboard" className="block px-4 py-2 text-sm text-[var(--primary)] hover:bg-[var(--muted)] font-medium">
+                        Admin Dashboard
+                      </Link>
+                    )}
                     <button
                       onClick={() => {
                         setUserMenuOpen(false)
@@ -170,6 +175,11 @@ export function MainNav() {
                 <Link href="/dashboard" className="block px-3 py-2 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--muted)] rounded-md">
                   Dashboard
                 </Link>
+                {user.role === 'admin' && (
+                  <Link href="/admin/dashboard" className="block px-3 py-2 text-sm font-medium text-[var(--primary)] hover:bg-[var(--muted)] rounded-md">
+                    Admin Dashboard
+                  </Link>
+                )}
                 <button
                   onClick={() => {
                     setIsOpen(false)

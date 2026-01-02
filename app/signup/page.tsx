@@ -9,13 +9,15 @@ import { MainNav } from "@/components/navigation/main-nav"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useUser } from "@/contexts/user-context"
-import { User, Mail, Lock, Eye, EyeOff } from "lucide-react"
+import { User, Mail, Lock, Eye, EyeOff, Phone } from "lucide-react"
 
 export default function SignupPage() {
   const router = useRouter()
   const { signup } = useUser()
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [countryCode, setCountryCode] = useState("+254")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -39,7 +41,8 @@ export default function SignupPage() {
 
     setLoading(true)
     try {
-      await signup(name, email, password)
+      const fullPhone = phone ? countryCode + phone : ""
+      await signup(name, email, password, fullPhone)
       router.push("/dashboard")
     } catch (err) {
       setError("Sign up failed. Please try again.")
@@ -89,6 +92,39 @@ export default function SignupPage() {
                   className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                   required
                 />
+              </div>
+            </div>
+
+            {/* Phone Number Field */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone Number</label>
+              <div className="flex gap-2">
+                <div className="relative w-32">
+                  <select
+                    value={countryCode}
+                    onChange={(e) => setCountryCode(e.target.value)}
+                    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="+254">🇰🇪 +254</option>
+                    <option value="+1">🇺🇸 +1</option>
+                    <option value="+44">🇬🇧 +44</option>
+                    <option value="+91">🇮🇳 +91</option>
+                    <option value="+234">🇳🇬 +234</option>
+                    <option value="+255">🇹🇿 +255</option>
+                    <option value="+256">🇺🇬 +256</option>
+                    <option value="+27">🇿🇦 +27</option>
+                  </select>
+                </div>
+                <div className="relative flex-1">
+                  <Phone className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))}
+                    placeholder="712345678"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
               </div>
             </div>
 

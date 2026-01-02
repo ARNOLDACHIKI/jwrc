@@ -2,13 +2,15 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { MainNav } from "@/components/navigation/main-nav"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { useUser } from "@/contexts/user-context"
 import { MessageSquare, Mail, CheckCircle } from "lucide-react"
 
 export default function SuggestionsPage() {
+  const { user } = useUser()
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string,string> | null>(null)
@@ -18,6 +20,17 @@ export default function SuggestionsPage() {
     type: "suggestion",
     message: "",
   })
+
+  // Auto-fill form fields when user is logged in
+  useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        name: user.name || prev.name,
+        email: user.email || prev.email,
+      }))
+    }
+  }, [user])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -144,11 +157,16 @@ export default function SuggestionsPage() {
           ) : (
             <div className="text-center py-12">
               <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Thank You!</h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Your feedback has been received. We appreciate you taking the time to help us improve.
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Thank You for Your Feedback!</h2>
+              <p className="text-gray-600 dark:text-gray-400 mb-2">
+                We have received your {formData.type === 'suggestion' ? 'suggestion' : formData.type === 'complaint' ? 'complaint' : formData.type === 'praise' ? 'praise' : 'question'} and truly appreciate you taking the time to share your thoughts with us.
               </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Redirecting...</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                Our team will carefully review your feedback and respond as appropriate. A confirmation email has been sent to your inbox.
+              </p>
+              <p className="text-gray-500 dark:text-gray-500 text-xs italic mt-4">
+                "Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up." - Galatians 6:9
+              </p>
             </div>
           )}
           </div>

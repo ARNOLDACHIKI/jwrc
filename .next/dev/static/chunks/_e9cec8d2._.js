@@ -19,6 +19,40 @@ function UserProvider({ children }) {
     _s();
     const [user, setUser] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    // Load user on mount if already logged in
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "UserProvider.useEffect": ()=>{
+            let mounted = true;
+            ({
+                "UserProvider.useEffect": async ()=>{
+                    try {
+                        const me = await fetch('/api/auth/me', {
+                            credentials: 'include'
+                        });
+                        const data = await me.json();
+                        if (mounted && data?.user) {
+                            setUser({
+                                id: data.user.id,
+                                name: data.user.name || '',
+                                email: data.user.email,
+                                phone: data.user.phone || undefined,
+                                role: data.user.role,
+                                joinDate: new Date().toISOString(),
+                                isVolunteer: false
+                            });
+                        }
+                    } catch (e) {
+                    // ignore errors
+                    }
+                }
+            })["UserProvider.useEffect"]();
+            return ({
+                "UserProvider.useEffect": ()=>{
+                    mounted = false;
+                }
+            })["UserProvider.useEffect"];
+        }
+    }["UserProvider.useEffect"], []);
     const login = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "UserProvider.useCallback[login]": async (email, password)=>{
             setIsLoading(true);
@@ -47,6 +81,7 @@ function UserProvider({ children }) {
                         id: data.user.id,
                         name: data.user.name || '',
                         email: data.user.email,
+                        phone: data.user.phone || undefined,
                         role: data.user.role,
                         joinDate: new Date().toISOString(),
                         isVolunteer: false
@@ -70,7 +105,7 @@ function UserProvider({ children }) {
         }
     }["UserProvider.useCallback[logout]"], []);
     const signup = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "UserProvider.useCallback[signup]": async (name, email, password)=>{
+        "UserProvider.useCallback[signup]": async (name, email, password, phone)=>{
             setIsLoading(true);
             try {
                 const res = await fetch('/api/auth/signup', {
@@ -81,7 +116,8 @@ function UserProvider({ children }) {
                     body: JSON.stringify({
                         name,
                         email,
-                        password
+                        password,
+                        phone
                     })
                 });
                 if (!res.ok) {
@@ -100,6 +136,7 @@ function UserProvider({ children }) {
                         id: data.user.id,
                         name: data.user.name || name || '',
                         email: data.user.email,
+                        phone: data.user.phone || phone || undefined,
                         role: data.user.role,
                         joinDate: data.user.createdAt || new Date().toISOString(),
                         isVolunteer: !!data.user.isVolunteer
@@ -134,11 +171,11 @@ function UserProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/contexts/user-context.tsx",
-        lineNumber: 111,
+        lineNumber: 139,
         columnNumber: 5
     }, this);
 }
-_s(UserProvider, "TiwfnlPX/x5rrw9ELxRQhWQ6C1g=");
+_s(UserProvider, "j7VP6Ry/b4j/L/WYR2Jh2PR1Mg4=");
 _c = UserProvider;
 function useUser() {
     _s1();

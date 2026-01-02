@@ -8,7 +8,7 @@ const prisma = new PrismaClient()
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const { name, email, password } = body || {}
+    const { name, email, password, phone } = body || {}
     if (!email || !password) return NextResponse.json({ error: 'Missing credentials' }, { status: 400 })
 
     // check exists
@@ -16,11 +16,30 @@ export async function POST(req: Request) {
     if (existing) return NextResponse.json({ error: 'User already exists' }, { status: 409 })
 
     const hash = await bcrypt.hash(String(password), 12)
-    const user = await prisma.user.create({ data: { email: String(email), name: name ? String(name) : undefined, password: hash } })
+    const user = await prisma.user.create({ 
+      data: { 
+        email: String(email), 
+        name: name ? String(name) : undefined, 
+        phone: phone ? String(phone) : undefined,
+        password: hash 
+      } 
+    })
 
     const secret = process.env.JWT_SECRET || 'dev-secret'
     const token = jwt.sign({ userId: user.id, role: user.role, email: user.email }, secret, { expiresIn: '7d' })
     const cookie = `token=${token}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}; SameSite=Lax`
+
+    // Send welcome email
+    try {
+      await fetch(`${req.headers.get('origin')}/api/auth/send-welcome-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: user.email, name: user.name }),
+      })
+    } catch (emailError) {
+      console.error('Failed to send welcome email:', emailError)
+      // Don't fail signup if email fails
+    }
 
     return NextResponse.json({ ok: true }, { status: 201, headers: { 'Set-Cookie': cookie } })
   } catch (e) {

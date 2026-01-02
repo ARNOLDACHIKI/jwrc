@@ -87,7 +87,17 @@ export default function ForgotPasswordPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
               <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
+                <AlertDescription>
+                  {error}
+                  {error.includes('No account found') && (
+                    <>
+                      {' '}
+                      <Link href="/signup" className="font-semibold underline">
+                        Register here
+                      </Link>
+                    </>
+                  )}
+                </AlertDescription>
               </Alert>
             )}
             <div className="space-y-2">

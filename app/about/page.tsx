@@ -136,12 +136,12 @@ export default function AboutPage() {
             <div className={cardContent}>
               <h2 className="text-2xl font-bold text-[#0f2b52] dark:text-white mb-6">Our Story</h2>
               <p className="text-gray-700 dark:text-gray-200 leading-relaxed mb-4">
-                Jesus Worship and Restoration Church was founded in 2008 by a small group of believers who shared a passion for
-                authentic worship and biblical teaching. What started as a gathering of 45 people in a community center
-                has grown into a thriving congregation of over 2,000 members from diverse backgrounds.
+                Jesus Worship and Restoration Church was founded in 2021 by a small group of believers who shared a passion for
+                authentic worship and biblical teaching. What started as a family gathering
+                has grown into a thriving congregation of 45 members from diverse backgrounds.
               </p>
               <p className="text-gray-700 dark:text-gray-200 leading-relaxed mb-4">
-                Over the past 16 years, we have witnessed God's faithfulness through seasons of growth, challenge, and
+                Over the past 5 years, we have witnessed God's faithfulness through seasons of growth, challenge, and
                 transformation. We've seen lives changed, families restored, and our community impacted through outreach
                 ministries and service initiatives.
               </p>

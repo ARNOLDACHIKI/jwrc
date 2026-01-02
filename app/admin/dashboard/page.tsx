@@ -234,6 +234,7 @@ export default function AdminDashboard() {
       })
       if (res.ok) {
         setEventsState((prev) => prev.filter((a) => a.id !== id))
+        loadStats() // Reload stats after deleting event
       } else {
         const err = await res.json()
         console.error('Failed to delete event', err)
@@ -249,35 +250,58 @@ export default function AdminDashboard() {
     fetch('/api/auth/logout', { method: 'POST' }).finally(() => router.push('/admin/login'))
   }
 
+  const handleRefreshSession = async () => {
+    try {
+      const res = await fetch('/api/auth/refresh', { 
+        method: 'POST',
+        credentials: 'include'
+      })
+      const data = await res.json()
+      if (res.ok) {
+        alert('Session refreshed successfully! Your admin permissions are now active.')
+        window.location.reload()
+      } else {
+        alert('Failed to refresh session: ' + (data?.error || 'Unknown error'))
+      }
+    } catch (err) {
+      console.error(err)
+      alert('Failed to refresh session')
+    }
+  }
+
   // Admin Stats (real data from database)
   const [statsData, setStatsData] = useState({
     volunteerCount: 0,
     eventCount: 0,
   })
 
-  useEffect(() => {
-    async function loadStats() {
-      try {
-        const [volunteerRes, eventRes] = await Promise.all([
-          fetch('/api/volunteers', { credentials: 'include' }),
-          fetch('/api/events', { credentials: 'include' }),
-        ])
-        const [volunteerData, eventData] = await Promise.all([
-          volunteerRes.json().catch(() => ({})),
-          eventRes.json().catch(() => ({})),
-        ])
-        
-        const approvedVolunteers = (volunteerData?.applications || []).filter((v: any) => v.status === 'approved').length
-        const upcomingEvents = (eventData?.events || []).filter((e: any) => new Date(e.startsAt) > new Date()).length
-        
-        setStatsData({
-          volunteerCount: approvedVolunteers || 0,
-          eventCount: upcomingEvents || 0,
-        })
-      } catch (err) {
-        console.error('Failed to load stats', err)
-      }
+  const loadStats = async () => {
+    try {
+      const [volunteerRes, eventRes] = await Promise.all([
+        fetch('/api/volunteers', { credentials: 'include' }),
+        fetch('/api/events', { credentials: 'include' }),
+      ])
+      const [volunteerData, eventData] = await Promise.all([
+        volunteerRes.json().catch(() => ({})),
+        eventRes.json().catch(() => ({})),
+      ])
+      
+      const approvedVolunteers = (volunteerData?.applications || []).filter((v: any) => v.status === 'approved').length
+      // Get today's start (midnight)
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      const upcomingEvents = (eventData?.events || []).filter((e: any) => new Date(e.startsAt) >= today).length
+      
+      setStatsData({
+        volunteerCount: approvedVolunteers || 0,
+        eventCount: upcomingEvents || 0,
+      })
+    } catch (err) {
+      console.error('Failed to load stats', err)
     }
+  }
+
+  useEffect(() => {
     loadStats()
   }, [])
 
@@ -380,14 +404,24 @@ export default function AdminDashboard() {
               <p className="text-sm text-gray-600 dark:text-gray-400">{adminEmail}</p>
             </div>
           </div>
-          <Button
-            onClick={handleLogout}
-            variant="outline"
-            className="border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 bg-transparent"
-          >
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={handleRefreshSession}
+              variant="outline"
+              className="border-blue-200 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 bg-transparent"
+            >
+              <Activity className="w-4 h-4 mr-2" />
+              Refresh Session
+            </Button>
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 bg-transparent"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -597,6 +631,7 @@ export default function AdminDashboard() {
                         if (res.ok) {
                           const data = await (await fetch('/api/events')).json()
                           setEventsState(data?.events || [])
+                          loadStats() // Reload stats after creating event
                           setShowAddEventForm(false)
                           setNewEventTitle("")
                           setNewEventDescription("")
@@ -673,6 +708,31 @@ export default function AdminDashboard() {
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-xl font-semibold">Signups for {eventsState.find(e => e.id === showingSignupsFor)?.title || ''}</h3>
                       <div className="flex items-center gap-2">
+                        <Button 
+                          className="bg-green-600 hover:bg-green-700"
+                          onClick={async () => {
+                            if (!confirm(`Send reminder emails to all ${(signupsByEvent[showingSignupsFor] || []).length} signup(s)?`)) return
+                            try {
+                              const res = await fetch('/api/events/signups/send-reminder', {
+                                method: 'POST',
+                                credentials: 'include',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ eventId: showingSignupsFor })
+                              })
+                              const data = await res.json()
+                              if (res.ok) {
+                                alert(data.message || `Sent ${data.sent} reminder(s) successfully`)
+                              } else {
+                                alert('Failed to send reminders: ' + (data?.error || res.status))
+                              }
+                            } catch (err) {
+                              console.error(err)
+                              alert('Failed to send reminders')
+                            }
+                          }}
+                        >
+                          Send Reminders to All
+                        </Button>
                         <Button variant="outline" onClick={() => {
                           const rows = signupsByEvent[showingSignupsFor] || []
                           const csv = [ ['Name','Email','Phone','Created At'], ...rows.map((r:any)=>[r.name, r.email, r.phone||'', r.createdAt]) ]

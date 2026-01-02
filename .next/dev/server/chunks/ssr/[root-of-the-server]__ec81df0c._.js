@@ -41,6 +41,34 @@ const UserContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project
 function UserProvider({ children }) {
     const [user, setUser] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    // Load user on mount if already logged in
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        let mounted = true;
+        (async ()=>{
+            try {
+                const me = await fetch('/api/auth/me', {
+                    credentials: 'include'
+                });
+                const data = await me.json();
+                if (mounted && data?.user) {
+                    setUser({
+                        id: data.user.id,
+                        name: data.user.name || '',
+                        email: data.user.email,
+                        phone: data.user.phone || undefined,
+                        role: data.user.role,
+                        joinDate: new Date().toISOString(),
+                        isVolunteer: false
+                    });
+                }
+            } catch (e) {
+            // ignore errors
+            }
+        })();
+        return ()=>{
+            mounted = false;
+        };
+    }, []);
     const login = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (email, password)=>{
         setIsLoading(true);
         try {
@@ -66,6 +94,7 @@ function UserProvider({ children }) {
                     id: data.user.id,
                     name: data.user.name || '',
                     email: data.user.email,
+                    phone: data.user.phone || undefined,
                     role: data.user.role,
                     joinDate: new Date().toISOString(),
                     isVolunteer: false
@@ -85,7 +114,7 @@ function UserProvider({ children }) {
         }
         setUser(null);
     }, []);
-    const signup = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (name, email, password)=>{
+    const signup = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (name, email, password, phone)=>{
         setIsLoading(true);
         try {
             const res = await fetch('/api/auth/signup', {
@@ -96,7 +125,8 @@ function UserProvider({ children }) {
                 body: JSON.stringify({
                     name,
                     email,
-                    password
+                    password,
+                    phone
                 })
             });
             if (!res.ok) {
@@ -111,6 +141,7 @@ function UserProvider({ children }) {
                     id: data.user.id,
                     name: data.user.name || name || '',
                     email: data.user.email,
+                    phone: data.user.phone || phone || undefined,
                     role: data.user.role,
                     joinDate: data.user.createdAt || new Date().toISOString(),
                     isVolunteer: !!data.user.isVolunteer
@@ -142,7 +173,7 @@ function UserProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/contexts/user-context.tsx",
-        lineNumber: 111,
+        lineNumber: 139,
         columnNumber: 5
     }, this);
 }

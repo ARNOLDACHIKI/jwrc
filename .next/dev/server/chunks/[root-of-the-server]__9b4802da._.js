@@ -87,6 +87,15 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$ex
 ;
 ;
 const prisma = new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__["PrismaClient"]();
+// Normalize Gmail addresses - Gmail ignores dots before @
+function normalizeGmail(email) {
+    const lowerEmail = email.toLowerCase();
+    if (lowerEmail.includes('@gmail.com')) {
+        const [localPart, domain] = lowerEmail.split('@');
+        return localPart.replace(/\./g, '') + '@' + domain;
+    }
+    return lowerEmail;
+}
 async function POST(req) {
     try {
         const body = await req.json();
@@ -96,12 +105,28 @@ async function POST(req) {
         }, {
             status: 400
         });
-        // try exact match first, then fallback to case-insensitive search
+        // try exact match first
         let user = await prisma.user.findUnique({
             where: {
                 email
             }
         });
+        // If not found and it's a Gmail address, try normalizing and searching
+        if (!user && email.toLowerCase().includes('@gmail.com')) {
+            const normalized = normalizeGmail(email);
+            // Try to find user by normalized email (without dots for Gmail)
+            const allUsers = await prisma.user.findMany({
+                where: {
+                    email: {
+                        contains: '@gmail.com',
+                        mode: 'insensitive'
+                    }
+                }
+            });
+            // Find user where normalized emails match
+            user = allUsers.find((u)=>normalizeGmail(u.email) === normalized) || null;
+        }
+        // Fallback to case-insensitive search
         if (!user) {
             try {
                 user = await prisma.user.findFirst({
