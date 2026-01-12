@@ -15,52 +15,68 @@ var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.sign
 "use client";
 ;
 const UserContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createContext"])(undefined);
+function getAuthHeaders() {
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    const token = sessionStorage.getItem("token");
+    return token ? {
+        Authorization: `Bearer ${token}`
+    } : {};
+}
+function buildUser(payload) {
+    return {
+        id: payload.id,
+        name: payload.name || payload.email || "",
+        email: payload.email,
+        role: payload.role || "member",
+        profileImage: payload.profileImage || "",
+        joinDate: payload.createdAt || payload.joinDate || new Date().toISOString(),
+        phone: payload.phone || "",
+        location: payload.location || "",
+        bio: payload.bio || "",
+        isVolunteer: !!payload.isVolunteer
+    };
+}
 function UserProvider({ children }) {
     _s();
     const [user, setUser] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    // Load user on mount if already logged in
+    const refreshUser = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "UserProvider.useCallback[refreshUser]": async ()=>{
+            setIsLoading(true);
+            try {
+                const res = await fetch("/api/auth/me", {
+                    headers: getAuthHeaders(),
+                    credentials: "include"
+                });
+                const data = await res.json().catch({
+                    "UserProvider.useCallback[refreshUser]": ()=>({})
+                }["UserProvider.useCallback[refreshUser]"]);
+                if (data?.user) {
+                    setUser(buildUser(data.user));
+                } else {
+                    setUser(null);
+                }
+            } finally{
+                setIsLoading(false);
+            }
+        }
+    }["UserProvider.useCallback[refreshUser]"], []);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "UserProvider.useEffect": ()=>{
-            let mounted = true;
-            ({
-                "UserProvider.useEffect": async ()=>{
-                    try {
-                        const me = await fetch('/api/auth/me', {
-                            credentials: 'include'
-                        });
-                        const data = await me.json();
-                        if (mounted && data?.user) {
-                            setUser({
-                                id: data.user.id,
-                                name: data.user.name || '',
-                                email: data.user.email,
-                                phone: data.user.phone || undefined,
-                                role: data.user.role,
-                                joinDate: new Date().toISOString(),
-                                isVolunteer: false
-                            });
-                        }
-                    } catch (e) {
-                    // ignore errors
-                    }
-                }
-            })["UserProvider.useEffect"]();
-            return ({
-                "UserProvider.useEffect": ()=>{
-                    mounted = false;
-                }
-            })["UserProvider.useEffect"];
+            refreshUser();
         }
-    }["UserProvider.useEffect"], []);
+    }["UserProvider.useEffect"], [
+        refreshUser
+    ]);
     const login = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "UserProvider.useCallback[login]": async (email, password)=>{
             setIsLoading(true);
             try {
-                const res = await fetch('/api/auth/login', {
-                    method: 'POST',
+                const res = await fetch("/api/auth/login", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json'
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
                         email,
@@ -71,36 +87,30 @@ function UserProvider({ children }) {
                     const err = await res.json().catch({
                         "UserProvider.useCallback[login]": ()=>({})
                     }["UserProvider.useCallback[login]"]);
-                    throw new Error(err?.error || 'Login failed');
+                    throw new Error(err?.error || "Login failed");
                 }
-                // Fetch current user
-                const me = await fetch('/api/auth/me');
-                const data = await me.json();
-                if (data?.user) {
-                    setUser({
-                        id: data.user.id,
-                        name: data.user.name || '',
-                        email: data.user.email,
-                        phone: data.user.phone || undefined,
-                        role: data.user.role,
-                        joinDate: new Date().toISOString(),
-                        isVolunteer: false
-                    });
-                }
+                const data = await res.json().catch({
+                    "UserProvider.useCallback[login]": ()=>({})
+                }["UserProvider.useCallback[login]"]);
+                if (("TURBOPACK compile-time value", "object") !== "undefined" && data?.token) sessionStorage.setItem("token", data.token);
+                await refreshUser();
             } finally{
                 setIsLoading(false);
             }
         }
-    }["UserProvider.useCallback[login]"], []);
+    }["UserProvider.useCallback[login]"], [
+        refreshUser
+    ]);
     const logout = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "UserProvider.useCallback[logout]": async ()=>{
             try {
-                await fetch('/api/auth/logout', {
-                    method: 'POST'
+                await fetch("/api/auth/logout", {
+                    method: "POST"
                 });
             } catch (e) {
             // ignore
             }
+            if ("TURBOPACK compile-time truthy", 1) sessionStorage.removeItem("token");
             setUser(null);
         }
     }["UserProvider.useCallback[logout]"], []);
@@ -108,10 +118,10 @@ function UserProvider({ children }) {
         "UserProvider.useCallback[signup]": async (name, email, password, phone)=>{
             setIsLoading(true);
             try {
-                const res = await fetch('/api/auth/signup', {
-                    method: 'POST',
+                const res = await fetch("/api/auth/signup", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json'
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
                         name,
@@ -124,41 +134,44 @@ function UserProvider({ children }) {
                     const err = await res.json().catch({
                         "UserProvider.useCallback[signup]": ()=>({})
                     }["UserProvider.useCallback[signup]"]);
-                    throw new Error(err?.error || 'Signup failed');
+                    throw new Error(err?.error || "Signup failed");
                 }
-                // fetch current user from server to populate context
-                const me = await fetch('/api/auth/me');
-                const data = await me.json().catch({
+                const data = await res.json().catch({
                     "UserProvider.useCallback[signup]": ()=>({})
                 }["UserProvider.useCallback[signup]"]);
-                if (data?.user) {
-                    setUser({
-                        id: data.user.id,
-                        name: data.user.name || name || '',
-                        email: data.user.email,
-                        phone: data.user.phone || phone || undefined,
-                        role: data.user.role,
-                        joinDate: data.user.createdAt || new Date().toISOString(),
-                        isVolunteer: !!data.user.isVolunteer
-                    });
-                }
+                if (("TURBOPACK compile-time value", "object") !== "undefined" && data?.token) sessionStorage.setItem("token", data.token);
+                await refreshUser();
             } finally{
                 setIsLoading(false);
             }
         }
-    }["UserProvider.useCallback[signup]"], []);
+    }["UserProvider.useCallback[signup]"], [
+        refreshUser
+    ]);
     const updateProfile = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "UserProvider.useCallback[updateProfile]": async (updates)=>{
-            if (user) {
-                setUser({
-                    ...user,
-                    ...updates
-                });
+            const res = await fetch("/api/user/profile", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...getAuthHeaders()
+                },
+                credentials: "include",
+                body: JSON.stringify(updates)
+            });
+            if (!res.ok) {
+                const err = await res.json().catch({
+                    "UserProvider.useCallback[updateProfile]": ()=>({})
+                }["UserProvider.useCallback[updateProfile]"]);
+                throw new Error(err?.error || "Failed to update profile");
             }
+            const data = await res.json().catch({
+                "UserProvider.useCallback[updateProfile]": ()=>({})
+            }["UserProvider.useCallback[updateProfile]"]);
+            if (("TURBOPACK compile-time value", "object") !== "undefined" && data?.token) sessionStorage.setItem("token", data.token);
+            if (data?.user) setUser(buildUser(data.user));
         }
-    }["UserProvider.useCallback[updateProfile]"], [
-        user
-    ]);
+    }["UserProvider.useCallback[updateProfile]"], []);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(UserContext.Provider, {
         value: {
             user,
@@ -171,11 +184,11 @@ function UserProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/contexts/user-context.tsx",
-        lineNumber: 139,
+        lineNumber: 155,
         columnNumber: 5
     }, this);
 }
-_s(UserProvider, "j7VP6Ry/b4j/L/WYR2Jh2PR1Mg4=");
+_s(UserProvider, "XswHaLUzi5Ntf5ccvGnh29xYmx4=");
 _c = UserProvider;
 function useUser() {
     _s1();
@@ -214,15 +227,79 @@ const defaultTheme = {
     darkMode: false,
     sidebarCollapsed: false
 };
+const STORAGE_KEY = 'jwrc-theme-settings';
 const ThemeContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createContext"])(undefined);
 function ThemeProvider({ children }) {
     _s();
     const [theme, setTheme] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(defaultTheme);
+    const [mounted, setMounted] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    // Load theme from localStorage on mount
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "ThemeProvider.useEffect": ()=>{
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    setTheme({
+                        ...defaultTheme,
+                        ...parsed
+                    });
+                }
+            } catch (e) {
+                console.warn('Failed to load theme from localStorage', e);
+            }
+            setMounted(true);
+        }
+    }["ThemeProvider.useEffect"], []);
+    // Apply dark mode to HTML element
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "ThemeProvider.useEffect": ()=>{
+            if (!mounted) return;
+            const html = document.documentElement;
+            if (theme.darkMode) {
+                html.classList.add('dark');
+            } else {
+                html.classList.remove('dark');
+            }
+        }
+    }["ThemeProvider.useEffect"], [
+        theme.darkMode,
+        mounted
+    ]);
+    // Apply font size to HTML element
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "ThemeProvider.useEffect": ()=>{
+            if (!mounted) return;
+            const html = document.documentElement;
+            html.classList.remove('font-size-small', 'font-size-medium', 'font-size-large');
+            html.classList.add(`font-size-${theme.fontSize}`);
+        }
+    }["ThemeProvider.useEffect"], [
+        theme.fontSize,
+        mounted
+    ]);
+    // Save theme to localStorage whenever it changes
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "ThemeProvider.useEffect": ()=>{
+            if (!mounted) return;
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(theme));
+            } catch (e) {
+                console.warn('Failed to save theme to localStorage', e);
+            }
+        }
+    }["ThemeProvider.useEffect"], [
+        theme,
+        mounted
+    ]);
     const updateTheme = (updates)=>{
-        setTheme((prev)=>({
+        setTheme((prev)=>{
+            const newTheme = {
                 ...prev,
                 ...updates
-            }));
+            };
+            return newTheme;
+        });
     };
     const resetTheme = ()=>{
         setTheme(defaultTheme);
@@ -236,11 +313,11 @@ function ThemeProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/contexts/theme-context.tsx",
-        lineNumber: 40,
+        lineNumber: 89,
         columnNumber: 10
     }, this);
 }
-_s(ThemeProvider, "FHn34gXH9qfbNc0YwENDsTaP8hM=");
+_s(ThemeProvider, "Hwhgs1ZpZl3IHAlgbeyu0nDT49Q=");
 _c = ThemeProvider;
 function useTheme() {
     _s1();

@@ -132,6 +132,8 @@ export default function AdminDashboard() {
   const [unseenCount, setUnseenCount] = useState(0)
   const [replyModalOpen, setReplyModalOpen] = useState(false)
   const [replyTargetId, setReplyTargetId] = useState<string | null>(null)
+  const [replyTargetEmail, setReplyTargetEmail] = useState<string | null>(null)
+  const [replyTargetName, setReplyTargetName] = useState<string | null>(null)
   const [replyText, setReplyText] = useState('')
   const [isReplying, setIsReplying] = useState(false)
   const [replyError, setReplyError] = useState<string | null>(null)
@@ -869,6 +871,8 @@ export default function AdminDashboard() {
                     <div className="flex items-center gap-2">
                       <Button size="sm" onClick={() => {
                         setReplyTargetId(s.id)
+                        setReplyTargetEmail(s.email || null)
+                        setReplyTargetName(s.name || null)
                         setReplyText(s.adminResponse || '')
                         setReplyModalOpen(true)
                       }}>Respond</Button>
@@ -886,8 +890,10 @@ export default function AdminDashboard() {
               <DialogHeader>
                 <DialogTitle>Respond to Suggestion</DialogTitle>
               </DialogHeader>
-              <div className="mt-2">
-                <Textarea value={replyText} onChange={(e) => { setReplyText((e.target as HTMLTextAreaElement).value); if (replyError) setReplyError(null) }} placeholder="Write your response to the suggestion here" />
+                <div className="mt-2 space-y-3">
+                <div>
+                  <Textarea className="w-full min-h-[200px]" value={replyText} onChange={(e) => { setReplyText((e.target as HTMLTextAreaElement).value); if (replyError) setReplyError(null) }} placeholder="Write your response to the suggestion here" />
+                </div>
                 {replyError && <p className="text-sm text-red-600 mt-2">{replyError}</p>}
               </div>
               <DialogFooter>
@@ -903,6 +909,8 @@ export default function AdminDashboard() {
                         setSuggestionsState(prev => prev.map(x => x.id === replyTargetId ? { ...x, adminResponse: replyText, respondedAt: new Date().toISOString(), responderName: adminName || 'You' } : x))
                       setReplyModalOpen(false)
                       setReplyTargetId(null)
+                      setReplyTargetEmail(null)
+                      setReplyTargetName(null)
                       setReplyText('')
                       toast({ title: 'Response sent', description: 'Your reply was delivered to the user.' })
                     } else {

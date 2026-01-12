@@ -6,10 +6,12 @@ export interface User {
   id: string
   name: string
   email: string
-  phone?: string
   role: "member" | "leader" | "admin"
   profileImage?: string
   joinDate: string
+  phone?: string
+  location?: string
+  bio?: string
   isVolunteer: boolean
 }
 
@@ -17,122 +19,136 @@ export interface UserContextType {
   user: User | null
   isLoading: boolean
   login: (email: string, password: string) => Promise<void>
-  logout: () => void
+  logout: () => Promise<void>
   signup: (name: string, email: string, password: string, phone?: string) => Promise<void>
   updateProfile: (updates: Partial<User>) => Promise<void>
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined)
 
+function getAuthHeaders(): HeadersInit {
+  if (typeof window === "undefined") return {}
+  const token = sessionStorage.getItem("token")
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
+
+function buildUser(payload: any): User {
+  return {
+    id: payload.id,
+    name: payload.name || payload.email || "",
+    email: payload.email,
+    role: (payload.role as User["role"]) || "member",
+    profileImage: payload.profileImage || "",
+    joinDate: payload.createdAt || payload.joinDate || new Date().toISOString(),
+    phone: payload.phone || "",
+    location: payload.location || "",
+    bio: payload.bio || "",
+    isVolunteer: !!payload.isVolunteer,
+  }
+}
+
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  // Load user on mount if already logged in
-  useEffect(() => {
-    let mounted = true
-    ;(async () => {
-      try {
-        const me = await fetch('/api/auth/me', { credentials: 'include' })
-        const data = await me.json()
-        if (mounted && data?.user) {
-          setUser({
-            id: data.user.id,
-            name: data.user.name || '',
-            email: data.user.email,
-            phone: data.user.phone || undefined,
-            role: data.user.role,
-            joinDate: new Date().toISOString(),
-            isVolunteer: false,
-          })
-        }
-      } catch (e) {
-        // ignore errors
-      }
-    })()
-    return () => { mounted = false }
-  }, [])
-
-  const login = useCallback(async (email: string, password: string) => {
+  const refreshUser = useCallback(async () => {
     setIsLoading(true)
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}))
-        throw new Error(err?.error || 'Login failed')
-      }
-
-      // Fetch current user
-      const me = await fetch('/api/auth/me')
-      const data = await me.json()
+      const res = await fetch("/api/auth/me", { headers: getAuthHeaders(), credentials: "include" })
+      const data = await res.json().catch(() => ({}))
       if (data?.user) {
-        setUser({
-          id: data.user.id,
-          name: data.user.name || '',
-          email: data.user.email,
-          phone: data.user.phone || undefined,
-          role: data.user.role,
-          joinDate: new Date().toISOString(),
-          isVolunteer: false,
-        })
+        setUser(buildUser(data.user))
+      } else {
+        setUser(null)
       }
     } finally {
       setIsLoading(false)
     }
   }, [])
+
+  useEffect(() => {
+    refreshUser()
+  }, [refreshUser])
+
+  const login = useCallback(
+    async (email: string, password: string) => {
+      setIsLoading(true)
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        })
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}))
+          throw new Error(err?.error || "Login failed")
+        }
+
+        const data = await res.json().catch(() => ({}))
+        if (typeof window !== "undefined" && data?.token) sessionStorage.setItem("token", data.token)
+
+        await refreshUser()
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [refreshUser],
+  )
 
   const logout = useCallback(async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' })
+      await fetch("/api/auth/logout", { method: "POST" })
     } catch (e) {
       // ignore
     }
+    if (typeof window !== "undefined") sessionStorage.removeItem("token")
     setUser(null)
   }, [])
 
-  const signup = useCallback(async (name: string, email: string, password: string, phone?: string) => {
-    setIsLoading(true)
-    try {
-      const res = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password, phone }),
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}))
-        throw new Error(err?.error || 'Signup failed')
-      }
-
-      // fetch current user from server to populate context
-      const me = await fetch('/api/auth/me')
-      const data = await me.json().catch(() => ({}))
-      if (data?.user) {
-        setUser({
-          id: data.user.id,
-          name: data.user.name || name || '',
-          email: data.user.email,
-          phone: data.user.phone || phone || undefined,
-          role: data.user.role,
-          joinDate: data.user.createdAt || new Date().toISOString(),
-          isVolunteer: !!data.user.isVolunteer,
+  const signup = useCallback(
+    async (name: string, email: string, password: string, phone?: string) => {
+      setIsLoading(true)
+      try {
+        const res = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password, phone }),
         })
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}))
+          throw new Error(err?.error || "Signup failed")
+        }
+
+        const data = await res.json().catch(() => ({}))
+        if (typeof window !== "undefined" && data?.token) sessionStorage.setItem("token", data.token)
+
+        await refreshUser()
+      } finally {
+        setIsLoading(false)
       }
-    } finally {
-      setIsLoading(false)
-    }
-  }, [])
+    },
+    [refreshUser],
+  )
 
   const updateProfile = useCallback(
     async (updates: Partial<User>) => {
-      if (user) {
-        setUser({ ...user, ...updates })
+      const res = await fetch("/api/user/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+        credentials: "include",
+        body: JSON.stringify(updates),
+      })
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err?.error || "Failed to update profile")
       }
+
+      const data = await res.json().catch(() => ({}))
+      if (typeof window !== "undefined" && data?.token) sessionStorage.setItem("token", data.token)
+      if (data?.user) setUser(buildUser(data.user))
     },
-    [user],
+    [],
   )
 
   return (

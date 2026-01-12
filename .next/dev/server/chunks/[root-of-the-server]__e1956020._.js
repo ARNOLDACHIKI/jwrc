@@ -262,7 +262,7 @@ Application Details:
 - Position: ${roleTitle}
 - Status: Pending Review
 
-Our team will review your application and get back to you soon. We appreciate your patience as we carefully consider each application.
+Our team will review your application and get back to you soon. We appreciate your patience as we carefully consider each application. If you have any questions, please contact us at 0715377835.
 
 "Each of you should use whatever gift you have received to serve others, as faithful stewards of God's grace in its various forms." - 1 Peter 4:10
 
@@ -359,7 +359,7 @@ ${name ? `Dear ${name},` : 'Hello,'}
 We have received your ${typeLabel.toLowerCase()} and truly appreciate you taking the time to share your thoughts with us. Your feedback is invaluable in helping us improve and better serve our church community.
 
 What Happens Next?
-Our team will carefully review your ${typeLabel.toLowerCase()} and respond as appropriate. We take all feedback seriously and use it to make our community stronger.
+Our team will carefully review your ${typeLabel.toLowerCase()} and respond as appropriate. We take all feedback seriously and use it to make our community stronger. If you have any questions, please contact us at 0715377835.
 
 "Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up." - Galatians 6:9
 

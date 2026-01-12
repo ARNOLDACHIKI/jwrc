@@ -160,10 +160,12 @@ async function POST(req) {
         }, secret, {
             expiresIn: "7d"
         });
-        // Set HttpOnly cookie
+        // Set HttpOnly cookie (for backward compatibility)
         const cookie = `token=${token}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}; SameSite=Lax`;
+        // Also return token in response body so client can store it in sessionStorage
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-            ok: true
+            ok: true,
+            token
         }, {
             status: 200,
             headers: {

@@ -6,14 +6,7 @@ import { MainNav } from "@/components/navigation/main-nav"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/contexts/theme-context"
-import { Palette, Moon, Sun, Type, RotateCcw } from "lucide-react"
-
-const colorPresets = [
-  { name: "Grace Blue", primary: "#1e40af", accent: "#92400e" },
-  { name: "Sunrise", primary: "#f97316", accent: "#dc2626" },
-  { name: "Forest", primary: "#15803d", accent: "#7c3aed" },
-  { name: "Ocean", primary: "#0369a1", accent: "#7c2d12" },
-]
+import { Moon, Sun, Type, RotateCcw } from "lucide-react"
 
 const fontSizes = [
   { label: "Small", value: "small" },
@@ -45,73 +38,6 @@ export default function SettingsPage() {
                 Personalize your experience with custom themes and settings
               </p>
             </div>
-
-            {/* Color Customization */}
-            <Card className="p-6 mb-6">
-              <div className="flex items-center gap-3 mb-6">
-                <Palette className="w-5 h-5 text-blue-600" />
-                <h2 className="text-xl font-bold text-blue-900 dark:text-white">Theme Colors</h2>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Primary Color */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                    Primary Color
-                  </label>
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="color"
-                      value={theme.primaryColor}
-                      onChange={(e) => handleThemeUpdate({ primaryColor: e.target.value })}
-                      className="w-16 h-10 rounded cursor-pointer"
-                    />
-                    <span className="text-gray-600 dark:text-gray-400 text-sm">{theme.primaryColor}</span>
-                  </div>
-                </div>
-
-                {/* Accent Color */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                    Accent Color
-                  </label>
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="color"
-                      value={theme.accentColor}
-                      onChange={(e) => handleThemeUpdate({ accentColor: e.target.value })}
-                      className="w-16 h-10 rounded cursor-pointer"
-                    />
-                    <span className="text-gray-600 dark:text-gray-400 text-sm">{theme.accentColor}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Color Presets */}
-              <div className="mt-8">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Quick Presets</label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {colorPresets.map((preset) => (
-                    <button
-                      key={preset.name}
-                      onClick={() =>
-                        handleThemeUpdate({
-                          primaryColor: preset.primary,
-                          accentColor: preset.accent,
-                        })
-                      }
-                      className="p-4 rounded-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-400 transition"
-                    >
-                      <div className="flex gap-2 mb-2">
-                        <div className="w-8 h-8 rounded" style={{ backgroundColor: preset.primary }}></div>
-                        <div className="w-8 h-8 rounded" style={{ backgroundColor: preset.accent }}></div>
-                      </div>
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">{preset.name}</p>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </Card>
 
             {/* Display Settings */}
             <Card className="p-6 mb-6">

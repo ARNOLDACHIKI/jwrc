@@ -237,7 +237,7 @@ export function getSuggestionConfirmationEmail(name: string, type: string) {
                 ${name ? `Dear ${name},` : 'Hello,'}
               </p>
               <p style="color: #666666; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                We have received your ${typeLabel.toLowerCase()} and truly appreciate you taking the time to share your thoughts with us. Your feedback is invaluable in helping us improve and better serve our church community.
+                We have received your ${typeLabel.toLowerCase()}. Thank you for sharing your thoughts — we will review your message and follow up when necessary.
               </p>
               
               <div style="background-color: #f8f9fa; border-left: 4px solid #667eea; padding: 20px; margin: 20px 0; border-radius: 4px;">
@@ -279,7 +279,7 @@ Thank You for Your ${typeLabel}!
 
 ${name ? `Dear ${name},` : 'Hello,'}
 
-We have received your ${typeLabel.toLowerCase()} and truly appreciate you taking the time to share your thoughts with us. Your feedback is invaluable in helping us improve and better serve our church community.
+We have received your ${typeLabel.toLowerCase()}. Thank you for sharing your thoughts — we will review your message and follow up when necessary.
 
 What Happens Next?
 Our team will carefully review your ${typeLabel.toLowerCase()} and respond as appropriate. We take all feedback seriously and use it to make our community stronger. If you have any questions, please contact us at 0715377835.
@@ -295,6 +295,20 @@ The ${siteName} Team
 This is an automated confirmation email. Please do not reply to this message.
 © ${new Date().getFullYear()} ${siteName}. All rights reserved.
     `.trim()
+  }
+}
+
+export function getSuggestionResponseEmail(name: string, response: string, responderName: string, type?: string) {
+  const siteName = process.env.SITE_NAME || 'Jesus Worship and Restoration Church'
+  const siteUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
+  const typeLabel = type ? (type[0].toUpperCase() + type.slice(1)) : 'Feedback'
+
+  return {
+    subject: `Response to your ${typeLabel} from ${siteName}`,
+    // Send only the raw admin response as the email body (HTML/text).
+    // The caller already provides the response text; we avoid wrapping it in a full template per user request.
+    html: `${response.replace(/\n/g, '<br/>')}`,
+    text: `${response}`.trim()
   }
 }
 

@@ -41,7 +41,7 @@ export async function POST(req: Request) {
       // Don't fail signup if email fails
     }
 
-    return NextResponse.json({ ok: true }, { status: 201, headers: { 'Set-Cookie': cookie } })
+    return NextResponse.json({ ok: true, token }, { status: 201, headers: { 'Set-Cookie': cookie } })
   } catch (e) {
     console.error(e)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })

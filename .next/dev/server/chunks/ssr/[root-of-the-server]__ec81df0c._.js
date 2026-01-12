@@ -38,44 +38,58 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$ne
 ;
 ;
 const UserContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createContext"])(undefined);
+function getAuthHeaders() {
+    if ("TURBOPACK compile-time truthy", 1) return {};
+    //TURBOPACK unreachable
+    ;
+    const token = undefined;
+}
+function buildUser(payload) {
+    return {
+        id: payload.id,
+        name: payload.name || payload.email || "",
+        email: payload.email,
+        role: payload.role || "member",
+        profileImage: payload.profileImage || "",
+        joinDate: payload.createdAt || payload.joinDate || new Date().toISOString(),
+        phone: payload.phone || "",
+        location: payload.location || "",
+        bio: payload.bio || "",
+        isVolunteer: !!payload.isVolunteer
+    };
+}
 function UserProvider({ children }) {
     const [user, setUser] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    // Load user on mount if already logged in
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        let mounted = true;
-        (async ()=>{
-            try {
-                const me = await fetch('/api/auth/me', {
-                    credentials: 'include'
-                });
-                const data = await me.json();
-                if (mounted && data?.user) {
-                    setUser({
-                        id: data.user.id,
-                        name: data.user.name || '',
-                        email: data.user.email,
-                        phone: data.user.phone || undefined,
-                        role: data.user.role,
-                        joinDate: new Date().toISOString(),
-                        isVolunteer: false
-                    });
-                }
-            } catch (e) {
-            // ignore errors
+    const refreshUser = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async ()=>{
+        setIsLoading(true);
+        try {
+            const res = await fetch("/api/auth/me", {
+                headers: getAuthHeaders(),
+                credentials: "include"
+            });
+            const data = await res.json().catch(()=>({}));
+            if (data?.user) {
+                setUser(buildUser(data.user));
+            } else {
+                setUser(null);
             }
-        })();
-        return ()=>{
-            mounted = false;
-        };
+        } finally{
+            setIsLoading(false);
+        }
     }, []);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        refreshUser();
+    }, [
+        refreshUser
+    ]);
     const login = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (email, password)=>{
         setIsLoading(true);
         try {
-            const res = await fetch('/api/auth/login', {
-                method: 'POST',
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     email,
@@ -84,43 +98,37 @@ function UserProvider({ children }) {
             });
             if (!res.ok) {
                 const err = await res.json().catch(()=>({}));
-                throw new Error(err?.error || 'Login failed');
+                throw new Error(err?.error || "Login failed");
             }
-            // Fetch current user
-            const me = await fetch('/api/auth/me');
-            const data = await me.json();
-            if (data?.user) {
-                setUser({
-                    id: data.user.id,
-                    name: data.user.name || '',
-                    email: data.user.email,
-                    phone: data.user.phone || undefined,
-                    role: data.user.role,
-                    joinDate: new Date().toISOString(),
-                    isVolunteer: false
-                });
-            }
+            const data = await res.json().catch(()=>({}));
+            if (("TURBOPACK compile-time value", "undefined") !== "undefined" && data?.token) //TURBOPACK unreachable
+            ;
+            await refreshUser();
         } finally{
             setIsLoading(false);
         }
-    }, []);
+    }, [
+        refreshUser
+    ]);
     const logout = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async ()=>{
         try {
-            await fetch('/api/auth/logout', {
-                method: 'POST'
+            await fetch("/api/auth/logout", {
+                method: "POST"
             });
         } catch (e) {
         // ignore
         }
+        if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+        ;
         setUser(null);
     }, []);
     const signup = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (name, email, password, phone)=>{
         setIsLoading(true);
         try {
-            const res = await fetch('/api/auth/signup', {
-                method: 'POST',
+            const res = await fetch("/api/auth/signup", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     name,
@@ -131,36 +139,37 @@ function UserProvider({ children }) {
             });
             if (!res.ok) {
                 const err = await res.json().catch(()=>({}));
-                throw new Error(err?.error || 'Signup failed');
+                throw new Error(err?.error || "Signup failed");
             }
-            // fetch current user from server to populate context
-            const me = await fetch('/api/auth/me');
-            const data = await me.json().catch(()=>({}));
-            if (data?.user) {
-                setUser({
-                    id: data.user.id,
-                    name: data.user.name || name || '',
-                    email: data.user.email,
-                    phone: data.user.phone || phone || undefined,
-                    role: data.user.role,
-                    joinDate: data.user.createdAt || new Date().toISOString(),
-                    isVolunteer: !!data.user.isVolunteer
-                });
-            }
+            const data = await res.json().catch(()=>({}));
+            if (("TURBOPACK compile-time value", "undefined") !== "undefined" && data?.token) //TURBOPACK unreachable
+            ;
+            await refreshUser();
         } finally{
             setIsLoading(false);
         }
-    }, []);
-    const updateProfile = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (updates)=>{
-        if (user) {
-            setUser({
-                ...user,
-                ...updates
-            });
-        }
     }, [
-        user
+        refreshUser
     ]);
+    const updateProfile = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (updates)=>{
+        const res = await fetch("/api/user/profile", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                ...getAuthHeaders()
+            },
+            credentials: "include",
+            body: JSON.stringify(updates)
+        });
+        if (!res.ok) {
+            const err = await res.json().catch(()=>({}));
+            throw new Error(err?.error || "Failed to update profile");
+        }
+        const data = await res.json().catch(()=>({}));
+        if (("TURBOPACK compile-time value", "undefined") !== "undefined" && data?.token) //TURBOPACK unreachable
+        ;
+        if (data?.user) setUser(buildUser(data.user));
+    }, []);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(UserContext.Provider, {
         value: {
             user,
@@ -173,7 +182,7 @@ function UserProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/contexts/user-context.tsx",
-        lineNumber: 139,
+        lineNumber: 155,
         columnNumber: 5
     }, this);
 }
@@ -206,14 +215,70 @@ const defaultTheme = {
     darkMode: false,
     sidebarCollapsed: false
 };
+const STORAGE_KEY = 'jwrc-theme-settings';
 const ThemeContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createContext"])(undefined);
 function ThemeProvider({ children }) {
     const [theme, setTheme] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(defaultTheme);
+    const [mounted, setMounted] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    // Load theme from localStorage on mount
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                setTheme({
+                    ...defaultTheme,
+                    ...parsed
+                });
+            }
+        } catch (e) {
+            console.warn('Failed to load theme from localStorage', e);
+        }
+        setMounted(true);
+    }, []);
+    // Apply dark mode to HTML element
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (!mounted) return;
+        const html = document.documentElement;
+        if (theme.darkMode) {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+    }, [
+        theme.darkMode,
+        mounted
+    ]);
+    // Apply font size to HTML element
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (!mounted) return;
+        const html = document.documentElement;
+        html.classList.remove('font-size-small', 'font-size-medium', 'font-size-large');
+        html.classList.add(`font-size-${theme.fontSize}`);
+    }, [
+        theme.fontSize,
+        mounted
+    ]);
+    // Save theme to localStorage whenever it changes
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (!mounted) return;
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(theme));
+        } catch (e) {
+            console.warn('Failed to save theme to localStorage', e);
+        }
+    }, [
+        theme,
+        mounted
+    ]);
     const updateTheme = (updates)=>{
-        setTheme((prev)=>({
+        setTheme((prev)=>{
+            const newTheme = {
                 ...prev,
                 ...updates
-            }));
+            };
+            return newTheme;
+        });
     };
     const resetTheme = ()=>{
         setTheme(defaultTheme);
@@ -227,7 +292,7 @@ function ThemeProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/contexts/theme-context.tsx",
-        lineNumber: 40,
+        lineNumber: 89,
         columnNumber: 10
     }, this);
 }

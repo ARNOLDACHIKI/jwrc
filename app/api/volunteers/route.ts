@@ -159,8 +159,25 @@ export async function PATCH(req: Request) {
     if (!['approve','reject'].includes(action)) return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
 
     await ensureTable()
+
+    const appRow: any[] = await prisma.$queryRawUnsafe(`SELECT email FROM volunteer_applications WHERE id = $1`, id)
+    const applicationEmail = appRow && appRow[0] ? appRow[0].email : null
+
     const status = action === 'approve' ? 'approved' : 'rejected'
     await prisma.$executeRawUnsafe(`UPDATE volunteer_applications SET status = $1, admin_message = $2, responded_at = NOW() WHERE id = $3`, status, message ? String(message) : null, id)
+
+    // Keep user record aligned with volunteer decision
+    if (applicationEmail) {
+      try {
+        await prisma.user.updateMany({
+          where: { email: { equals: String(applicationEmail), mode: 'insensitive' } },
+          data: { isVolunteer: status === 'approved' },
+        })
+      } catch (e) {
+        console.warn('Failed to sync volunteer flag to user', e)
+      }
+    }
+
     return NextResponse.json({ ok: true })
   } catch (e) {
     console.error(e)

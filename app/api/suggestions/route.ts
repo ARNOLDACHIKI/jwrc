@@ -139,7 +139,39 @@ export async function PATCH(req: Request) {
 
     await ensureTable()
     const responder = responderName || payload.email || payload.name || 'admin'
+
+    // fetch existing suggestion so we can email the original requester if requested
+    const rows: any[] = await prisma.$queryRawUnsafe(`SELECT id, name, email, type FROM suggestions WHERE id = $1 LIMIT 1`, String(id))
+    const suggestion = rows && rows[0] ? rows[0] : null
+
     await prisma.$executeRawUnsafe(`UPDATE suggestions SET admin_response = $1, responder_name = $3, responded_at = NOW() WHERE id = $2`, String(response), id, String(responder))
+
+    // Send email to the suggestion author with the admin response if an email is present
+    if (suggestion && suggestion.email) {
+      try {
+        if (process.env.SMTP_HOST && process.env.SMTP_USER) {
+          const nodemailer = await import('nodemailer')
+          const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST,
+            port: Number(process.env.SMTP_PORT || 587),
+            secure: (process.env.SMTP_SECURE === 'true'),
+            auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+          })
+          const { getSuggestionResponseEmail } = await import('@/lib/email-templates')
+          const emailContent = getSuggestionResponseEmail(suggestion.name || suggestion.email || '', String(response), responder, suggestion.type || 'suggestion')
+          await transporter.sendMail({
+            from: process.env.SMTP_FROM || process.env.SMTP_USER,
+            to: String(suggestion.email),
+            subject: emailContent.subject,
+            html: emailContent.html,
+            text: emailContent.text,
+          })
+        }
+      } catch (e) {
+        console.warn('Failed to send suggestion response email', e)
+      }
+    }
+
     return NextResponse.json({ ok: true })
   } catch (e) {
     console.error(e)

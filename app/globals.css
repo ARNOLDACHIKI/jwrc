@@ -3,6 +3,19 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Font size classes - applied to html element */
+html.font-size-small {
+  font-size: 87.5%; /* 14px base (14/16 = 0.875) */
+}
+
+html.font-size-medium {
+  font-size: 100%; /* 16px base (default) */
+}
+
+html.font-size-large {
+  font-size: 112.5%; /* 18px base (18/16 = 1.125) */
+}
+
 :root {
   /* Brand palette aligned to inspiration: deep brown, church red, cobalt blue, clean ivory */
   --logo-brown: #6b5444;

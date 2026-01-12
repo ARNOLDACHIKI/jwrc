@@ -2980,6 +2980,10 @@
     white-space: nowrap;
   }
 
+  .whitespace-pre-line {
+    white-space: pre-line;
+  }
+
   .text-\[\#0f2b52\] {
     color: #0f2b52;
   }
@@ -3930,6 +3934,10 @@
     color: var(--primary-foreground);
   }
 
+  .file\:mr-4::file-selector-button {
+    margin-right: calc(var(--spacing) * 4);
+  }
+
   .file\:inline-flex::file-selector-button {
     display: inline-flex;
   }
@@ -3938,13 +3946,29 @@
     height: calc(var(--spacing) * 7);
   }
 
+  .file\:rounded-lg::file-selector-button {
+    border-radius: var(--radius);
+  }
+
   .file\:border-0::file-selector-button {
     border-style: var(--tw-border-style);
     border-width: 0;
   }
 
+  .file\:bg-blue-50::file-selector-button {
+    background-color: var(--color-blue-50);
+  }
+
   .file\:bg-transparent::file-selector-button {
     background-color: #0000;
+  }
+
+  .file\:px-4::file-selector-button {
+    padding-inline: calc(var(--spacing) * 4);
+  }
+
+  .file\:py-2::file-selector-button {
+    padding-block: calc(var(--spacing) * 2);
   }
 
   .file\:text-sm::file-selector-button {
@@ -3955,6 +3979,15 @@
   .file\:font-medium::file-selector-button {
     --tw-font-weight: var(--font-weight-medium);
     font-weight: var(--font-weight-medium);
+  }
+
+  .file\:font-semibold::file-selector-button {
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .file\:text-blue-700::file-selector-button {
+    color: var(--color-blue-700);
   }
 
   .file\:text-foreground::file-selector-button {
@@ -4195,12 +4228,6 @@
   @media (hover: hover) {
     .hover\:border-blue-500:hover {
       border-color: var(--color-blue-500);
-    }
-  }
-
-  @media (hover: hover) {
-    .hover\:border-blue-600:hover {
-      border-color: var(--color-blue-600);
     }
   }
 
@@ -4590,6 +4617,12 @@
   @media (hover: hover) {
     .group-\[\.destructive\]\:hover\:text-red-50:is(:where(.group).destructive *):hover {
       color: var(--color-red-50);
+    }
+  }
+
+  @media (hover: hover) {
+    .hover\:file\:bg-blue-100:hover::file-selector-button {
+      background-color: var(--color-blue-100);
     }
   }
 
@@ -5832,12 +5865,6 @@
   }
 
   @media (min-width: 40rem) {
-    .sm\:grid-cols-2 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (min-width: 40rem) {
     .sm\:flex-col {
       flex-direction: column;
     }
@@ -6437,10 +6464,18 @@
     color: var(--color-gray-400);
   }
 
-  @media (hover: hover) {
-    .dark\:hover\:border-blue-400:is(.dark *):hover {
-      border-color: var(--color-blue-400);
+  .dark\:file\:bg-blue-900\/20:is(.dark *)::file-selector-button {
+    background-color: #1c398e33;
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .dark\:file\:bg-blue-900\/20:is(.dark *)::file-selector-button {
+      background-color: color-mix(in oklab, var(--color-blue-900) 20%, transparent);
     }
+  }
+
+  .dark\:file\:text-blue-400:is(.dark *)::file-selector-button {
+    color: var(--color-blue-400);
   }
 
   @media (hover: hover) {
@@ -7350,6 +7385,18 @@
   syntax: "*";
   inherits: false;
   initial-value: 0;
+}
+
+html.font-size-small {
+  font-size: 87.5%;
+}
+
+html.font-size-medium {
+  font-size: 100%;
+}
+
+html.font-size-large {
+  font-size: 112.5%;
 }
 
 :root {

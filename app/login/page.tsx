@@ -26,11 +26,28 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
+      // Check if this tab already has a user logged in
+      const tabSessionKey = 'jwrc-tab-user-session'
+      let currentTabUser = null
+      try {
+        const stored = sessionStorage.getItem(tabSessionKey)
+        if (stored) {
+          currentTabUser = JSON.parse(stored)
+        }
+      } catch (e) {
+        // ignore
+      }
+
+      // If this tab already has a different user, just proceed (each tab is independent)
+      // No need to warn - each tab can have its own user
+      
       await login(email, password)
       // Always redirect to normal dashboard after login
       router.push("/dashboard")
-    } catch (err) {
-      setError("Invalid email or password")
+    } catch (err: any) {
+      // prefer server-provided message when available
+      const msg = err?.message || "Login failed"
+      setError(msg)
       setLoading(false)
     }
   }

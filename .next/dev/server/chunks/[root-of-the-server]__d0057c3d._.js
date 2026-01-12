@@ -85,16 +85,28 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$ex
 ;
 ;
 const prisma = new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__["PrismaClient"]();
+function getTokenFromRequest(req) {
+    // First try to get token from Authorization header (for tab-specific sessions)
+    const authHeader = req.headers.get("authorization") || req.headers.get("Authorization");
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+        return authHeader.substring(7);
+    }
+    // Fallback to cookie (for backward compatibility)
+    const cookie = req.headers.get("cookie") || "";
+    const match = cookie.split(";").map((c)=>c.trim()).find((c)=>c.startsWith("token="));
+    if (match) {
+        return match.split("=")[1];
+    }
+    return null;
+}
 async function GET(req) {
     try {
-        const cookie = req.headers.get("cookie") || "";
-        const match = cookie.split(";").map((c)=>c.trim()).find((c)=>c.startsWith("token="));
-        if (!match) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+        const token = getTokenFromRequest(req);
+        if (!token) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             user: null
         }, {
             status: 200
         });
-        const token = match.split("=")[1];
         const secret = process.env.JWT_SECRET || "dev-secret";
         let payload = null;
         try {
@@ -121,7 +133,12 @@ async function GET(req) {
             name: user.name,
             email: user.email,
             role: user.role,
-            phone: user.phone
+            phone: user.phone,
+            location: user.location,
+            bio: user.bio,
+            profileImage: user.profileImage,
+            isVolunteer: user.isVolunteer,
+            createdAt: user.createdAt
         };
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             user: safeUser

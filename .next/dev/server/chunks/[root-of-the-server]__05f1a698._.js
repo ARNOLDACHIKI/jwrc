@@ -124,7 +124,7 @@ function getEventSignupConfirmationEmail(name, eventTitle, eventDate, eventLocat
               </div>
               
               <p style="color: #666666; font-size: 16px; line-height: 1.6; margin: 20px 0;">
-                We look forward to seeing you there! If you have any questions or need to make changes to your registration, please don't hesitate to contact us.
+                We look forward to seeing you there! If you have any questions or need to make changes to your registration, please don't hesitate to contact us at <strong>0715377835</strong>.
               </p>
               
               <p style="color: #666666; font-size: 16px; line-height: 1.6; margin: 20px 0;">
@@ -166,7 +166,7 @@ Event Details:
 - Date & Time: ${eventDate}
 ${eventLocation ? `- Location: ${eventLocation}\n` : ''}${ref ? `- Reference Number: ${ref}\n` : ''}
 
-We look forward to seeing you there! If you have any questions or need to make changes to your registration, please don't hesitate to contact us.
+We look forward to seeing you there! If you have any questions or need to make changes to your registration, please don't hesitate to contact us at 0715377835.
 
 "For where two or three gather in my name, there am I with them." - Matthew 18:20
 
@@ -221,7 +221,7 @@ function getVolunteerConfirmationEmail(name, roleTitle) {
               </div>
               
               <p style="color: #666666; font-size: 16px; line-height: 1.6; margin: 20px 0;">
-                Our team will review your application and get back to you soon. We appreciate your patience as we carefully consider each application.
+                Our team will review your application and get back to you soon. We appreciate your patience as we carefully consider each application. If you have any questions, please contact us at <strong>0715377835</strong>.
               </p>
               
               <p style="color: #666666; font-size: 16px; line-height: 1.6; margin: 20px 0;">
@@ -262,7 +262,7 @@ Application Details:
 - Position: ${roleTitle}
 - Status: Pending Review
 
-Our team will review your application and get back to you soon. We appreciate your patience as we carefully consider each application.
+Our team will review your application and get back to you soon. We appreciate your patience as we carefully consider each application. If you have any questions, please contact us at 0715377835.
 
 "Each of you should use whatever gift you have received to serve others, as faithful stewards of God's grace in its various forms." - 1 Peter 4:10
 
@@ -320,7 +320,7 @@ function getSuggestionConfirmationEmail(name, type) {
               <div style="background-color: #f8f9fa; border-left: 4px solid #667eea; padding: 20px; margin: 20px 0; border-radius: 4px;">
                 <h3 style="color: #333333; margin: 0 0 10px 0; font-size: 18px;">What Happens Next?</h3>
                 <p style="color: #666666; font-size: 14px; margin: 5px 0; line-height: 1.6;">
-                  Our team will carefully review your ${typeLabel.toLowerCase()} and respond as appropriate. We take all feedback seriously and use it to make our community stronger.
+                  Our team will carefully review your ${typeLabel.toLowerCase()} and respond as appropriate. We take all feedback seriously and use it to make our community stronger. If you have any questions, please contact us at <strong>0715377835</strong>.
                 </p>
               </div>
               
@@ -359,7 +359,7 @@ ${name ? `Dear ${name},` : 'Hello,'}
 We have received your ${typeLabel.toLowerCase()} and truly appreciate you taking the time to share your thoughts with us. Your feedback is invaluable in helping us improve and better serve our church community.
 
 What Happens Next?
-Our team will carefully review your ${typeLabel.toLowerCase()} and respond as appropriate. We take all feedback seriously and use it to make our community stronger.
+Our team will carefully review your ${typeLabel.toLowerCase()} and respond as appropriate. We take all feedback seriously and use it to make our community stronger. If you have any questions, please contact us at 0715377835.
 
 "Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up." - Galatians 6:9
 

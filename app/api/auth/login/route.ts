@@ -48,7 +48,7 @@ export async function POST(req: Request) {
         // ignore and continue to return generic error
       }
     }
-    if (!user) return NextResponse.json({ error: "Invalid email or password" }, { status: 401 })
+    if (!user) return NextResponse.json({ error: "No account found. Please register." }, { status: 404 })
 
     const valid = user.password ? await bcrypt.compare(password, user.password) : false
     if (!valid) return NextResponse.json({ error: "Invalid email or password" }, { status: 401 })
@@ -56,10 +56,11 @@ export async function POST(req: Request) {
     const secret = process.env.JWT_SECRET || "dev-secret"
     const token = jwt.sign({ userId: user.id, role: user.role, email: user.email }, secret, { expiresIn: "7d" })
 
-    // Set HttpOnly cookie
+    // Set HttpOnly cookie (for backward compatibility)
     const cookie = `token=${token}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}; SameSite=Lax`
 
-    return NextResponse.json({ ok: true }, { status: 200, headers: { "Set-Cookie": cookie } })
+    // Also return token in response body so client can store it in sessionStorage
+    return NextResponse.json({ ok: true, token }, { status: 200, headers: { "Set-Cookie": cookie } })
   } catch (err) {
     return NextResponse.json({ error: "Server error" }, { status: 500 })
   }
