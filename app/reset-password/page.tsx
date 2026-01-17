@@ -6,8 +6,9 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Lock, CheckCircle2, AlertCircle } from 'lucide-react'
+import { Lock, CheckCircle2, AlertCircle, XCircle } from 'lucide-react'
 import Link from 'next/link'
+import { validatePassword } from '@/lib/password-validator'
 
 function ResetPasswordForm() {
   const router = useRouter()
@@ -19,6 +20,9 @@ function ResetPasswordForm() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false)
+
+  const passwordValidation = validatePassword(password)
 
   useEffect(() => {
     if (!token) {
@@ -30,8 +34,8 @@ function ResetPasswordForm() {
     e.preventDefault()
     setError('')
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long')
+    if (!passwordValidation.isValid) {
+      setError(passwordValidation.message || 'Password does not meet requirements')
       return
     }
 
@@ -117,11 +121,55 @@ function ResetPasswordForm() {
                 placeholder="Enter new password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onFocus={() => setShowPasswordRequirements(true)}
                 required
                 disabled={loading || !token}
                 className="w-full"
-                minLength={6}
               />
+              
+              {/* Password Requirements Indicator */}
+              {showPasswordRequirements && password && (
+                <div className="mt-2 p-3 rounded-lg bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-gray-700">
+                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">Password must contain:</p>
+                  <div className="space-y-1">
+                    {passwordValidation.requirements.map((req, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        {req.met ? (
+                          <CheckCircle2 className="w-3 h-3 text-green-600 dark:text-green-400 flex-shrink-0" />
+                        ) : (
+                          <XCircle className="w-3 h-3 text-gray-400 dark:text-gray-600 flex-shrink-0" />
+                        )}
+                        <span className={`text-xs ${
+                          req.met 
+                            ? "text-green-700 dark:text-green-400 font-medium" 
+                            : "text-gray-600 dark:text-gray-400"
+                        }`}>
+                          {req.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full transition-all duration-300 ${
+                            passwordValidation.isValid 
+                              ? "bg-green-600" 
+                              : passwordValidation.requirements.filter(r => r.met).length >= 3
+                                ? "bg-yellow-500"
+                                : "bg-red-500"
+                          }`}
+                          style={{ width: `${(passwordValidation.requirements.filter(r => r.met).length / passwordValidation.requirements.length) * 100}%` }}
+                        />
+                      </div>
+                      <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                        {passwordValidation.isValid ? "Strong" : passwordValidation.requirements.filter(r => r.met).length >= 3 ? "Medium" : "Weak"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="space-y-2">
               <label htmlFor="confirmPassword" className="text-sm font-medium">

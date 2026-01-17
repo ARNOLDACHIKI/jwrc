@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { generateVerificationCode, getVerificationCodeExpiration } from "@/lib/verification"
+import { validatePassword } from "@/lib/password-validator"
 
 const prisma = new PrismaClient()
 
@@ -13,6 +14,18 @@ export async function POST(req: Request) {
     const body = await req.json()
     const { name, email, password, phone } = body || {}
     if (!email || !password) return NextResponse.json({ error: 'Missing credentials' }, { status: 400 })
+
+    // Validate password strength
+    const passwordValidation = validatePassword(String(password))
+    if (!passwordValidation.isValid) {
+      return NextResponse.json(
+        { 
+          error: passwordValidation.message,
+          requirements: passwordValidation.requirements.filter(r => !r.met).map(r => r.label)
+        }, 
+        { status: 400 }
+      )
+    }
 
     // check exists
     const existing = await prisma.user.findFirst({ where: { email: { equals: String(email), mode: 'insensitive' } } })

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { PrismaClient } from "@prisma/client"
 import bcrypt from "bcryptjs"
+import { validatePassword } from "@/lib/password-validator"
 
 const prisma = new PrismaClient()
 
@@ -26,6 +27,18 @@ export async function POST(req: Request) {
     const body = await req.json()
     const { token, password } = body || {}
     if (!token || !password) return NextResponse.json({ error: 'Token and password required' }, { status: 400 })
+
+    // Validate password strength
+    const passwordValidation = validatePassword(String(password))
+    if (!passwordValidation.isValid) {
+      return NextResponse.json(
+        { 
+          error: passwordValidation.message,
+          requirements: passwordValidation.requirements.filter(r => !r.met).map(r => r.label)
+        }, 
+        { status: 400 }
+      )
+    }
 
     await ensureTable()
     const rows: any[] = await prisma.$queryRaw`SELECT id, user_id, token, expires_at, used FROM password_reset_tokens WHERE token = ${String(token)} LIMIT 1`

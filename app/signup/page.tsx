@@ -9,7 +9,8 @@ import { MainNav } from "@/components/navigation/main-nav"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useUser } from "@/contexts/user-context"
-import { User, Mail, Lock, Eye, EyeOff, Phone } from "lucide-react"
+import { User, Mail, Lock, Eye, EyeOff, Phone, CheckCircle2, XCircle } from "lucide-react"
+import { validatePassword } from "@/lib/password-validator"
 
 export default function SignupPage() {
   const router = useRouter()
@@ -24,10 +25,18 @@ export default function SignupPage() {
   const [agreeToTerms, setAgreeToTerms] = useState(false)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false)
+
+  const passwordValidation = validatePassword(password)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
+
+    if (!passwordValidation.isValid) {
+      setError(passwordValidation.message || "Password does not meet requirements")
+      return
+    }
 
     if (password !== confirmPassword) {
       setError("Passwords do not match")
@@ -141,11 +150,56 @@ export default function SignupPage() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onFocus={() => setShowPasswordRequirements(true)}
                   placeholder="••••••••"
                   className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
+              
+              {/* Password Requirements Indicator */}
+              {showPasswordRequirements && password && (
+                <div className="mt-3 p-3 rounded-lg bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-gray-700">
+                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">Password must contain:</p>
+                  <div className="space-y-1">
+                    {passwordValidation.requirements.map((req, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        {req.met ? (
+                          <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+                        ) : (
+                          <XCircle className="w-4 h-4 text-gray-400 dark:text-gray-600 flex-shrink-0" />
+                        )}
+                        <span className={`text-xs ${
+                          req.met 
+                            ? "text-green-700 dark:text-green-400 font-medium" 
+                            : "text-gray-600 dark:text-gray-400"
+                        }`}>
+                          {req.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full transition-all duration-300 ${
+                            passwordValidation.isValid 
+                              ? "bg-green-600" 
+                              : passwordValidation.requirements.filter(r => r.met).length >= 3
+                                ? "bg-yellow-500"
+                                : "bg-red-500"
+                          }`}
+                          style={{ width: `${(passwordValidation.requirements.filter(r => r.met).length / passwordValidation.requirements.length) * 100}%` }}
+                        />
+                      </div>
+                      <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                        {passwordValidation.isValid ? "Strong" : passwordValidation.requirements.filter(r => r.met).length >= 3 ? "Medium" : "Weak"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Confirm Password */}
