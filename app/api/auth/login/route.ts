@@ -5,6 +5,8 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
+export const dynamic = 'force-dynamic'
+
 // Normalize Gmail addresses - Gmail ignores dots before @
 function normalizeGmail(email: string): string {
   const lowerEmail = email.toLowerCase()

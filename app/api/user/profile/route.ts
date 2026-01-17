@@ -42,6 +42,9 @@ async function getAuthenticatedUser(req: Request) {
   }
 }
 
+export const dynamic = 'force-dynamic'
+
+
 export async function GET(req: Request) {
   try {
     const auth = await getAuthenticatedUser(req)

@@ -3,6 +3,9 @@ import { NextResponse } from "next/server"
 const SANDBOX_BASE = 'https://sandbox.safaricom.co.ke'
 const LIVE_BASE = 'https://api.safaricom.co.ke'
 
+export const dynamic = 'force-dynamic'
+
+
 export async function GET() {
   try {
     const consumerKey = process.env.MPESA_CONSUMER_KEY

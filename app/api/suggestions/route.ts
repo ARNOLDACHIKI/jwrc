@@ -29,6 +29,9 @@ function getTokenFromHeaders(req: Request) {
   return match.split('=')[1]
 }
 
+export const dynamic = 'force-dynamic'
+
+
 export async function POST(req: Request) {
   try {
     const body = await req.json()

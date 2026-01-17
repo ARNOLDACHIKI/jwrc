@@ -4,6 +4,9 @@ import jwt from "jsonwebtoken"
 
 const prisma = new PrismaClient()
 
+// Mark this route as dynamic to prevent static generation
+export const dynamic = 'force-dynamic'
+
 function getTokenFromHeaders(req: Request) {
   const cookie = req.headers.get("cookie") || ""
   const match = cookie.split(";").map((c) => c.trim()).find((c) => c.startsWith("token="))

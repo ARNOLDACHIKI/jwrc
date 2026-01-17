@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server"
 
+export const dynamic = 'force-dynamic'
+
+
 export async function POST() {
   // Clear cookie by setting Max-Age=0
   const cookie = `token=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax`

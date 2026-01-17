@@ -14,6 +14,9 @@ function getTokenFromHeaders(req: Request) {
   return match.split("=")[1]
 }
 
+export const dynamic = 'force-dynamic'
+
+
 export async function POST(req: Request) {
   try {
     // Verify admin authentication

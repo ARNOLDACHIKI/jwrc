@@ -19,6 +19,9 @@ async function ensureTable() {
   }
 }
 
+export const dynamic = 'force-dynamic'
+
+
 export async function GET() {
   try {
     await ensureTable()

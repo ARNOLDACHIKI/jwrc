@@ -21,6 +21,9 @@ function getTokenFromRequest(req: Request): string | null {
   return null
 }
 
+export const dynamic = 'force-dynamic'
+
+
 export async function GET(req: Request) {
   try {
     const token = getTokenFromRequest(req)
