@@ -111,3 +111,56 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ error: "Server error" }, { status: 500 })
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const auth = await getAuthenticatedUser(req)
+    if (!auth) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+
+    const userId = auth.db.id
+    const userEmail = auth.db.email
+
+    // Delete user's related data first (cascade)
+    await prisma.$transaction(async (tx) => {
+      // Delete volunteer applications
+      await tx.$executeRawUnsafe(
+        `DELETE FROM volunteer_applications WHERE LOWER(email) = LOWER($1)`,
+        String(userEmail)
+      )
+      
+      // Delete event signups
+      await tx.$executeRawUnsafe(
+        `DELETE FROM event_signups WHERE LOWER(email) = LOWER($1)`,
+        String(userEmail)
+      )
+      
+      // Delete password reset tokens
+      await tx.$executeRawUnsafe(
+        `DELETE FROM password_reset_tokens WHERE user_id = $1`,
+        String(userId)
+      )
+      
+      // Delete email verification codes
+      await tx.$executeRawUnsafe(
+        `DELETE FROM email_verifications WHERE LOWER(email) = LOWER($1)`,
+        String(userEmail)
+      )
+      
+      // Finally delete the user account
+      await tx.user.delete({ where: { id: userId } })
+    })
+
+    // Clear auth cookie
+    const clearCookie = `token=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax`
+
+    return NextResponse.json(
+      { ok: true, message: "Account deleted successfully" },
+      { headers: { "Set-Cookie": clearCookie } }
+    )
+  } catch (e) {
+    console.error("Delete account error:", e)
+    return NextResponse.json({ error: "Failed to delete account" }, { status: 500 })
+  } finally {
+    await prisma.$disconnect()
+  }
+}

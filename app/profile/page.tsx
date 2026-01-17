@@ -29,6 +29,11 @@ export default function ProfilePage() {
   const [volunteerLoading, setVolunteerLoading] = useState(false)
   const [bannerTransform, setBannerTransform] = useState({ rotateX: 0, rotateY: 0 })
   const [isHovering, setIsHovering] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [deleteConfirmEmail, setDeleteConfirmEmail] = useState("")
+  const [deleteConfirmPhrase, setDeleteConfirmPhrase] = useState("")
+  const [deleteError, setDeleteError] = useState("")
+  const [isDeleting, setIsDeleting] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -123,6 +128,41 @@ export default function ProfilePage() {
       setSaveError(e?.message || "Failed to save changes")
     } finally {
       setSaving(false)
+    }
+  }
+
+  const handleDeleteAccount = async () => {
+    setDeleteError("")
+    
+    // Validate confirmations
+    if (deleteConfirmEmail !== user?.email) {
+      setDeleteError(`Email does not match. Please type: ${user?.email}`)
+      return
+    }
+    
+    if (deleteConfirmPhrase !== "delete my account") {
+      setDeleteError('Please type "delete my account" to confirm')
+      return
+    }
+
+    setIsDeleting(true)
+    try {
+      const res = await fetch("/api/user/profile", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      })
+      
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || "Failed to delete account")
+      }
+      
+      // Clear local storage and redirect to home
+      localStorage.removeItem("authToken")
+      window.location.href = "/"
+    } catch (e: any) {
+      setDeleteError(e.message || "Failed to delete account")
+      setIsDeleting(false)
     }
   }
 
@@ -411,6 +451,21 @@ export default function ProfilePage() {
                       <Save className="w-4 h-4 mr-2" />
                       {saving ? "Saving..." : "Save Changes"}
                     </Button>
+
+                    {/* Delete Account Section */}
+                    <div className="mt-8 pt-6 border-t border-red-200 dark:border-red-900">
+                      <h3 className="text-lg font-semibold text-red-600 dark:text-red-400 mb-2">Danger Zone</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                        Once you delete your account, there is no going back. This action is permanent.
+                      </p>
+                      <Button
+                        onClick={() => setShowDeleteDialog(true)}
+                        variant="outline"
+                        className="border-red-300 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
+                      >
+                        Delete My Account
+                      </Button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -418,6 +473,85 @@ export default function ProfilePage() {
           </div>
         </main>
       </div>
+
+      {/* Delete Account Confirmation Dialog */}
+      {showDeleteDialog && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xl max-w-md w-full mx-4 overflow-hidden">
+            <div className="p-6">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Delete Account</h2>
+              
+              <div className="mb-6">
+                <p className="text-gray-700 dark:text-gray-300 mb-4">
+                  This will permanently delete your account and related data like profile information, volunteer applications, event signups, and messages.
+                </p>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      To confirm, type your email: <span className="font-bold text-gray-900 dark:text-white">{user?.email}</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={deleteConfirmEmail}
+                      onChange={(e) => setDeleteConfirmEmail(e.target.value)}
+                      placeholder={user?.email}
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"
+                      disabled={isDeleting}
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      To confirm, type: <span className="font-bold text-gray-900 dark:text-white">delete my account</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={deleteConfirmPhrase}
+                      onChange={(e) => setDeleteConfirmPhrase(e.target.value)}
+                      placeholder="delete my account"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"
+                      disabled={isDeleting}
+                    />
+                  </div>
+                </div>
+                
+                {deleteError && (
+                  <div className="mt-4 p-3 rounded-lg bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-900">
+                    <p className="text-sm text-red-600 dark:text-red-400 flex items-center gap-2">
+                      <span className="text-lg">⚠️</span>
+                      {deleteError}
+                    </p>
+                  </div>
+                )}
+              </div>
+              
+              <div className="flex gap-3">
+                <Button
+                  onClick={() => {
+                    setShowDeleteDialog(false)
+                    setDeleteConfirmEmail("")
+                    setDeleteConfirmPhrase("")
+                    setDeleteError("")
+                  }}
+                  variant="outline"
+                  disabled={isDeleting}
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleDeleteAccount}
+                  disabled={isDeleting}
+                  className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                >
+                  {isDeleting ? "Deleting..." : "Delete Account"}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
