@@ -122,14 +122,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
         }
 
         const data = await res.json().catch(() => ({}))
-        if (typeof window !== "undefined" && data?.token) sessionStorage.setItem("token", data.token)
-
-        await refreshUser()
+        // Note: No token returned until email is verified
+        // User will be redirected to verify-email page
       } finally {
         setIsLoading(false)
       }
     },
-    [refreshUser],
+    [],
   )
 
   const updateProfile = useCallback(

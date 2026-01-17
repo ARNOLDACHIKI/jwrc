@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       )
     }
 
-    // check exists
+    // Check if user already exists
     const existing = await prisma.user.findFirst({ where: { email: { equals: String(email), mode: 'insensitive' } } })
     if (existing) {
       return NextResponse.json(
@@ -36,24 +36,27 @@ export async function POST(req: Request) {
       )
     }
 
+    // Hash password
     const hash = await bcrypt.hash(String(password), 12)
     const verificationCode = generateVerificationCode()
     const verificationCodeExpiresAt = getVerificationCodeExpiration()
 
-    const user = await prisma.user.create({ 
-      data: { 
-        email: String(email), 
-        name: name ? String(name) : undefined, 
-        phone: phone ? String(phone) : undefined,
-        password: hash,
-        verificationCode,
-        verificationCodeExpiresAt
-      } 
-    })
+    // Store pending registration in email_verifications table
+    // Delete any existing pending verification for this email
+    await prisma.$executeRawUnsafe(
+      `DELETE FROM email_verifications WHERE LOWER(email) = LOWER($1)`,
+      String(email)
+    )
 
-    const secret = process.env.JWT_SECRET || 'dev-secret'
-    const token = jwt.sign({ userId: user.id, role: user.role, email: user.email }, secret, { expiresIn: '7d' })
-    const cookie = `token=${token}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}; SameSite=Lax`
+    // Insert new pending registration
+    await prisma.$executeRawUnsafe(
+      `INSERT INTO email_verifications (email, code, expires_at, verified, created_at, user_data) 
+       VALUES ($1, $2, $3, false, NOW(), $4)`,
+      String(email).toLowerCase(),
+      verificationCode,
+      verificationCodeExpiresAt,
+      JSON.stringify({ name: name || '', phone: phone || '', passwordHash: hash })
+    )
 
     // Send verification email
     try {
@@ -61,8 +64,8 @@ export async function POST(req: Request) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          email: user.email, 
-          name: user.name,
+          email: String(email),
+          name: name || 'User',
           verificationCode
         }),
       })
@@ -71,19 +74,11 @@ export async function POST(req: Request) {
       // Don't fail signup if email fails
     }
 
-    // Send welcome email (after verification)
-    try {
-      await fetch(`${req.headers.get('origin')}/api/auth/send-welcome-email`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: user.email, name: user.name }),
-      })
-    } catch (emailError) {
-      console.error('Failed to send welcome email:', emailError)
-      // Don't fail signup if email fails
-    }
-
-    return NextResponse.json({ ok: true, token }, { status: 201, headers: { 'Set-Cookie': cookie } })
+    return NextResponse.json({ 
+      ok: true, 
+      message: 'Verification code sent to your email. Please verify to complete registration.',
+      email: String(email)
+    }, { status: 200 })
   } catch (e) {
     console.error(e)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
