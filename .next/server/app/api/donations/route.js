@@ -1,13 +1,6 @@
-(()=>{var e={};e.id=9851,e.ids=[9851],e.modules={96330:e=>{"use strict";e.exports=require("@prisma/client")},10846:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},44870:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-route.runtime.prod.js")},3295:e=>{"use strict";e.exports=require("next/dist/server/app-render/after-task-async-storage.external.js")},29294:e=>{"use strict";e.exports=require("next/dist/server/app-render/work-async-storage.external.js")},63033:e=>{"use strict";e.exports=require("next/dist/server/app-render/work-unit-async-storage.external.js")},57215:(e,t,r)=>{"use strict";r.r(t),r.d(t,{patchFetch:()=>E,routeModule:()=>l,serverHooks:()=>x,workAsyncStorage:()=>m,workUnitAsyncStorage:()=>T});var n={};r.r(n),r.d(n,{POST:()=>p,dynamic:()=>c});var o=r(62137),s=r(63654),a=r(48093),i=r(63e3);let u=new(r(96330)).PrismaClient;async function d(){await u.$executeRawUnsafe(`
-    CREATE TABLE IF NOT EXISTS donations (
-      id SERIAL PRIMARY KEY,
-      amount NUMERIC,
-      currency TEXT,
-      kes_amount INTEGER,
-      method TEXT,
-      donor_name TEXT,
-      donor_email TEXT,
-      note TEXT,
-      created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-    )
-  `)}let c="force-dynamic";async function p(e){try{let t=await e.json().catch(()=>({})),{amount:r,currency:n,kesAmount:o,method:s,donor:a}=t||{};if(!r||!s)return i.NextResponse.json({error:"Missing amount or method"},{status:400});return await d(),await u.$executeRawUnsafe("INSERT INTO donations (amount, currency, kes_amount, method, donor_name, donor_email, note, created_at) VALUES ($1,$2,$3,$4,$5,$6,$7,NOW())",r,n||"USD",o||null,s,a?.name||null,a?.email||null,t?.note||null),i.NextResponse.json({ok:!0},{status:201})}catch(e){return console.error(e),i.NextResponse.json({error:"Server error"},{status:500})}}let l=new o.AppRouteRouteModule({definition:{kind:s.RouteKind.APP_ROUTE,page:"/api/donations/route",pathname:"/api/donations",filename:"route",bundlePath:"app/api/donations/route"},resolvedPagePath:"/home/lod/Downloads/jwrc/app/api/donations/route.ts",nextConfigOutput:"",userland:n}),{workAsyncStorage:m,workUnitAsyncStorage:T,serverHooks:x}=l;function E(){return(0,a.patchFetch)({workAsyncStorage:m,workUnitAsyncStorage:T})}},62290:()=>{},51674:()=>{}};var t=require("../../../webpack-runtime.js");t.C(e);var r=e=>t(t.s=e),n=t.X(0,[5089,9862],()=>r(57215));module.exports=n})();
+var R=require("../../../chunks/[turbopack]_runtime.js")("server/app/api/donations/route.js")
+R.c("server/chunks/[root-of-the-server]__c127c632._.js")
+R.c("server/chunks/[root-of-the-server]__6b0d2dce._.js")
+R.c("server/chunks/jwrc__next-internal_server_app_api_donations_route_actions_11eb9542.js")
+R.m(52364)
+module.exports=R.m(52364).exports

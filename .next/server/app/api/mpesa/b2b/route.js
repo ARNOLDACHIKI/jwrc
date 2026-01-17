@@ -1,21 +1,6 @@
-(()=>{var e={};e.id=7369,e.ids=[7369],e.modules={96330:e=>{"use strict";e.exports=require("@prisma/client")},10846:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},44870:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-route.runtime.prod.js")},3295:e=>{"use strict";e.exports=require("next/dist/server/app-render/after-task-async-storage.external.js")},29294:e=>{"use strict";e.exports=require("next/dist/server/app-render/work-async-storage.external.js")},63033:e=>{"use strict";e.exports=require("next/dist/server/app-render/work-unit-async-storage.external.js")},31287:(e,r,t)=>{"use strict";t.r(r),t.d(r,{patchFetch:()=>R,routeModule:()=>T,serverHooks:()=>m,workAsyncStorage:()=>l,workUnitAsyncStorage:()=>_});var s={};t.r(s),t.d(s,{POST:()=>E,dynamic:()=>d});var n=t(62137),a=t(63654),o=t(48093),i=t(63e3);let p=new(t(96330)).PrismaClient;async function u(e,r,t){let s=Buffer.from(`${r}:${t}`).toString("base64"),n=await fetch(`${e}/oauth/v1/generate?grant_type=client_credentials`,{method:"GET",headers:{Authorization:`Basic ${s}`}});if(!n.ok)throw Error(`OAuth request failed: ${n.status}`);return n.json()}async function c(){await p.$executeRawUnsafe(`
-    CREATE TABLE IF NOT EXISTS mpesa_b2b_payments (
-      id SERIAL PRIMARY KEY,
-      amount NUMERIC,
-      party_a TEXT,
-      party_b TEXT,
-      account_reference TEXT,
-      initiator TEXT,
-      requester TEXT,
-      remarks TEXT,
-      provider_response JSONB,
-      originator_conversation_id TEXT,
-      conversation_id TEXT,
-      response_code TEXT,
-      response_description TEXT,
-      transaction_id TEXT,
-      status TEXT DEFAULT 'pending',
-      created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-      updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-    )
-  `)}let d="force-dynamic";async function E(e){try{let{Initiator:r,SecurityCredential:t,CommandID:s,SenderIdentifierType:n,ReceiverIdentifierType:a,Amount:o,PartyA:d,PartyB:E,AccountReference:T,Requester:l,Remarks:_,QueueTimeOutURL:m,ResultURL:R,Occasion:y}=await e.json().catch(()=>({}))||{};if(!o||!d||!E)return i.NextResponse.json({error:"Missing required fields: Amount, PartyA, PartyB"},{status:400});let v=process.env.MPESA_ENV||"sandbox",A="production"===v?"https://api.safaricom.co.ke":"https://sandbox.safaricom.co.ke",S=process.env.MPESA_CONSUMER_KEY,f=process.env.MPESA_CONSUMER_SECRET;if(!S||!f)return i.NextResponse.json({error:"MPESA consumer credentials not configured"},{status:500});let I=r||process.env.MPESA_INITIATOR||"",b=t||process.env.MPESA_SECURITY_CREDENTIAL||"";if(!I||!b)return i.NextResponse.json({error:"Initiator or SecurityCredential not provided (or MPESA_INITIATOR/MPESA_SECURITY_CREDENTIAL missing)"},{status:500});await c();let x=await p.$queryRawUnsafe("INSERT INTO mpesa_b2b_payments (amount, party_a, party_b, account_reference, initiator, requester, remarks, status, created_at, updated_at) VALUES ($1,$2,$3,$4,$5,$6,$7,'pending',NOW(),NOW()) RETURNING id",o,d,E,T||null,I,l||null,_||null),N=x?.[0]?.id||null,P=await u(A,S,f),g=P?.access_token;if(!g)return i.NextResponse.json({error:"Failed to retrieve access token"},{status:500});let h={Initiator:I,SecurityCredential:b,CommandID:s||"BusinessPayBill",SenderIdentifierType:n||"4",ReceiverIdentifierType:a||"4",Amount:o,PartyA:d,PartyB:E,AccountReference:T||String(d),Remarks:_||"Business to Business payment",QueueTimeOutURL:m||process.env.MPESA_B2B_QUEUE_TIMEOUT_URL||`${A}/mpesa/callback`,ResultURL:R||process.env.MPESA_B2B_RESULT_URL||`${A}/mpesa/callback`};l&&(h.Requester=l),y&&(h.Occasion=y);let w=await fetch(`${A}/mpesa/b2b/v1/paymentrequest`,{method:"POST",headers:{Authorization:`Bearer ${g}`,"Content-Type":"application/json"},body:JSON.stringify(h)}),$=await w.json().catch(()=>({}));try{await p.$executeRawUnsafe("UPDATE mpesa_b2b_payments SET provider_response=$1::jsonb, originator_conversation_id=$2, conversation_id=$3, response_code=$4, response_description=$5, updated_at=NOW() WHERE id=$6",JSON.stringify($||{}),$?.OriginatorConversationID||$?.originatorConversationID||null,$?.ConversationID||$?.conversationID||null,$?.ResponseCode||$?.responseCode||null,$?.ResponseDescription||$?.responseDescription||null,N)}catch(e){console.warn("Failed to update mpesa_b2b_payments with provider response",e)}return i.NextResponse.json({localId:N,provider:$},{status:w.ok?200:502})}catch(e){return console.error("B2B payment error",e?.message||e),i.NextResponse.json({error:e?.message||"Server error"},{status:500})}}let T=new n.AppRouteRouteModule({definition:{kind:a.RouteKind.APP_ROUTE,page:"/api/mpesa/b2b/route",pathname:"/api/mpesa/b2b",filename:"route",bundlePath:"app/api/mpesa/b2b/route"},resolvedPagePath:"/home/lod/Downloads/jwrc/app/api/mpesa/b2b/route.ts",nextConfigOutput:"",userland:s}),{workAsyncStorage:l,workUnitAsyncStorage:_,serverHooks:m}=T;function R(){return(0,o.patchFetch)({workAsyncStorage:l,workUnitAsyncStorage:_})}},62290:()=>{},51674:()=>{}};var r=require("../../../../webpack-runtime.js");r.C(e);var t=e=>r(r.s=e),s=r.X(0,[5089,9862],()=>t(31287));module.exports=s})();
+var R=require("../../../../chunks/[turbopack]_runtime.js")("server/app/api/mpesa/b2b/route.js")
+R.c("server/chunks/[root-of-the-server]__a9bb4fbd._.js")
+R.c("server/chunks/[root-of-the-server]__6b0d2dce._.js")
+R.c("server/chunks/jwrc__next-internal_server_app_api_mpesa_b2b_route_actions_407e5b92.js")
+R.m(55912)
+module.exports=R.m(55912).exports
