@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { PrismaClient } from "@prisma/client"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import { generateVerificationCode, getVerificationCodeExpiration } from "@/lib/verification"
 
 const prisma = new PrismaClient()
 
@@ -13,15 +14,25 @@ export async function POST(req: Request) {
 
     // check exists
     const existing = await prisma.user.findFirst({ where: { email: { equals: String(email), mode: 'insensitive' } } })
-    if (existing) return NextResponse.json({ error: 'User already exists' }, { status: 409 })
+    if (existing) {
+      return NextResponse.json(
+        { error: 'An account with this email already exists. Please login or use a different email.' }, 
+        { status: 409 }
+      )
+    }
 
     const hash = await bcrypt.hash(String(password), 12)
+    const verificationCode = generateVerificationCode()
+    const verificationCodeExpiresAt = getVerificationCodeExpiration()
+
     const user = await prisma.user.create({ 
       data: { 
         email: String(email), 
         name: name ? String(name) : undefined, 
         phone: phone ? String(phone) : undefined,
-        password: hash 
+        password: hash,
+        verificationCode,
+        verificationCodeExpiresAt
       } 
     })
 
@@ -29,7 +40,23 @@ export async function POST(req: Request) {
     const token = jwt.sign({ userId: user.id, role: user.role, email: user.email }, secret, { expiresIn: '7d' })
     const cookie = `token=${token}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}; SameSite=Lax`
 
-    // Send welcome email
+    // Send verification email
+    try {
+      await fetch(`${req.headers.get('origin')}/api/auth/send-verification-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email: user.email, 
+          name: user.name,
+          verificationCode
+        }),
+      })
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError)
+      // Don't fail signup if email fails
+    }
+
+    // Send welcome email (after verification)
     try {
       await fetch(`${req.headers.get('origin')}/api/auth/send-welcome-email`, {
         method: 'POST',

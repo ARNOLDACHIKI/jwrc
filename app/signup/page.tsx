@@ -43,9 +43,13 @@ export default function SignupPage() {
     try {
       const fullPhone = phone ? countryCode + phone : ""
       await signup(name, email, password, fullPhone)
-      router.push("/dashboard")
-    } catch (err) {
-      setError("Sign up failed. Please try again.")
+      // Redirect to email verification page
+      router.push(`/verify-email?email=${encodeURIComponent(email)}`)
+    } catch (err: any) {
+      // Display specific error message from the server
+      const errorMessage = err?.message || "Sign up failed. Please try again."
+      setError(errorMessage)
+      console.error("Signup error:", err)
     } finally {
       setLoading(false)
     }

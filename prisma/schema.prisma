@@ -8,18 +8,21 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  email        String   @unique
-  name         String?
-  phone        String?
-  location     String?
-  bio          String?
-  profileImage String?
-  role         String   @default("member")
-  password     String?
-  isVolunteer  Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id                    String   @id @default(uuid())
+  email                 String   @unique
+  name                  String?
+  phone                 String?
+  location              String?
+  bio                   String?
+  profileImage          String?
+  role                  String   @default("member")
+  password              String?
+  isVolunteer           Boolean  @default(false)
+  emailVerified         Boolean  @default(false)
+  verificationCode      String?
+  verificationCodeExpiresAt DateTime?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
 }
 
 model Sermon {
@@ -70,6 +73,9 @@ model EventSignup {
   name      String
   email     String
   phone     String?
+  ticketSent Boolean @default(false)
+  checkedIn Boolean @default(false)
+  checkedInAt DateTime?
   createdAt DateTime @default(now())
 }
 

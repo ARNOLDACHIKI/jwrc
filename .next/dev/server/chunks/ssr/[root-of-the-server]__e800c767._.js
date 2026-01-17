@@ -139,7 +139,9 @@ function UserProvider({ children }) {
             });
             if (!res.ok) {
                 const err = await res.json().catch(()=>({}));
-                throw new Error(err?.error || "Signup failed");
+                const errorMessage = err?.error || "Signup failed";
+                console.error("Signup failed:", errorMessage, "Status:", res.status);
+                throw new Error(errorMessage);
             }
             const data = await res.json().catch(()=>({}));
             if (("TURBOPACK compile-time value", "undefined") !== "undefined" && data?.token) //TURBOPACK unreachable
@@ -182,7 +184,7 @@ function UserProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/jwrc/contexts/user-context.tsx",
-        lineNumber: 155,
+        lineNumber: 157,
         columnNumber: 5
     }, this);
 }

@@ -1,0 +1,10 @@
+var R=require("../../../../chunks/[turbopack]_runtime.js")("server/app/api/events/send-ticket/route.js")
+R.c("server/chunks/[root-of-the-server]__48b3c3ef._.js")
+R.c("server/chunks/[root-of-the-server]__b3f79f2d._.js")
+R.c("server/chunks/jwrc_lib_email-templates_ts_a21a71f0._.js")
+R.c("server/chunks/[root-of-the-server]__7646fd32._.js")
+R.c("server/chunks/[root-of-the-server]__9bac60e0._.js")
+R.c("server/chunks/[root-of-the-server]__bda9107b._.js")
+R.c("server/chunks/jwrc__next-internal_server_app_api_events_send-ticket_route_actions_e65da34e.js")
+R.m(67314)
+module.exports=R.m(67314).exports

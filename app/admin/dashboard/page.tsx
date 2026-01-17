@@ -737,7 +737,12 @@ export default function AdminDashboard() {
                         </Button>
                         <Button variant="outline" onClick={() => {
                           const rows = signupsByEvent[showingSignupsFor] || []
-                          const csv = [ ['Name','Email','Phone','Created At'], ...rows.map((r:any)=>[r.name, r.email, r.phone||'', r.createdAt]) ]
+                          const csv = [ ['Name','Email','Phone','Created At'], ...rows.map((r:any)=>[
+                            r.name,
+                            r.email,
+                            r.phone||'',
+                            r.createdAt ? new Date(r.createdAt).toISOString() : ''
+                          ]) ]
                             .map(r => r.map((c:any)=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n')
                           const blob = new Blob([csv], { type: 'text/csv' })
                           const url = URL.createObjectURL(blob)

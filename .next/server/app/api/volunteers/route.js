@@ -1,0 +1,8 @@
+var R=require("../../../chunks/[turbopack]_runtime.js")("server/app/api/volunteers/route.js")
+R.c("server/chunks/[root-of-the-server]__58b763d9._.js")
+R.c("server/chunks/jwrc_lib_email-templates_ts_a21a71f0._.js")
+R.c("server/chunks/[root-of-the-server]__9bac60e0._.js")
+R.c("server/chunks/[root-of-the-server]__7646fd32._.js")
+R.c("server/chunks/jwrc__next-internal_server_app_api_volunteers_route_actions_efaa8103.js")
+R.m(62335)
+module.exports=R.m(62335).exports

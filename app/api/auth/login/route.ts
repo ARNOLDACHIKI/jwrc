@@ -62,6 +62,7 @@ export async function POST(req: Request) {
     // Also return token in response body so client can store it in sessionStorage
     return NextResponse.json({ ok: true, token }, { status: 200, headers: { "Set-Cookie": cookie } })
   } catch (err) {
+    console.error("Login error:", err)
     return NextResponse.json({ error: "Server error" }, { status: 500 })
   }
 }

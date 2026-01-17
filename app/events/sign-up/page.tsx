@@ -77,6 +77,16 @@ export default function EventSignUpPage() {
     }
   }
 
+  function getQrUrl(result: any | null) {
+    if (!result) return null
+    try {
+      const payload = JSON.stringify({ id: result.id, ref: result.ref, eventId: result.eventId, name: result.name })
+      return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(payload)}`
+    } catch (e) {
+      return null
+    }
+  }
+
   if (!eventId) {
     return (
       <div className="relative min-h-screen overflow-hidden">
@@ -123,6 +133,19 @@ export default function EventSignUpPage() {
                   <div className="font-mono bg-gray-100 dark:bg-slate-800 px-3 py-1 rounded">{(signupResult.ref || '').slice(0,8)}</div>
                   <button onClick={() => copyRef((signupResult.ref || '').slice(0,8))} className="p-2 rounded bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"><Copy className="w-4 h-4" /></button>
                 </div>
+
+                {/* QR ticket */}
+                {(() => {
+                  const qr = getQrUrl(signupResult)
+                  if (!qr) return null
+                  return (
+                    <div className="mt-4 flex flex-col items-center gap-3">
+                      <img src={qr} alt="Your ticket QR code" className="w-48 h-48 bg-white p-2 rounded shadow" />
+                      <a href={qr} download={`ticket_${(signupResult.ref||'').slice(0,8)}.png`} className="text-sm text-blue-600 hover:underline">Download ticket (PNG)</a>
+                      <p className="text-xs text-gray-500">Show this QR code at the event entrance. It encodes your signup reference.</p>
+                    </div>
+                  )
+                })()}
 
                 <div className="flex gap-3 mt-6">
                   <Button onClick={() => router.push('/events')} className="bg-blue-600 hover:bg-blue-700">Back to Events</Button>

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
 import { PrismaClient } from "@prisma/client"
 import jwt from "jsonwebtoken"
+import { generateTicketQRCode } from "@/lib/qrcode"
+import { getEventTicketEmail } from "@/lib/email-templates"
 
 const prisma = new PrismaClient()
 
@@ -40,14 +42,14 @@ export async function POST(req: Request) {
       // Send to specific signups
       const placeholders = signupIds.map((_, i) => `$${i + 2}`).join(',')
       signups = await prisma.$queryRawUnsafe(
-        `SELECT id, name, email, phone FROM event_signups WHERE event_id = $1 AND id IN (${placeholders})`,
+        `SELECT id, event_id, ref, name, email, phone FROM event_signups WHERE event_id = $1 AND id IN (${placeholders})`,
         eventId,
         ...signupIds
       )
     } else {
       // Send to all signups for this event
       signups = await prisma.$queryRawUnsafe(
-        `SELECT id, name, email, phone FROM event_signups WHERE event_id = $1`,
+        `SELECT id, event_id, ref, name, email, phone FROM event_signups WHERE event_id = $1`,
         eventId
       )
     }
@@ -92,30 +94,51 @@ export async function POST(req: Request) {
 
     for (const signup of signups) {
       try {
-        const emailContent = `
-Dear ${signup.name},
+        // Generate QR code for this ticket
+        const qrCodeDataURL = await generateTicketQRCode({
+          eventId: signup.event_id,
+          signupId: signup.id,
+          ref: signup.ref || '',
+          name: signup.name,
+          email: signup.email
+        })
 
-This is a friendly reminder about the upcoming event you signed up for:
+        console.log(`Generated QR code for ${signup.email}, length: ${qrCodeDataURL.length}`)
 
-Event: ${event.title}
-${event.description ? `\n${event.description}\n` : ''}
-Date & Time: ${formatDate(new Date(event.startsAt))}
-${event.location ? `Location: ${event.location}\n` : ''}
+        // Extract base64 data from data URL
+        const base64Data = qrCodeDataURL.split(',')[1]
 
-We look forward to seeing you there!
-
-If you have any questions, please don't hesitate to contact us.
-
-Best regards,
-${process.env.SITE_NAME || 'Jesus Worship and Restoration Church'}
-        `.trim()
+        // Use the professional ticket email template with CID reference
+        const emailContent = getEventTicketEmail(
+          signup.name,
+          event.title,
+          formatDate(new Date(event.startsAt)),
+          event.location || undefined,
+          signup.ref || 'N/A',
+          'cid:qrcode@ticket' // Use CID instead of data URL
+        )
 
         await transporter.sendMail({
           from: process.env.SMTP_FROM || process.env.SMTP_USER,
           to: signup.email,
-          subject: `Reminder: ${event.title}`,
-          text: emailContent,
+          subject: `Reminder: ${event.title} - Your Ticket Inside`,
+          html: emailContent.html,
+          text: emailContent.text,
+          attachments: [
+            {
+              filename: 'qrcode.png',
+              content: base64Data,
+              encoding: 'base64',
+              cid: 'qrcode@ticket' // Same CID as referenced in the HTML
+            }
+          ]
         })
+
+        // Mark ticket as sent
+        await prisma.$executeRawUnsafe(
+          `UPDATE event_signups SET ticket_sent = true WHERE id = $1`,
+          signup.id
+        )
 
         sent++
       } catch (e) {

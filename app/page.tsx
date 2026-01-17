@@ -27,17 +27,17 @@ export default function Home({ searchParams }: { searchParams?: { embedded?: str
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: Music, label: "Live Sermons", desc: "Weekly powerful messages", href: "/sermons" },
+              { icon: Music, label: "Live Sermons", desc: "Weekly powerful messages", href: null },
               { icon: Users, label: "Volunteer", desc: "Make a difference", href: "/volunteer" },
               { icon: Heart, label: "Donate", desc: "Support our mission", href: "/donate" },
               { icon: Calendar, label: "Events", desc: "Community gatherings", href: "/events" },
-              { icon: BookOpen, label: "Blog", desc: "Spiritual insights", href: "/blog" },
-              { icon: Zap, label: "Trivia", desc: "Bible quiz game", href: "/trivia" },
+              { icon: BookOpen, label: "Blog", desc: "Spiritual insights", href: null },
+              { icon: Zap, label: "Trivia", desc: "Bible quiz game", href: null },
               { icon: Users, label: "Announcements", desc: "Latest updates", href: "/announcements" },
               { icon: MessageSquare, label: "Feedback", desc: "Send suggestions", href: "/suggestions" },
             ].map((feature, idx) => {
               const Icon = feature.icon
-              return (
+              return feature.href ? (
                 <Link key={idx} href={feature.href}>
                   <Card className="group relative p-6 h-full overflow-hidden bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] hover:from-[#e8ddd0] hover:via-[#f5ebe0] hover:to-[#e0d5c8] transition-all duration-500 cursor-pointer border border-[var(--border)] shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2 hover:rotate-1">
                     <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none" />
@@ -52,6 +52,19 @@ export default function Home({ searchParams }: { searchParams?: { embedded?: str
                     </div>
                   </Card>
                 </Link>
+              ) : (
+                <Card key={idx} className="group relative p-6 h-full overflow-hidden bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] hover:from-[#e8ddd0] hover:via-[#f5ebe0] hover:to-[#e0d5c8] transition-all duration-500 cursor-default border border-[var(--border)] shadow-lg hover:shadow-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  
+                  <div className="relative z-10">
+                    <div className="bg-gradient-to-br from-[var(--primary)]/20 to-[var(--primary)]/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4 shadow-md group-hover:shadow-lg transition-shadow duration-300">
+                      <Icon className="w-6 h-6 text-[var(--primary)] group-hover:scale-110 transition-transform duration-300" />
+                    </div>
+                    <h3 className="font-bold text-lg text-[var(--primary)] dark:text-white mb-2">{feature.label}</h3>
+                    <p className="text-[var(--muted-foreground)] dark:text-gray-400 text-sm">{feature.desc}</p>
+                  </div>
+                </Card>
               )
             })}
           </div>

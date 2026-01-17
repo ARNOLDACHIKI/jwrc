@@ -1920,7 +1920,7 @@ function AdminDashboard() {
                                                                                     r.name,
                                                                                     r.email,
                                                                                     r.phone || '',
-                                                                                    r.createdAt
+                                                                                    r.createdAt ? new Date(r.createdAt).toISOString() : ''
                                                                                 ])
                                                                         ].map((r)=>r.map((c)=>`"${String(c || '').replace(/"/g, '""')}"`).join(',')).join('\n');
                                                                         const blob = new Blob([
@@ -1952,7 +1952,7 @@ function AdminDashboard() {
                                                                     children: "Close"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                    lineNumber: 752,
+                                                                    lineNumber: 757,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
@@ -1985,13 +1985,13 @@ function AdminDashboard() {
                                                                                         children: s.email
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                                        lineNumber: 760,
+                                                                                        lineNumber: 765,
                                                                                         columnNumber: 65
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                                lineNumber: 760,
+                                                                                lineNumber: 765,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1999,13 +1999,13 @@ function AdminDashboard() {
                                                                                 children: s.phone || ''
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                                lineNumber: 761,
+                                                                                lineNumber: 766,
                                                                                 columnNumber: 29
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                        lineNumber: 759,
+                                                                        lineNumber: 764,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2016,7 +2016,7 @@ function AdminDashboard() {
                                                                                 children: s.createdAt ? new Date(s.createdAt).toLocaleString() : ''
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                                lineNumber: 764,
+                                                                                lineNumber: 769,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -2052,19 +2052,19 @@ function AdminDashboard() {
                                                                                 children: "Remove"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                                lineNumber: 765,
+                                                                                lineNumber: 770,
                                                                                 columnNumber: 29
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                        lineNumber: 763,
+                                                                        lineNumber: 768,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, s.id, true, {
                                                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                lineNumber: 758,
+                                                                lineNumber: 763,
                                                                 columnNumber: 25
                                                             }, this)),
                                                         (signupsByEvent[showingSignupsFor] || []).length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2072,13 +2072,13 @@ function AdminDashboard() {
                                                             children: "No signups yet."
                                                         }, void 0, false, {
                                                             fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                            lineNumber: 780,
+                                                            lineNumber: 785,
                                                             columnNumber: 84
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                    lineNumber: 756,
+                                                    lineNumber: 761,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
@@ -2108,12 +2108,12 @@ function AdminDashboard() {
                                             children: "Volunteer Applications"
                                         }, void 0, false, {
                                             fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                            lineNumber: 791,
+                                            lineNumber: 796,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                        lineNumber: 790,
+                                        lineNumber: 795,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2129,7 +2129,7 @@ function AdminDashboard() {
                                                                     children: app.name
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                    lineNumber: 798,
+                                                                    lineNumber: 803,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2141,7 +2141,7 @@ function AdminDashboard() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                    lineNumber: 799,
+                                                                    lineNumber: 804,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2152,7 +2152,7 @@ function AdminDashboard() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                    lineNumber: 800,
+                                                                    lineNumber: 805,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 app.adminMessage && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2163,13 +2163,13 @@ function AdminDashboard() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                    lineNumber: 801,
+                                                                    lineNumber: 806,
                                                                     columnNumber: 44
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                            lineNumber: 797,
+                                                            lineNumber: 802,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2211,7 +2211,7 @@ function AdminDashboard() {
                                                                     children: "Approve"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                    lineNumber: 804,
+                                                                    lineNumber: 809,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -2251,19 +2251,19 @@ function AdminDashboard() {
                                                                     children: "Reject"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                    lineNumber: 816,
+                                                                    lineNumber: 821,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                            lineNumber: 803,
+                                                            lineNumber: 808,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, app.id, true, {
                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                    lineNumber: 796,
+                                                    lineNumber: 801,
                                                     columnNumber: 19
                                                 }, this)),
                                             volunteerApps.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2271,19 +2271,19 @@ function AdminDashboard() {
                                                 children: "No volunteer applications yet."
                                             }, void 0, false, {
                                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                lineNumber: 832,
+                                                lineNumber: 837,
                                                 columnNumber: 48
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                        lineNumber: 794,
+                                        lineNumber: 799,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                lineNumber: 789,
+                                lineNumber: 794,
                                 columnNumber: 13
                             }, this),
                             activeTab === "suggestions" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2297,7 +2297,7 @@ function AdminDashboard() {
                                                 children: "Suggestions"
                                             }, void 0, false, {
                                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                lineNumber: 840,
+                                                lineNumber: 845,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2311,7 +2311,7 @@ function AdminDashboard() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                        lineNumber: 842,
+                                                        lineNumber: 847,
                                                         columnNumber: 39
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -2342,19 +2342,19 @@ function AdminDashboard() {
                                                         children: "Refresh"
                                                     }, void 0, false, {
                                                         fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                        lineNumber: 843,
+                                                        lineNumber: 848,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                lineNumber: 841,
+                                                lineNumber: 846,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                        lineNumber: 839,
+                                        lineNumber: 844,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2374,7 +2374,7 @@ function AdminDashboard() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                    lineNumber: 865,
+                                                                    lineNumber: 870,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2382,7 +2382,7 @@ function AdminDashboard() {
                                                                     children: s.message
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                    lineNumber: 866,
+                                                                    lineNumber: 871,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 s.adminResponse && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2400,19 +2400,19 @@ function AdminDashboard() {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                            lineNumber: 868,
+                                                                            lineNumber: 873,
                                                                             columnNumber: 109
                                                                         }, this) : null
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                    lineNumber: 868,
+                                                                    lineNumber: 873,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                            lineNumber: 864,
+                                                            lineNumber: 869,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2429,18 +2429,18 @@ function AdminDashboard() {
                                                                 children: "Respond"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                                lineNumber: 872,
+                                                                lineNumber: 877,
                                                                 columnNumber: 23
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                            lineNumber: 871,
+                                                            lineNumber: 876,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, s.id, true, {
                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                    lineNumber: 863,
+                                                    lineNumber: 868,
                                                     columnNumber: 19
                                                 }, this)),
                                             suggestionsState.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2448,19 +2448,19 @@ function AdminDashboard() {
                                                 children: "No suggestions yet."
                                             }, void 0, false, {
                                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                lineNumber: 882,
+                                                lineNumber: 887,
                                                 columnNumber: 51
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                        lineNumber: 861,
+                                        lineNumber: 866,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                lineNumber: 838,
+                                lineNumber: 843,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Dialog"], {
@@ -2479,12 +2479,12 @@ function AdminDashboard() {
                                                 children: "Respond to Suggestion"
                                             }, void 0, false, {
                                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                lineNumber: 891,
+                                                lineNumber: 896,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                            lineNumber: 890,
+                                            lineNumber: 895,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2501,12 +2501,12 @@ function AdminDashboard() {
                                                         placeholder: "Write your response to the suggestion here"
                                                     }, void 0, false, {
                                                         fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                        lineNumber: 895,
+                                                        lineNumber: 900,
                                                         columnNumber: 19
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                    lineNumber: 894,
+                                                    lineNumber: 899,
                                                     columnNumber: 17
                                                 }, this),
                                                 replyError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2514,13 +2514,13 @@ function AdminDashboard() {
                                                     children: replyError
                                                 }, void 0, false, {
                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                    lineNumber: 897,
+                                                    lineNumber: 902,
                                                     columnNumber: 32
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                            lineNumber: 893,
+                                            lineNumber: 898,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DialogFooter"], {
@@ -2534,7 +2534,7 @@ function AdminDashboard() {
                                                     children: "Cancel"
                                                 }, void 0, false, {
                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                    lineNumber: 900,
+                                                    lineNumber: 905,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -2591,24 +2591,24 @@ function AdminDashboard() {
                                                     children: isReplying ? 'Sending...' : 'Send Response'
                                                 }, void 0, false, {
                                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                    lineNumber: 901,
+                                                    lineNumber: 906,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                            lineNumber: 899,
+                                            lineNumber: 904,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                    lineNumber: 889,
+                                    lineNumber: 894,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                lineNumber: 888,
+                                lineNumber: 893,
                                 columnNumber: 11
                             }, this),
                             activeTab === "settings" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ChurchSettings, {
@@ -2616,7 +2616,7 @@ function AdminDashboard() {
                                 toast: toast
                             }, void 0, false, {
                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                lineNumber: 934,
+                                lineNumber: 939,
                                 columnNumber: 13
                             }, this)
                         ]
@@ -2708,12 +2708,12 @@ function ChurchSettings({ adminName, toast }) {
                 children: "Loading settings..."
             }, void 0, false, {
                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                lineNumber: 998,
+                lineNumber: 1003,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-            lineNumber: 997,
+            lineNumber: 1002,
             columnNumber: 7
         }, this);
     }
@@ -2727,7 +2727,7 @@ function ChurchSettings({ adminName, toast }) {
                         children: "Church Settings"
                     }, void 0, false, {
                         fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                        lineNumber: 1006,
+                        lineNumber: 1011,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2735,13 +2735,13 @@ function ChurchSettings({ adminName, toast }) {
                         children: "Manage church statistics displayed on the About page"
                     }, void 0, false, {
                         fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                        lineNumber: 1007,
+                        lineNumber: 1012,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                lineNumber: 1005,
+                lineNumber: 1010,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -2756,7 +2756,7 @@ function ChurchSettings({ adminName, toast }) {
                                     children: "Active Members"
                                 }, void 0, false, {
                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                    lineNumber: 1013,
+                                    lineNumber: 1018,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2768,7 +2768,7 @@ function ChurchSettings({ adminName, toast }) {
                                     min: "0"
                                 }, void 0, false, {
                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                    lineNumber: 1016,
+                                    lineNumber: 1021,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2776,13 +2776,13 @@ function ChurchSettings({ adminName, toast }) {
                                     children: "Number of active church members"
                                 }, void 0, false, {
                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                    lineNumber: 1024,
+                                    lineNumber: 1029,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                            lineNumber: 1012,
+                            lineNumber: 1017,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2792,7 +2792,7 @@ function ChurchSettings({ adminName, toast }) {
                                     children: "Ministry Partnerships"
                                 }, void 0, false, {
                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                    lineNumber: 1028,
+                                    lineNumber: 1033,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2804,7 +2804,7 @@ function ChurchSettings({ adminName, toast }) {
                                     min: "0"
                                 }, void 0, false, {
                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                    lineNumber: 1031,
+                                    lineNumber: 1036,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2812,13 +2812,13 @@ function ChurchSettings({ adminName, toast }) {
                                     children: "Number of ministry partnerships"
                                 }, void 0, false, {
                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                    lineNumber: 1039,
+                                    lineNumber: 1044,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                            lineNumber: 1027,
+                            lineNumber: 1032,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2833,19 +2833,19 @@ function ChurchSettings({ adminName, toast }) {
                                                 children: "Note:"
                                             }, void 0, false, {
                                                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                                lineNumber: 1045,
+                                                lineNumber: 1050,
                                                 columnNumber: 17
                                             }, this),
                                             " Years Serving is automatically calculated from Feb 7, 2020 (founding date). Weekly Programs count is automatically calculated from scheduled events in the next 7 days."
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                        lineNumber: 1044,
+                                        lineNumber: 1049,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                    lineNumber: 1043,
+                                    lineNumber: 1048,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$jwrc$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -2855,30 +2855,30 @@ function ChurchSettings({ adminName, toast }) {
                                     children: saving ? 'Saving...' : 'Save Settings'
                                 }, void 0, false, {
                                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                                    lineNumber: 1049,
+                                    lineNumber: 1054,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                            lineNumber: 1042,
+                            lineNumber: 1047,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                    lineNumber: 1011,
+                    lineNumber: 1016,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-                lineNumber: 1010,
+                lineNumber: 1015,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/jwrc/app/admin/dashboard/page.tsx",
-        lineNumber: 1004,
+        lineNumber: 1009,
         columnNumber: 5
     }, this);
 }

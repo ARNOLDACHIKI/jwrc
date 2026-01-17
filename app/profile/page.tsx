@@ -27,6 +27,8 @@ export default function ProfilePage() {
   const [imagePreview, setImagePreview] = useState<string>("")
   const [volunteerApplications, setVolunteerApplications] = useState<any[]>([])
   const [volunteerLoading, setVolunteerLoading] = useState(false)
+  const [bannerTransform, setBannerTransform] = useState({ rotateX: 0, rotateY: 0 })
+  const [isHovering, setIsHovering] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -62,6 +64,28 @@ export default function ProfilePage() {
       cancelled = true
     }
   }, [user?.email])
+
+  const handleBannerMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isHovering) return
+    const banner = e.currentTarget
+    const rect = banner.getBoundingClientRect()
+    const centerX = rect.width / 2
+    const centerY = rect.height / 2
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const rotateY = ((x - centerX) / centerX) * 8
+    const rotateX = ((centerY - y) / centerY) * 8
+    setBannerTransform({ rotateX, rotateY })
+  }
+
+  const handleBannerMouseLeave = () => {
+    setIsHovering(false)
+    setBannerTransform({ rotateX: 0, rotateY: 0 })
+  }
+
+  const handleBannerMouseEnter = () => {
+    setIsHovering(true)
+  }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -147,8 +171,55 @@ export default function ProfilePage() {
 
             {/* Profile Card */}
             <Card className="overflow-hidden mb-8">
-              {/* Banner */}
-              <div className="h-32 bg-gradient-to-r from-blue-500 to-blue-600"></div>
+              {/* Banner with 3D perspective */}
+              <div style={{ perspective: "1000px" }}>
+                <div 
+                  onMouseMove={handleBannerMouseMove}
+                  onMouseEnter={handleBannerMouseEnter}
+                  onMouseLeave={handleBannerMouseLeave}
+                  className="h-40 relative overflow-hidden bg-gradient-to-b from-slate-900 to-slate-800 dark:from-slate-950 dark:to-slate-900 transition-transform duration-200"
+                  style={{
+                    transform: `perspective(1000px) rotateX(${bannerTransform.rotateX}deg) rotateY(${bannerTransform.rotateY}deg) translateZ(20px)`,
+                    transformStyle: "preserve-3d" as any,
+                  }}
+                >
+                  {/* Cyan wavy particle pattern */}
+                  <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 1200 160">
+                  <defs>
+                    <filter id="glow">
+                      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                      <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  
+                  {/* Wavy line patterns */}
+                  <path d="M0,60 Q150,20 300,60 T600,60 T900,60 T1200,60" stroke="rgba(34, 211, 238, 0.4)" strokeWidth="2" fill="none" filter="url(#glow)"/>
+                  <path d="M0,80 Q150,40 300,80 T600,80 T900,80 T1200,80" stroke="rgba(34, 211, 238, 0.3)" strokeWidth="2" fill="none" filter="url(#glow)"/>
+                  <path d="M0,100 Q150,60 300,100 T600,100 T900,100 T1200,100" stroke="rgba(6, 182, 212, 0.25)" strokeWidth="2" fill="none" filter="url(#glow)"/>
+                  
+                  {/* Dot particles along waves */}
+                  <circle cx="50" cy="55" r="2" fill="rgba(34, 211, 238, 0.6)" filter="url(#glow)"/>
+                  <circle cx="120" cy="40" r="1.5" fill="rgba(34, 211, 238, 0.5)"/>
+                  <circle cx="200" cy="50" r="2" fill="rgba(6, 182, 212, 0.6)" filter="url(#glow)"/>
+                  <circle cx="280" cy="65" r="1.5" fill="rgba(34, 211, 238, 0.5)"/>
+                  <circle cx="350" cy="55" r="2" fill="rgba(34, 211, 238, 0.6)" filter="url(#glow)"/>
+                  <circle cx="450" cy="35" r="1.5" fill="rgba(6, 182, 212, 0.5)"/>
+                  <circle cx="550" cy="60" r="2" fill="rgba(34, 211, 238, 0.6)" filter="url(#glow)"/>
+                  <circle cx="650" cy="50" r="1.5" fill="rgba(34, 211, 238, 0.5)"/>
+                  <circle cx="750" cy="65" r="2" fill="rgba(6, 182, 212, 0.6)" filter="url(#glow)"/>
+                  <circle cx="850" cy="45" r="1.5" fill="rgba(34, 211, 238, 0.5)"/>
+                  <circle cx="950" cy="58" r="2" fill="rgba(34, 211, 238, 0.6)" filter="url(#glow)"/>
+                  <circle cx="1050" cy="48" r="1.5" fill="rgba(6, 182, 212, 0.5)"/>
+                  <circle cx="1150" cy="62" r="2" fill="rgba(34, 211, 238, 0.6)" filter="url(#glow)"/>
+                </svg>
+                
+                {/* Dark overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/40 to-slate-900/80"></div>
+                </div>
+              </div>
 
               {/* Profile Content */}
               <div className="px-6 pb-6">

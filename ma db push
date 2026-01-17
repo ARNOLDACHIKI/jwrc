@@ -1,0 +1,21 @@
+                                          Table "public.User"
+          Column           |              Type              | Collation | Nullable |      Default      
+---------------------------+--------------------------------+-----------+----------+-------------------
+ id                        | text                           |           | not null | 
+ email                     | text                           |           | not null | 
+ name                      | text                           |           |          | 
+ phone                     | text                           |           |          | 
+ role                      | text                           |           | not null | 'member'::text
+ password                  | text                           |           |          | 
+ createdAt                 | timestamp(3) without time zone |           | not null | CURRENT_TIMESTAMP
+ updatedAt                 | timestamp(3) without time zone |           | not null | 
+ bio                       | text                           |           |          | 
+ isVolunteer               | boolean                        |           | not null | false
+ location                  | text                           |           |          | 
+ emailVerified             | boolean                        |           | not null | false
+ verificationCode          | text                           |           |          | 
+ verificationCodeExpiresAt | timestamp(3) without time zone |           |          | 
+Indexes:
+    "User_pkey" PRIMARY KEY, btree (id)
+    "User_email_key" UNIQUE, btree (email)
+
