@@ -1,7 +1,11 @@
-var R=require("../../../../../chunks/[turbopack]_runtime.js")("server/app/api/auth/password-reset/confirm/route.js")
-R.c("server/chunks/[root-of-the-server]__c98da04c._.js")
-R.c("server/chunks/[root-of-the-server]__7646fd32._.js")
-R.c("server/chunks/2b503_bcryptjs_index_bf6cae24.js")
-R.c("server/chunks/6c5e8_next-internal_server_app_api_auth_password-reset_confirm_route_actions_7b4b09e8.js")
-R.m(84654)
-module.exports=R.m(84654).exports
+(()=>{var e={};e.id=859,e.ids=[859],e.modules={96330:e=>{"use strict";e.exports=require("@prisma/client")},10846:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},44870:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-route.runtime.prod.js")},3295:e=>{"use strict";e.exports=require("next/dist/server/app-render/after-task-async-storage.external.js")},29294:e=>{"use strict";e.exports=require("next/dist/server/app-render/work-async-storage.external.js")},63033:e=>{"use strict";e.exports=require("next/dist/server/app-render/work-unit-async-storage.external.js")},55511:e=>{"use strict";e.exports=require("crypto")},43838:(e,r,t)=>{"use strict";t.r(r),t.d(r,{patchFetch:()=>k,routeModule:()=>E,serverHooks:()=>R,workAsyncStorage:()=>w,workUnitAsyncStorage:()=>l});var s={};t.r(s),t.d(s,{POST:()=>x,dynamic:()=>T});var a=t(62137),o=t(63654),n=t(48093),i=t(63e3),u=t(96330),d=t(29383);let p=new u.PrismaClient;async function c(){await p.$executeRawUnsafe(`
+    CREATE TABLE IF NOT EXISTS password_reset_tokens (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      token TEXT NOT NULL,
+      expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+      used BOOLEAN DEFAULT false,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+      used_at TIMESTAMP WITH TIME ZONE
+    )
+  `)}let T="force-dynamic";async function x(e){try{let{token:r,password:t}=await e.json()||{};if(!r||!t)return i.NextResponse.json({error:"Token and password required"},{status:400});await c();let s=await p.$queryRaw`SELECT id, user_id, token, expires_at, used FROM password_reset_tokens WHERE token = ${String(r)} LIMIT 1`,a=s&&s.length?s[0]:null;if(!a)return i.NextResponse.json({error:"Invalid or expired token"},{status:400});if(a.used)return i.NextResponse.json({error:"Token already used"},{status:400});if(new Date(a.expires_at)<new Date)return i.NextResponse.json({error:"Token expired"},{status:400});let o=await d.Ay.hash(String(t),12);return await p.$executeRaw`UPDATE "User" SET password = ${o} WHERE id = ${a.user_id}`,await p.$executeRaw`UPDATE password_reset_tokens SET used = true, used_at = NOW() WHERE id = ${a.id}`,i.NextResponse.json({ok:!0})}catch(e){return console.error(e),i.NextResponse.json({error:"Server error"},{status:500})}}let E=new a.AppRouteRouteModule({definition:{kind:o.RouteKind.APP_ROUTE,page:"/api/auth/password-reset/confirm/route",pathname:"/api/auth/password-reset/confirm",filename:"route",bundlePath:"app/api/auth/password-reset/confirm/route"},resolvedPagePath:"/home/lod/Downloads/jwrc/app/api/auth/password-reset/confirm/route.ts",nextConfigOutput:"",userland:s}),{workAsyncStorage:w,workUnitAsyncStorage:l,serverHooks:R}=E;function k(){return(0,n.patchFetch)({workAsyncStorage:w,workUnitAsyncStorage:l})}},62290:()=>{},51674:()=>{}};var r=require("../../../../../webpack-runtime.js");r.C(e);var t=e=>r(r.s=e),s=r.X(0,[5089,9862,9383],()=>t(43838));module.exports=s})();

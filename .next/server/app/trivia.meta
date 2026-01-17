@@ -1,14 +1,7 @@
 {
   "headers": {
-    "x-nextjs-stale-time": "300",
+    "x-nextjs-stale-time": "4294967294",
     "x-nextjs-prerender": "1",
     "x-next-cache-tags": "_N_T_/layout,_N_T_/trivia/layout,_N_T_/trivia/page,_N_T_/trivia"
-  },
-  "segmentPaths": [
-    "/_tree",
-    "/_full",
-    "/trivia/__PAGE__",
-    "/trivia",
-    "/_index"
-  ]
+  }
 }
