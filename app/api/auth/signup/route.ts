@@ -49,13 +49,14 @@ export async function POST(req: Request) {
     )
 
     // Insert new pending registration
+    const userData = JSON.stringify({ name: name || '', phone: phone || '', passwordHash: hash })
     await prisma.$executeRawUnsafe(
       `INSERT INTO email_verifications (email, code, expires_at, verified, created_at, user_data) 
-       VALUES ($1, $2, $3, false, NOW(), $4)`,
+       VALUES ($1, $2, $3, false, NOW(), $4::jsonb)`,
       String(email).toLowerCase(),
       verificationCode,
       verificationCodeExpiresAt,
-      JSON.stringify({ name: name || '', phone: phone || '', passwordHash: hash })
+      userData
     )
 
     // Send verification email
