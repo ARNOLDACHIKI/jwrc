@@ -1,1 +1,1 @@
-# jwrc
+# jwrc# Email sending configured
