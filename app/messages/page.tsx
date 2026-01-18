@@ -1,6 +1,6 @@
 "use client"
 
-import { MainNav } from "@/components/navigation/main-nav"
+import { HeaderWithSidebar } from "@/components/navigation/header-with-sidebar"
 import { Sidebar } from "@/components/navigation/sidebar"
 import SuggestionsInbox from "@/components/suggestions-inbox"
 import { useUser } from "@/contexts/user-context"
@@ -11,7 +11,7 @@ export default function MessagesPage() {
   if (!user) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
-        <MainNav />
+        <HeaderWithSidebar />
         <div className="flex">
           <Sidebar />
           <main className="flex-1 p-8">
@@ -26,7 +26,7 @@ export default function MessagesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
-      <MainNav />
+      <HeaderWithSidebar />
       <div className="flex">
         <Sidebar />
         <main className="flex-1 p-8">

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Sidebar } from "@/components/navigation/sidebar"
-import { MainNav } from "@/components/navigation/main-nav"
+import { HeaderWithSidebar } from "@/components/navigation/header-with-sidebar"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useUser } from "@/contexts/user-context"
@@ -170,7 +170,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
-      <MainNav />
+      <HeaderWithSidebar />
       <div className="flex">
         <Sidebar />
         <main className="flex-1 overflow-auto">

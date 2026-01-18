@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Sidebar } from "@/components/navigation/sidebar"
-import { MainNav } from "@/components/navigation/main-nav"
+import { HeaderWithSidebar } from "@/components/navigation/header-with-sidebar"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useUser } from "@/contexts/user-context"
