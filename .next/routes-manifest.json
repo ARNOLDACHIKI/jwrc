@@ -269,12 +269,6 @@
       "namedRegex": "^/dashboard(?:/)?$"
     },
     {
-      "page": "/donate",
-      "regex": "^/donate(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/donate(?:/)?$"
-    },
-    {
       "page": "/events",
       "regex": "^/events(?:/)?$",
       "routeKeys": {},
@@ -291,6 +285,12 @@
       "regex": "^/forgot\\-password(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/forgot\\-password(?:/)?$"
+    },
+    {
+      "page": "/give",
+      "regex": "^/give(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/give(?:/)?$"
     },
     {
       "page": "/login",

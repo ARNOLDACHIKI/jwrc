@@ -3,14 +3,14 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, X, LogOut, User, Settings } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { useUser } from "@/contexts/user-context"
 import { Button } from "@/components/ui/button"
+import { ProfileMenu } from "./profile-menu"
 
 export function MainNav() {
   const [isOpen, setIsOpen] = useState(false)
-  const [userMenuOpen, setUserMenuOpen] = useState(false)
-  const { user, logout } = useUser()
+  const { user } = useUser()
   const [unread, setUnread] = useState(0)
   const [logoSrc, setLogoSrc] = useState("/jwrc-logo.png")
 
@@ -30,7 +30,6 @@ export function MainNav() {
   }, [user])
 
   const navItems = [
-    { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "Announcements", href: "/announcements" },
     { label: "Events", href: "/events" },
@@ -80,46 +79,8 @@ export function MainNav() {
                 </span>
               </Link>
             ))}
-            {/* Auth area for desktop */}
-            {user ? (
-              <div className="relative">
-                <button
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
-                >
-                  <div className="w-8 h-8 rounded-full bg-[var(--primary)] text-[var(--primary-foreground)] flex items-center justify-center text-sm font-semibold overflow-hidden">
-                    {user.profileImage ? (
-                      <img src={user.profileImage} alt={user.name} className="w-full h-full object-cover" />
-                    ) : (
-                      user.name ? user.name.split(' ').map(n=>n[0]).slice(0,2).join('') : user.email.split('@')[0].slice(0,2)
-                    )}
-                  </div>
-                  <span className="text-sm font-medium text-[var(--foreground)]">{user.name || user.email}</span>
-                </button>
-
-                {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-[var(--card)] border border-[var(--border)] rounded-md shadow-lg z-50">
-                    <Link href="/dashboard" className="block px-4 py-2 text-sm text-[var(--foreground)] hover:bg-[var(--muted)]">
-                      Dashboard
-                    </Link>
-                    {user.role === 'admin' && (
-                      <Link href="/admin/dashboard" className="block px-4 py-2 text-sm text-[var(--primary)] hover:bg-[var(--muted)] font-medium">
-                        Admin Dashboard
-                      </Link>
-                    )}
-                    <button
-                      onClick={() => {
-                        setUserMenuOpen(false)
-                        logout()
-                      }}
-                      className="w-full text-left px-4 py-2 text-sm text-[var(--secondary)] hover:bg-[var(--muted)]"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : null}
+            {/* Profile Menu for desktop */}
+            {user && <ProfileMenu />}
           </div>
 
           {/* Right side buttons */}
@@ -180,6 +141,12 @@ export function MainNav() {
                 <Link href="/dashboard" className="block px-3 py-2 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--muted)] rounded-md">
                   Dashboard
                 </Link>
+                <Link href="/profile" className="block px-3 py-2 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--muted)] rounded-md">
+                  Edit Profile
+                </Link>
+                <Link href="/settings" className="block px-3 py-2 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--muted)] rounded-md">
+                  Settings
+                </Link>
                 {user.role === 'admin' && (
                   <Link href="/admin/dashboard" className="block px-3 py-2 text-sm font-medium text-[var(--primary)] hover:bg-[var(--muted)] rounded-md">
                     Admin Dashboard
@@ -188,7 +155,6 @@ export function MainNav() {
                 <button
                   onClick={() => {
                     setIsOpen(false)
-                    logout()
                   }}
                   className="w-full text-left px-3 py-2 text-sm font-medium text-[var(--secondary)] hover:bg-[var(--muted)] rounded-md"
                 >
