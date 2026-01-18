@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { useUser } from "@/contexts/user-context"
 import { User, Mail, Lock, Eye, EyeOff, Phone, CheckCircle2, XCircle } from "lucide-react"
 import { validatePassword } from "@/lib/password-validator"
+import { generateSecurePassword } from "@/lib/password-generator"
 
 export default function SignupPage() {
   const router = useRouter()
@@ -28,6 +29,13 @@ export default function SignupPage() {
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false)
 
   const passwordValidation = validatePassword(password)
+
+  const handleGeneratePassword = () => {
+    const newPassword = generateSecurePassword(14)
+    setPassword(newPassword)
+    setConfirmPassword(newPassword)
+    setShowPasswordRequirements(true)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -143,7 +151,16 @@ export default function SignupPage() {
 
             {/* Password Field */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                <button
+                  type="button"
+                  onClick={handleGeneratePassword}
+                  className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                >
+                  Generate Password
+                </button>
+              </div>
               <div className="relative">
                 <Lock className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
                 <input
