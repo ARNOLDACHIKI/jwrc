@@ -94,7 +94,7 @@ export async function POST(req: Request) {
             id: user.id,
             email: user.email,
             name: user.name,
-            emailVerified: user.emailVerified,
+            emailVerified: true,
           },
           token,
         },
@@ -102,63 +102,38 @@ export async function POST(req: Request) {
       )
     }
 
-    // Check if this is an existing user trying to verify
-    const user = await prisma.user.findUnique({
+    // No pending verification found — if user already exists, return already verified
+    const existingUser = await prisma.user.findUnique({
       where: { email: String(email).toLowerCase() },
     })
 
-    if (!user) {
+    if (existingUser) {
+      const secret = process.env.JWT_SECRET || 'dev-secret'
+      const token = jwt.sign(
+        { userId: existingUser.id, role: existingUser.role, email: existingUser.email },
+        secret,
+        { expiresIn: '7d' }
+      )
+
       return NextResponse.json(
-        { error: 'No account found. Please sign up first.' },
-        { status: 404 }
+        {
+          ok: true,
+          message: 'Email already verified',
+          user: {
+            id: existingUser.id,
+            email: existingUser.email,
+            name: existingUser.name,
+            emailVerified: true,
+          },
+          token,
+        },
+        { status: 200 }
       )
     }
-
-    // Validate verification code for existing user
-    const validation = validateVerificationCode(
-      String(verificationCode),
-      user.verificationCode,
-      user.verificationCodeExpiresAt
-    )
-
-    if (!validation.valid) {
-      return NextResponse.json(
-        { error: validation.message },
-        { status: 400 }
-      )
-    }
-
-    // Mark email as verified and clear verification code
-    const updatedUser = await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        emailVerified: true,
-        verificationCode: null,
-        verificationCodeExpiresAt: null,
-      },
-    })
-
-    // Generate a new token for the user
-    const secret = process.env.JWT_SECRET || 'dev-secret'
-    const token = jwt.sign(
-      { userId: updatedUser.id, role: updatedUser.role, email: updatedUser.email },
-      secret,
-      { expiresIn: '7d' }
-    )
 
     return NextResponse.json(
-      {
-        ok: true,
-        message: 'Email verified successfully',
-        user: {
-          id: updatedUser.id,
-          email: updatedUser.email,
-          name: updatedUser.name,
-          emailVerified: updatedUser.emailVerified,
-        },
-        token,
-      },
-      { status: 200 }
+      { error: 'No pending verification found. Please sign up first.' },
+      { status: 404 }
     )
   } catch (e) {
     console.error('Error verifying email:', e)
@@ -194,51 +169,10 @@ export async function GET(req: Request) {
       )
     }
 
-    // Validate verification code
-    const validation = validateVerificationCode(
-      String(code),
-      user.verificationCode,
-      user.verificationCodeExpiresAt
-    )
-
-    if (!validation.valid) {
-      return NextResponse.json(
-        { error: validation.message },
-        { status: 400 }
-      )
-    }
-
-    // Mark email as verified and clear verification code
-    const updatedUser = await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        emailVerified: true,
-        verificationCode: null,
-        verificationCodeExpiresAt: null,
-      },
-    })
-
-    // Generate a new token for the user
-    const secret = process.env.JWT_SECRET || 'dev-secret'
-    const token = jwt.sign(
-      { userId: updatedUser.id, role: updatedUser.role, email: updatedUser.email },
-      secret,
-      { expiresIn: '7d' }
-    )
-
+    // With new flow, GET verification is not supported without pending entry
     return NextResponse.json(
-      {
-        ok: true,
-        message: 'Email verified successfully',
-        user: {
-          id: updatedUser.id,
-          email: updatedUser.email,
-          name: updatedUser.name,
-          emailVerified: updatedUser.emailVerified,
-        },
-        token,
-      },
-      { status: 200 }
+      { error: 'Verification via link is not supported. Please enter your code.' },
+      { status: 400 }
     )
   } catch (e) {
     console.error('Error verifying email:', e)
