@@ -40,8 +40,9 @@ export async function GET(req: Request) {
     // compute unread from suggestions and volunteer_applications
     let unread = 0
     if (lastSeen) {
-      const s: any[] = await prisma.$queryRawUnsafe(`SELECT COUNT(*) as c FROM suggestions WHERE LOWER(email)=LOWER($1) AND ((responded_at IS NOT NULL AND responded_at > $2::timestamptz) OR (responded_at IS NULL AND created_at > $2::timestamptz))`, String(email), String(lastSeen))
-      const v: any[] = await prisma.$queryRawUnsafe(`SELECT COUNT(*) as c FROM volunteer_applications WHERE LOWER(email)=LOWER($1) AND ((responded_at IS NOT NULL AND responded_at > $2::timestamptz) OR (responded_at IS NULL AND created_at > $2::timestamptz))`, String(email), String(lastSeen))
+      const lastSeenISO = new Date(lastSeen).toISOString()
+      const s: any[] = await prisma.$queryRawUnsafe(`SELECT COUNT(*) as c FROM suggestions WHERE LOWER(email)=LOWER($1) AND ((responded_at IS NOT NULL AND responded_at > $2::timestamptz) OR (responded_at IS NULL AND created_at > $2::timestamptz))`, String(email), lastSeenISO)
+      const v: any[] = await prisma.$queryRawUnsafe(`SELECT COUNT(*) as c FROM volunteer_applications WHERE LOWER(email)=LOWER($1) AND ((responded_at IS NOT NULL AND responded_at > $2::timestamptz) OR (responded_at IS NULL AND created_at > $2::timestamptz))`, String(email), lastSeenISO)
       unread = (s[0]?.c || 0) + (v[0]?.c || 0)
     } else {
       // if never seen, count items that have admin responses/messages

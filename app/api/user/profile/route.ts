@@ -118,39 +118,38 @@ export async function DELETE(req: Request) {
     if (!auth) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
     const userId = auth.db.id
-    const userEmail = auth.db.email.toLowerCase()
+    const userEmail = auth.db.email
 
-    // Delete user's related data first (cascade)
-    await prisma.$transaction(async (tx) => {
-      // Delete volunteer applications (if table exists)
-      try {
-        await tx.$executeRaw`DELETE FROM volunteer_applications WHERE LOWER(email) = LOWER(${userEmail})`
-      } catch (e) {
-        console.log("No volunteer_applications to delete")
-      }
-      
-      // Delete event signups
-      await tx.eventSignup.deleteMany({
+    // Delete user's related data first (no transaction to prevent abortion)
+    try {
+      await prisma.eventSignup.deleteMany({
         where: { email: { equals: userEmail, mode: 'insensitive' } }
       })
-      
-      // Delete password reset tokens (if table exists)
-      try {
-        await tx.$executeRaw`DELETE FROM password_reset_tokens WHERE user_id = ${userId}`
-      } catch (e) {
-        console.log("No password_reset_tokens to delete")
-      }
-      
-      // Delete email verification codes (if table exists)
-      try {
-        await tx.$executeRaw`DELETE FROM email_verifications WHERE LOWER(email) = LOWER(${userEmail})`
-      } catch (e) {
-        console.log("No email_verifications to delete")
-      }
-      
-      // Finally delete the user account
-      await tx.user.delete({ where: { id: userId } })
-    })
+    } catch (e) {
+      console.log("Could not delete event signups:", e)
+    }
+
+    // Try to delete from raw tables if they exist
+    try {
+      await prisma.$executeRaw`DELETE FROM volunteer_applications WHERE email = ${userEmail}`
+    } catch (e) {
+      console.log("Could not delete volunteer applications:", e)
+    }
+
+    try {
+      await prisma.$executeRaw`DELETE FROM password_reset_tokens WHERE user_id = ${userId}`
+    } catch (e) {
+      console.log("Could not delete password reset tokens:", e)
+    }
+
+    try {
+      await prisma.$executeRaw`DELETE FROM email_verifications WHERE email = ${userEmail}`
+    } catch (e) {
+      console.log("Could not delete email verifications:", e)
+    }
+
+    // Finally delete the user account
+    await prisma.user.delete({ where: { id: userId } })
 
     // Clear auth cookie
     const clearCookie = `token=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax`
