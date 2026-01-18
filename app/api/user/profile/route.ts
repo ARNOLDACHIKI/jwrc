@@ -118,33 +118,35 @@ export async function DELETE(req: Request) {
     if (!auth) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
     const userId = auth.db.id
-    const userEmail = auth.db.email
+    const userEmail = auth.db.email.toLowerCase()
 
     // Delete user's related data first (cascade)
     await prisma.$transaction(async (tx) => {
-      // Delete volunteer applications
-      await tx.$executeRawUnsafe(
-        `DELETE FROM volunteer_applications WHERE LOWER(email) = LOWER($1)`,
-        String(userEmail)
-      )
+      // Delete volunteer applications (if table exists)
+      try {
+        await tx.$executeRaw`DELETE FROM volunteer_applications WHERE LOWER(email) = LOWER(${userEmail})`
+      } catch (e) {
+        console.log("No volunteer_applications to delete")
+      }
       
       // Delete event signups
-      await tx.$executeRawUnsafe(
-        `DELETE FROM event_signups WHERE LOWER(email) = LOWER($1)`,
-        String(userEmail)
-      )
+      await tx.eventSignup.deleteMany({
+        where: { email: { equals: userEmail, mode: 'insensitive' } }
+      })
       
-      // Delete password reset tokens
-      await tx.$executeRawUnsafe(
-        `DELETE FROM password_reset_tokens WHERE user_id = $1`,
-        String(userId)
-      )
+      // Delete password reset tokens (if table exists)
+      try {
+        await tx.$executeRaw`DELETE FROM password_reset_tokens WHERE user_id = ${userId}`
+      } catch (e) {
+        console.log("No password_reset_tokens to delete")
+      }
       
-      // Delete email verification codes
-      await tx.$executeRawUnsafe(
-        `DELETE FROM email_verifications WHERE LOWER(email) = LOWER($1)`,
-        String(userEmail)
-      )
+      // Delete email verification codes (if table exists)
+      try {
+        await tx.$executeRaw`DELETE FROM email_verifications WHERE LOWER(email) = LOWER(${userEmail})`
+      } catch (e) {
+        console.log("No email_verifications to delete")
+      }
       
       // Finally delete the user account
       await tx.user.delete({ where: { id: userId } })
@@ -159,7 +161,10 @@ export async function DELETE(req: Request) {
     )
   } catch (e) {
     console.error("Delete account error:", e)
-    return NextResponse.json({ error: "Failed to delete account" }, { status: 500 })
+    return NextResponse.json({ 
+      error: "Failed to delete account",
+      details: e instanceof Error ? e.message : String(e)
+    }, { status: 500 })
   } finally {
     await prisma.$disconnect()
   }
