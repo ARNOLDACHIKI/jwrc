@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { generateVerificationCode, getVerificationCodeExpiration } from "@/lib/verification"
 import { validatePassword } from "@/lib/password-validator"
+import { sendVerificationEmail } from "@/lib/send-email"
 
 const prisma = new PrismaClient()
 
@@ -60,20 +61,10 @@ export async function POST(req: Request) {
     )
 
     // Send verification email
-    const siteUrl = process.env.SITE_URL || process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
     try {
-      const emailResponse = await fetch(`${siteUrl}/api/auth/send-verification-email`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          email: String(email),
-          name: name || 'User',
-          verificationCode
-        }),
-      })
-      const emailResult = await emailResponse.json()
-      if (!emailResponse.ok) {
-        console.error('Email endpoint returned error:', emailResult)
+      const emailResult = await sendVerificationEmail(String(email), name || 'User', verificationCode)
+      if (!emailResult.success) {
+        console.error('Email sending failed:', emailResult.error)
       }
     } catch (emailError) {
       console.error('Failed to send verification email:', emailError)

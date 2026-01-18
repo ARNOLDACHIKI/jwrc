@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
+import { sendVerificationEmail } from '@/lib/send-email'
 
 const prisma = new PrismaClient()
 
@@ -52,15 +53,11 @@ export async function POST(req: Request) {
 
     // Send new verification email
     try {
-      await fetch(`${req.headers.get('origin')}/api/auth/send-verification-email`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: String(email),
-          name,
-          verificationCode: newCode
-        }),
-      })
+      const emailResult = await sendVerificationEmail(String(email), name, newCode)
+      if (!emailResult.success) {
+        console.error('Failed to resend verification email:', emailResult.error)
+        return NextResponse.json({ error: 'Failed to send email' }, { status: 500 })
+      }
     } catch (emailError) {
       console.error('Failed to resend verification email:', emailError)
       return NextResponse.json({ error: 'Failed to send email' }, { status: 500 })
