@@ -66,7 +66,9 @@ export async function POST(req: Request) {
           secure: (process.env.SMTP_SECURE === 'true'),
           auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
         })
-        const site = process.env.SITE_URL || 'http://localhost:3000'
+        const hostFromVercel = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : ''
+        const baseSite = process.env.NEXT_PUBLIC_URL || process.env.SITE_URL || hostFromVercel || 'http://localhost:3000'
+        const site = baseSite.replace(/\/$/, '')
         const resetLink = `${site}/reset-password?token=${token}`
         await transporter.sendMail({
           from: process.env.SMTP_FROM || process.env.SMTP_USER,
