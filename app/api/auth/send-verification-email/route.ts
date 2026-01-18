@@ -74,8 +74,29 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ ok: true, messageId: info.messageId }, { status: 200 })
   } catch (e) {
-    console.error('❌ Error sending verification email:', e instanceof Error ? e.message : String(e))
+    const errorMessage = e instanceof Error ? e.message : String(e)
+    const errorCode = e instanceof Error && 'code' in e ? (e as any).code : 'UNKNOWN'
+    
+    console.error('❌ Error sending verification email:', errorMessage)
+    console.error('Error code:', errorCode)
+    
+    // Log specific SMTP errors
+    if (errorCode === 'EAUTH') {
+      console.error('⚠️ SMTP Authentication failed - check SMTP_USER and SMTP_PASS')
+    } else if (errorCode === 'ENOTFOUND') {
+      console.error('⚠️ SMTP host not found - check SMTP_HOST')
+    } else if (errorCode === 'ETIMEDOUT') {
+      console.error('⚠️ SMTP connection timeout - check firewall/network')
+    } else if (errorCode === 'EHOSTUNREACH') {
+      console.error('⚠️ SMTP host unreachable - check SMTP_HOST and SMTP_PORT')
+    }
+    
     console.error('Full error:', e)
-    return NextResponse.json({ error: 'Failed to send verification email', details: e instanceof Error ? e.message : String(e) }, { status: 500 })
+    
+    return NextResponse.json({ 
+      error: 'Failed to send verification email', 
+      details: errorMessage,
+      errorCode: errorCode
+    }, { status: 500 })
   }
 }

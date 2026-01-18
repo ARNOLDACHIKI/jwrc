@@ -60,8 +60,9 @@ export async function POST(req: Request) {
     )
 
     // Send verification email
+    const siteUrl = process.env.SITE_URL || process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
     try {
-      await fetch(`${req.headers.get('origin')}/api/auth/send-verification-email`, {
+      const emailResponse = await fetch(`${siteUrl}/api/auth/send-verification-email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -70,6 +71,10 @@ export async function POST(req: Request) {
           verificationCode
         }),
       })
+      const emailResult = await emailResponse.json()
+      if (!emailResponse.ok) {
+        console.error('Email endpoint returned error:', emailResult)
+      }
     } catch (emailError) {
       console.error('Failed to send verification email:', emailError)
       // Don't fail signup if email fails
