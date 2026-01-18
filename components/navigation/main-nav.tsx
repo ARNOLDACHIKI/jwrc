@@ -87,8 +87,12 @@ export function MainNav() {
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
-                  <div className="w-8 h-8 rounded-full bg-[var(--primary)] text-[var(--primary-foreground)] flex items-center justify-center text-sm font-semibold">
-                    {user.name ? user.name.split(' ').map(n=>n[0]).slice(0,2).join('') : user.email.split('@')[0].slice(0,2)}
+                  <div className="w-8 h-8 rounded-full bg-[var(--primary)] text-[var(--primary-foreground)] flex items-center justify-center text-sm font-semibold overflow-hidden">
+                    {user.profileImage ? (
+                      <img src={user.profileImage} alt={user.name} className="w-full h-full object-cover" />
+                    ) : (
+                      user.name ? user.name.split(' ').map(n=>n[0]).slice(0,2).join('') : user.email.split('@')[0].slice(0,2)
+                    )}
                   </div>
                   <span className="text-sm font-medium text-[var(--foreground)]">{user.name || user.email}</span>
                 </button>
