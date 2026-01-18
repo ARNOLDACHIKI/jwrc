@@ -36,7 +36,7 @@ export function MainNav() {
     { label: "Events", href: "/events" },
     { label: "Volunteer", href: "/volunteer" },
     { label: "Suggestions", href: "/suggestions" },
-    { label: "Donate", href: "/donate" },
+    { label: "Give", href: "/give" },
   ]
 
   return (

@@ -36,8 +36,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const [activities] = useState([
     {
       id: "1",
-      type: "donation" as const,
-      description: "John Doe donated $500",
+      type: "giving" as const,
+      description: "John Doe gave $500",
       timestamp: "2 hours ago",
       user: "John Doe",
     },

@@ -284,7 +284,7 @@ export default function Dashboard() {
                       </Button>
                     </Link>
                   )}
-                  <Link href="/donate">
+                  <Link href="/give">
                     <Button className="w-full bg-green-600 hover:bg-green-700 justify-start">
                       <Heart className="w-4 h-4 mr-2" />
                       Make Donation

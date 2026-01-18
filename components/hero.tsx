@@ -34,13 +34,13 @@ export function Hero({ embedded = false }: HeroProps) {
             <div>
               <AnnouncementsCTA />
             </div>
-            <Link href="/donate">
+            <Link href="/give">
               <Button
                 size="lg"
                 variant="outline"
                 className="border-[var(--logo-ivory)]/40 text-[var(--logo-ivory)] hover:bg-[color-mix(in_srgb,var(--logo-brown)_60%,black_40%)] w-full sm:w-auto bg-transparent"
               >
-                Donate Now
+                Give Now
               </Button>
             </Link>
           </div>

@@ -29,7 +29,7 @@ export default function Home({ searchParams }: { searchParams?: { embedded?: str
             {[
               { icon: Music, label: "Live Sermons", desc: "Weekly powerful messages", href: null },
               { icon: Users, label: "Volunteer", desc: "Make a difference", href: "/volunteer" },
-              { icon: Heart, label: "Donate", desc: "Support our mission", href: "/donate" },
+              { icon: Heart, label: "Give", desc: "Support our mission", href: "/give" },
               { icon: Calendar, label: "Events", desc: "Community gatherings", href: "/events" },
               { icon: BookOpen, label: "Blog", desc: "Spiritual insights", href: null },
               { icon: Zap, label: "Trivia", desc: "Bible quiz game", href: null },
@@ -172,8 +172,8 @@ export default function Home({ searchParams }: { searchParams?: { embedded?: str
                 </Link>
               </li>
               <li>
-                <Link href="/donate" className="hover:text-white">
-                  Donate
+                <Link href="/give" className="hover:text-white">
+                  Give
                 </Link>
               </li>
               <li>

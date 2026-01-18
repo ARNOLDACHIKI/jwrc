@@ -23,7 +23,7 @@ const paymentMethods = [
   },
 ]
 
-export default function DonatePage() {
+export default function GivePage() {
   const [selectedAmount, setSelectedAmount] = useState(1000)
   const [customAmount, setCustomAmount] = useState("")
   const [selectedMethod, setSelectedMethod] = useState("mpesa")
@@ -40,7 +40,7 @@ export default function DonatePage() {
 
   const finalAmount = customAmount ? Number.parseFloat(customAmount) : selectedAmount
 
-  const handleDonate = async () => {
+  const handleGive = async () => {
     if (!donorInfo.name || !donorInfo.email) {
       alert("Please fill in your name and email")
       return
@@ -311,7 +311,7 @@ export default function DonatePage() {
               </div>
 
               <Button
-                onClick={handleDonate}
+                onClick={handleGive}
                 disabled={isProcessing || !finalAmount}
                 className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg mb-4"
               >
