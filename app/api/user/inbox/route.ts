@@ -40,15 +40,26 @@ export async function GET(req: Request) {
     // compute unread from suggestions and volunteer_applications
     let unread = 0
     if (lastSeen) {
-      const lastSeenISO = new Date(lastSeen).toISOString()
-      const s: any[] = await prisma.$queryRawUnsafe(`SELECT COUNT(*) as c FROM suggestions WHERE LOWER(email)=LOWER($1) AND ((responded_at IS NOT NULL AND responded_at > $2::timestamptz) OR (responded_at IS NULL AND created_at > $2::timestamptz))`, String(email), lastSeenISO)
-      const v: any[] = await prisma.$queryRawUnsafe(`SELECT COUNT(*) as c FROM volunteer_applications WHERE LOWER(email)=LOWER($1) AND ((responded_at IS NOT NULL AND responded_at > $2::timestamptz) OR (responded_at IS NULL AND created_at > $2::timestamptz))`, String(email), lastSeenISO)
-      unread = (s[0]?.c || 0) + (v[0]?.c || 0)
+      try {
+        // Convert timestamp to ISO format for PostgreSQL
+        const lastSeenISO = lastSeen instanceof Date ? lastSeen.toISOString() : new Date(lastSeen).toISOString()
+        const s: any[] = await prisma.$queryRawUnsafe(`SELECT COUNT(*) as c FROM suggestions WHERE LOWER(email)=LOWER($1) AND ((responded_at IS NOT NULL AND responded_at > $2::timestamptz) OR (responded_at IS NULL AND created_at > $2::timestamptz))`, String(email), lastSeenISO)
+        const v: any[] = await prisma.$queryRawUnsafe(`SELECT COUNT(*) as c FROM volunteer_applications WHERE LOWER(email)=LOWER($1) AND ((responded_at IS NOT NULL AND responded_at > $2::timestamptz) OR (responded_at IS NULL AND created_at > $2::timestamptz))`, String(email), lastSeenISO)
+        unread = (s[0]?.c || 0) + (v[0]?.c || 0)
+      } catch (e) {
+        console.error("Error counting unread:", e)
+        unread = 0
+      }
     } else {
-      // if never seen, count items that have admin responses/messages
-      const s: any[] = await prisma.$queryRawUnsafe(`SELECT COUNT(*) as c FROM suggestions WHERE LOWER(email)=LOWER($1) AND admin_response IS NOT NULL`, String(email))
-      const v: any[] = await prisma.$queryRawUnsafe(`SELECT COUNT(*) as c FROM volunteer_applications WHERE LOWER(email)=LOWER($1) AND admin_message IS NOT NULL`, String(email))
-      unread = (s[0]?.c || 0) + (v[0]?.c || 0)
+      try {
+        // if never seen, count items that have admin responses/messages
+        const s: any[] = await prisma.$queryRawUnsafe(`SELECT COUNT(*) as c FROM suggestions WHERE LOWER(email)=LOWER($1) AND admin_response IS NOT NULL`, String(email))
+        const v: any[] = await prisma.$queryRawUnsafe(`SELECT COUNT(*) as c FROM volunteer_applications WHERE LOWER(email)=LOWER($1) AND admin_message IS NOT NULL`, String(email))
+        unread = (s[0]?.c || 0) + (v[0]?.c || 0)
+      } catch (e) {
+        console.error("Error counting new unread:", e)
+        unread = 0
+      }
     }
 
     return NextResponse.json({ lastSeen: lastSeen || null, unreadCount: Number(unread) })
