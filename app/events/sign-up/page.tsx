@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card"
 import { useToast } from '@/hooks/use-toast'
 import { useUser } from "@/contexts/user-context"
 import { CheckCircle, Copy } from "lucide-react"
+import QRCode from 'qrcode'
 
 export default function EventSignUpPage() {
   const router = useRouter()
@@ -21,6 +22,7 @@ export default function EventSignUpPage() {
   const [errors, setErrors] = useState<Record<string,string>>({})
   const [loading, setLoading] = useState(false)
   const [signupResult, setSignupResult] = useState<any | null>(null)
+  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null)
 
   // Auto-fill form fields when user is logged in
   useEffect(() => {
@@ -67,6 +69,32 @@ export default function EventSignUpPage() {
     return `${date} • ${time}`
   }
 
+  // Generate QR code when signup completes
+  useEffect(() => {
+    if (signupResult) {
+      const ticketData = JSON.stringify({
+        type: 'event-ticket',
+        eventId: signupResult.eventId,
+        signupId: signupResult.id,
+        ref: signupResult.ref,
+        name: signupResult.name,
+        email: signupResult.email,
+        timestamp: new Date().toISOString()
+      })
+      
+      QRCode.toDataURL(ticketData, {
+        errorCorrectionLevel: 'H',
+        type: 'image/png',
+        width: 300,
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF'
+        }
+      }).then(setQrCodeUrl).catch(console.error)
+    }
+  }, [signupResult])
+
   const copyRef = async (ref: string) => {
     try {
       await navigator.clipboard.writeText(ref)
@@ -74,16 +102,6 @@ export default function EventSignUpPage() {
     } catch (e) {
       console.error(e)
       toast({ title: 'Copy failed' })
-    }
-  }
-
-  function getQrUrl(result: any | null) {
-    if (!result) return null
-    try {
-      const payload = JSON.stringify({ id: result.id, ref: result.ref, eventId: result.eventId, name: result.name })
-      return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(payload)}`
-    } catch (e) {
-      return null
     }
   }
 
@@ -135,17 +153,13 @@ export default function EventSignUpPage() {
                 </div>
 
                 {/* QR ticket */}
-                {(() => {
-                  const qr = getQrUrl(signupResult)
-                  if (!qr) return null
-                  return (
-                    <div className="mt-4 flex flex-col items-center gap-3">
-                      <img src={qr} alt="Your ticket QR code" className="w-48 h-48 bg-white p-2 rounded shadow" />
-                      <a href={qr} download={`ticket_${(signupResult.ref||'').slice(0,8)}.png`} className="text-sm text-blue-600 hover:underline">Download ticket (PNG)</a>
-                      <p className="text-xs text-gray-500">Show this QR code at the event entrance. It encodes your signup reference.</p>
-                    </div>
-                  )
-                })()}
+                {qrCodeUrl && (
+                  <div className="mt-4 flex flex-col items-center gap-3">
+                    <img src={qrCodeUrl} alt="Your ticket QR code" className="w-48 h-48 bg-white p-2 rounded shadow" />
+                    <a href={qrCodeUrl} download={`ticket_${(signupResult.ref||'').slice(0,8)}.png`} className="text-sm text-blue-600 hover:underline">Download ticket (PNG)</a>
+                    <p className="text-xs text-gray-500">Show this QR code at the event entrance. It encodes your signup reference.</p>
+                  </div>
+                )}
 
                 <div className="flex gap-3 mt-6">
                   <Button onClick={() => router.push('/events')} className="bg-blue-600 hover:bg-blue-700">Back to Events</Button>
