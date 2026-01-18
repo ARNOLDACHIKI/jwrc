@@ -56,9 +56,6 @@ export async function POST(req: Request) {
           name: userData.name || '',
           phone: userData.phone || '',
           password: userData.passwordHash,
-          emailVerified: true,
-          verificationCode: null,
-          verificationCodeExpiresAt: null,
         },
       })
 
