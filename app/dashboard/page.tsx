@@ -314,29 +314,6 @@ export default function Dashboard() {
                 <Inbox email={user.email} />
               </Card>
             </div>
-
-            {/* Featured Sermons */}
-            <Card className="mt-6 p-6">
-              <h2 className="text-xl font-bold text-blue-900 dark:text-white mb-6">Featured Content</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[
-                  { title: "Faith & Trust", date: "Last Sunday", views: "1.2K" },
-                  { title: "Building Community", date: "2 weeks ago", views: "985" },
-                  { title: "Daily Blessings", date: "1 week ago", views: "742" },
-                ].map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 rounded-lg border border-blue-200 dark:border-blue-900 hover:shadow-lg transition"
-                  >
-                    <div className="h-32 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg mb-3"></div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{item.title}</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {item.date} • {item.views} views
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </Card>
           </div>
         </main>
       </div>

@@ -453,18 +453,19 @@ export default function ProfilePage() {
                     </Button>
 
                     {/* Delete Account Section */}
-                    <div className="mt-8 pt-6 border-t border-red-200 dark:border-red-900">
-                      <h3 className="text-lg font-semibold text-red-600 dark:text-red-400 mb-2">Danger Zone</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                        Once you delete your account, there is no going back. This action is permanent.
-                      </p>
-                      <Button
-                        onClick={() => setShowDeleteDialog(true)}
-                        variant="outline"
-                        className="border-red-300 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
-                      >
-                        Delete My Account
-                      </Button>
+                    <div className="mt-12 pt-8 border-t-2 border-red-300 dark:border-red-800">
+                      <div className="bg-red-50 dark:bg-red-950/30 p-6 rounded-lg border border-red-200 dark:border-red-800">
+                        <h3 className="text-lg font-bold text-red-700 dark:text-red-400 mb-2">⚠️ Danger Zone</h3>
+                        <p className="text-sm text-red-600 dark:text-red-300 mb-4">
+                          Once you delete your account, there is no going back. This action is permanent and will delete all your data including profile, volunteer applications, event signups, and messages.
+                        </p>
+                        <Button
+                          onClick={() => setShowDeleteDialog(true)}
+                          className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold"
+                        >
+                          Delete My Account
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 )}

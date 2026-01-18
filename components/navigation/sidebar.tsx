@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { ChevronRight, Home, Book, Users, DollarSign, Settings, MessageSquare, Calendar } from "lucide-react"
+import { ChevronRight, Home, Book, Users, DollarSign, Settings, MessageSquare, Calendar, LayoutDashboard } from "lucide-react"
 import { useTheme } from "@/contexts/theme-context"
 import { useUser } from "@/contexts/user-context"
 
 const sidebarItems = [
   { label: "Home", href: "/", icon: Home },
+  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "About", href: "/about", icon: Book },
   { label: "Announcements", href: "/announcements", icon: MessageSquare },
   { label: "Events", href: "/events", icon: Calendar },
