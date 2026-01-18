@@ -73,7 +73,8 @@ export async function POST(req: Request) {
 
     const id = randomUUID()
     await prisma.$executeRawUnsafe(
-      `INSERT INTO event_signups (id, event_id, ref, name, email, phone, created_at) VALUES ($1,$2,$3,$4,$5,$6,NOW())`,
+      `INSERT INTO event_signups (id, event_id, ref, name, email, phone, created_at)
+       VALUES ($1::uuid, $2::uuid, $3, $4, $5, $6, NOW())`,
       id,
       eventId,
       ref,
