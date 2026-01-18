@@ -16,6 +16,8 @@ function VerifyEmailContent() {
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [resending, setResending] = useState(false)
+  const [resendMessage, setResendMessage] = useState("")
   const [step, setStep] = useState<"input" | "verify">("input")
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
@@ -61,6 +63,34 @@ function VerifyEmailContent() {
       setError("An error occurred. Please try again.")
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleResendCode = async () => {
+    setResending(true)
+    setError("")
+    setResendMessage("")
+
+    try {
+      const res = await fetch("/api/auth/resend-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        setError(data.error || "Failed to resend code")
+        return
+      }
+
+      setResendMessage("Verification code resent! Check your email.")
+      setTimeout(() => setResendMessage(""), 5000)
+    } catch (err) {
+      setError("Failed to resend code. Please try again.")
+    } finally {
+      setResending(false)
     }
   }
 
@@ -163,6 +193,14 @@ function VerifyEmailContent() {
                       </p>
                     </div>
 
+                    {resendMessage && (
+                      <div className="bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg p-3">
+                        <p className="text-sm text-green-800 dark:text-green-200">
+                          {resendMessage}
+                        </p>
+                      </div>
+                    )}
+
                     <Button
                       type="submit"
                       disabled={loading || code.length !== 6}
@@ -175,6 +213,23 @@ function VerifyEmailContent() {
                         </span>
                       ) : (
                         "Verify Email"
+                      )}
+                    </Button>
+
+                    <Button
+                      type="button"
+                      onClick={handleResendCode}
+                      disabled={resending}
+                      variant="outline"
+                      className="w-full"
+                    >
+                      {resending ? (
+                        <span className="flex items-center justify-center gap-2">
+                          <Loader className="w-4 h-4 animate-spin" />
+                          Sending...
+                        </span>
+                      ) : (
+                        "Resend Code"
                       )}
                     </Button>
                   </>
