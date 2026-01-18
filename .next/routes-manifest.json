@@ -125,6 +125,12 @@
       "namedRegex": "^/api/auth/refresh(?:/)?$"
     },
     {
+      "page": "/api/auth/resend-verification",
+      "regex": "^/api/auth/resend\\-verification(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/resend\\-verification(?:/)?$"
+    },
+    {
       "page": "/api/auth/send-verification-email",
       "regex": "^/api/auth/send\\-verification\\-email(?:/)?$",
       "routeKeys": {},

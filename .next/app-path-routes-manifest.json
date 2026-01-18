@@ -15,6 +15,7 @@
   "/api/auth/password-reset/confirm/route": "/api/auth/password-reset/confirm",
   "/api/auth/password-reset/request/route": "/api/auth/password-reset/request",
   "/api/auth/refresh/route": "/api/auth/refresh",
+  "/api/auth/resend-verification/route": "/api/auth/resend-verification",
   "/api/auth/send-verification-email/route": "/api/auth/send-verification-email",
   "/api/auth/send-welcome-email/route": "/api/auth/send-welcome-email",
   "/api/auth/signup/route": "/api/auth/signup",

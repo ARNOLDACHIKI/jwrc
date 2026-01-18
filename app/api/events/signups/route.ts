@@ -17,17 +17,19 @@ async function ensureTable() {
   // create a simple signups table if it doesn't exist
   await prisma.$executeRawUnsafe(`
     CREATE TABLE IF NOT EXISTS event_signups (
-      id TEXT PRIMARY KEY,
-      event_id TEXT NOT NULL,
+      id UUID PRIMARY KEY,
+      event_id UUID NOT NULL,
       ref TEXT UNIQUE,
       name TEXT NOT NULL,
       email TEXT NOT NULL,
       phone TEXT,
+      ticket_sent BOOLEAN DEFAULT false,
       created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
     )
   `)
-  // ensure ref column exists (if table pre-existed without it)
+  // ensure ref and ticket_sent columns exist (if table pre-existed without them)
   await prisma.$executeRawUnsafe(`ALTER TABLE event_signups ADD COLUMN IF NOT EXISTS ref TEXT`) 
+  await prisma.$executeRawUnsafe(`ALTER TABLE event_signups ADD COLUMN IF NOT EXISTS ticket_sent BOOLEAN DEFAULT false`) 
   await prisma.$executeRawUnsafe(`CREATE UNIQUE INDEX IF NOT EXISTS event_signups_ref_idx ON event_signups(ref)`) 
 }
 

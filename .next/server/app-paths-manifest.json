@@ -15,6 +15,7 @@
   "/api/auth/password-reset/confirm/route": "app/api/auth/password-reset/confirm/route.js",
   "/api/auth/password-reset/request/route": "app/api/auth/password-reset/request/route.js",
   "/api/auth/refresh/route": "app/api/auth/refresh/route.js",
+  "/api/auth/resend-verification/route": "app/api/auth/resend-verification/route.js",
   "/api/auth/send-verification-email/route": "app/api/auth/send-verification-email/route.js",
   "/api/auth/send-welcome-email/route": "app/api/auth/send-welcome-email/route.js",
   "/api/auth/signup/route": "app/api/auth/signup/route.js",

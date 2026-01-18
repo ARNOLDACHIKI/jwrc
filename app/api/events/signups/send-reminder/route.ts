@@ -137,11 +137,16 @@ export async function POST(req: Request) {
           ]
         })
 
-        // Mark ticket as sent
-        await prisma.$executeRawUnsafe(
-          `UPDATE event_signups SET ticket_sent = true WHERE id = $1`,
-          signup.id
-        )
+        // Mark ticket as sent (ignore if column doesn't exist yet)
+        try {
+          await prisma.$executeRawUnsafe(
+            `UPDATE event_signups SET ticket_sent = true WHERE id = $1::uuid`,
+            signup.id
+          )
+        } catch (e) {
+          // Column might not exist yet, will be added on next signup
+          console.warn('Could not update ticket_sent flag:', e)
+        }
 
         sent++
       } catch (e) {
