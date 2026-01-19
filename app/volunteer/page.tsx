@@ -132,7 +132,7 @@ export default function VolunteerPage() {
     <div className="relative min-h-screen overflow-hidden">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(229,236,249,0.94)_0%,rgba(236,233,224,0.92)_18%,rgba(218,206,190,0.88)_38%,rgba(185,151,118,0.82)_56%,rgba(116,142,186,0.88)_76%,rgba(68,98,139,0.92)_90%,rgba(45,68,99,0.95)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(229,236,249,0.94)_0%,rgba(236,233,224,0.92)_18%,rgba(218,206,190,0.88)_38%,rgba(185,151,118,0.82)_56%,rgba(116,142,186,0.88)_76%,rgba(68,98,139,0.92)_90%,rgba(45,68,99,0.95)_100%)] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.95)_0%,rgba(20,33,61,0.94)_18%,rgba(25,45,80,0.92)_38%,rgba(30,55,100,0.92)_56%,rgba(45,75,130,0.94)_76%,rgba(55,90,150,0.96)_90%,rgba(60,100,160,0.97)_100%)]"
       />
       <div className="relative z-10">
       <MainNav />
@@ -153,8 +153,8 @@ export default function VolunteerPage() {
                 onClick={() => setSelectedRole(role.id)}
                 className={`group relative p-6 cursor-pointer transition-all duration-500 overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2 ${
                   selectedRole === role.id
-                    ? "border-2 border-blue-600 bg-gradient-to-br from-blue-50 via-white to-blue-40 dark:bg-blue-900/20"
-                    : "bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] hover:from-[#e8ddd0] hover:via-[#f5ebe0] hover:to-[#e0d5c8]"
+                    ? "border-2 border-blue-600 bg-gradient-to-br from-blue-50 via-white to-blue-40 dark:from-blue-900/30 dark:via-slate-800 dark:to-blue-900/20 dark:border-blue-500"
+                    : "bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] hover:from-[#e8ddd0] hover:via-[#f5ebe0] hover:to-[#e0d5c8] dark:from-slate-800 dark:via-slate-800 dark:to-slate-800 dark:border-slate-700"
                 }`}
               >
                 <div className="flex items-start justify-between mb-4">
@@ -180,54 +180,54 @@ export default function VolunteerPage() {
 
           {/* Signup Form */}
           <div>
-            <Card className="p-6 sticky top-20">
-              <h2 className="text-xl font-bold text-blue-900 dark:text-white mb-6">Sign Up</h2>
+            <Card className="p-6 sticky top-20 bg-gradient-to-br from-slate-800 via-slate-800 to-slate-800 dark:from-slate-800 dark:via-slate-800 dark:to-slate-800 border border-slate-700 dark:border-slate-700">
+              <h2 className="text-xl font-bold text-white dark:text-white mb-6">Sign Up</h2>
 
               {!submitted ? (
                 <div className="space-y-5">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
+                    <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-2">Full Name</label>
                     <input
                       type="text"
                       placeholder="John Doe"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
+                      className="w-full px-4 py-2 rounded-lg border border-slate-600 dark:border-slate-600 bg-slate-700 dark:bg-slate-700 text-white dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400"
                     />
                     {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                    <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-2">Email</label>
                     <input
                       type="email"
                       placeholder="john@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
+                      className="w-full px-4 py-2 rounded-lg border border-slate-600 dark:border-slate-600 bg-slate-700 dark:bg-slate-700 text-white dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400"
                     />
                     {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email}</p>}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone</label>
+                    <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-2">Phone</label>
                     <input
                       type="tel"
                       placeholder="(555) 123-4567"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
+                      className="w-full px-4 py-2 rounded-lg border border-slate-600 dark:border-slate-600 bg-slate-700 dark:bg-slate-700 text-white dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-2">
                       Select Role
                     </label>
                     <select
                       value={selectedRole || ""}
                       onChange={(e) => setSelectedRole(Number(e.target.value))}
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
+                      className="w-full px-4 py-2 rounded-lg border border-slate-600 dark:border-slate-600 bg-slate-700 dark:bg-slate-700 text-white dark:text-white"
                     >
                       <option value="">Choose a role...</option>
                       {volunteerRoles.map((role) => (

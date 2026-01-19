@@ -31,7 +31,7 @@ const values = [
 ]
 
 const deepOceanGradient = "bg-[radial-gradient(circle_at_20%_20%,#2f65c6_0%,#214c8e_35%,#0f274f_75%,#081a3a_100%)]"
-const sandCanvasGradient = "bg-[radial-gradient(circle_at_20%_20%,#f6ede1_0%,#e9dcc9_45%,#d6c4ad_85%,#c9b69c_100%)]"
+const sandCanvasGradient = "bg-[radial-gradient(circle_at_20%_20%,#f6ede1_0%,#e9dcc9_45%,#d6c4ad_85%,#c9b69c_100%)] dark:bg-[radial-gradient(circle_at_20%_20%,#1e293b_0%,#0f172a_45%,#020617_85%,#000000_100%)]"
 const card3dBase =
   "group relative overflow-hidden rounded-3xl border border-white/30 bg-gradient-to-br from-[rgba(246,237,225,0.95)] via-[rgba(234,215,195,0.9)] to-[rgba(216,193,170,0.88)] dark:from-[rgba(43,74,133,0.7)] dark:via-[rgba(27,47,93,0.82)] dark:to-[rgba(14,27,52,0.9)] shadow-[0_35px_90px_-45px_rgba(15,23,42,0.65)] backdrop-blur-xl transform transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-4 hover:scale-[1.02] hover:rotate-[0.6deg] dark:border-white/10"
 const cardHighlight =
@@ -87,7 +87,7 @@ export default function AboutPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_10%_15%,#2f65c6_0%,#1b3563_45%,#0c1d3f_100%)] text-slate-100">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_10%_15%,#2f65c6_0%,#1b3563_45%,#0c1d3f_100%)] dark:bg-[radial-gradient(circle_at_10%_15%,#1a2d4a_0%,#0f1a2e_45%,#050c16_100%)] text-slate-100">
       <MainNav />
 
       {/* Hero Section */}
@@ -103,7 +103,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision */}
-      <section className={`${sandCanvasGradient} text-slate-900 py-16 px-4`}>
+      <section className={`${sandCanvasGradient} text-slate-900 dark:text-slate-100 py-16 px-4`}>
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {/* Mission */}

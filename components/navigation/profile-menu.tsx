@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
-import { User, Settings, Moon, Sun, LogOut } from "lucide-react"
+import { User, Settings, Moon, Sun, LogOut, LayoutDashboard } from "lucide-react"
 import { useUser } from "@/contexts/user-context"
 import { useTheme } from "@/contexts/theme-context"
 
@@ -66,6 +66,16 @@ export function ProfileMenu() {
 
           {/* Menu Items */}
           <div className="py-2">
+            {/* Dashboard */}
+            <Link
+              href="/dashboard"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 px-4 py-2 text-sm text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+            >
+              <LayoutDashboard className="w-4 h-4" />
+              <span>Dashboard</span>
+            </Link>
+
             {/* Edit Profile */}
             <Link
               href="/profile"

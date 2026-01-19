@@ -62,7 +62,7 @@ export default function EventsPage() {
     <div className="relative min-h-screen overflow-hidden">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(229,236,249,0.94)_0%,rgba(236,233,224,0.92)_18%,rgba(218,206,190,0.88)_38%,rgba(185,151,118,0.82)_56%,rgba(116,142,186,0.88)_76%,rgba(68,98,139,0.92)_90%,rgba(45,68,99,0.95)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(229,236,249,0.94)_0%,rgba(236,233,224,0.92)_18%,rgba(218,206,190,0.88)_38%,rgba(185,151,118,0.82)_56%,rgba(116,142,186,0.88)_76%,rgba(68,98,139,0.92)_90%,rgba(45,68,99,0.95)_100%)] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.95)_0%,rgba(20,33,61,0.94)_18%,rgba(25,45,80,0.92)_38%,rgba(30,55,100,0.92)_56%,rgba(45,75,130,0.94)_76%,rgba(55,90,150,0.96)_90%,rgba(60,100,160,0.97)_100%)]"
       />
       <div className="relative z-10">
       <MainNav />
@@ -106,11 +106,11 @@ export default function EventsPage() {
           {events.map((event) => {
             const { date, time } = formatDateRange(event)
             return (
-              <Card key={event.id} className="group relative p-6 h-full overflow-hidden bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] hover:from-[#e8ddd0] hover:via-[#f5ebe0] hover:to-[#e0d5c8] transition-all duration-500 cursor-pointer border border-[var(--border)] shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <Card key={event.id} className="group relative p-6 h-full overflow-hidden bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] hover:from-[#e8ddd0] hover:via-[#f5ebe0] hover:to-[#e0d5c8] dark:from-slate-800 dark:via-slate-800 dark:to-slate-800 dark:hover:from-slate-750 dark:hover:via-slate-750 dark:hover:to-slate-750 transition-all duration-500 cursor-pointer border border-[var(--border)] dark:border-slate-700 shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent dark:from-transparent dark:via-transparent dark:to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_50%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.05),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 <div className="relative z-10 space-y-3">
-                  <h3 className="text-xl font-bold text-blue-900 dark:text-white group-hover:text-blue-700">{event.title}</h3>
+                  <h3 className="text-xl font-bold text-blue-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-400">{event.title}</h3>
                   {event.description && <p className="text-gray-600 dark:text-gray-400 text-sm">{event.description}</p>}
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">

@@ -39,7 +39,7 @@ export function MainNav() {
   ]
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-[var(--border)] bg-gradient-to-r from-[#f5ebe0] via-[#efe3d6] to-[#e4d5c5] backdrop-blur supports-[backdrop-filter]:bg-gradient-to-r supports-[backdrop-filter]:from-[#f5ebe0] supports-[backdrop-filter]:via-[#efe3d6] supports-[backdrop-filter]:to-[#e4d5c5] shadow-sm">
+    <nav className="sticky top-0 z-50 w-full border-b border-[var(--border)] bg-gradient-to-r from-[#f5ebe0] via-[#efe3d6] to-[#e4d5c5] dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 backdrop-blur supports-[backdrop-filter]:bg-gradient-to-r supports-[backdrop-filter]:from-[#f5ebe0] supports-[backdrop-filter]:via-[#efe3d6] supports-[backdrop-filter]:to-[#e4d5c5] dark:supports-[backdrop-filter]:from-slate-900 dark:supports-[backdrop-filter]:via-slate-800 dark:supports-[backdrop-filter]:to-slate-900 shadow-sm">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}

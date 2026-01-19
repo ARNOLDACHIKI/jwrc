@@ -67,7 +67,7 @@ export default function SuggestionsPage() {
     <div className="relative min-h-screen overflow-hidden">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(229,236,249,0.94)_0%,rgba(236,233,224,0.92)_18%,rgba(218,206,190,0.88)_38%,rgba(185,151,118,0.82)_56%,rgba(116,142,186,0.88)_76%,rgba(68,98,139,0.92)_90%,rgba(45,68,99,0.95)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(229,236,249,0.94)_0%,rgba(236,233,224,0.92)_18%,rgba(218,206,190,0.88)_38%,rgba(185,151,118,0.82)_56%,rgba(116,142,186,0.88)_76%,rgba(68,98,139,0.92)_90%,rgba(45,68,99,0.95)_100%)] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.95)_0%,rgba(20,33,61,0.94)_18%,rgba(25,45,80,0.92)_38%,rgba(30,55,100,0.92)_56%,rgba(45,75,130,0.94)_76%,rgba(55,90,150,0.96)_90%,rgba(60,100,160,0.97)_100%)]"
       />
       <div className="relative z-10">
       <MainNav />
@@ -84,9 +84,9 @@ export default function SuggestionsPage() {
           </p>
         </div>
 
-        <Card className="group relative p-8 overflow-hidden bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] border border-[var(--border)] shadow-lg hover:shadow-2xl transition-all duration-500">
-          <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+        <Card className="group relative p-8 overflow-hidden bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] dark:from-slate-800 dark:via-slate-800 dark:to-slate-800 border border-[var(--border)] dark:border-slate-700 shadow-lg hover:shadow-2xl transition-all duration-500">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent dark:from-transparent dark:via-transparent dark:to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_50%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.05),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
           <div className="relative z-10">
           {!submitted ? (
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -102,7 +102,7 @@ export default function SuggestionsPage() {
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="John Doe"
                   required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 />
               </div>
 
@@ -115,7 +115,7 @@ export default function SuggestionsPage() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="john@example.com"
                   required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 />
               </div>
 
@@ -127,7 +127,7 @@ export default function SuggestionsPage() {
                 <select
                   value={formData.type}
                   onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"
                 >
                   <option value="suggestion">Suggestion</option>
                   <option value="complaint">Complaint</option>
@@ -145,7 +145,7 @@ export default function SuggestionsPage() {
                   placeholder="Share your thoughts..."
                   rows={6}
                   required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 />
               </div>
 
