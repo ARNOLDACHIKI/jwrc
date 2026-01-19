@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react"
 import { useUser } from "@/contexts/user-context"
 import { Button } from "@/components/ui/button"
 import { ProfileMenu } from "./profile-menu"
+import { ModeToggle } from "./mode-toggle"
 
 export function MainNav() {
   const [isOpen, setIsOpen] = useState(false)
@@ -84,7 +85,8 @@ export function MainNav() {
           </div>
 
           {/* Right side buttons */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <ModeToggle />
             {!user ? (
               <div className="flex items-center gap-2">
                 <Link href="/login">

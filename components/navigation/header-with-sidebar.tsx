@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
 import { ProfileMenu } from "./profile-menu"
+import { ModeToggle } from "./mode-toggle"
 
 export function HeaderWithSidebar() {
   const [logoSrc, setLogoSrc] = useState("/jwrc-logo.png")
@@ -34,7 +35,8 @@ export function HeaderWithSidebar() {
           </Link>
 
           {/* Profile Menu - Only visible when user is logged in */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <ModeToggle />
             <ProfileMenu />
           </div>
         </div>
