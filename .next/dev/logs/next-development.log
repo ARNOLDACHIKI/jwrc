@@ -1,10 +1,5 @@
-[00:00:01.060] Server  LOG     ✓ Ready in 699ms
-[00:00:06.083] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:06.686] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:06.686] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/announcements","route":"/announcements"}
-[00:00:06.686] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/announcements color: rgb(120, 120, 120) color: inherit {"dp":"/announcements","o":"http://localhost:3000/announcements","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1768879258988}
-[00:00:16.747] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1768879269096}
-[00:01:27.519] Server  WARN    Error: Route "/" used `searchParams.embedded`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
-[00:01:28.239] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1768879340598}
-[00:01:53.061] Server  LOG     ✓ Compiled in 1305ms
-[00:02:04.028] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/announcements color: rgb(120, 120, 120) color: inherit {"dp":"/announcements","o":"http://localhost:3000/announcements","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1768879376413}
+[00:00:01.653] Server  LOG     ✓ Ready in 1147ms
+[00:00:08.607] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:09.354] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:09.354] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/announcements","route":"/announcements"}
+[00:00:09.354] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/announcements color: rgb(120, 120, 120) color: inherit {"dp":"/announcements","o":"http://localhost:3000/announcements","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1768881065380}

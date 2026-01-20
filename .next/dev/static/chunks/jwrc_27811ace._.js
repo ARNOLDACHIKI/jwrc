@@ -224,7 +224,7 @@ const defaultTheme = {
     primaryColor: "#1e40af",
     accentColor: "#92400e",
     fontSize: "medium",
-    darkMode: false,
+    darkMode: true,
     sidebarCollapsed: false
 };
 const STORAGE_KEY = 'jwrc-theme-settings';
