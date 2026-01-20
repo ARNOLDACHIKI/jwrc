@@ -39,6 +39,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       if (stored) {
         const parsed = JSON.parse(stored)
         setTheme({ ...defaultTheme, ...parsed })
+      } else {
+        // Persist dark as the initial default for new visitors
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultTheme))
       }
     } catch (e) {
       console.warn('Failed to load theme from localStorage', e)

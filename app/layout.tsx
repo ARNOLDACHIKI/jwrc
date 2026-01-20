@@ -47,7 +47,13 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  var theme = JSON.parse(localStorage.getItem('jwrc-theme-settings') || '{}');
+                  var stored = localStorage.getItem('jwrc-theme-settings');
+                  var theme = stored ? JSON.parse(stored) : {};
+                  // If no preference stored, default to dark and persist it
+                  if (theme.darkMode === undefined) {
+                    theme.darkMode = true;
+                    localStorage.setItem('jwrc-theme-settings', JSON.stringify(theme));
+                  }
                   if (theme.darkMode === false) {
                     document.documentElement.classList.remove('dark');
                   } else {
