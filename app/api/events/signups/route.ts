@@ -7,6 +7,10 @@ import { getEventSignupConfirmationEmail } from "@/lib/email-templates"
 const prisma = new PrismaClient()
 
 function getTokenFromHeaders(req: Request) {
+  const authHeader = req.headers.get("authorization") || req.headers.get("Authorization")
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    return authHeader.substring(7)
+  }
   const cookie = req.headers.get("cookie") || ""
   const match = cookie.split(";").map((c) => c.trim()).find((c) => c.startsWith("token="))
   if (!match) return null
@@ -39,12 +43,25 @@ export const dynamic = 'force-dynamic'
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const { eventId, name, email, phone } = body || {}
+    const { eventId } = body || {}
     const errors: Record<string, string> = {}
     if (!eventId) errors.eventId = 'Event id is required'
-    if (!name || String(name).trim().length === 0) errors.name = 'Name is required'
-    if (!email || String(email).trim().length === 0) errors.email = 'Email is required'
     if (Object.keys(errors).length > 0) return NextResponse.json({ errors }, { status: 400 })
+
+    // require auth
+    const token = getTokenFromHeaders(req)
+    const secret = process.env.JWT_SECRET || 'dev-secret'
+    if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    let payload: any = null
+    try { payload = jwt.verify(token, secret) } catch (e) { return NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) }
+
+    // fetch user profile
+    const user = await prisma.user.findUnique({ where: { id: payload.userId } })
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+    const name = user.name || user.email
+    const email = user.email
+    const phone = user.phone || null
 
     // ensure event exists
     const ev = await prisma.event.findUnique({ where: { id: eventId } })

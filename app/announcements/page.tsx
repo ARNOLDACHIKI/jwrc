@@ -58,15 +58,18 @@ export default function AnnouncementsPage() {
       <div className="relative z-10">
       <MainNav />
 
-      <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="max-w-6xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-blue-900 dark:text-white mb-4">Church Announcements</h1>
+          <h1 className="text-4xl font-bold text-blue-900 dark:text-white mb-4 flex items-center justify-center gap-3">
+            <Megaphone className="w-10 h-10" />
+            Church Announcements
+          </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400">Stay updated with the latest news and events</p>
         </div>
 
-        {/* Announcements */}
-        <div className="space-y-6">
+        {/* Announcements Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {loading && <p className="text-center text-gray-500">Loading announcements…</p>}
           {!loading && announcements.length === 0 && (
             <p className="text-center text-gray-500">No announcements yet.</p>
@@ -74,38 +77,44 @@ export default function AnnouncementsPage() {
 
           {announcements.map((announcement) => {
             const Icon = announcement.category === 'Event' ? Calendar : announcement.category === 'Important' ? AlertCircle : Megaphone
-            const date = announcement.postedAt ? new Date(announcement.postedAt).toLocaleDateString() : ''
-            const bgColor =
-              announcement.category === "Important"
-                ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-900"
-                : announcement.category === "Event"
-                  ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-900"
-                  : "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-900"
+            const mainColor = announcement.category === "Important" ? "#dc2626" : announcement.category === "Event" ? "#2563eb" : "#2563eb"
 
             return (
-              <Card key={announcement.id} className={`group relative p-6 border-l-4 overflow-hidden transition-all duration-500 cursor-pointer transform hover:scale-105 hover:-translate-y-2 hover:shadow-2xl ${bgColor}`}>
-                <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                <div className="relative z-10 flex gap-4">
-                  <div className="shrink-0">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-opacity-10 bg-blue-600 group-hover:shadow-lg transition-shadow duration-300">
-                      <Icon className="h-6 w-6 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300" />
+              <div key={announcement.id} className="perspective-1000" style={{ perspective: '1000px', padding: '20px' }}>
+                <div className="event-card-3d border-3 border-[#d4c4b0] dark:border-blue-500 transform-style-preserve-3d transition-all duration-500 hover:rotate-3d shadow-[rgba(100,100,111,0.3)_0px_30px_30px_-10px] bg-[linear-gradient(135deg,#0000_18.75%,#f5ebe0_0_31.25%,#0000_0),repeating-linear-gradient(45deg,#f5ebe0_-6.25%_6.25%,#d4c4b0_0_18.75%)] dark:bg-[linear-gradient(135deg,#0000_18.75%,#334155_0_31.25%,#0000_0),repeating-linear-gradient(45deg,#334155_-6.25%_6.25%,#475569_0_18.75%)] bg-[length:60px_60px] bg-[position:0_0,0_0] bg-[#e8ddd0] dark:bg-[#1e293b] pt-[50px] hover:bg-[position:-100px_100px,-100px_100px]">
+                  <div className="content-box bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] dark:from-slate-700 dark:via-slate-800 dark:to-slate-700 p-[60px_25px_25px_25px] transform-style-preserve-3d transition-all duration-500">
+                    <div className="flex gap-3 items-start mb-3">
+                      <div className="shrink-0 transform-translate-z-50">
+                        <div className="flex items-center justify-center h-10 w-10 rounded-lg" style={{ backgroundColor: mainColor }}>
+                          <Icon className="h-5 w-5 text-white" />
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="card-title inline-block text-blue-900 dark:text-white text-xl font-black transition-all duration-500 transform-translate-z-50 hover:transform-translate-z-60">{announcement.title}</h3>
+                      </div>
+                    </div>
+                    <p className="card-content mt-2 text-xs font-bold text-gray-700 dark:text-gray-300 transition-all duration-500 transform-translate-z-30 hover:transform-translate-z-60">{announcement.content}</p>
+                    <div className="mt-4 transform-translate-z-30">
+                      <span className="inline-block px-2 py-1 text-[9px] font-black uppercase text-white rounded" style={{ backgroundColor: mainColor }}>
+                        {announcement.category}
+                      </span>
                     </div>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">{announcement.title}</h3>
-                        <span className="inline-block mt-2 px-3 py-1 text-xs font-semibold text-white bg-blue-600 rounded-full">
-                          {announcement.category}
-                        </span>
-                      </div>
-                      <time className="text-sm text-gray-500 dark:text-gray-400">{date}</time>
-                    </div>
-                    <p className="text-gray-600 dark:text-gray-400 mt-4">{announcement.content}</p>
+                  <div className="date-box absolute top-[30px] right-[30px] h-[60px] w-[60px] p-2 transform-translate-z-80 shadow-[rgba(100,100,111,0.2)_0px_17px_10px_-10px] border" style={{ backgroundColor: mainColor, borderColor: mainColor }}>
+                    <span className="block text-center text-white text-[9px] font-bold">{new Date(announcement.postedAt || Date.now()).toLocaleString('default', { month: 'short' }).toUpperCase()}</span>
+                    <span className="block text-center text-white text-xl font-black">{new Date(announcement.postedAt || Date.now()).getDate()}</span>
                   </div>
                 </div>
-              </Card>
+                <style jsx>{`
+                  .transform-style-preserve-3d { transform-style: preserve-3d; }
+                  .hover\\:rotate-3d:hover { transform: rotate3d(0.5, 1, 0, 30deg); }
+                  .transform-translate-z-30 { transform: translate3d(0px, 0px, 30px); }
+                  .transform-translate-z-50 { transform: translate3d(0px, 0px, 50px); }
+                  .transform-translate-z-60 { transform: translate3d(0px, 0px, 60px); }
+                  .transform-translate-z-80 { transform: translate3d(0px, 0px, 80px); }
+                  .hover\\:transform-translate-z-60:hover { transform: translate3d(0px, 0px, 60px); }
+                `}</style>
+              </div>
             )
           })}
         </div>

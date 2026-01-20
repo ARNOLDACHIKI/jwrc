@@ -129,13 +129,22 @@ export default function EventSignUpPage() {
     <div className="relative min-h-screen overflow-hidden">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(229,236,249,0.94)_0%,rgba(236,233,224,0.92)_18%,rgba(218,206,190,0.88)_38%,rgba(185,151,118,0.82)_56%,rgba(116,142,186,0.88)_76%,rgba(68,98,139,0.92)_90%,rgba(45,68,99,0.95)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(229,236,249,0.94)_0%,rgba(236,233,224,0.92)_18%,rgba(218,206,190,0.88)_38%,rgba(185,151,118,0.82)_56%,rgba(116,142,186,0.88)_76%,rgba(68,98,139,0.92)_90%,rgba(45,68,99,0.95)_100%)] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.95)_0%,rgba(20,33,61,0.94)_18%,rgba(25,45,80,0.92)_38%,rgba(30,55,100,0.92)_56%,rgba(45,75,130,0.94)_76%,rgba(55,90,150,0.96)_90%,rgba(60,100,160,0.97)_100%)]"
       />
       <div className="relative z-10">
         <MainNav />
         <div className="max-w-2xl mx-auto px-4 py-12">
-          <Card className="p-8 bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] border border-[var(--border)] shadow-xl">
-            <h2 className="text-3xl font-bold mb-6 text-blue-900">Sign up: {event?.title || 'Loading...'}</h2>
+          <Card className="p-8 bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 border border-[var(--border)] dark:border-white/10 shadow-xl">
+            <h2 className="text-3xl font-bold mb-6 text-blue-900 dark:text-white">Sign up: {event?.title || 'Loading...'}</h2>
+            {!user && (
+              <div className="mb-6 rounded-lg bg-white/70 dark:bg-slate-800/60 p-4 border border-white/30 dark:border-white/10">
+                <p className="text-gray-700 dark:text-gray-300">You need to be logged in to register for this event.</p>
+                <div className="mt-4 flex gap-3">
+                  <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => router.push(`/login?redirect=/events/sign-up?eventId=${encodeURIComponent(eventId)}`)}>Login to continue</Button>
+                  <Button variant="outline" onClick={() => router.push('/signup')}>Create account</Button>
+                </div>
+              </div>
+            )}
             {signupResult ? (
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
@@ -169,13 +178,12 @@ export default function EventSignUpPage() {
             ) : (
               <form onSubmit={async (e) => {
                 e.preventDefault()
+                if (!user) { toast({ title: 'Login required', description: 'Please login to register.' }); return }
                 const clientErrors: Record<string,string> = {}
-                if (!name) clientErrors.name = 'Name required'
-                if (!email) clientErrors.email = 'Email required'
                 if (Object.keys(clientErrors).length) { setErrors(clientErrors); return }
                 setLoading(true)
                 try {
-                  const res = await fetch('/api/events/signups', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ eventId, name, email, phone }) })
+                  const res = await fetch('/api/events/signups', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ eventId }) })
                   if (res.ok) {
                     const data = await res.json()
                     setSignupResult(data.signup)
@@ -189,22 +197,25 @@ export default function EventSignUpPage() {
               }}>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                    <input className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" value={name} onChange={(e) => setName(e.target.value)} />
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Name</label>
+                    <input className="w-full px-4 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" value={name} onChange={(e) => setName(e.target.value)} readOnly={!!user} />
+                    {user && <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Auto-filled from your profile</p>}
                     {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Email</label>
+                    <input type="email" className="w-full px-4 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" value={email} onChange={(e) => setEmail(e.target.value)} readOnly={!!user} />
+                    {user && <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Auto-filled from your profile</p>}
                     {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone (optional)</label>
-                    <input type="tel" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Phone (optional)</label>
+                    <input type="tel" className="w-full px-4 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" value={phone} onChange={(e) => setPhone(e.target.value)} readOnly={!!user} />
+                    {user && <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Auto-filled from your profile</p>}
                   </div>
                   {errors.form && <p className="text-sm text-red-600">{errors.form}</p>}
                   <div className="flex gap-3 pt-4">
-                    <Button type="submit" className="bg-blue-600 hover:bg-blue-700 flex-1" disabled={loading}>{loading ? 'Submitting...' : 'Submit Registration'}</Button>
+                    <Button type="submit" className="bg-blue-600 hover:bg-blue-700 flex-1" disabled={loading || !user}>{loading ? 'Submitting...' : 'Submit Registration'}</Button>
                     <Button type="button" variant="outline" onClick={() => router.push('/events')}>Cancel</Button>
                   </div>
                 </div>

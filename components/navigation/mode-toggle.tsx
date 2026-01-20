@@ -63,17 +63,18 @@ export function ModeToggle() {
           position: relative;
           z-index: 10;
           width: fit-content;
-          height: 50px;
+          height: 28px;
           border-radius: 9999px;
+          transform: translateX(-8px);
         }
         .toggle-input { display: none; }
         .toggle-label {
-          --gap: 5px;
-          --width: 50px;
+          --gap: 2.5px;
+          --width: 28px;
           cursor: pointer;
           position: relative;
           display: inline-block;
-          padding: 0.5rem;
+          padding: 0.24rem;
           width: calc((var(--width) + var(--gap)) * 2);
           height: 100%;
           background-color: var(--dark);
@@ -116,12 +117,12 @@ export function ModeToggle() {
           justify-content: center;
           align-items: center;
           width: var(--width);
-          height: 50px;
+          height: 28px;
           background-image: radial-gradient(circle at 50% 0%, #666666 0%, var(--gray) 100%);
           border: 1px solid #aaaaaa;
           border-bottom: 0;
           border-radius: 9999px;
-          box-shadow: inset 0 -0.15rem 0.15rem var(--primary), inset 0 0 0.5rem 0.75rem var(--second);
+          box-shadow: inset 0 -0.1rem 0.1rem var(--primary), inset 0 0 0.3rem 0.5rem var(--second);
           transition: transform 0.3s ease-in-out;
           overflow: clip;
         }
@@ -146,7 +147,7 @@ export function ModeToggle() {
           }
         }
         .icon {
-          width: 1.1rem;
+          width: 0.82rem;
           fill: var(--light);
         }
         .toggle-input:checked + .toggle-label {

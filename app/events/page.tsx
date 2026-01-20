@@ -106,42 +106,54 @@ export default function EventsPage() {
           {events.map((event) => {
             const { date, time } = formatDateRange(event)
             return (
-              <Card key={event.id} className="group relative p-6 h-full overflow-hidden bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] hover:from-[#e8ddd0] hover:via-[#f5ebe0] hover:to-[#e0d5c8] dark:from-slate-800 dark:via-slate-800 dark:to-slate-800 dark:hover:from-slate-750 dark:hover:via-slate-750 dark:hover:to-slate-750 transition-all duration-500 cursor-pointer border border-[var(--border)] dark:border-slate-700 shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent dark:from-transparent dark:via-transparent dark:to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_50%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.05),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                <div className="relative z-10 space-y-3">
-                  <h3 className="text-xl font-bold text-blue-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-400">{event.title}</h3>
-                  {event.description && <p className="text-gray-600 dark:text-gray-400 text-sm">{event.description}</p>}
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                      <Calendar className="w-4 h-4" />
-                      <span>{date}</span>
+              <div key={event.id} className="perspective-1000" style={{ perspective: '1000px', padding: '20px' }}>
+                <div className="event-card-3d border-3 border-[#d4c4b0] dark:border-blue-500 transform-style-preserve-3d transition-all duration-500 hover:rotate-3d shadow-[rgba(100,100,111,0.3)_0px_30px_30px_-10px] bg-[linear-gradient(135deg,#0000_18.75%,#f5ebe0_0_31.25%,#0000_0),repeating-linear-gradient(45deg,#f5ebe0_-6.25%_6.25%,#d4c4b0_0_18.75%)] dark:bg-[linear-gradient(135deg,#0000_18.75%,#334155_0_31.25%,#0000_0),repeating-linear-gradient(45deg,#334155_-6.25%_6.25%,#475569_0_18.75%)] bg-[length:60px_60px] bg-[position:0_0,0_0] bg-[#e8ddd0] dark:bg-[#1e293b] pt-[50px] hover:bg-[position:-100px_100px,-100px_100px]">
+                  <div className="content-box bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] dark:from-slate-700 dark:via-slate-800 dark:to-slate-700 p-[60px_25px_25px_25px] transform-style-preserve-3d transition-all duration-500">
+                    <h3 className="card-title inline-block text-blue-900 dark:text-white text-xl font-black transition-all duration-500 transform-translate-z-50 hover:transform-translate-z-60">{event.title}</h3>
+                    {event.description && <p className="card-content mt-2 text-xs font-bold text-gray-700 dark:text-gray-300 transition-all duration-500 transform-translate-z-30 hover:transform-translate-z-60">{event.description}</p>}
+                    <div className="space-y-2 text-xs mt-4 transform-translate-z-30">
+                      <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 font-bold">
+                        <Calendar className="w-3 h-3" />
+                        <span>{date}</span>
+                      </div>
+                      {time && (
+                        <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 font-bold">
+                          <span className="w-3 h-3">🕐</span>
+                          <span>{time}</span>
+                        </div>
+                      )}
+                      {event.location && (
+                        <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 font-bold">
+                          <MapPin className="w-3 h-3" />
+                          <span>{event.location}</span>
+                        </div>
+                      )}
                     </div>
-                    {time && (
-                      <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <span className="w-4 h-4">🕐</span>
-                        <span>{time}</span>
-                      </div>
-                    )}
-                    {event.location && (
-                      <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <MapPin className="w-4 h-4" />
-                        <span>{event.location}</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                     <Button
                       onClick={() => window.location.href = `/events/sign-up?eventId=${event.id}`}
-                      className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                      className="see-more cursor-pointer mt-4 inline-block font-black text-[9px] uppercase text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 px-3 py-2 transition-all duration-500 transform-translate-z-20 hover:transform-translate-z-60"
                     >
-                      <Users className="w-4 h-4 mr-2" />
-                      Sign Up to Attend
-                      <ArrowRight className="w-4 h-4 ml-2" />
+                      <Users className="w-3 h-3 inline mr-1" />
+                      Sign Up
+                      <ArrowRight className="w-3 h-3 inline ml-1" />
                     </Button>
                   </div>
+                  <div className="date-box absolute top-[30px] right-[30px] h-[60px] w-[60px] bg-blue-600 dark:bg-blue-700 border border-blue-700 dark:border-blue-500 p-2 transform-translate-z-80 shadow-[rgba(100,100,111,0.2)_0px_17px_10px_-10px]">
+                    <span className="block text-center text-white text-[9px] font-bold">{new Date(event.startsAt || Date.now()).toLocaleString('default', { month: 'short' }).toUpperCase()}</span>
+                    <span className="block text-center text-white text-xl font-black">{new Date(event.startsAt || Date.now()).getDate()}</span>
+                  </div>
                 </div>
-              </Card>
+                <style jsx>{`
+                  .transform-style-preserve-3d { transform-style: preserve-3d; }
+                  .hover\\:rotate-3d:hover { transform: rotate3d(0.5, 1, 0, 30deg); }
+                  .transform-translate-z-20 { transform: translate3d(0px, 0px, 20px); }
+                  .transform-translate-z-30 { transform: translate3d(0px, 0px, 30px); }
+                  .transform-translate-z-50 { transform: translate3d(0px, 0px, 50px); }
+                  .transform-translate-z-60 { transform: translate3d(0px, 0px, 60px); }
+                  .transform-translate-z-80 { transform: translate3d(0px, 0px, 80px); }
+                  .hover\\:transform-translate-z-60:hover { transform: translate3d(0px, 0px, 60px); }
+                `}</style>
+              </div>
             )
           })}
         </div>

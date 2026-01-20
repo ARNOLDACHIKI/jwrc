@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Heart, Users, BookOpen, Music, Calendar, Zap, MessageSquare } from "lucide-react"
 import { Hero } from "@/components/hero"
+import { SocialCards } from "@/components/social-cards"
 
 export default function Home({ searchParams }: { searchParams?: { embedded?: string } }) {
   const embedded = searchParams?.embedded === "1"
@@ -39,13 +40,13 @@ export default function Home({ searchParams }: { searchParams?: { embedded?: str
               const Icon = feature.icon
               return feature.href ? (
                 <Link key={idx} href={feature.href}>
-                  <Card className="group relative p-6 h-full overflow-hidden bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] hover:from-[#e8ddd0] hover:via-[#f5ebe0] hover:to-[#e0d5c8] transition-all duration-500 cursor-pointer border border-[var(--border)] shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2 hover:rotate-1">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none" />
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  <Card className="group relative p-6 h-full overflow-hidden bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 hover:from-[#e8ddd0] hover:via-[#f5ebe0] hover:to-[#e0d5c8] dark:hover:from-slate-700 dark:hover:via-slate-800 dark:hover:to-slate-700 transition-all duration-500 cursor-pointer border border-[var(--border)] dark:border-white/10 shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2 hover:rotate-1">
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 dark:from-white/10 dark:opacity-20 dark:group-hover:opacity-30 transition-opacity duration-500 pointer-events-none" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_50%)] opacity-0 group-hover:opacity-100 dark:bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.08),transparent_50%)] dark:group-hover:opacity-40 transition-opacity duration-500 pointer-events-none" />
                     
                     <div className="relative z-10">
-                      <div className="bg-gradient-to-br from-[var(--primary)]/20 to-[var(--primary)]/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4 shadow-md group-hover:shadow-lg transition-shadow duration-300">
-                        <Icon className="w-6 h-6 text-[var(--primary)] group-hover:scale-110 transition-transform duration-300" />
+                      <div className="bg-gradient-to-br from-[var(--primary)]/20 to-[var(--primary)]/10 dark:from-white/10 dark:to-white/5 w-12 h-12 rounded-lg flex items-center justify-center mb-4 shadow-md group-hover:shadow-lg transition-shadow duration-300">
+                        <Icon className="w-6 h-6 text-[var(--primary)] dark:text-blue-300 group-hover:scale-110 transition-transform duration-300" />
                       </div>
                       <h3 className="font-bold text-lg text-[var(--primary)] dark:text-white mb-2">{feature.label}</h3>
                       <p className="text-[var(--muted-foreground)] dark:text-gray-400 text-sm">{feature.desc}</p>
@@ -53,13 +54,13 @@ export default function Home({ searchParams }: { searchParams?: { embedded?: str
                   </Card>
                 </Link>
               ) : (
-                <Card key={idx} className="group relative p-6 h-full overflow-hidden bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] hover:from-[#e8ddd0] hover:via-[#f5ebe0] hover:to-[#e0d5c8] transition-all duration-500 cursor-default border border-[var(--border)] shadow-lg hover:shadow-2xl">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <Card key={idx} className="group relative p-6 h-full overflow-hidden bg-gradient-to-br from-[#f5ebe0] via-white to-[#f0e5d8] dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 hover:from-[#e8ddd0] hover:via-[#f5ebe0] hover:to-[#e0d5c8] dark:hover:from-slate-700 dark:hover:via-slate-800 dark:hover:to-slate-700 transition-all duration-500 cursor-default border border-[var(--border)] dark:border-white/10 shadow-lg hover:shadow-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 dark:from-white/10 dark:opacity-20 dark:group-hover:opacity-30 transition-opacity duration-500 pointer-events-none" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_50%)] opacity-0 group-hover:opacity-100 dark:bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.08),transparent_50%)] dark:group-hover:opacity-40 transition-opacity duration-500 pointer-events-none" />
                   
                   <div className="relative z-10">
-                    <div className="bg-gradient-to-br from-[var(--primary)]/20 to-[var(--primary)]/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4 shadow-md group-hover:shadow-lg transition-shadow duration-300">
-                      <Icon className="w-6 h-6 text-[var(--primary)] group-hover:scale-110 transition-transform duration-300" />
+                    <div className="bg-gradient-to-br from-[var(--primary)]/20 to-[var(--primary)]/10 dark:from-white/10 dark:to-white/5 w-12 h-12 rounded-lg flex items-center justify-center mb-4 shadow-md group-hover:shadow-lg transition-shadow duration-300">
+                      <Icon className="w-6 h-6 text-[var(--primary)] dark:text-blue-300 group-hover:scale-110 transition-transform duration-300" />
                     </div>
                     <h3 className="font-bold text-lg text-[var(--primary)] dark:text-white mb-2">{feature.label}</h3>
                     <p className="text-[var(--muted-foreground)] dark:text-gray-400 text-sm">{feature.desc}</p>
@@ -110,28 +111,34 @@ export default function Home({ searchParams }: { searchParams?: { embedded?: str
           </div>
         </div>
       </section>
+
       {/* CTA Section */}
-      <section className="relative py-16 px-4 text-white">
+      <section className="relative py-24 px-4 text-white">
         <div className="absolute inset-0 bg-gradient-to-r from-[#364e78] to-[#2d4463] opacity-95 border-y border-white/10" aria-hidden />
-        <div className="relative max-w-4xl mx-auto text-center space-y-6">
-          <h2 className="text-4xl font-bold">Ready to Join Our Community?</h2>
-          <p className="text-xl text-[#d4dce8]">Sign up today and start your spiritual journey with us</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-            <Link href="/signup">
-              <Button size="lg" className="bg-white text-[#364e78] hover:bg-gray-50 w-full sm:w-auto">
-                Get Started
-              </Button>
-            </Link>
-            <Link href="/about">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white text-white hover:bg-[#445b8a] w-full sm:w-auto bg-transparent"
-              >
-                Learn More
-              </Button>
-            </Link>
+        <div className="relative max-w-5xl mx-auto">
+          <div className="text-center space-y-6 mb-12">
+            <h2 className="text-4xl font-bold">Ready to Join Our Community?</h2>
+            <p className="text-xl text-[#d4dce8]">Sign up today and start your spiritual journey with us</p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+              <Link href="/signup">
+                <Button size="lg" className="bg-white text-[#364e78] hover:bg-gray-50 w-full sm:w-auto">
+                  Get Started
+                </Button>
+              </Link>
+              <Link href="/about">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-white text-white hover:bg-[#445b8a] w-full sm:w-auto bg-transparent"
+                >
+                  Learn More
+                </Button>
+              </Link>
+            </div>
           </div>
+
+          {/* Social Cards Component */}
+          <SocialCards />
         </div>
       </section>
 
