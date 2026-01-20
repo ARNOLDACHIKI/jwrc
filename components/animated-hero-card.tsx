@@ -166,14 +166,14 @@ export function AnimatedHeroCard({ embedded = false }: AnimatedHeroCardProps) {
         }
 
         .verse-text {
-          font-size: 14px;
+          font-size: 18px;
           font-weight: 400;
           color: rgba(147, 197, 253, 0.8);
           letter-spacing: 0.5px;
           text-align: center;
-          max-width: 600px;
-          margin-top: 15px;
-          line-height: 1.5;
+          max-width: 700px;
+          margin-top: 20px;
+          line-height: 1.7;
           font-style: italic;
           transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
