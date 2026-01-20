@@ -34,6 +34,7 @@ export function AnimatedHeroCard({ embedded = false }: AnimatedHeroCardProps) {
                   <span className="letter">C</span>
                 </div>
                 <div className="church-text">CHURCH</div>
+                <div className="verse-text">Yet a time is coming and has now come when the true worshipers will worship the Father in the Spirit and in truth - John 4:23</div>
               </div>
               
               {/* Expanded state - Full name */}
@@ -164,6 +165,19 @@ export function AnimatedHeroCard({ embedded = false }: AnimatedHeroCardProps) {
           text-align: center;
         }
 
+        .verse-text {
+          font-size: 14px;
+          font-weight: 400;
+          color: rgba(147, 197, 253, 0.8);
+          letter-spacing: 0.5px;
+          text-align: center;
+          max-width: 600px;
+          margin-top: 15px;
+          line-height: 1.5;
+          font-style: italic;
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         .letter {
           display: inline-block;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -242,6 +256,11 @@ export function AnimatedHeroCard({ embedded = false }: AnimatedHeroCardProps) {
           transform: scale(0.8);
         }
 
+        .animated-church-card:hover .verse-text {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+
         .animated-church-card:hover .jwrc-container {
           opacity: 0;
         }
@@ -277,6 +296,12 @@ export function AnimatedHeroCard({ embedded = false }: AnimatedHeroCardProps) {
             letter-spacing: 10px;
           }
 
+          .verse-text {
+            font-size: 12px;
+            max-width: 400px;
+            margin-top: 10px;
+          }
+
           .name-line {
             font-size: 38px;
             letter-spacing: 3px;
@@ -310,6 +335,12 @@ export function AnimatedHeroCard({ embedded = false }: AnimatedHeroCardProps) {
           .church-text {
             font-size: 28px;
             letter-spacing: 8px;
+          }
+
+          .verse-text {
+            font-size: 10px;
+            max-width: 300px;
+            margin-top: 8px;
           }
 
           .name-line {
