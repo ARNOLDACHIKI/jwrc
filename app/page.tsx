@@ -3,11 +3,12 @@ import { MainNav } from "@/components/navigation/main-nav"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Heart, Users, BookOpen, Music, Calendar, Zap, MessageSquare } from "lucide-react"
-import { Hero } from "@/components/hero"
+import { AnimatedHeroCard } from "@/components/animated-hero-card"
 import { SocialCards } from "@/components/social-cards"
 
-export default function Home({ searchParams }: { searchParams?: { embedded?: string } }) {
-  const embedded = searchParams?.embedded === "1"
+export default async function Home({ searchParams }: { searchParams?: Promise<{ embedded?: string }> }) {
+  const params = await searchParams
+  const embedded = params?.embedded === "1"
   return (
     <div className="relative min-h-screen overflow-hidden">
       <div
@@ -18,7 +19,7 @@ export default function Home({ searchParams }: { searchParams?: { embedded?: str
       <div className="relative z-10">
         <MainNav />
 
-        <Hero embedded={embedded} />
+        <AnimatedHeroCard embedded={embedded} />
 
       {/* Features Section */}
       <section className="relative py-16 px-4">

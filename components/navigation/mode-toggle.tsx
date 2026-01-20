@@ -11,169 +11,96 @@ export function ModeToggle() {
 
   const toggle = () => updateTheme({ darkMode: !theme.darkMode })
 
-  const checked = mounted ? theme.darkMode : false
+  const checked = mounted ? theme.darkMode : true // Default to true for dark mode
 
   return (
-    <div className="toggle-cont" aria-label="Toggle dark mode">
+    <div className="flex items-center" aria-label="Toggle dark mode">
       <input
-        className="toggle-input"
+        className="theme-toggle-switch"
         id="toggle-theme"
-        name="toggle-theme"
         type="checkbox"
         checked={checked}
         onChange={toggle}
       />
-      <label className="toggle-label" htmlFor="toggle-theme">
-        <div className="cont-icon" aria-hidden>
-          <span style={{ ['--width' as string]: 2, ['--deg' as string]: 25, ['--duration' as string]: 11 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 1, ['--deg' as string]: 100, ['--duration' as string]: 18 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 1, ['--deg' as string]: 280, ['--duration' as string]: 5 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 2, ['--deg' as string]: 200, ['--duration' as string]: 3 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 2, ['--deg' as string]: 30, ['--duration' as string]: 20 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 2, ['--deg' as string]: 300, ['--duration' as string]: 9 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 1, ['--deg' as string]: 250, ['--duration' as string]: 4 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 2, ['--deg' as string]: 210, ['--duration' as string]: 8 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 2, ['--deg' as string]: 100, ['--duration' as string]: 9 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 1, ['--deg' as string]: 15, ['--duration' as string]: 13 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 1, ['--deg' as string]: 75, ['--duration' as string]: 18 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 2, ['--deg' as string]: 65, ['--duration' as string]: 6 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 2, ['--deg' as string]: 50, ['--duration' as string]: 7 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 1, ['--deg' as string]: 320, ['--duration' as string]: 5 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 1, ['--deg' as string]: 220, ['--duration' as string]: 5 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 1, ['--deg' as string]: 215, ['--duration' as string]: 2 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 2, ['--deg' as string]: 135, ['--duration' as string]: 9 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 2, ['--deg' as string]: 45, ['--duration' as string]: 4 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 1, ['--deg' as string]: 78, ['--duration' as string]: 16 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 1, ['--deg' as string]: 89, ['--duration' as string]: 19 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 2, ['--deg' as string]: 65, ['--duration' as string]: 14 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 2, ['--deg' as string]: 97, ['--duration' as string]: 1 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 1, ['--deg' as string]: 174, ['--duration' as string]: 10 }} className="sparkle" />
-          <span style={{ ['--width' as string]: 1, ['--deg' as string]: 236, ['--duration' as string]: 5 }} className="sparkle" />
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" className="icon">
-            <path d="M0.96233 28.61C1.36043 29.0081 1.96007 29.1255 2.47555 28.8971L10.4256 25.3552C13.2236 24.11 16.4254 24.1425 19.2107 25.4401L27.4152 29.2747C27.476 29.3044 27.5418 29.3023 27.6047 29.32C27.6563 29.3348 27.7079 29.3497 27.761 29.3574C27.843 29.3687 27.9194 29.3758 28 29.3688C28.1273 29.3617 28.2531 29.3405 28.3726 29.2945C28.4447 29.262 28.5162 29.2287 28.5749 29.1842C28.6399 29.1446 28.6993 29.0994 28.7509 29.0477L28.9008 28.8582C28.9468 28.7995 28.9793 28.7274 29.0112 28.656C29.0599 28.5322 29.0811 28.4036 29.0882 28.2734C29.0939 28.1957 29.0868 28.1207 29.0769 28.0415C29.0705 27.9955 29.0585 27.9524 29.0472 27.9072C29.0295 27.8343 29.0302 27.7601 28.9984 27.6901L25.1638 19.4855C23.8592 16.7073 23.8273 13.5048 25.0726 10.7068L28.6145 2.75679C28.8429 2.24131 28.7318 1.63531 28.3337 1.2372C27.9165 0.820011 27.271 0.721743 26.7491 0.9961L19.8357 4.59596C16.8418 6.15442 13.2879 6.18696 10.2615 4.70062L1.80308 0.520214C1.7055 0.474959 1.60722 0.441742 1.50964 0.421943C1.44459 0.409215 1.37882 0.395769 1.3074 0.402133C1.14406 0.395769 0.981436 0.428275 0.818095 0.499692C0.77284 0.519491 0.719805 0.545671 0.67455 0.578198C0.596061 0.617088 0.524653 0.675786 0.4596 0.74084C0.394546 0.805894 0.335843 0.877306 0.296245 0.956502C0.263718 1.00176 0.237561 1.05477 0.217762 1.10003C0.152708 1.24286 0.126545 1.40058 0.120181 1.54978C0.120181 1.61483 0.126527 1.6735 0.132891 1.73219C0.15269 1.85664 0.178881 1.97332 0.237571 2.08434L4.41798 10.5427C5.91139 13.5621 5.8725 17.1238 4.3204 20.1099L0.720514 27.0233C0.440499 27.5536 0.545137 28.1928 0.96233 28.61Z" />
-          </svg>
-        </div>
-      </label>
       <style jsx>{`
-        .toggle-cont {
-          --primary: #54a8fc;
-          --light: #d9d9d9;
-          --dark: #121212;
-          --gray: #414344;
-          position: relative;
-          z-index: 10;
-          width: fit-content;
-          height: 28px;
-          border-radius: 9999px;
-          transform: translateX(-8px);
-        }
-        .toggle-input { display: none; }
-        .toggle-label {
-          --gap: 2.5px;
-          --width: 28px;
-          cursor: pointer;
-          position: relative;
-          display: inline-block;
-          padding: 0.24rem;
-          width: calc((var(--width) + var(--gap)) * 2);
-          height: 100%;
-          background-color: var(--dark);
-          border: 1px solid #777777;
-          border-bottom: 0;
-          border-radius: 9999px;
-          box-sizing: content-box;
-          transition: all 0.3s ease-in-out;
-        }
-        .toggle-label::before {
-          content: "";
-          position: absolute;
-          z-index: -10;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: calc(100% + 1.5rem);
-          height: calc(100% + 1.5rem);
-          background-color: var(--gray);
-          border: 1px solid #777777;
-          border-bottom: 0;
-          border-radius: 9999px;
-          transition: all 0.3s ease-in-out;
-        }
-        .toggle-label::after {
-          content: "";
-          position: absolute;
-          z-index: -10;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 100%;
-          height: 100%;
-          background-image: radial-gradient(circle at 50% -100%, rgb(58, 155, 252) 0%, rgba(12, 12, 12, 1) 80%);
-          border-radius: 9999px;
-        }
-        .cont-icon {
-          position: relative;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: var(--width);
-          height: 28px;
-          background-image: radial-gradient(circle at 50% 0%, #666666 0%, var(--gray) 100%);
-          border: 1px solid #aaaaaa;
-          border-bottom: 0;
-          border-radius: 9999px;
-          box-shadow: inset 0 -0.1rem 0.1rem var(--primary), inset 0 0 0.3rem 0.5rem var(--second);
-          transition: transform 0.3s ease-in-out;
-          overflow: clip;
-        }
-        .sparkle {
-          position: absolute;
-          top: 50%;
-          left: 50%;
+        .theme-toggle-switch {
           display: block;
-          width: calc(var(--width) * 1px);
-          aspect-ratio: 1;
-          background-color: var(--light);
+          cursor: pointer;
+          background-color: rgba(0, 0, 0, 0.7);
+          border-radius: 0.75em;
+          box-shadow: 0.125em 0.125em 0 0.125em rgba(0, 0, 0, 0.3) inset;
+          color: #fdea7b;
+          display: inline-flex;
+          align-items: center;
+          margin: 0;
+          padding: 0.15em;
+          width: 3em;
+          height: 1.5em;
+          transition:
+            background-color 0.1s 0.3s ease-out,
+            box-shadow 0.1s 0.3s ease-out;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+        }
+
+        .theme-toggle-switch:before,
+        .theme-toggle-switch:after {
+          content: "";
+          display: block;
+        }
+
+        .theme-toggle-switch:before {
+          background-color: #d7d7d7;
           border-radius: 50%;
-          transform-origin: 50% 50%;
-          rotate: calc(1deg * var(--deg));
-          transform: translate(-50%, -50%);
-          animation: sparkle calc(100s / var(--duration)) linear calc(0s / var(--duration)) infinite;
+          width: 1.2em;
+          height: 1.2em;
+          transition:
+            background-color 0.1s 0.3s ease-out,
+            transform 0.3s ease-out;
+          z-index: 1;
         }
-        @keyframes sparkle {
-          to {
-            width: calc(var(--width) * 0.5px);
-            transform: translate(2000%, -50%);
-          }
+
+        .theme-toggle-switch:after {
+          background:
+            linear-gradient(transparent 50%, rgba(0, 0, 0, 0.15) 0) 0 50% / 50% 100%,
+            repeating-linear-gradient(90deg, #bbb 0, #bbb, #bbb 20%, #999 20%, #999 40%)
+              0 50% / 50% 100%,
+            radial-gradient(circle at 50% 50%, #888 25%, transparent 26%);
+          background-repeat: no-repeat;
+          border: 0.25em solid transparent;
+          border-left: 0.4em solid #d8d8d8;
+          border-right: 0 solid transparent;
+          transition:
+            border-left-color 0.1s 0.3s ease-out,
+            transform 0.3s ease-out;
+          transform: translateX(-22.5%);
+          transform-origin: 25% 50%;
+          width: 1.2em;
+          height: 1em;
+          box-sizing: border-box;
         }
-        .icon {
-          width: 0.82rem;
-          fill: var(--light);
+
+        /* Checked (Dark Mode) */
+        .theme-toggle-switch:checked {
+          background-color: rgba(0, 0, 0, 0.45);
+          box-shadow: 0.125em 0.125em 0 0.125em rgba(0, 0, 0, 0.1) inset;
         }
-        .toggle-input:checked + .toggle-label {
-          background-color: #41434400;
-          border: 1px solid #3d6970;
-          border-bottom: 0;
+
+        .theme-toggle-switch:checked:before {
+          background-color: currentColor;
+          transform: translateX(125%);
         }
-        .toggle-input:checked + .toggle-label::before { box-shadow: 0 1rem 2.5rem -2rem #0080ff; }
-        .toggle-input:checked + .toggle-label .cont-icon {
-          overflow: visible;
-          background-image: radial-gradient(circle at 50% 0%, #045ab1 0%, var(--primary) 100%);
-          border: 1px solid var(--primary);
-          border-bottom: 0;
-          transform: translateX(calc((var(--gap) * 2) + 100%)) rotate(-225deg);
+
+        .theme-toggle-switch:checked:after {
+          border-left-color: currentColor;
+          transform: translateX(-2.5%) rotateY(180deg);
         }
-        .toggle-input:checked + .toggle-label .sparkle {
-          z-index: -10;
-          width: calc(var(--width) * 1.5px);
-          background-color: #acacac;
-          animation: sparkle-checked calc(100s / var(--duration)) linear calc(10s / var(--duration)) infinite;
-        }
-        @keyframes sparkle-checked {
-          to {
-            width: calc(var(--width) * 1px);
-            transform: translate(5000%, -50%);
-          }
+
+        /* Focus State */
+        .theme-toggle-switch:focus {
+          outline: 2px solid rgba(147, 197, 253, 0.5);
+          outline-offset: 2px;
         }
       `}</style>
     </div>
