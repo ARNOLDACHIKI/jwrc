@@ -20,6 +20,7 @@ import {
   Menu,
   X,
   Eye,
+  Bell,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useToast } from '@/hooks/use-toast'
@@ -440,23 +441,35 @@ export default function AdminDashboard() {
               { label: "Events", icon: Calendar, id: "events" },
               { label: "Volunteers", icon: Users, id: "volunteers" },
               { label: "Suggestions", icon: MessageSquare, id: "suggestions" },
+              { label: "Reminders", icon: Bell, id: "reminders", isLink: true, href: "/admin/reminders" },
               { label: "Settings", icon: Settings, id: "settings" },
             ].map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${
-                  activeTab === item.id ? "bg-blue-600 text-white" : "text-gray-400 hover:bg-gray-800"
-                }`}
-              >
-                <item.icon className="w-5 h-5" />
-                <span className="flex items-center gap-2">
+              item.isLink ? (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition text-gray-400 hover:bg-gray-800"
+                >
+                  <item.icon className="w-5 h-5" />
                   <span>{item.label}</span>
-                  {item.id === 'suggestions' && unseenCount > 0 && (
-                    <span className="text-xs bg-red-600 text-white rounded-full px-2 py-0.5">{unseenCount}</span>
-                  )}
-                </span>
-              </button>
+                </a>
+              ) : (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${
+                    activeTab === item.id ? "bg-blue-600 text-white" : "text-gray-400 hover:bg-gray-800"
+                  }`}
+                >
+                  <item.icon className="w-5 h-5" />
+                  <span className="flex items-center gap-2">
+                    <span>{item.label}</span>
+                    {item.id === 'suggestions' && unseenCount > 0 && (
+                      <span className="text-xs bg-red-600 text-white rounded-full px-2 py-0.5">{unseenCount}</span>
+                    )}
+                  </span>
+                </button>
+              )
             ))}
           </nav>
         </aside>
