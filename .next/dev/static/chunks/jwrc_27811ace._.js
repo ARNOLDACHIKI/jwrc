@@ -244,6 +244,9 @@ function ThemeProvider({ children }) {
                         ...defaultTheme,
                         ...parsed
                     });
+                } else {
+                    // Persist dark as the initial default for new visitors
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultTheme));
                 }
             } catch (e) {
                 console.warn('Failed to load theme from localStorage', e);
@@ -313,7 +316,7 @@ function ThemeProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/jwrc/contexts/theme-context.tsx",
-        lineNumber: 89,
+        lineNumber: 92,
         columnNumber: 10
     }, this);
 }
