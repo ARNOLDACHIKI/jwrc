@@ -251,7 +251,7 @@ export default function VolunteerPage() {
                   <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
                   <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Thank You for Your Application!</h3>
                   <p className="text-gray-600 dark:text-gray-400 mb-2">
-                    We have received your volunteer application for <strong>{volunteerRoles.find(r => r.id === selectedRole)?.title || 'the selected position'}</strong>.
+                    We have received your volunteer application for <strong>{selectedRole ? (volunteerRoles.find(r => r.id === selectedRole)?.title || 'the selected position') : 'the selected position'}</strong>.
                   </p>
                   <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
                     Our team will review your application and get back to you soon. A confirmation email has been sent to your inbox.
