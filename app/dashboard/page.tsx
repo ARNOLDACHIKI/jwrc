@@ -19,10 +19,23 @@ const statsCards = [
 export default function Dashboard() {
   const { user } = useUser()
   const [showReminders, setShowReminders] = useState(true)
+  const [activeReminder, setActiveReminder] = useState<{title: string, message: string} | null>(null)
   const [unreadCount, setUnreadCount] = useState(0)
   const [latestPreview, setLatestPreview] = useState<string | null>(null)
   const [recentActivity, setRecentActivity] = useState<any[]>([])
   const inboxLastSeenKey = 'inboxLastSeenAt'
+
+  async function loadActiveReminder() {
+    try {
+      const response = await fetch('/api/reminders')
+      if (response.ok) {
+        const data = await response.json()
+        setActiveReminder(data)
+      }
+    } catch (error) {
+      console.error('Error fetching reminder:', error)
+    }
+  }
 
   async function loadInboxSummary() {
     try {
@@ -139,6 +152,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!user) return
+    // Load active reminder
+    loadActiveReminder()
     // automatically mark messages read when dashboard loads
     ;(async () => {
       try {
@@ -191,15 +206,15 @@ export default function Dashboard() {
             </div>
 
             {/* Church Reminders Alert */}
-            {showReminders && (
+            {showReminders && activeReminder && (
               <Card className="mb-6 p-4 border-l-4 border-orange-500 bg-orange-50 dark:bg-orange-900/20">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Bell className="w-5 h-5 text-orange-600 dark:text-orange-400" />
                     <div>
-                      <h3 className="font-semibold text-orange-900 dark:text-orange-400">Upcoming Program Reminder</h3>
+                      <h3 className="font-semibold text-orange-900 dark:text-orange-400">{activeReminder.title}</h3>
                       <p className="text-sm text-orange-700 dark:text-orange-300">
-                        Midweek Service - Wednesday 7:00 PM | Youth Group - Thursday 6:00 PM | Sunday Service - 10:00 AM
+                        {activeReminder.message}
                       </p>
                     </div>
                   </div>
