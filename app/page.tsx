@@ -160,9 +160,9 @@ export default async function Home({ searchParams }: { searchParams?: Promise<{ 
                 </Link>
               </li>
               <li>
-                <Link href="/sermons" className="hover:text-white">
+                <span className="text-[#d4dce8] opacity-70 cursor-not-allowed" aria-disabled="true">
                   Sermons
-                </Link>
+                </span>
               </li>
               <li>
                 <Link href="/events" className="hover:text-white">
