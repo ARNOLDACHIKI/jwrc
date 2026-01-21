@@ -22,9 +22,31 @@ export default function Dashboard() {
   const [weeklyWord, setWeeklyWord] = useState<{title: string, theme: string, scripture: string | null, content: string} | null>(null)
   const [readActivities, setReadActivities] = useState<Set<string>>(new Set())
   const inboxLastSeenKey = 'inboxLastSeenAt'
+  const readActivitiesKey = 'readActivities'
+
+  // Load read activities from localStorage on mount
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(readActivitiesKey)
+      if (stored) {
+        setReadActivities(new Set(JSON.parse(stored)))
+      }
+    } catch (e) {
+      console.error('Failed to load read activities', e)
+    }
+  }, [])
 
   const markActivityAsRead = (activityId: string) => {
-    setReadActivities(prev => new Set([...prev, activityId]))
+    setReadActivities(prev => {
+      const updated = new Set([...prev, activityId])
+      // Persist to localStorage
+      try {
+        localStorage.setItem(readActivitiesKey, JSON.stringify([...updated]))
+      } catch (e) {
+        console.error('Failed to save read activities', e)
+      }
+      return updated
+    })
   }
 
   async function loadActiveReminder() {
@@ -299,46 +321,46 @@ export default function Dashboard() {
 
             {/* Weekly Word & Theme Card - Replaces Stats Section */}
             {weeklyWord ? (
-              <Card className="relative mb-6 p-6 sm:p-8 overflow-hidden border-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-700 dark:via-purple-700 dark:to-pink-700 shadow-2xl">
-                {/* Decorative background elements */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2"></div>
-                
-                <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-3 bg-white/20 rounded-lg backdrop-blur-sm">
-                      <Sparkles className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-white/80 uppercase tracking-wider">Word & Theme of the Week</p>
-                      <h2 className="text-3xl sm:text-4xl font-bold text-white">{weeklyWord.title}</h2>
-                    </div>
+              <article className="mb-6 flex max-w-full flex-col items-start justify-between border-4 bg-gradient-to-r from-blue-800 via-blue-700 to-blue-800 dark:from-gray-300 dark:via-gray-200 dark:to-gray-300 p-[4px] shadow-[8px_8px_0_0_rgba(30,64,175,0.3)] dark:shadow-[8px_8px_0_0_rgba(229,231,235,0.4)] transition-all duration-500 ease-in-out hover:shadow-[12px_12px_0_0_rgba(30,64,175,0.4)] dark:hover:shadow-[12px_12px_0_0_rgba(229,231,235,0.5)]">
+                <div className="bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950 p-6 w-full h-full">
+                  <div className="mb-2 flex items-center gap-x-2 text-xs">
+                    <time className="border-2 border-blue-800 dark:border-gray-200 bg-blue-800 dark:bg-gray-200 px-3 py-1 font-bold text-white dark:text-gray-900 transition-all duration-500 ease-in-out transform hover:scale-110" dateTime={new Date().toISOString()}>
+                      {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </time>
+                    <span className="border-2 border-blue-800 dark:border-gray-200 bg-blue-800 dark:bg-gray-200 px-3 py-1 font-bold text-white dark:text-gray-900 transition-all duration-500 ease-in-out">
+                      Word of the Week
+                    </span>
                   </div>
-                  
-                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 mb-4">
-                    <h3 className="text-xl sm:text-2xl font-semibold text-white mb-3">{weeklyWord.theme}</h3>
+                  <div className="group relative w-full">
+                    <h3 className="mt-3 text-2xl sm:text-3xl font-black uppercase leading-6 text-blue-800 dark:text-white transition-all duration-500 ease-in-out transform hover:scale-105 hover:text-blue-700 dark:hover:text-gray-50">
+                      {weeklyWord.title}
+                    </h3>
+                    <h4 className="mt-3 text-xl sm:text-2xl font-bold text-blue-700 dark:text-gray-50">
+                      {weeklyWord.theme}
+                    </h4>
                     {weeklyWord.scripture && (
-                      <div className="flex items-center gap-2 mb-3 text-white/90">
-                        <Book className="w-4 h-4" />
-                        <p className="text-sm sm:text-base font-medium italic">{weeklyWord.scripture}</p>
+                      <div className="text-sm mt-3 flex items-center gap-2 border-l-4 border-blue-600 dark:border-gray-100 pl-4 font-semibold italic text-blue-700 dark:text-gray-50 transition-all duration-500 ease-in-out">
+                        <Book className="w-4 h-4 flex-shrink-0" />
+                        <span>{weeklyWord.scripture}</span>
                       </div>
                     )}
-                    <p className="text-white/90 text-sm sm:text-base leading-relaxed">
-                      {weeklyWord.content}
+                    <p className="text-sm sm:text-base mt-5 border-l-4 border-blue-600 dark:border-gray-100 pl-4 leading-6 text-blue-800 dark:text-gray-50 transition-all duration-500 ease-in-out hover:border-blue-500 dark:hover:border-gray-50 hover:text-blue-700 dark:hover:text-white">
+                      "{weeklyWord.content}"
                     </p>
                   </div>
-                  
-                  <div className="flex items-center gap-2 text-white/70 text-xs sm:text-sm">
-                    <div className="w-2 h-2 bg-white/50 rounded-full animate-pulse"></div>
-                    <p>Let this word guide you through the week</p>
+                  <div className="relative mt-6 flex items-center gap-x-2">
+                    <div className="flex items-center gap-2 text-blue-700 dark:text-white text-xs sm:text-sm">
+                      <Sparkles className="w-4 h-4 animate-pulse" />
+                      <p className="font-semibold">Let this word guide you through the week</p>
+                    </div>
                   </div>
                 </div>
-              </Card>
+              </article>
             ) : (
-              <Card className="mb-6 p-6 sm:p-8 text-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
-                <Book className="w-12 h-12 mx-auto mb-3 text-gray-400" />
-                <p className="text-gray-600 dark:text-gray-400">No weekly word set yet</p>
-              </Card>
+              <article className="mb-6 flex max-w-full flex-col items-center justify-center border-4 border-gray-300 dark:border-gray-600 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 p-8 shadow-[8px_8px_0_0_rgba(107,114,128,0.3)] dark:shadow-[8px_8px_0_0_rgba(75,85,99,0.3)]">
+                <Book className="w-12 h-12 mb-3 text-gray-400" />
+                <p className="text-gray-600 dark:text-gray-400 font-semibold">No weekly word set yet</p>
+              </article>
             )}
 
             {/* Main Content Grid */}

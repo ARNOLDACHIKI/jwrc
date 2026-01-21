@@ -180,54 +180,54 @@ export default function VolunteerPage() {
 
           {/* Signup Form */}
           <div>
-            <Card className="p-6 sticky top-20 bg-gradient-to-br from-slate-800 via-slate-800 to-slate-800 dark:from-slate-800 dark:via-slate-800 dark:to-slate-800 border border-slate-700 dark:border-slate-700">
-              <h2 className="text-xl font-bold text-white dark:text-white mb-6">Sign Up</h2>
+            <Card className="p-6 sticky top-20 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-lg">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Sign Up</h2>
 
               {!submitted ? (
                 <div className="space-y-5">
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-2">Full Name</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
                     <input
                       type="text"
                       placeholder="John Doe"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full px-4 py-2 rounded-lg border border-slate-600 dark:border-slate-600 bg-slate-700 dark:bg-slate-700 text-white dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-slate-400"
                     />
                     {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-2">Email</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
                     <input
                       type="email"
                       placeholder="john@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-4 py-2 rounded-lg border border-slate-600 dark:border-slate-600 bg-slate-700 dark:bg-slate-700 text-white dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-slate-400"
                     />
                     {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email}</p>}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-2">Phone</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone</label>
                     <input
                       type="tel"
                       placeholder="(555) 123-4567"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full px-4 py-2 rounded-lg border border-slate-600 dark:border-slate-600 bg-slate-700 dark:bg-slate-700 text-white dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-slate-400"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Select Role
                     </label>
                     <select
                       value={selectedRole || ""}
                       onChange={(e) => setSelectedRole(Number(e.target.value))}
-                      className="w-full px-4 py-2 rounded-lg border border-slate-600 dark:border-slate-600 bg-slate-700 dark:bg-slate-700 text-white dark:text-white"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
                     >
                       <option value="">Choose a role...</option>
                       {Array.isArray(volunteerRoles) && volunteerRoles.map((role) => (
@@ -248,15 +248,15 @@ export default function VolunteerPage() {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
+                  <CheckCircle className="w-16 h-16 text-green-600 dark:text-green-400 mx-auto mb-4" />
                   <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Thank You for Your Application!</h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-2">
-                    We have received your volunteer application for <strong>{selectedRole && Array.isArray(volunteerRoles) ? (volunteerRoles.find(r => r.id === selectedRole)?.title || 'the selected position') : 'the selected position'}</strong>.
+                  <p className="text-gray-800 dark:text-gray-100 mb-2">
+                    We have received your volunteer application for <strong className="text-gray-900 dark:text-white">{selectedRole && Array.isArray(volunteerRoles) ? (volunteerRoles.find(r => r.id === selectedRole)?.title || 'the selected position') : 'the selected position'}</strong>.
                   </p>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                  <p className="text-gray-800 dark:text-gray-100 text-sm mb-4">
                     Our team will review your application and get back to you soon. A confirmation email has been sent to your inbox.
                   </p>
-                  <p className="text-gray-500 dark:text-gray-500 text-xs italic mt-4">
+                  <p className="text-gray-700 dark:text-gray-200 text-xs italic mt-4">
                     "Each of you should use whatever gift you have received to serve others, as faithful stewards of God's grace in its various forms." - 1 Peter 4:10
                   </p>
                 </div>

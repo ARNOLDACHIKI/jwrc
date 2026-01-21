@@ -45,7 +45,9 @@ export default function AdminWeeklyWordPage() {
 
   const fetchWords = async () => {
     try {
-      const response = await fetch('/api/admin/weekly-word')
+      const response = await fetch('/api/admin/weekly-word', {
+        credentials: 'include'
+      })
       if (response.ok) {
         const data = await response.json()
         setWords(data)
@@ -118,6 +120,7 @@ export default function AdminWeeklyWordPage() {
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({
           isActive: !currentStatus
         })
@@ -129,6 +132,13 @@ export default function AdminWeeklyWordPage() {
           description: `Weekly word ${!currentStatus ? 'activated' : 'deactivated'}`
         })
         fetchWords()
+      } else {
+        const error = await response.json()
+        toast({
+          title: 'Error',
+          description: error.error || 'Failed to update weekly word',
+          variant: 'destructive'
+        })
       }
     } catch (error) {
       toast({
@@ -144,7 +154,8 @@ export default function AdminWeeklyWordPage() {
 
     try {
       const response = await fetch(`/api/admin/weekly-word/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
       })
 
       if (response.ok) {
@@ -153,6 +164,13 @@ export default function AdminWeeklyWordPage() {
           description: 'Weekly word deleted successfully'
         })
         fetchWords()
+      } else {
+        const error = await response.json()
+        toast({
+          title: 'Error',
+          description: error.error || 'Failed to delete weekly word',
+          variant: 'destructive'
+        })
       }
     } catch (error) {
       toast({

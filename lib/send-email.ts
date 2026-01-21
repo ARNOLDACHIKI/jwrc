@@ -1,6 +1,54 @@
 import nodemailer from "nodemailer"
 import { getEmailVerificationEmail } from "./email-templates"
 
+export async function sendEmail(to: string, subject: string, html: string, text: string) {
+  try {
+    console.log('📧 Sending email to:', to)
+
+    let transporter
+
+    if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+      console.log('✅ Using Gmail SMTP')
+      transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT) || 587,
+        secure: process.env.SMTP_SECURE === 'true',
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      })
+    } else {
+      console.log('⚠️ Using Ethereal test account (development)')
+      const testAccount = await nodemailer.createTestAccount()
+      transporter = nodemailer.createTransport({
+        host: 'smtp.ethereal.email',
+        port: 587,
+        secure: false,
+        auth: {
+          user: testAccount.user,
+          pass: testAccount.pass,
+        },
+      })
+    }
+
+    const info = await transporter.sendMail({
+      from: process.env.SMTP_FROM || '"Jesus Worship and Restoration Church" <noreply@jwrchurch.org>',
+      to,
+      subject,
+      html,
+      text,
+    })
+
+    console.log('✅ Email sent successfully:', info.messageId)
+    return { success: true, messageId: info.messageId }
+  } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : String(e)
+    console.error('❌ Error sending email:', errorMessage)
+    return { success: false, error: errorMessage }
+  }
+}
+
 export async function sendVerificationEmail(email: string, name: string, verificationCode: string) {
   try {
     console.log('📧 Sending verification email to:', email)

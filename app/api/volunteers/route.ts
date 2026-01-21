@@ -2,7 +2,8 @@ import { NextResponse } from "next/server"
 import { PrismaClient } from "@prisma/client"
 import { randomUUID } from "crypto"
 import jwt from "jsonwebtoken"
-import { getVolunteerConfirmationEmail } from "@/lib/email-templates"
+import { getVolunteerConfirmationEmail, getVolunteerAcceptanceEmail } from "@/lib/email-templates"
+import { sendEmail } from "@/lib/send-email"
 
 const prisma = new PrismaClient()
 
@@ -163,21 +164,40 @@ export async function PATCH(req: Request) {
 
     await ensureTable()
 
-    const appRow: any[] = await prisma.$queryRawUnsafe(`SELECT email FROM volunteer_applications WHERE id = $1`, id)
-    const applicationEmail = appRow && appRow[0] ? appRow[0].email : null
+    const appRow: any[] = await prisma.$queryRawUnsafe(`SELECT email, name, role_title FROM volunteer_applications WHERE id = $1`, id)
+    const application = appRow && appRow[0] ? appRow[0] : null
+    
+    if (!application) {
+      return NextResponse.json({ error: 'Application not found' }, { status: 404 })
+    }
 
     const status = action === 'approve' ? 'approved' : 'rejected'
     await prisma.$executeRawUnsafe(`UPDATE volunteer_applications SET status = $1, admin_message = $2, responded_at = NOW() WHERE id = $3`, status, message ? String(message) : null, id)
 
     // Keep user record aligned with volunteer decision
-    if (applicationEmail) {
+    if (application.email) {
       try {
         await prisma.user.updateMany({
-          where: { email: { equals: String(applicationEmail), mode: 'insensitive' } },
+          where: { email: { equals: String(application.email), mode: 'insensitive' } },
           data: { isVolunteer: status === 'approved' },
         })
       } catch (e) {
         console.warn('Failed to sync volunteer flag to user', e)
+      }
+    }
+
+    // Send email notification when volunteer is accepted
+    if (status === 'approved' && application.email && application.name && application.role_title) {
+      try {
+        const emailContent = getVolunteerAcceptanceEmail(
+          application.name, 
+          application.role_title, 
+          message ? String(message) : undefined
+        )
+        await sendEmail(application.email, emailContent.subject, emailContent.html, emailContent.text)
+      } catch (emailError) {
+        console.error('Failed to send volunteer acceptance email:', emailError)
+        // Don't fail the request if email fails
       }
     }
 

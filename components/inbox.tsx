@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
 type InboxItem = {
@@ -71,30 +70,67 @@ export default function Inbox({ email }: { email?: string | null }) {
     return () => { mounted = false; clearInterval(iv) }
   }, [email])
 
-  if (!email) return <div className="text-sm text-gray-500">No email configured</div>
+  if (!email) return <div className="text-sm text-gray-500 dark:text-gray-400">No email configured</div>
+
+  function formatTime(date: Date): string {
+    const now = new Date()
+    const diff = now.getTime() - date.getTime()
+    const hours = Math.floor(diff / (1000 * 60 * 60))
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+
+    if (hours < 1) return 'Just now'
+    if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`
+    if (days === 1) return 'Yesterday'
+    if (days < 7) return `${days} days ago`
+    return date.toLocaleDateString()
+  }
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg font-semibold">Inbox</h3>
-        <div className="flex items-center gap-2">
-          <Button size="sm" onClick={() => fetchAll()} disabled={loading}>{loading ? 'Refreshing…' : 'Refresh'}</Button>
-        </div>
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <h3 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white">Inbox</h3>
+        <Button size="sm" onClick={() => fetchAll()} disabled={loading} className="bg-blue-600 hover:bg-blue-700">
+          {loading ? 'Refreshing…' : 'Refresh'}
+        </Button>
       </div>
 
-      {items.length === 0 && <div className="text-sm text-gray-500">No messages yet.</div>}
+      {items.length === 0 && (
+        <div className="p-6 sm:p-8 text-center bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
+          <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">No messages yet.</p>
+        </div>
+      )}
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {items.map((it) => (
-          <Card key={it.id} className="p-3">
-            <div className="flex items-start justify-between">
-              <div>
-                <div className="text-sm text-gray-700 font-semibold">{it.title}</div>
-                <div className="text-sm text-gray-600 mt-1">{it.body}</div>
-                <div className="text-xs text-gray-400 mt-2">{it.when ? new Date(it.when).toLocaleString() : ''}</div>
+          <div
+            key={it.id}
+            className="bg-gray-50 dark:bg-[#1e1e1e] rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl dark:shadow-[1em_1em_1em_rgba(0,0,0,0.2),-0.75em_-0.75em_1em_rgba(255,255,255,0.05)] border border-gray-200 dark:border-[#2a2a2a] hover:border-blue-300 dark:hover:border-[#3a8bff] hover:bg-gray-100 dark:hover:bg-[#2a2a2a]"
+          >
+            <div className="p-4 sm:p-5 flex gap-3">
+              {/* Status Indicator */}
+              <div className="flex-shrink-0 pt-1">
+                <div className="w-2.5 h-2.5 rounded-full bg-gray-400 dark:bg-gray-500"></div>
+              </div>
+              
+              {/* Content */}
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-col gap-3.5">
+                  {/* Text Content */}
+                  <div className="space-y-1">
+                    <p className="text-sm sm:text-base font-medium text-gray-900 dark:text-[#e0e0e0]">
+                      {it.title}
+                    </p>
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-[#b0b0b0] line-clamp-2">
+                      {it.body}
+                    </p>
+                    <p className="text-xs sm:text-sm text-gray-500 dark:text-[#a0a0a0]">
+                      {it.when ? formatTime(new Date(it.when)) : ''}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </Card>
+          </div>
         ))}
       </div>
     </div>

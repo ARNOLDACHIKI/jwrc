@@ -5,7 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { MainNav } from "@/components/navigation/main-nav"
+import Image from "next/image"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useUser } from "@/contexts/user-context"
@@ -27,6 +27,7 @@ export default function SignupPage() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false)
+  const [logoSrc, setLogoSrc] = useState("/jwrc-logo.png")
 
   const passwordValidation = validatePassword(password)
 
@@ -74,9 +75,29 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white dark:from-slate-950 dark:to-slate-900">
-      <MainNav />
+      {/* Logo and Church Name Header */}
+      <div className="py-8">
+        <Link href="/" className="flex flex-col items-center gap-2">
+          <div className="[perspective:1200px]">
+            <div className="relative h-16 w-16 rounded-full overflow-hidden shadow-lg shadow-[rgba(0,71,171,0.35)] ring-2 ring-blue-600 dark:ring-blue-400 transform-gpu logo-spin hover:[transform:rotateY(360deg)]">
+              <Image
+                src={logoSrc}
+                alt="Jesus Worship and Restoration Church logo"
+                fill
+                sizes="64px"
+                className="object-cover"
+                priority
+                onError={() => setLogoSrc("/jwrc-logo.svg")}
+              />
+            </div>
+          </div>
+          <span className="font-bold text-lg text-blue-900 dark:text-blue-300 text-center">
+            JESUS WORSHIP AND RESTORATION CHURCH
+          </span>
+        </Link>
+      </div>
 
-      <div className="flex items-center justify-center min-h-[calc(100vh-64px)] px-4 py-8">
+      <div className="flex items-center justify-center px-4 pb-8">
         <Card className="w-full max-w-md p-8">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-blue-900 dark:text-white mb-2">Join Our Community</h1>
