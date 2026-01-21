@@ -1,57 +1,14 @@
-[00:00:01.279] Server  LOG     ✓ Ready in 904ms
-[00:00:07.006] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:07.721] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:07.721] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:00:07.721] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1768944392886}
-[00:00:14.854] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1768944400228}
-[00:00:32.561] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1768944417964}
-[00:00:33.192] Server  ERROR   Error fetching active reminder: PrismaClientKnownRequestError: 
-Invalid `prisma.reminder.findMany()` invocation in
-/home/lod/Downloads/jwrc/.next/dev/server/chunks/[root-of-the-server]__7bf113e7._.js:58:49
-
-  55 const prisma = new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$2c$__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f40$prisma$2b$client$40$4$2e$16$2e$0_prisma$40$4$2e$16$2e$0$2f$node_modules$2f40$prisma$2f$client$29$__["PrismaClient"]();
-  56 async function GET(request) {
-  57     try {
-→ 58         const reminders = await prisma.reminder.findMany(
-The table `public.Reminder` does not exist in the current database.
-[00:00:33.421] Server  ERROR   Error fetching active reminder: PrismaClientKnownRequestError: 
-Invalid `prisma.reminder.findMany()` invocation in
-/home/lod/Downloads/jwrc/.next/dev/server/chunks/[root-of-the-server]__7bf113e7._.js:58:49
-
-  55 const prisma = new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$2c$__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f40$prisma$2b$client$40$4$2e$16$2e$0_prisma$40$4$2e$16$2e$0$2f$node_modules$2f40$prisma$2f$client$29$__["PrismaClient"]();
-  56 async function GET(request) {
-  57     try {
-→ 58         const reminders = await prisma.reminder.findMany(
-The table `public.Reminder` does not exist in the current database.
-[00:00:37.701] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1768944423073}
-[00:00:41.668] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:42.004] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:42.004] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/reminders","route":"/admin/reminders"}
-[00:00:42.004] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/reminders color: rgb(120, 120, 120) color: inherit {"dp":"/admin/reminders","o":"http://localhost:3000/admin/reminders","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1768944427425}
-[00:00:42.276] Server  ERROR   Error fetching reminders: PrismaClientKnownRequestError: 
-Invalid `prisma.reminder.findMany()` invocation in
-/home/lod/Downloads/jwrc/.next/dev/server/chunks/[root-of-the-server]__65aed15d._.js:60:49
-
-  57 const prisma = new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$2c$__$5b$project$5d2f$jwrc$2f$node_modules$2f2e$pnpm$2f40$prisma$2b$client$40$4$2e$16$2e$0_prisma$40$4$2e$16$2e$0$2f$node_modules$2f40$prisma$2f$client$29$__["PrismaClient"]();
-  58 async function GET(request) {
-  59     try {
-→ 60         const reminders = await prisma.reminder.findMany(
-The table `public.Reminder` does not exist in the current database.
-[00:00:52.283] Server  ERROR   Error creating reminder: PrismaClientKnownRequestError: 
-Invalid `prisma.reminder.create()` invocation in
-/home/lod/Downloads/jwrc/.next/dev/server/chunks/[root-of-the-server]__65aed15d._.js:86:48
-
-  83         status: 400
-  84     });
-  85 }
-→ 86 const reminder = await prisma.reminder.create(
-The table `public.Reminder` does not exist in the current database.
-[00:00:54.097] Server  ERROR   Error creating reminder: PrismaClientKnownRequestError: 
-Invalid `prisma.reminder.create()` invocation in
-/home/lod/Downloads/jwrc/.next/dev/server/chunks/[root-of-the-server]__65aed15d._.js:86:48
-
-  83         status: 400
-  84     });
-  85 }
-→ 86 const reminder = await prisma.reminder.create(
-The table `public.Reminder` does not exist in the current database.
+[00:00:03.676] Server  LOG     ✓ Ready in 3.1s
+[00:00:07.820] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:08.380] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:08.380] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/reminders","route":"/admin/reminders"}
+[00:00:08.381] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/reminders color: rgb(120, 120, 120) color: inherit {"dp":"/admin/reminders","o":"http://localhost:3000/admin/reminders","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1768966884460}
+[00:00:30.658] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:30.911] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:30.911] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin","route":"/admin"}
+[00:00:30.911] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin color: rgb(120, 120, 120) color: inherit {"dp":"/admin","o":"http://localhost:3000/admin","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1768966907141}
+[00:00:35.276] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:35.682] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:35.682] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:00:35.682] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1768966911911}
+[00:00:40.109] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1768966916326}

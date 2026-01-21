@@ -1,11 +1,8 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/admin/dashboard/page": "app/admin/dashboard/page.js",
   "/admin/reminders/page": "app/admin/reminders/page.js",
   "/api/admin/reminders/route": "app/api/admin/reminders/route.js",
   "/api/announcements/route": "app/api/announcements/route.js",
-  "/api/auth/login/route": "app/api/auth/login/route.js",
-  "/api/auth/logout/route": "app/api/auth/logout/route.js",
   "/api/auth/me/route": "app/api/auth/me/route.js",
   "/api/events/route": "app/api/events/route.js",
   "/api/reminders/route": "app/api/reminders/route.js",
@@ -13,6 +10,5 @@
   "/api/user/inbox/route": "app/api/user/inbox/route.js",
   "/api/volunteers/route": "app/api/volunteers/route.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/login/page": "app/login/page.js",
   "/page": "app/page.js"
 }
