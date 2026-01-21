@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { MainNav } from '@/components/navigation/main-nav'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -9,6 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
+import { ArrowLeft, LogOut } from 'lucide-react'
 
 interface Reminder {
   id: string
@@ -105,6 +107,16 @@ export default function AdminRemindersPage() {
   const [programTime, setProgramTime] = useState('')
   
   const { toast } = useToast()
+  const router = useRouter()
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' })
+      router.push('/admin/login')
+    } catch (error) {
+      console.error('Logout failed:', error)
+    }
+  }
 
   useEffect(() => {
     fetchReminders()
@@ -353,20 +365,41 @@ export default function AdminRemindersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <MainNav />
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold">Manage Reminders & Programs</h1>
-          <Button
-            variant={showWeeklyPrograms ? 'default' : 'outline'}
-            onClick={() => setShowWeeklyPrograms(!showWeeklyPrograms)}
-          >
-            {showWeeklyPrograms ? 'Show Reminders' : 'Weekly Programmes'}
-          </Button>
+    <div className="min-h-screen bg-gray-100 dark:bg-slate-900">
+      {/* Admin Header */}
+      <header className="bg-white dark:bg-slate-800 shadow sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link href="/admin/dashboard">
+              <Button variant="outline" size="sm" className="gap-2">
+                <ArrowLeft className="w-4 h-4" />
+                Back to Dashboard
+              </Button>
+            </Link>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Manage Reminders & Programs</h1>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant={showWeeklyPrograms ? 'default' : 'outline'}
+              onClick={() => setShowWeeklyPrograms(!showWeeklyPrograms)}
+            >
+              {showWeeklyPrograms ? 'Show Reminders' : 'Weekly Programmes'}
+            </Button>
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 bg-transparent"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
+      </header>
 
-        {!showWeeklyPrograms ? (
+      <div className="container mx-auto px-4 py-8">{!showWeeklyPrograms ? (
           <div className="grid md:grid-cols-2 gap-8">{/* Existing reminders UI */}
           {/* Create Reminder Form */}
           <Card>
