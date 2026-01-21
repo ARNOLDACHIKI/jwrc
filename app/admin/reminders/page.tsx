@@ -55,6 +55,39 @@ const TEMPLATES = [
   }
 ]
 
+const PROGRAM_TEMPLATES = [
+  {
+    id: 'sunday',
+    name: 'Sunday Service',
+    day: 'Sunday',
+    time: '10:00 AM'
+  },
+  {
+    id: 'midweek',
+    name: 'Midweek Service',
+    day: 'Wednesday',
+    time: '7:00 PM'
+  },
+  {
+    id: 'youth',
+    name: 'Youth Group',
+    day: 'Thursday',
+    time: '6:00 PM'
+  },
+  {
+    id: 'prayer',
+    name: 'Prayer Meeting',
+    day: 'Friday',
+    time: '6:00 PM'
+  },
+  {
+    id: 'bible-study',
+    name: 'Bible Study',
+    day: 'Tuesday',
+    time: '7:00 PM'
+  }
+]
+
 export default function AdminRemindersPage() {
   const [reminders, setReminders] = useState<Reminder[]>([])
   const [weeklyPrograms, setWeeklyPrograms] = useState<WeeklyProgram[]>([])
@@ -66,6 +99,7 @@ export default function AdminRemindersPage() {
   const [isActive, setIsActive] = useState(true)
   
   // Weekly program form states
+  const [selectedProgramTemplate, setSelectedProgramTemplate] = useState<string>('custom')
   const [programName, setProgramName] = useState('')
   const [programDay, setProgramDay] = useState('')
   const [programTime, setProgramTime] = useState('')
@@ -112,6 +146,22 @@ export default function AdminRemindersPage() {
     } else {
       setTitle('')
       setMessage('')
+    }
+  }
+
+  const handleProgramTemplateSelect = (templateId: string) => {
+    setSelectedProgramTemplate(templateId)
+    if (templateId !== 'custom') {
+      const template = PROGRAM_TEMPLATES.find(t => t.id === templateId)
+      if (template) {
+        setProgramName(template.name)
+        setProgramDay(template.day)
+        setProgramTime(template.time)
+      }
+    } else {
+      setProgramName('')
+      setProgramDay('')
+      setProgramTime('')
     }
   }
 
@@ -234,6 +284,7 @@ export default function AdminRemindersPage() {
         setProgramName('')
         setProgramDay('')
         setProgramTime('')
+        setSelectedProgramTemplate('custom')
         fetchWeeklyPrograms()
       } else {
         throw new Error('Failed to create program')
@@ -450,11 +501,36 @@ export default function AdminRemindersPage() {
               <CardHeader>
                 <CardTitle>Add Weekly Program</CardTitle>
                 <CardDescription>
-                  Add a new program to the weekly schedule
+                  Select a template or create a custom program
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleProgramSubmit} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label>Select Template</Label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {PROGRAM_TEMPLATES.map((template) => (
+                        <Button
+                          key={template.id}
+                          type="button"
+                          variant={selectedProgramTemplate === template.id ? 'default' : 'outline'}
+                          onClick={() => handleProgramTemplateSelect(template.id)}
+                          className="w-full"
+                        >
+                          {template.name}
+                        </Button>
+                      ))}
+                      <Button
+                        type="button"
+                        variant={selectedProgramTemplate === 'custom' ? 'default' : 'outline'}
+                        onClick={() => handleProgramTemplateSelect('custom')}
+                        className="col-span-2"
+                      >
+                        Custom Program
+                      </Button>
+                    </div>
+                  </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="programName">Program Name</Label>
                     <Input
