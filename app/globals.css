@@ -176,3 +176,118 @@ html.font-size-large {
   opacity: 0.35;
   mix-blend-mode: normal;
 }
+
+/* Button Animation Styles */
+button,
+.btn,
+a[role="button"],
+[type="button"],
+[type="submit"] {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+button > span,
+.btn > span,
+a[role="button"] > span,
+[type="button"] > span,
+[type="submit"] > span {
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+button:hover > span,
+.btn:hover > span,
+a[role="button"]:hover > span,
+[type="button"]:hover > span,
+[type="submit"]:hover > span {
+  animation: move-up-alternate 0.3s forwards;
+}
+
+@keyframes move-up-alternate {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(80%);
+  }
+  51% {
+    transform: translateY(-80%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+button::before,
+button::after,
+.btn::before,
+.btn::after,
+a[role="button"]::before,
+a[role="button"]::after,
+[type="button"]::before,
+[type="button"]::after,
+[type="submit"]::before,
+[type="submit"]::after {
+  --skew: 0.2;
+  content: "";
+  display: block;
+  height: 102%;
+  left: calc(-50% - 50% * var(--skew));
+  pointer-events: none;
+  position: absolute;
+  top: -104%;
+  transform: skew(calc(150deg * var(--skew))) translateY(var(--progress, 0));
+  transition: transform 0.2s ease;
+  width: 100%;
+  background: currentColor;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+button::after,
+.btn::after,
+a[role="button"]::after,
+[type="button"]::after,
+[type="submit"]::after {
+  --progress: 0%;
+  left: calc(50% + 50% * var(--skew));
+  top: 102%;
+}
+
+button:hover::before,
+.btn:hover::before,
+a[role="button"]:hover::before,
+[type="button"]:hover::before,
+[type="submit"]:hover::before {
+  --progress: 100%;
+}
+
+button:hover::after,
+.btn:hover::after,
+a[role="button"]:hover::after,
+[type="button"]:hover::after,
+[type="submit"]:hover::after {
+  --progress: -102%;
+}
+
+/* Disable animation for disabled buttons */
+button:disabled::before,
+button:disabled::after,
+.btn:disabled::before,
+.btn:disabled::after,
+[type="button"]:disabled::before,
+[type="button"]:disabled::after,
+[type="submit"]:disabled::before,
+[type="submit"]:disabled::after {
+  display: none;
+}
+
+button:disabled:hover > span,
+.btn:disabled:hover > span,
+[type="button"]:disabled:hover > span,
+[type="submit"]:disabled:hover > span {
+  animation: none;
+}
