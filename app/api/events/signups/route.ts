@@ -171,7 +171,7 @@ export async function DELETE(req: Request) {
 
     await ensureTable()
     try {
-      await prisma.$executeRawUnsafe(`DELETE FROM event_signups WHERE id = $1`, id)
+      await prisma.$executeRawUnsafe(`DELETE FROM event_signups WHERE id = $1::uuid`, id)
       return NextResponse.json({ ok: true })
     } catch (e) {
       console.error(e)
