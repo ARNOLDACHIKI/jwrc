@@ -20,7 +20,12 @@ export default function Dashboard() {
   const [weeklyProgramsCount, setWeeklyProgramsCount] = useState(0)
   const [weeklyPrograms, setWeeklyPrograms] = useState<Array<{id: string, name: string, day: string, time: string}>>([])
   const [weeklyWord, setWeeklyWord] = useState<{title: string, theme: string, scripture: string | null, content: string} | null>(null)
+  const [readActivities, setReadActivities] = useState<Set<string>>(new Set())
   const inboxLastSeenKey = 'inboxLastSeenAt'
+
+  const markActivityAsRead = (activityId: string) => {
+    setReadActivities(prev => new Set([...prev, activityId]))
+  }
 
   async function loadActiveReminder() {
     try {
@@ -120,10 +125,14 @@ export default function Dashboard() {
       const recentAnnouncements = (announcements?.announcements || []).slice(0, 2)
       recentAnnouncements.forEach((a: any) => {
         activities.push({
+          id: `announcement-${a.id}`,
           type: 'announcement',
-          message: a.title || 'New announcement posted',
+          title: a.title || 'New announcement posted',
+          message: a.content || '',
           time: a.postedAt ? formatTime(new Date(a.postedAt)) : 'Recently',
           icon: Bell,
+          actionLabel: 'View Announcement',
+          actionLink: '/announcements'
         })
       })
 
@@ -133,10 +142,14 @@ export default function Dashboard() {
         .slice(0, 1)
       upcomingEvents.forEach((e: any) => {
         activities.push({
+          id: `event-${e.id}`,
           type: 'event',
-          message: `${e.title || 'Upcoming event'}`,
+          title: `${e.title || 'Upcoming event'}`,
+          message: e.description || '',
           time: e.startsAt ? formatTime(new Date(e.startsAt)) : 'Soon',
           icon: Calendar,
+          actionLabel: 'View Event',
+          actionLink: '/events'
         })
       })
 
@@ -145,10 +158,14 @@ export default function Dashboard() {
       userVolunteers.forEach((v: any) => {
         const status = v.status === 'approved' ? 'approved' : v.status === 'rejected' ? 'declined' : 'pending'
         activities.push({
+          id: `volunteer-${v.id}`,
           type: 'volunteer',
-          message: `Your volunteer application was ${status}`,
+          title: `Your volunteer application was ${status}`,
+          message: v.adminMessage || '',
           time: v.respondedAt ? formatTime(new Date(v.respondedAt)) : formatTime(new Date(v.createdAt)),
           icon: Users,
+          actionLabel: 'View Application',
+          actionLink: '/volunteer'
         })
       })
 
@@ -327,30 +344,66 @@ export default function Dashboard() {
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* Recent Activity */}
-              <Card className="lg:col-span-2 p-4 sm:p-6">
+              <div className="lg:col-span-2">
                 <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4 sm:mb-6">Recent Activity</h2>
-                <div className="space-y-3 sm:space-y-4">
+                <div className="space-y-4">
                   {recentActivity.length === 0 ? (
-                    <div className="text-center py-6 sm:py-8 text-gray-500 dark:text-gray-400">
-                      <p className="text-sm sm:text-base">No recent activity yet</p>
-                      <p className="text-xs sm:text-sm mt-2">Check back later for updates</p>
-                    </div>
+                    <Card className="p-6 sm:p-8 text-center bg-gray-50 dark:bg-gray-800/50">
+                      <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">No recent activity yet</p>
+                      <p className="text-xs sm:text-sm mt-2 text-gray-400 dark:text-gray-500">Check back later for updates</p>
+                    </Card>
                   ) : (
-                    recentActivity.map((activity, idx) => {
-                      const Icon = activity.icon
+                    recentActivity.map((activity) => {
+                      const isRead = readActivities.has(activity.id)
                       return (
                         <div
-                          key={idx}
-                          className="flex items-center gap-3 sm:gap-4 pb-3 sm:pb-4 border-b border-gray-200 dark:border-gray-700 last:border-0"
+                          key={activity.id}
+                          className="activity-card bg-gray-50 dark:bg-[#1e1e1e] rounded-xl cursor-pointer transition-all duration-200 shadow-lg hover:shadow-xl dark:shadow-[1em_1em_1em_rgba(0,0,0,0.2),-0.75em_-0.75em_1em_rgba(255,255,255,0.05)] border border-gray-200 dark:border-[#2a2a2a] hover:border-blue-300 dark:hover:border-[#3a8bff] hover:bg-gray-100 dark:hover:bg-[#2a2a2a]"
                         >
-                          <div className="p-2 sm:p-3 rounded-lg bg-blue-100 dark:bg-blue-900/30 shrink-0">
-                            <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm sm:text-base font-medium text-gray-900 dark:text-white truncate">{activity.message}</p>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">{activity.time}</p>
+                          <div className="p-4 sm:p-5 flex gap-3">
+                            {/* Status Indicator */}
+                            <div className="flex-shrink-0 pt-1">
+                              <div className={`w-2.5 h-2.5 rounded-full ${isRead ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                            </div>
+                            
+                            {/* Content */}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex flex-col gap-3.5">
+                                {/* Text Content */}
+                                <div className="space-y-1">
+                                  <p className="text-sm sm:text-base font-medium text-gray-900 dark:text-[#e0e0e0]">
+                                    {activity.title}
+                                  </p>
+                                  <p className="text-xs sm:text-sm text-gray-500 dark:text-[#a0a0a0]">
+                                    {activity.time}
+                                  </p>
+                                </div>
+                                
+                                {/* Action Buttons */}
+                                <div className="flex flex-row gap-4 items-center">
+                                  <Link href={activity.actionLink}>
+                                    <button className="text-sm sm:text-[15px] font-semibold text-blue-600 dark:text-[#3a8bff] hover:underline">
+                                      {activity.actionLabel}
+                                    </button>
+                                  </Link>
+                                  {!isRead && (
+                                    <button
+                                      onClick={() => markActivityAsRead(activity.id)}
+                                      className="text-sm sm:text-[15px] font-normal text-gray-600 dark:text-[#b0b0b0] hover:underline"
+                                    >
+                                      Mark as read
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
+                      )
+                    })
+                  )}
+                </div>
+              </div>
                       )
                     })
                   )}
