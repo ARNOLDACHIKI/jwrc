@@ -7,14 +7,8 @@ import { HeaderWithSidebar } from "@/components/navigation/header-with-sidebar"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useUser } from "@/contexts/user-context"
-import { Heart, Users, DollarSign, Calendar, TrendingUp, Settings, Bell, BookOpen, Shield } from "lucide-react"
+import { Heart, Users, DollarSign, Calendar, TrendingUp, Settings, Bell, BookOpen, Shield, Book, Sparkles } from "lucide-react"
 import Inbox from "@/components/inbox"
-
-const statsCards = [
-  { title: "Volunteer Hours", value: "180", change: "+8h", icon: Users, color: "text-blue-600" },
-  { title: "Blog Articles", value: "24", change: "Last 3 mo", icon: BookOpen, color: "text-purple-600" },
-  { title: "Upcoming Events", value: "5", change: "This month", icon: Calendar, color: "text-orange-600" },
-]
 
 export default function Dashboard() {
   const { user } = useUser()
@@ -25,6 +19,7 @@ export default function Dashboard() {
   const [recentActivity, setRecentActivity] = useState<any[]>([])
   const [weeklyProgramsCount, setWeeklyProgramsCount] = useState(0)
   const [weeklyPrograms, setWeeklyPrograms] = useState<Array<{id: string, name: string, day: string, time: string}>>([])
+  const [weeklyWord, setWeeklyWord] = useState<{title: string, theme: string, scripture: string | null, content: string} | null>(null)
   const inboxLastSeenKey = 'inboxLastSeenAt'
 
   async function loadActiveReminder() {
@@ -87,6 +82,18 @@ export default function Dashboard() {
       }
     } catch (error) {
       console.error('Error fetching weekly programs:', error)
+    }
+  }
+
+  async function loadWeeklyWord() {
+    try {
+      const response = await fetch('/api/weekly-word')
+      if (response.ok) {
+        const data = await response.json()
+        setWeeklyWord(data)
+      }
+    } catch (error) {
+      console.error('Error fetching weekly word:', error)
     }
   }
 
@@ -170,6 +177,7 @@ export default function Dashboard() {
     // Load active reminder
     loadActiveReminder()
     loadWeeklyPrograms()
+    loadWeeklyWord()
     // automatically mark messages read when dashboard loads
     ;(async () => {
       try {
@@ -183,6 +191,7 @@ export default function Dashboard() {
       loadInboxSummary()
       loadRecentActivity()
       loadWeeklyPrograms()
+      loadWeeklyWord()
     }, 30000) // Refresh every 30 seconds
     return () => clearInterval(iv)
   }, [user])
@@ -271,48 +280,49 @@ export default function Dashboard() {
               </Card>
             )}
 
-            {/* Stats Section with 3D Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6">
-              {/* Active Members Stat */}
-              <Card className="relative p-4 sm:p-6 text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 shadow-lg hover:shadow-2xl bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 border-0 overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            {/* Weekly Word & Theme Card - Replaces Stats Section */}
+            {weeklyWord ? (
+              <Card className="relative mb-6 p-6 sm:p-8 overflow-hidden border-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-700 dark:via-purple-700 dark:to-pink-700 shadow-2xl">
+                {/* Decorative background elements */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2"></div>
+                
                 <div className="relative z-10">
-                  <p className="text-3xl sm:text-4xl font-bold text-white mb-2">200+</p>
-                  <p className="text-sm sm:text-base text-blue-100">Active Members</p>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-3 bg-white/20 rounded-lg backdrop-blur-sm">
+                      <Sparkles className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-white/80 uppercase tracking-wider">Word & Theme of the Week</p>
+                      <h2 className="text-3xl sm:text-4xl font-bold text-white">{weeklyWord.title}</h2>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 mb-4">
+                    <h3 className="text-xl sm:text-2xl font-semibold text-white mb-3">{weeklyWord.theme}</h3>
+                    {weeklyWord.scripture && (
+                      <div className="flex items-center gap-2 mb-3 text-white/90">
+                        <Book className="w-4 h-4" />
+                        <p className="text-sm sm:text-base font-medium italic">{weeklyWord.scripture}</p>
+                      </div>
+                    )}
+                    <p className="text-white/90 text-sm sm:text-base leading-relaxed">
+                      {weeklyWord.content}
+                    </p>
+                  </div>
+                  
+                  <div className="flex items-center gap-2 text-white/70 text-xs sm:text-sm">
+                    <div className="w-2 h-2 bg-white/50 rounded-full animate-pulse"></div>
+                    <p>Let this word guide you through the week</p>
+                  </div>
                 </div>
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
               </Card>
-
-              {/* Years Serving Stat */}
-              <Card className="relative p-4 sm:p-6 text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 shadow-lg hover:shadow-2xl bg-gradient-to-br from-green-500 to-green-600 dark:from-green-600 dark:to-green-700 border-0 overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative z-10">
-                  <p className="text-3xl sm:text-4xl font-bold text-white mb-2">5+</p>
-                  <p className="text-sm sm:text-base text-green-100">Years Serving</p>
-                </div>
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+            ) : (
+              <Card className="mb-6 p-6 sm:p-8 text-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
+                <Book className="w-12 h-12 mx-auto mb-3 text-gray-400" />
+                <p className="text-gray-600 dark:text-gray-400">No weekly word set yet</p>
               </Card>
-
-              {/* Weekly Programs Stat */}
-              <Card className="relative p-4 sm:p-6 text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 shadow-lg hover:shadow-2xl bg-gradient-to-br from-orange-500 to-orange-600 dark:from-orange-600 dark:to-orange-700 border-0 overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative z-10">
-                  <p className="text-3xl sm:text-4xl font-bold text-white mb-2">{weeklyProgramsCount}</p>
-                  <p className="text-sm sm:text-base text-orange-100">Weekly Programs</p>
-                </div>
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-              </Card>
-
-              {/* Ministry Partnerships Stat */}
-              <Card className="relative p-4 sm:p-6 text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 shadow-lg hover:shadow-2xl bg-gradient-to-br from-purple-500 to-purple-600 dark:from-purple-600 dark:to-purple-700 border-0 overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative z-10">
-                  <p className="text-3xl sm:text-4xl font-bold text-white mb-2">59+</p>
-                  <p className="text-sm sm:text-base text-purple-100">Ministry Partnerships</p>
-                </div>
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-              </Card>
-            </div>
+            )}
 
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">

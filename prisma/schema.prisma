@@ -110,3 +110,15 @@ model WeeklyProgram {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model WeeklyWord {
+  id        String   @id @default(uuid())
+  title     String   // e.g., "Faith", "Hope", "Love"
+  theme     String   // The weekly theme/message
+  scripture String?  // Optional Bible verse reference
+  content   String   // Detailed content/devotional
+  isActive  Boolean  @default(true)
+  weekStart DateTime // Start of the week this applies to
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

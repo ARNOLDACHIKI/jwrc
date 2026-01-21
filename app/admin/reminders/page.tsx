@@ -381,6 +381,11 @@ export default function AdminRemindersPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <Link href="/admin/weekly-word">
+              <Button variant="outline">
+                Weekly Word & Theme
+              </Button>
+            </Link>
             <Button
               variant={showWeeklyPrograms ? 'default' : 'outline'}
               onClick={() => setShowWeeklyPrograms(!showWeeklyPrograms)}
