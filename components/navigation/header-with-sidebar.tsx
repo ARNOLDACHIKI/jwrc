@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useState } from "react"
 import { ProfileMenu } from "./profile-menu"
 import { ModeToggle } from "./mode-toggle"
+import { Menu } from "lucide-react"
 
 export function HeaderWithSidebar() {
   const [logoSrc, setLogoSrc] = useState("/jwrc-logo.png")
@@ -36,6 +37,16 @@ export function HeaderWithSidebar() {
 
           {/* Profile Menu - Only visible when user is logged in */}
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                const event = new CustomEvent('toggle-mobile-sidebar')
+                window.dispatchEvent(event)
+              }}
+              className="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
+              aria-label="Toggle menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
             <ModeToggle />
             <ProfileMenu />
           </div>

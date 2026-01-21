@@ -18,6 +18,7 @@ const sidebarItems = [
 
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
   const { theme } = useTheme()
   const { user } = useUser()
   const [unreadCount, setUnreadCount] = useState(0)
@@ -50,10 +51,32 @@ export function Sidebar() {
     return () => { mounted = false; clearInterval(iv) }
   }, [user])
 
+  // Handle mobile menu toggle
+  useEffect(() => {
+    const handleToggle = () => setMobileOpen(prev => !prev)
+    window.addEventListener('toggle-mobile-sidebar', handleToggle)
+    return () => window.removeEventListener('toggle-mobile-sidebar', handleToggle)
+  }, [])
+
   return (
-    <div
-      className={`${collapsed ? "w-20" : "w-64"} bg-white dark:bg-slate-900 border-r border-blue-200 dark:border-blue-900 h-screen transition-all duration-300 flex flex-col`}
-    >
+    <>
+      {/* Mobile Overlay */}
+      {mobileOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+      
+      {/* Sidebar */}
+      <div
+        className={`${
+          collapsed ? "w-20" : "w-64"
+        } bg-white dark:bg-slate-900 border-r border-blue-200 dark:border-blue-900 h-screen transition-all duration-300 flex flex-col
+        fixed lg:sticky top-0 z-50 lg:z-auto
+        ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        `}
+      >
       {/* Header */}
       <div className="p-4 border-b border-blue-200 dark:border-blue-900 flex items-center justify-between">
         {!collapsed && <span className="font-bold text-blue-900 dark:text-blue-400">Menu</span>}
@@ -75,6 +98,7 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={() => setMobileOpen(false)}
               className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition mb-1"
               title={collapsed ? item.label : ""}
             >
@@ -93,5 +117,6 @@ export function Sidebar() {
         {!collapsed && <p>Jesus Worship and Restoration Church © 2025</p>}
       </div>
     </div>
+    </>
   )
 }

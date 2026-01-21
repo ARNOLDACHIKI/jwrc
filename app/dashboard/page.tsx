@@ -188,11 +188,11 @@ export default function Dashboard() {
       <HeaderWithSidebar />
       <div className="flex">
         <Sidebar />
-        <main className="flex-1 overflow-auto">
-          <div className="p-6 md:p-8">
+        <main className="flex-1 overflow-auto w-full lg:w-auto">
+          <div className="p-4 sm:p-6 md:p-8 max-w-full">
             {/* Welcome Section */}
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold text-blue-900 dark:text-white mb-2">
+            <div className="mb-6 sm:mb-8">
+              <h1 className="text-2xl sm:text-3xl font-bold text-blue-900 dark:text-white mb-2">
                 Welcome back, {(() => {
                   if (user.name && user.name.trim()) {
                     return user.name.split(' ')[0]
@@ -207,20 +207,20 @@ export default function Dashboard() {
 
             {/* Church Reminders Alert */}
             {showReminders && activeReminder && (
-              <Card className="mb-6 p-4 border-l-4 border-orange-500 bg-orange-50 dark:bg-orange-900/20">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Bell className="w-5 h-5 text-orange-600 dark:text-orange-400" />
-                    <div>
-                      <h3 className="font-semibold text-orange-900 dark:text-orange-400">{activeReminder.title}</h3>
-                      <p className="text-sm text-orange-700 dark:text-orange-300">
+              <Card className="mb-4 sm:mb-6 p-3 sm:p-4 border-l-4 border-orange-500 bg-orange-50 dark:bg-orange-900/20">
+                <div className="flex items-start sm:items-center justify-between gap-2">
+                  <div className="flex items-start gap-2 sm:gap-3 flex-1 min-w-0">
+                    <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600 dark:text-orange-400 shrink-0 mt-0.5 sm:mt-0" />
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-sm sm:text-base font-semibold text-orange-900 dark:text-orange-400">{activeReminder.title}</h3>
+                      <p className="text-xs sm:text-sm text-orange-700 dark:text-orange-300 break-words">
                         {activeReminder.message}
                       </p>
                     </div>
                   </div>
                   <button
                     onClick={() => setShowReminders(false)}
-                    className="text-orange-600 hover:text-orange-700 dark:text-orange-400"
+                    className="text-orange-600 hover:text-orange-700 dark:text-orange-400 text-xl sm:text-2xl shrink-0 -mt-1"
                   >
                     ×
                   </button>
@@ -230,40 +230,40 @@ export default function Dashboard() {
 
             {/* Inbox Reminder Alert */}
             {unreadCount > 0 && (
-              <Card className="mb-6 p-4 border-l-4 border-blue-600 bg-blue-50 dark:bg-slate-800/20">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Bell className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                    <div>
-                      <h3 className="font-semibold text-blue-900 dark:text-blue-300">You have {unreadCount} new message{unreadCount>1?'s':''}</h3>
-                      {latestPreview && <p className="text-sm text-gray-700 dark:text-gray-300">{latestPreview}</p>}
+              <Card className="mb-4 sm:mb-6 p-3 sm:p-4 border-l-4 border-blue-600 bg-blue-50 dark:bg-slate-800/20">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div className="flex items-start gap-2 sm:gap-3 flex-1 min-w-0">
+                    <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5 sm:mt-0" />
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-sm sm:text-base font-semibold text-blue-900 dark:text-blue-300">You have {unreadCount} new message{unreadCount>1?'s':''}</h3>
+                      {latestPreview && <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 truncate">{latestPreview}</p>}
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
                     <button
                       onClick={() => {
                         try { localStorage.setItem(inboxLastSeenKey, new Date().toISOString()); setUnreadCount(0) } catch(e){}
                       }}
-                      className="text-blue-600 hover:text-blue-700 dark:text-blue-400"
+                      className="text-xs sm:text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 flex-1 sm:flex-initial"
                     >
                       Mark as read
                     </button>
-                    <Link href="#inbox" onClick={() => { try { localStorage.setItem(inboxLastSeenKey, new Date().toISOString()); setUnreadCount(0) } catch(e){} }} className="text-sm text-white bg-blue-600 px-3 py-1 rounded">Open Inbox</Link>
+                    <Link href="#inbox" onClick={() => { try { localStorage.setItem(inboxLastSeenKey, new Date().toISOString()); setUnreadCount(0) } catch(e){} }} className="text-xs sm:text-sm text-white bg-blue-600 px-3 py-1 rounded whitespace-nowrap">Open Inbox</Link>
                   </div>
                 </div>
               </Card>
             )}
 
             {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* Recent Activity */}
-              <Card className="lg:col-span-2 p-6">
-                <h2 className="text-xl font-bold text-blue-900 dark:text-white mb-6">Recent Activity</h2>
-                <div className="space-y-4">
+              <Card className="lg:col-span-2 p-4 sm:p-6">
+                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4 sm:mb-6">Recent Activity</h2>
+                <div className="space-y-3 sm:space-y-4">
                   {recentActivity.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                      <p>No recent activity yet</p>
-                      <p className="text-sm mt-2">Check back later for updates</p>
+                    <div className="text-center py-6 sm:py-8 text-gray-500 dark:text-gray-400">
+                      <p className="text-sm sm:text-base">No recent activity yet</p>
+                      <p className="text-xs sm:text-sm mt-2">Check back later for updates</p>
                     </div>
                   ) : (
                     recentActivity.map((activity, idx) => {
@@ -271,13 +271,13 @@ export default function Dashboard() {
                       return (
                         <div
                           key={idx}
-                          className="flex items-center gap-4 pb-4 border-b border-gray-200 dark:border-gray-700 last:border-0"
+                          className="flex items-center gap-3 sm:gap-4 pb-3 sm:pb-4 border-b border-gray-200 dark:border-gray-700 last:border-0"
                         >
-                          <div className="p-3 rounded-lg bg-blue-100 dark:bg-blue-900/30">
-                            <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                          <div className="p-2 sm:p-3 rounded-lg bg-blue-100 dark:bg-blue-900/30 shrink-0">
+                            <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400" />
                           </div>
-                          <div className="flex-1">
-                            <p className="font-medium text-gray-900 dark:text-white">{activity.message}</p>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm sm:text-base font-medium text-gray-900 dark:text-white truncate">{activity.message}</p>
                             <p className="text-sm text-gray-500 dark:text-gray-400">{activity.time}</p>
                           </div>
                         </div>
@@ -288,25 +288,25 @@ export default function Dashboard() {
               </Card>
 
               {/* Quick Actions */}
-              <Card className="p-6">
-                <h2 className="text-xl font-bold text-blue-900 dark:text-white mb-6">Quick Actions</h2>
-                <div className="space-y-3">
+              <Card className="p-4 sm:p-6">
+                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4 sm:mb-6">Quick Actions</h2>
+                <div className="space-y-2 sm:space-y-3">
                   {user?.role === 'admin' && (
                     <Link href="/admin/dashboard">
-                      <Button className="w-full bg-purple-600 hover:bg-purple-700 justify-start">
+                      <Button className="w-full bg-purple-600 hover:bg-purple-700 justify-start text-sm sm:text-base">
                         <Shield className="w-4 h-4 mr-2" />
                         Switch to Admin Panel
                       </Button>
                     </Link>
                   )}
                   <Link href="/give">
-                    <Button className="w-full bg-green-600 hover:bg-green-700 justify-start">
+                    <Button className="w-full bg-green-600 hover:bg-green-700 justify-start text-sm sm:text-base">
                       <Heart className="w-4 h-4 mr-2" />
                       Make Donation
                     </Button>
                   </Link>
                   <Link href="/volunteer">
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700 justify-start">
+                    <Button className="w-full bg-blue-600 hover:bg-blue-700 justify-start text-sm sm:text-base">
                       <Users className="w-4 h-4 mr-2" />
                       Sign Up Volunteer
                     </Button>
