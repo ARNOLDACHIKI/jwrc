@@ -404,11 +404,6 @@ export default function Dashboard() {
                   )}
                 </div>
               </div>
-                      )
-                    })
-                  )}
-                </div>
-              </Card>
 
               {/* Quick Actions */}
               <Card className="p-4 sm:p-6">
