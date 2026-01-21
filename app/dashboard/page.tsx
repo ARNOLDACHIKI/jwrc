@@ -23,6 +23,8 @@ export default function Dashboard() {
   const [unreadCount, setUnreadCount] = useState(0)
   const [latestPreview, setLatestPreview] = useState<string | null>(null)
   const [recentActivity, setRecentActivity] = useState<any[]>([])
+  const [weeklyProgramsCount, setWeeklyProgramsCount] = useState(0)
+  const [weeklyPrograms, setWeeklyPrograms] = useState<Array<{id: string, name: string, day: string, time: string}>>([])
   const inboxLastSeenKey = 'inboxLastSeenAt'
 
   async function loadActiveReminder() {
@@ -73,6 +75,19 @@ export default function Dashboard() {
         }
       }
     } catch (e) { console.error('Failed to load inbox summary', e) }
+  }
+
+  async function loadWeeklyPrograms() {
+    try {
+      const response = await fetch('/api/weekly-programs')
+      if (response.ok) {
+        const programs = await response.json()
+        setWeeklyPrograms(programs)
+        setWeeklyProgramsCount(programs.length)
+      }
+    } catch (error) {
+      console.error('Error fetching weekly programs:', error)
+    }
   }
 
   async function loadRecentActivity() {
@@ -154,6 +169,7 @@ export default function Dashboard() {
     if (!user) return
     // Load active reminder
     loadActiveReminder()
+    loadWeeklyPrograms()
     // automatically mark messages read when dashboard loads
     ;(async () => {
       try {
@@ -166,6 +182,7 @@ export default function Dashboard() {
     const iv = setInterval(() => {
       loadInboxSummary()
       loadRecentActivity()
+      loadWeeklyPrograms()
     }, 30000) // Refresh every 30 seconds
     return () => clearInterval(iv)
   }, [user])
@@ -254,6 +271,49 @@ export default function Dashboard() {
               </Card>
             )}
 
+            {/* Stats Section with 3D Cards */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6">
+              {/* Active Members Stat */}
+              <Card className="relative p-4 sm:p-6 text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 shadow-lg hover:shadow-2xl bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 border-0 overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <p className="text-3xl sm:text-4xl font-bold text-white mb-2">200+</p>
+                  <p className="text-sm sm:text-base text-blue-100">Active Members</p>
+                </div>
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+              </Card>
+
+              {/* Years Serving Stat */}
+              <Card className="relative p-4 sm:p-6 text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 shadow-lg hover:shadow-2xl bg-gradient-to-br from-green-500 to-green-600 dark:from-green-600 dark:to-green-700 border-0 overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <p className="text-3xl sm:text-4xl font-bold text-white mb-2">5+</p>
+                  <p className="text-sm sm:text-base text-green-100">Years Serving</p>
+                </div>
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+              </Card>
+
+              {/* Weekly Programs Stat */}
+              <Card className="relative p-4 sm:p-6 text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 shadow-lg hover:shadow-2xl bg-gradient-to-br from-orange-500 to-orange-600 dark:from-orange-600 dark:to-orange-700 border-0 overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <p className="text-3xl sm:text-4xl font-bold text-white mb-2">{weeklyProgramsCount}</p>
+                  <p className="text-sm sm:text-base text-orange-100">Weekly Programs</p>
+                </div>
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+              </Card>
+
+              {/* Ministry Partnerships Stat */}
+              <Card className="relative p-4 sm:p-6 text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 shadow-lg hover:shadow-2xl bg-gradient-to-br from-purple-500 to-purple-600 dark:from-purple-600 dark:to-purple-700 border-0 overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <p className="text-3xl sm:text-4xl font-bold text-white mb-2">59+</p>
+                  <p className="text-sm sm:text-base text-purple-100">Ministry Partnerships</p>
+                </div>
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+              </Card>
+            </div>
+
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* Recent Activity */}
@@ -325,8 +385,41 @@ export default function Dashboard() {
                   </Link>
                 </div>
               </Card>
-              <Card className="p-6 mt-6" id="inbox">
+            </div>
+
+            {/* Inbox and Weekly Programs Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+              <Card className="p-4 sm:p-6" id="inbox">
                 <Inbox email={user.email} />
+              </Card>
+
+              {/* Weekly Programs List */}
+              <Card className="p-4 sm:p-6 transform transition-all duration-300 hover:shadow-xl">
+                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4">Weekly Programs</h2>
+                {weeklyPrograms.length === 0 ? (
+                  <div className="text-center py-6 sm:py-8 text-gray-500 dark:text-gray-400">
+                    <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                    <p className="text-sm sm:text-base">No programs scheduled</p>
+                    <p className="text-xs sm:text-sm mt-2">Check back later for updates</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {weeklyPrograms.map((program) => (
+                      <div
+                        key={program.id}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+                      >
+                        <div className="p-2 rounded-lg bg-blue-500 text-white shrink-0">
+                          <Calendar className="w-4 h-4" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white truncate">{program.name}</p>
+                          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{program.day} at {program.time}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </Card>
             </div>
           </div>

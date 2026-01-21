@@ -100,3 +100,13 @@ model Reminder {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model WeeklyProgram {
+  id        String   @id @default(uuid())
+  name      String
+  day       String   // e.g., "Monday", "Wednesday", "Sunday"
+  time      String   // e.g., "6:00 PM", "10:00 AM"
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
