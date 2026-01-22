@@ -2,6 +2,7 @@ import QRCode from 'qrcode'
 
 /**
  * Generate QR code data URL for event ticket
+ * The QR code now contains a URL to the ticket details page
  */
 export async function generateTicketQRCode(data: {
   eventId: string
@@ -9,19 +10,15 @@ export async function generateTicketQRCode(data: {
   ref: string
   name: string
   email: string
+  baseUrl?: string
 }): Promise<string> {
-  const ticketData = JSON.stringify({
-    type: 'event-ticket',
-    eventId: data.eventId,
-    signupId: data.signupId,
-    ref: data.ref,
-    name: data.name,
-    email: data.email,
-    timestamp: new Date().toISOString()
-  })
+  // Use the baseUrl or construct ticket URL with reference
+  const ticketUrl = data.baseUrl 
+    ? `${data.baseUrl}/tickets/${data.ref}`
+    : `/tickets/${data.ref}`
 
   // Generate QR code as data URL
-  const qrCodeDataURL = await QRCode.toDataURL(ticketData, {
+  const qrCodeDataURL = await QRCode.toDataURL(ticketUrl, {
     errorCorrectionLevel: 'H',
     type: 'image/png',
     width: 300,
@@ -37,6 +34,7 @@ export async function generateTicketQRCode(data: {
 
 /**
  * Verify and parse QR code ticket data
+ * Now handles both URL format and legacy JSON format
  */
 export function parseTicketQRCode(qrData: string): {
   valid: boolean
@@ -49,8 +47,29 @@ export function parseTicketQRCode(qrData: string): {
     email: string
     timestamp: string
   }
+  ref?: string
   error?: string
 } {
+  // Check if it's a URL format (new format)
+  if (qrData.includes('/tickets/')) {
+    try {
+      const url = new URL(qrData)
+      const pathParts = url.pathname.split('/')
+      const ref = pathParts[pathParts.length - 1]
+      
+      if (ref) {
+        return { valid: true, ref }
+      }
+    } catch (e) {
+      // Try extracting reference from relative path
+      const match = qrData.match(/\/tickets\/([^/?#]+)/)
+      if (match && match[1]) {
+        return { valid: true, ref: match[1] }
+      }
+    }
+  }
+
+  // Legacy JSON format support
   try {
     const parsed = JSON.parse(qrData)
     
@@ -67,3 +86,4 @@ export function parseTicketQRCode(qrData: string): {
     return { valid: false, error: 'Invalid QR code data' }
   }
 }
+

@@ -47,14 +47,28 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: parsed.error || 'Invalid QR code' }, { status: 400 })
     }
 
-    const ticketData = parsed.data!
-
-    // Verify signup exists and get details
-    const signupResult: any[] = await prisma.$queryRawUnsafe(
-      `SELECT * FROM event_signups WHERE id = $1 AND event_id = $2 LIMIT 1`,
-      ticketData.signupId,
-      ticketData.eventId
-    )
+    // Handle new URL format (just has ref)
+    let signupResult: any[]
+    if (parsed.ref) {
+      // New URL format - lookup by reference only
+      signupResult = await prisma.$queryRawUnsafe(
+        `SELECT * FROM event_signups WHERE ref = $1 LIMIT 1`,
+        parsed.ref
+      )
+    } else if (parsed.data) {
+      // Legacy JSON format - lookup by ID and eventId
+      const ticketData = parsed.data
+      signupResult = await prisma.$queryRawUnsafe(
+        `SELECT * FROM event_signups WHERE id = $1 AND event_id = $2 LIMIT 1`,
+        ticketData.signupId,
+        ticketData.eventId
+      )
+    } else {
+      return NextResponse.json({ 
+        error: 'Invalid ticket data format',
+        valid: false 
+      }, { status: 400 })
+    }
 
     if (!Array.isArray(signupResult) || signupResult.length === 0) {
       return NextResponse.json({ 
@@ -65,8 +79,8 @@ export async function POST(req: Request) {
 
     const signup = signupResult[0]
 
-    // Verify the ticket data matches
-    if (signup.ref !== ticketData.ref) {
+    // For legacy format, verify the ticket data matches
+    if (parsed.data && signup.ref !== parsed.data.ref) {
       return NextResponse.json({ 
         error: 'Ticket reference mismatch',
         valid: false 

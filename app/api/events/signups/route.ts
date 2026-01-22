@@ -17,25 +17,7 @@ function getTokenFromHeaders(req: Request) {
   return match.split("=")[1]
 }
 
-async function ensureTable() {
-  // create a simple signups table if it doesn't exist
-  await prisma.$executeRawUnsafe(`
-    CREATE TABLE IF NOT EXISTS event_signups (
-      id UUID PRIMARY KEY,
-      event_id UUID NOT NULL,
-      ref TEXT UNIQUE,
-      name TEXT NOT NULL,
-      email TEXT NOT NULL,
-      phone TEXT,
-      ticket_sent BOOLEAN DEFAULT false,
-      created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-    )
-  `)
-  // ensure ref and ticket_sent columns exist (if table pre-existed without them)
-  await prisma.$executeRawUnsafe(`ALTER TABLE event_signups ADD COLUMN IF NOT EXISTS ref TEXT`) 
-  await prisma.$executeRawUnsafe(`ALTER TABLE event_signups ADD COLUMN IF NOT EXISTS ticket_sent BOOLEAN DEFAULT false`) 
-  await prisma.$executeRawUnsafe(`CREATE UNIQUE INDEX IF NOT EXISTS event_signups_ref_idx ON event_signups(ref)`) 
-}
+
 
 export const dynamic = 'force-dynamic'
 
@@ -59,6 +41,11 @@ export async function POST(req: Request) {
     const user = await prisma.user.findUnique({ where: { id: payload.userId } })
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    console.log('=== EVENT SIGNUP DEBUG ===')
+    console.log('JWT Payload:', payload)
+    console.log('User from DB:', { id: user.id, name: user.name, email: user.email })
+    console.log('========================')
+
     const name = user.name || user.email
     const email = user.email
     const phone = user.phone || null
@@ -67,13 +54,17 @@ export async function POST(req: Request) {
     const ev = await prisma.event.findUnique({ where: { id: eventId } })
     if (!ev) return NextResponse.json({ error: 'Event not found' }, { status: 404 })
 
-    await ensureTable()
-
-    await ensureTable()
-
     // dedupe: prevent same email signing up multiple times for same event
-    const exists: any[] = await prisma.$queryRawUnsafe(`SELECT id FROM event_signups WHERE event_id = $1 AND lower(email) = lower($2) LIMIT 1`, eventId, String(email))
-    if (exists && exists.length > 0) {
+    const exists = await prisma.eventSignup.findFirst({
+      where: {
+        eventId: eventId,
+        email: {
+          equals: email,
+          mode: 'insensitive'
+        }
+      }
+    })
+    if (exists) {
       return NextResponse.json({ error: 'Already signed up' }, { status: 409 })
     }
 
@@ -85,22 +76,20 @@ export async function POST(req: Request) {
     let ref = genRef()
     // ensure unique ref
     for (let i = 0; i < 5; i++) {
-      const r: any = await prisma.$queryRawUnsafe(`SELECT id FROM event_signups WHERE ref = $1 LIMIT 1`, ref)
-      if (!Array.isArray(r) || r.length === 0) break
+      const r = await prisma.eventSignup.findFirst({ where: { ref } })
+      if (!r) break
       ref = genRef()
     }
 
-    const id = randomUUID()
-    await prisma.$executeRawUnsafe(
-      `INSERT INTO event_signups (id, event_id, ref, name, email, phone, created_at)
-       VALUES ($1::uuid, $2::uuid, $3, $4, $5, $6, NOW())`,
-      id,
-      eventId,
-      ref,
-      String(name),
-      String(email),
-      phone ? String(phone) : null
-    )
+    const signup = await prisma.eventSignup.create({
+      data: {
+        eventId,
+        ref,
+        name: String(name),
+        email: String(email),
+        phone: phone ? String(phone) : null
+      }
+    })
 
     // Send professional confirmation email
     try {
@@ -148,7 +137,7 @@ export async function POST(req: Request) {
       console.warn('Email send skipped', e)
     }
 
-    return NextResponse.json({ signup: { id, ref, eventId, name, email, phone } }, { status: 201 })
+    return NextResponse.json({ signup: { id: signup.id, ref: signup.ref, eventId: signup.eventId, name: signup.name, email: signup.email, phone: signup.phone } }, { status: 201 })
   } catch (err) {
     console.error(err)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
@@ -169,9 +158,8 @@ export async function DELETE(req: Request) {
     const { id } = body || {}
     if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
 
-    await ensureTable()
     try {
-      await prisma.$executeRawUnsafe(`DELETE FROM event_signups WHERE id = $1::uuid`, id)
+      await prisma.eventSignup.delete({ where: { id } })
       return NextResponse.json({ ok: true })
     } catch (e) {
       console.error(e)
@@ -201,9 +189,23 @@ export async function GET(req: Request) {
     const eventId = url.searchParams.get('eventId')
     if (!eventId) return NextResponse.json({ error: 'Missing eventId' }, { status: 400 })
 
-    await ensureTable()
+    const signups = await prisma.eventSignup.findMany({
+      where: { eventId },
+      orderBy: { createdAt: 'desc' }
+    })
 
-    const rows: any[] = await prisma.$queryRawUnsafe(`SELECT id, ref, event_id as eventId, name, email, phone, created_at as "createdAt" FROM event_signups WHERE event_id = $1 ORDER BY created_at DESC`, eventId)
+    // Convert to match expected format
+    const rows = signups.map(s => ({
+      id: s.id,
+      ref: s.ref,
+      eventId: s.eventId,
+      name: s.name,
+      email: s.email,
+      phone: s.phone,
+      createdAt: s.createdAt,
+      ticket_sent: false,
+      checked_in: false
+    }))
 
     return NextResponse.json({ signups: rows })
   } catch (err) {

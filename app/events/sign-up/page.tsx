@@ -72,17 +72,11 @@ export default function EventSignUpPage() {
   // Generate QR code when signup completes
   useEffect(() => {
     if (signupResult) {
-      const ticketData = JSON.stringify({
-        type: 'event-ticket',
-        eventId: signupResult.eventId,
-        signupId: signupResult.id,
-        ref: signupResult.ref,
-        name: signupResult.name,
-        email: signupResult.email,
-        timestamp: new Date().toISOString()
-      })
+      // Create URL that links to ticket details page
+      const baseUrl = typeof window !== 'undefined' ? window.location.origin : ''
+      const ticketUrl = `${baseUrl}/tickets/${signupResult.ref}`
       
-      QRCode.toDataURL(ticketData, {
+      QRCode.toDataURL(ticketUrl, {
         errorCorrectionLevel: 'H',
         type: 'image/png',
         width: 300,
@@ -150,23 +144,23 @@ export default function EventSignUpPage() {
                 <div className="flex items-start gap-4">
                   <CheckCircle className="w-10 h-10 text-green-600" />
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">Thanks {signupResult.name} — you're signed up!</h3>
-                    <p className="text-sm text-gray-600">We've recorded your interest for <strong>{event?.title}</strong> on {formatDateRange(event)}{event?.location ? ` at ${event.location}` : ''}.</p>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Thanks {signupResult.name} — you're signed up!</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">We've recorded your interest for <strong>{event?.title}</strong> on {formatDateRange(event)}{event?.location ? ` at ${event.location}` : ''}.</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="text-sm text-gray-700">Reference:</div>
-                  <div className="font-mono bg-gray-100 dark:bg-slate-800 px-3 py-1 rounded">{(signupResult.ref || '').slice(0,8)}</div>
-                  <button onClick={() => copyRef((signupResult.ref || '').slice(0,8))} className="p-2 rounded bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"><Copy className="w-4 h-4" /></button>
+                  <div className="text-sm text-gray-700 dark:text-gray-300">Reference:</div>
+                  <div className="font-mono bg-gray-100 dark:bg-slate-800 px-3 py-1 rounded text-gray-900 dark:text-white">{(signupResult.ref || '').slice(0,8)}</div>
+                  <button onClick={() => copyRef((signupResult.ref || '').slice(0,8))} className="p-2 rounded bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"><Copy className="w-4 h-4 text-gray-700 dark:text-gray-300" /></button>
                 </div>
 
                 {/* QR ticket */}
                 {qrCodeUrl && (
                   <div className="mt-4 flex flex-col items-center gap-3">
                     <img src={qrCodeUrl} alt="Your ticket QR code" className="w-48 h-48 bg-white p-2 rounded shadow" />
-                    <a href={qrCodeUrl} download={`ticket_${(signupResult.ref||'').slice(0,8)}.png`} className="text-sm text-blue-600 hover:underline">Download ticket (PNG)</a>
-                    <p className="text-xs text-gray-500">Show this QR code at the event entrance. It encodes your signup reference.</p>
+                    <a href={qrCodeUrl} download={`ticket_${(signupResult.ref||'').slice(0,8)}.png`} className="text-sm text-blue-600 dark:text-blue-400 hover:underline">Download ticket (PNG)</a>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Scan this QR code to view your ticket details and attendee information.</p>
                   </div>
                 )}
 

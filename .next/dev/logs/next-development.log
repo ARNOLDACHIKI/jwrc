@@ -19,3 +19,316 @@
 [00:00:53.625] Server  LOG     📧 Sending email to: "achikiarnold@gmail.com"
 [00:00:53.626] Server  LOG     ✅ Using Gmail SMTP
 [00:00:56.348] Server  LOG     ✅ Email sent successfully: "<217b6a60-c7e9-9cff-628a-32e2df4a045e@gmail.com>"
+[02:48:58.710] Server  LOG     ✓ Compiled in 790ms
+[02:51:00.675] Server  LOG     ✓ Compiled in 0ms
+[02:51:20.001] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. {}
+[02:51:20.348] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/terms. Falling back to browser navigation. {}
+[02:51:20.348] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/admin/dashboard. Falling back to browser navigation. {}
+[02:51:22.181] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:51:22.231] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:51:22.496] Server  WARN    warn(prisma-client) This is the 10th instance of Prisma Client being started. Make sure this is intentional.
+[02:51:22.809] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:51:22.809] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/terms","route":"/terms"}
+[02:51:22.809] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/terms color: rgb(120, 120, 120) color: inherit {"dp":"/terms","o":"http://localhost:3000/terms","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769009892446}
+[02:51:22.810] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:51:22.810] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/dashboard","route":"/admin/dashboard"}
+[02:51:22.810] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769009892448}
+[02:54:10.783] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:54:11.481] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:54:11.481] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:54:11.481] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010061100}
+[02:54:19.984] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/signup color: rgb(120, 120, 120) color: inherit {"dp":"/signup","o":"http://localhost:3000/signup","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010069700}
+[02:54:23.799] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010073512}
+[02:54:40.147] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010089821}
+[02:54:46.158] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010095844}
+[02:55:20.179] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:55:20.583] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:55:20.583] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/dashboard","route":"/admin/dashboard"}
+[02:55:20.583] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010130289}
+[03:00:59.298] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:00:59.935] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:00:59.935] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/dashboard","route":"/admin/dashboard"}
+[03:00:59.935] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010469424}
+[03:01:38.405] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:01:38.734] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:01:38.734] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/reminders","route":"/admin/reminders"}
+[03:01:38.734] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/reminders color: rgb(120, 120, 120) color: inherit {"dp":"/admin/reminders","o":"http://localhost:3000/admin/reminders","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010508457}
+[03:01:40.996] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010510668}
+[03:03:47.413] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:03:47.794] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:03:47.794] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/dashboard","route":"/admin/dashboard"}
+[03:03:47.794] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010637493}
+[03:04:12.593] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010662222}
+[03:04:31.290] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/suggestions color: rgb(120, 120, 120) color: inherit {"dp":"/suggestions","o":"http://localhost:3000/suggestions","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010681007}
+[03:04:35.319] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/volunteer color: rgb(120, 120, 120) color: inherit {"dp":"/volunteer","o":"http://localhost:3000/volunteer","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010685015}
+[03:04:39.270] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010688982}
+[03:05:31.065] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:05:31.309] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:05:31.309] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/tickets","route":"/admin/tickets"}
+[03:05:31.309] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/tickets color: rgb(120, 120, 120) color: inherit {"dp":"/admin/tickets","o":"http://localhost:3000/admin/tickets","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010741019}
+[03:05:41.082] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:06:11.439] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:06:24.930] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:06:25.239] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:06:25.239] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/dashboard","route":"/admin/dashboard"}
+[03:06:25.239] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769010794967}
+[03:12:44.760] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:12:45.148] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:12:45.148] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/tickets","route":"/admin/tickets"}
+[03:12:45.148] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/tickets color: rgb(120, 120, 120) color: inherit {"dp":"/admin/tickets","o":"http://localhost:3000/admin/tickets","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769011174872}
+[03:12:52.248] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:12:54.853] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:12:58.613] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:12:59.433] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:00.222] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:11.076] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769011200437}
+[03:13:14.940] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:13:15.369] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:13:15.369] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events/sign-up","route":"/events/sign-up"}
+[03:13:15.369] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events/sign-up?eventId=5ed86872-a81b-49dc-8a40-363d42efeabd color: rgb(120, 120, 120) color: inherit {"dp":"/events/sign-up","o":"http://localhost:3000/events/sign-up?eventId=5ed86872-a81b-49dc-8a40-363d42efeabd","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769011205066}
+[03:13:30.302] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:31.456] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:32.376] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:33.199] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:34.037] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:34.630] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:35.152] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:35.806] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:36.201] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:36.819] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:41.515] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:45.300] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:46.231] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:13:47.051] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:14:02.306] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:14:03.041] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:14:03.758] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:14:04.575] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42703`. Message: `column e.starts_at does not exist`
+[03:20:50.421] Server  LOG     ✓ Compiled in 266ms
+[03:21:51.443] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42883`. Message: `db error: ERROR: operator does not exist: text = uuid
+HINT: No operator matches the given name and argument types. You might need to add explicit type casts.`
+[03:21:52.575] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42883`. Message: `db error: ERROR: operator does not exist: text = uuid
+HINT: No operator matches the given name and argument types. You might need to add explicit type casts.`
+[03:21:53.340] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42883`. Message: `db error: ERROR: operator does not exist: text = uuid
+HINT: No operator matches the given name and argument types. You might need to add explicit type casts.`
+[03:21:54.583] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42883`. Message: `db error: ERROR: operator does not exist: text = uuid
+HINT: No operator matches the given name and argument types. You might need to add explicit type casts.`
+[03:22:02.993] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769011732702}
+[03:22:05.816] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:22:06.106] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:22:06.106] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events/sign-up","route":"/events/sign-up"}
+[03:22:06.106] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events/sign-up?eventId=bf923469-841c-4827-8761-6797ce6d3098 color: rgb(120, 120, 120) color: inherit {"dp":"/events/sign-up","o":"http://localhost:3000/events/sign-up?eventId=bf923469-841c-4827-8761-6797ce6d3098","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769011735832}
+[03:25:25.229] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42883`. Message: `db error: ERROR: operator does not exist: text = uuid
+HINT: No operator matches the given name and argument types. You might need to add explicit type casts.`
+[03:33:45.424] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42883`. Message: `db error: ERROR: operator does not exist: text = uuid
+HINT: No operator matches the given name and argument types. You might need to add explicit type casts.`
+[03:33:46.268] Server  ERROR   Error searching tickets: PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `42883`. Message: `db error: ERROR: operator does not exist: text = uuid
+HINT: No operator matches the given name and argument types. You might need to add explicit type casts.`
+[03:33:50.393] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769012440084}
+[03:33:55.625] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:33:56.212] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:33:56.212] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events/sign-up","route":"/events/sign-up"}
+[03:33:56.212] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events/sign-up?eventId=5ed86872-a81b-49dc-8a40-363d42efeabd color: rgb(120, 120, 120) color: inherit {"dp":"/events/sign-up","o":"http://localhost:3000/events/sign-up?eventId=5ed86872-a81b-49dc-8a40-363d42efeabd","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769012445931}
+[03:34:20.369] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769012470090}
+[03:34:22.462] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:34:22.718] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:34:22.718] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events/sign-up","route":"/events/sign-up"}
+[03:34:22.719] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events/sign-up?eventId=5ed86872-a81b-49dc-8a40-363d42efeabd color: rgb(120, 120, 120) color: inherit {"dp":"/events/sign-up","o":"http://localhost:3000/events/sign-up?eventId=5ed86872-a81b-49dc-8a40-363d42efeabd","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769012472435}
+[03:34:33.820] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769012483539}
+[03:34:36.549] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:34:36.826] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:34:36.826] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events/sign-up","route":"/events/sign-up"}
+[03:34:36.826] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events/sign-up?eventId=bf923469-841c-4827-8761-6797ce6d3098 color: rgb(120, 120, 120) color: inherit {"dp":"/events/sign-up","o":"http://localhost:3000/events/sign-up?eventId=bf923469-841c-4827-8761-6797ce6d3098","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769012486553}
+[03:42:52.034] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:42:52.564] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:42:52.564] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events/sign-up","route":"/events/sign-up"}
+[03:42:52.564] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events/sign-up?eventId=bf923469-841c-4827-8761-6797ce6d3098 color: rgb(120, 120, 120) color: inherit {"dp":"/events/sign-up","o":"http://localhost:3000/events/sign-up?eventId=bf923469-841c-4827-8761-6797ce6d3098","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769012982291}
+[03:42:54.347] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769012984032}
+[03:43:13.482] Server  ERROR   Error counting unread: TypeError: Cannot mix BigInt and other types, use explicit conversions
+[03:43:14.523] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769013003660}
+[03:43:17.569] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769013007267}
+[03:43:21.124] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:43:21.603] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:43:21.603] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events/sign-up","route":"/events/sign-up"}
+[03:43:21.603] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events/sign-up?eventId=bf923469-841c-4827-8761-6797ce6d3098 color: rgb(120, 120, 120) color: inherit {"dp":"/events/sign-up","o":"http://localhost:3000/events/sign-up?eventId=bf923469-841c-4827-8761-6797ce6d3098","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769013011329}
+[03:43:23.066] Server  LOG     === EVENT SIGNUP DEBUG ===
+[03:43:23.067] Server  LOG     JWT Payload: {}
+[03:43:23.068] Server  LOG     User from DB: {}
+[03:43:23.069] Server  LOG     ========================
+[03:47:29.560] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:47:29.877] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:47:29.877] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events/sign-up","route":"/events/sign-up"}
+[03:47:29.877] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events/sign-up?eventId=bf923469-841c-4827-8761-6797ce6d3098 color: rgb(120, 120, 120) color: inherit {"dp":"/events/sign-up","o":"http://localhost:3000/events/sign-up?eventId=bf923469-841c-4827-8761-6797ce6d3098","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769013259604}
+[05:06:29.463] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[05:06:29.874] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[05:06:29.874] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/login","route":"/admin/login"}
+[05:06:29.874] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/login color: rgb(120, 120, 120) color: inherit {"dp":"/admin/login","o":"http://localhost:3000/admin/login","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769017999601}
+[05:06:45.211] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769018014872}
+[05:53:23.517] Server  LOG     ✓ Compiled in 0ms
+[05:54:09.264] Server  LOG     ✓ Compiled in 413ms
+[05:54:10.783] Server  LOG     ✓ Compiled in 232ms
+[06:16:39.118] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769022207283}
+[06:16:42.293] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:16:42.702] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[06:16:42.702] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events/sign-up","route":"/events/sign-up"}
+[06:16:42.702] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events/sign-up?eventId=5ed86872-a81b-49dc-8a40-363d42efeabd color: rgb(120, 120, 120) color: inherit {"dp":"/events/sign-up","o":"http://localhost:3000/events/sign-up?eventId=5ed86872-a81b-49dc-8a40-363d42efeabd","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769022212428}
+[06:16:44.006] Server  LOG     === EVENT SIGNUP DEBUG ===
+[06:16:44.008] Server  LOG     JWT Payload: {}
+[06:16:44.009] Server  LOG     User from DB: {}
+[06:16:44.009] Server  LOG     ========================
+[06:16:47.082] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769022216786}
+[06:16:49.783] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:16:50.012] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[06:16:50.012] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events/sign-up","route":"/events/sign-up"}
+[06:16:50.012] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events/sign-up?eventId=bf923469-841c-4827-8761-6797ce6d3098 color: rgb(120, 120, 120) color: inherit {"dp":"/events/sign-up","o":"http://localhost:3000/events/sign-up?eventId=bf923469-841c-4827-8761-6797ce6d3098","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769022219732}
+[06:16:51.662] Server  LOG     === EVENT SIGNUP DEBUG ===
+[06:16:51.663] Server  LOG     JWT Payload: {}
+[06:16:51.664] Server  LOG     User from DB: {}
+[06:16:51.664] Server  LOG     ========================
+[06:16:59.836] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769022229531}
+[06:17:17.657] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769022247380}
+[06:17:22.067] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events color: rgb(120, 120, 120) color: inherit {"dp":"/events","o":"http://localhost:3000/events","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769022251791}
+[06:17:26.032] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:17:26.319] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[06:17:26.319] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/events/sign-up","route":"/events/sign-up"}
+[06:17:26.319] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/events/sign-up?eventId=bf923469-841c-4827-8761-6797ce6d3098 color: rgb(120, 120, 120) color: inherit {"dp":"/events/sign-up","o":"http://localhost:3000/events/sign-up?eventId=bf923469-841c-4827-8761-6797ce6d3098","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769022256047}
+[06:17:29.217] Server  LOG     === EVENT SIGNUP DEBUG ===
+[06:17:29.218] Server  LOG     JWT Payload: {}
+[06:17:29.219] Server  LOG     User from DB: {}
+[06:17:29.220] Server  LOG     ========================
+[06:17:43.828] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769022273511}
+[06:17:46.681] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:17:46.906] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[06:17:46.906] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/reminders","route":"/admin/reminders"}
+[06:17:46.906] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/reminders color: rgb(120, 120, 120) color: inherit {"dp":"/admin/reminders","o":"http://localhost:3000/admin/reminders","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769022276623}
+[06:17:50.027] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1769022279686}
+[06:17:58.484] Server  LOG     Generated QR code for jwrcjuja.1@gmail.com, length: 2750
+[06:18:01.749] Server  LOG     Generated QR code for achikiarnold@gmail.com, length: 2754

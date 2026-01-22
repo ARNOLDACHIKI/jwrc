@@ -43,18 +43,33 @@ export async function POST(req: Request) {
     let signups: any[] = []
     if (signupIds && Array.isArray(signupIds) && signupIds.length > 0) {
       // Send to specific signups
-      const placeholders = signupIds.map((_, i) => `$${i + 2}`).join(',')
-      signups = await prisma.$queryRawUnsafe(
-        `SELECT id, event_id, ref, name, email, phone FROM event_signups WHERE event_id = $1 AND id IN (${placeholders})`,
-        eventId,
-        ...signupIds
-      )
+      const dbSignups = await prisma.eventSignup.findMany({
+        where: {
+          eventId,
+          id: { in: signupIds }
+        }
+      })
+      signups = dbSignups.map(s => ({
+        id: s.id,
+        event_id: s.eventId,
+        ref: s.ref,
+        name: s.name,
+        email: s.email,
+        phone: s.phone
+      }))
     } else {
       // Send to all signups for this event
-      signups = await prisma.$queryRawUnsafe(
-        `SELECT id, event_id, ref, name, email, phone FROM event_signups WHERE event_id = $1`,
-        eventId
-      )
+      const dbSignups = await prisma.eventSignup.findMany({
+        where: { eventId }
+      })
+      signups = dbSignups.map(s => ({
+        id: s.id,
+        event_id: s.eventId,
+        ref: s.ref,
+        name: s.name,
+        email: s.email,
+        phone: s.phone
+      }))
     }
 
     if (signups.length === 0) {
@@ -136,17 +151,6 @@ export async function POST(req: Request) {
             }
           ]
         })
-
-        // Mark ticket as sent (ignore if column doesn't exist yet)
-        try {
-          await prisma.$executeRawUnsafe(
-            `UPDATE event_signups SET ticket_sent = true WHERE id = $1::uuid`,
-            signup.id
-          )
-        } catch (e) {
-          // Column might not exist yet, will be added on next signup
-          console.warn('Could not update ticket_sent flag:', e)
-        }
 
         sent++
       } catch (e) {

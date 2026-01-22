@@ -42,21 +42,18 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Signup ID is required' }, { status: 400 })
     }
 
-    // Get signup details from the event_signups table
-    const signupResult: any[] = await prisma.$queryRawUnsafe(
-      `SELECT * FROM event_signups WHERE id = $1 LIMIT 1`,
-      signupId
-    )
+    // Get signup details from EventSignup table
+    const signup = await prisma.eventSignup.findUnique({
+      where: { id: signupId }
+    })
 
-    if (!Array.isArray(signupResult) || signupResult.length === 0) {
+    if (!signup) {
       return NextResponse.json({ error: 'Event signup not found' }, { status: 404 })
     }
-
-    const signup = signupResult[0]
     
     // Get event details
     const event = await prisma.event.findUnique({ 
-      where: { id: signup.event_id } 
+      where: { id: signup.eventId } 
     })
 
     if (!event) {
@@ -65,7 +62,7 @@ export async function POST(req: Request) {
 
     // Generate QR code with ticket data
     const qrCodeDataURL = await generateTicketQRCode({
-      eventId: signup.event_id,
+      eventId: signup.eventId,
       signupId: signup.id,
       ref: signup.ref || '',
       name: signup.name,
@@ -128,12 +125,6 @@ export async function POST(req: Request) {
         }
       ]
     })
-
-    // Mark ticket as sent in database
-    await prisma.$executeRawUnsafe(
-      `UPDATE event_signups SET ticket_sent = true WHERE id = $1`,
-      signupId
-    )
 
     return NextResponse.json({
       ok: true,
