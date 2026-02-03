@@ -30,7 +30,7 @@ export function MainNav() {
     return () => { mounted = false; clearInterval(iv) }
   }, [user])
 
-  const navItems = [
+  const baseNav = [
     { label: "About", href: "/about" },
     { label: "Announcements", href: "/announcements" },
     { label: "Events", href: "/events" },
@@ -38,6 +38,9 @@ export function MainNav() {
     { label: "Suggestions", href: "/suggestions" },
     { label: "Give", href: "/give" },
   ]
+
+  // Show dashboard link on desktop when user is logged in for quick access
+  const navItems = user ? [{ label: "Dashboard", href: "/dashboard" }, ...baseNav] : baseNav
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-[var(--border)] bg-[var(--background)]/85 dark:bg-[var(--background)]/80 backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]/70 shadow-sm">
@@ -165,12 +168,14 @@ export function MainNav() {
               </>
             )}
 
-            <Link
-              href="/admin/login"
-              className="block px-3 py-2 text-sm font-medium text-[var(--primary)] hover:bg-[var(--muted)]"
-            >
-              Admin Portal
-            </Link>
+            {user?.role === 'admin' && (
+              <Link
+                href="/admin/login"
+                className="block px-3 py-2 text-sm font-medium text-[var(--primary)] hover:bg-[var(--muted)]"
+              >
+                Admin Portal
+              </Link>
+            )}
           </div>
         )}
       </div>

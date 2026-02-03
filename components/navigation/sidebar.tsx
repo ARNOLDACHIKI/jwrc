@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { ChevronRight, Home, Book, Users, DollarSign, Settings, MessageSquare, Calendar, LayoutDashboard } from "lucide-react"
+import { ChevronRight, Home, Book, Users, DollarSign, Settings, MessageSquare, Calendar, LayoutDashboard, Image } from "lucide-react"
 import { useTheme } from "@/contexts/theme-context"
 import { useUser } from "@/contexts/user-context"
 
@@ -14,6 +14,10 @@ const sidebarItems = [
   { label: "Events", href: "/events", icon: Calendar },
   { label: "Volunteer", href: "/volunteer", icon: Users },
   { label: "Suggestions", href: "/suggestions", icon: Settings },
+]
+
+const adminItems = [
+  { label: 'Poster', href: '/admin/poster', icon: Image },
 ]
 
 export function Sidebar() {
@@ -110,6 +114,26 @@ export function Sidebar() {
             </Link>
           )
         })}
+        {/* Admin-specific items */}
+        {user?.role === 'admin' && (
+          <div className="mt-3 border-t border-blue-100 dark:border-blue-900 pt-3">
+            {adminItems.map(item => {
+              const Icon = item.icon
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition mb-1"
+                  title={collapsed ? item.label : ""}
+                >
+                  <Icon className="w-5 h-5 shrink-0" />
+                  {!collapsed && <span className="text-sm font-medium">{item.label}</span>}
+                </Link>
+              )
+            })}
+          </div>
+        )}
       </nav>
 
       {/* Footer */}

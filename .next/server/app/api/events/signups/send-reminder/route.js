@@ -1,9 +1,0 @@
-var R=require("../../../../../chunks/[turbopack]_runtime.js")("server/app/api/events/signups/send-reminder/route.js")
-R.c("server/chunks/[root-of-the-server]__780158de._.js")
-R.c("server/chunks/jwrc_lib_email-templates_ts_a21a71f0._.js")
-R.c("server/chunks/e3baf__pnpm_41a1ba19._.js")
-R.c("server/chunks/[root-of-the-server]__6b0d2dce._.js")
-R.c("server/chunks/jwrc_56150c07._.js")
-R.c("server/chunks/ca745_server_app_api_events_signups_send-reminder_route_actions_ce1a6dfd.js")
-R.m(48326)
-module.exports=R.m(48326).exports

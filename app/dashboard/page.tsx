@@ -7,11 +7,13 @@ import { HeaderWithSidebar } from "@/components/navigation/header-with-sidebar"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useUser } from "@/contexts/user-context"
+import { useToast } from "@/hooks/use-toast"
 import { Heart, Users, DollarSign, Calendar, TrendingUp, Settings, Bell, BookOpen, Shield, Book, Sparkles } from "lucide-react"
 import Inbox from "@/components/inbox"
 
 export default function Dashboard() {
   const { user } = useUser()
+  const { toast } = useToast()
   const [showReminders, setShowReminders] = useState(true)
   const [activeReminder, setActiveReminder] = useState<{title: string, message: string} | null>(null)
   const [unreadCount, setUnreadCount] = useState(0)
@@ -20,7 +22,11 @@ export default function Dashboard() {
   const [weeklyProgramsCount, setWeeklyProgramsCount] = useState(0)
   const [weeklyPrograms, setWeeklyPrograms] = useState<Array<{id: string, name: string, day: string, time: string}>>([])
   const [weeklyWord, setWeeklyWord] = useState<{title: string, theme: string, scripture: string | null, content: string} | null>(null)
+  const [poster, setPoster] = useState<{url: string | null, alt: string | null} | null>(null)
+  const [posterEventInfo, setPosterEventInfo] = useState<{ title: string | null, date: string | null, time: string | null, location: string | null } | null>(null)
   const [readActivities, setReadActivities] = useState<Set<string>>(new Set())
+  const [upcomingEvent, setUpcomingEvent] = useState<any | null>(null)
+  const [eventAttendees, setEventAttendees] = useState<Array<any>>([])
   const inboxLastSeenKey = 'inboxLastSeenAt'
   const readActivitiesKey = 'readActivities'
 
@@ -124,6 +130,23 @@ export default function Dashboard() {
     }
   }
 
+  async function loadPoster() {
+    try {
+      const res = await fetch('/api/settings')
+      if (!res.ok) return
+      const data = await res.json()
+      const p = data?.settings?.posterUrl ? { url: data.settings.posterUrl, alt: data.settings.posterAlt || null } : null
+      setPoster(p)
+      const posterInfo = {
+        title: data?.settings?.posterEventTitle || null,
+        date: data?.settings?.posterEventDate || null,
+        time: data?.settings?.posterEventTime || null,
+        location: data?.settings?.posterEventLocation || null,
+      }
+      setPosterEventInfo(posterInfo)
+    } catch (e) { console.error('Failed to load poster', e) }
+  }
+
   async function loadRecentActivity() {
     try {
       const email = user?.email
@@ -131,7 +154,7 @@ export default function Dashboard() {
 
       const [announcementRes, eventRes, volunteerRes] = await Promise.all([
         fetch('/api/announcements', { credentials: 'include' }),
-        fetch('/api/events', { credentials: 'include' }),
+        fetch('/api/events?futureOnly=true', { credentials: 'include' }),
         fetch(`/api/volunteers?email=${encodeURIComponent(email)}`),
       ])
 
@@ -158,22 +181,42 @@ export default function Dashboard() {
         })
       })
 
-      // Add upcoming events
+      // Add upcoming events and set the first one
       const upcomingEvents = (events?.events || [])
         .filter((e: any) => new Date(e.startsAt) > new Date())
-        .slice(0, 1)
-      upcomingEvents.forEach((e: any) => {
-        activities.push({
-          id: `event-${e.id}`,
-          type: 'event',
-          title: `${e.title || 'Upcoming event'}`,
-          message: e.description || '',
-          time: e.startsAt ? formatTime(new Date(e.startsAt)) : 'Soon',
-          icon: Calendar,
-          actionLabel: 'View Event',
-          actionLink: '/events'
+        .sort((a: any, b: any) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime())
+      
+      if (upcomingEvents.length > 0) {
+        const eventData = upcomingEvents[0]
+        setUpcomingEvent(eventData)
+        
+        // Fetch attendees for the upcoming event
+        try {
+          const attendeesRes = await fetch(`/api/events/${eventData.id}/signups`)
+          if (attendeesRes.ok) {
+            const attendeesData = await attendeesRes.json()
+            setEventAttendees(attendeesData.signups || [])
+          }
+        } catch (e) {
+          console.error('Failed to load event attendees', e)
+        }
+        
+        upcomingEvents.slice(0, 1).forEach((e: any) => {
+          activities.push({
+            id: `event-${e.id}`,
+            type: 'event',
+            title: `${e.title || 'Upcoming event'}`,
+            message: e.description || '',
+            time: e.startsAt ? formatTime(new Date(e.startsAt)) : 'Soon',
+            icon: Calendar,
+            actionLabel: 'View Event',
+            actionLink: '/events'
+          })
         })
-      })
+      } else {
+        setUpcomingEvent(null)
+        setEventAttendees([])
+      }
 
       // Add volunteer applications
       const userVolunteers = (volunteers?.applications || []).slice(0, 1)
@@ -217,6 +260,7 @@ export default function Dashboard() {
     loadActiveReminder()
     loadWeeklyPrograms()
     loadWeeklyWord()
+    loadPoster()
     // automatically mark messages read when dashboard loads
     ;(async () => {
       try {
@@ -224,6 +268,7 @@ export default function Dashboard() {
         // after marking read, refresh summary
         await loadInboxSummary()
         await loadRecentActivity()
+        await loadPoster()
       } catch (e) { console.error('Failed to mark inbox read on load', e) }
     })()
     const iv = setInterval(() => {
@@ -231,6 +276,7 @@ export default function Dashboard() {
       loadRecentActivity()
       loadWeeklyPrograms()
       loadWeeklyWord()
+      loadPoster()
     }, 30000) // Refresh every 30 seconds
     return () => clearInterval(iv)
   }, [user])
@@ -320,6 +366,262 @@ export default function Dashboard() {
             )}
 
             {/* Weekly Word & Theme Card - Replaces Stats Section */}
+            {/* Poster + Event Signup Layout */}
+            {poster && (
+              <article className="mb-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch">
+                  {/* Poster - Takes priority, left side */}
+                  <div className="h-full flex items-center justify-center">
+                    <div className="w-full flex items-center justify-center bg-slate-50/40 dark:bg-slate-900/40">
+                      {poster.url ? (
+                        <img 
+                          src={poster.url} 
+                          alt={poster.alt || 'Poster'} 
+                          className="w-full h-auto max-h-[700px] object-contain" 
+                        />
+                      ) : (
+                        <div className="w-full h-[400px] flex items-center justify-center text-gray-500 bg-gray-100 dark:bg-slate-800">No poster set</div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Event Signup Form - Right side */}
+                  {upcomingEvent && (
+                    <Card className="h-full flex flex-col bg-gradient-to-br from-blue-50 via-white to-blue-50 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 border-2 border-blue-200 dark:border-blue-800 shadow-lg overflow-hidden rounded-none">
+                      <div className="p-4 flex-1 flex flex-col overflow-y-auto">
+                        {/* Event Title */}
+                        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                          Register for {posterEventInfo?.title || upcomingEvent.title}
+                        </h2>
+
+                        {/* Event Details */}
+                        <div className="mb-4 pb-4 border-b border-blue-100 dark:border-blue-900/30 space-y-1">
+                          <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
+                            <Calendar className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                            <span>
+                              {posterEventInfo?.date || new Date(upcomingEvent.startsAt).toLocaleDateString('en-US', { 
+                                weekday: 'short', 
+                                month: 'short', 
+                                day: 'numeric' 
+                              })}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
+                            <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>
+                              {posterEventInfo?.time || new Date(upcomingEvent.startsAt).toLocaleTimeString('en-US', { 
+                                hour: 'numeric', 
+                                minute: '2-digit',
+                                hour12: true 
+                              })}
+                            </span>
+                          </div>
+                          {(posterEventInfo?.location || upcomingEvent.location) && (
+                            <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
+                              <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                              </svg>
+                              <span className="truncate">{posterEventInfo?.location || upcomingEvent.location}</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Signup Form */}
+                        {!user ? (
+                          <div className="space-y-3">
+                            <div className="rounded-lg bg-white/70 dark:bg-slate-700/60 p-3 border border-blue-100 dark:border-blue-900/30">
+                              <p className="text-xs text-gray-700 dark:text-gray-300 mb-2">You need to be logged in to register.</p>
+                              <div className="flex flex-col gap-2">
+                                <Link href={`/login?redirect=/dashboard`} className="block">
+                                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs py-1.5">Login</Button>
+                                </Link>
+                                <Link href="/signup" className="block">
+                                  <Button variant="outline" className="w-full text-xs py-1.5">Create Account</Button>
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            <style>{`
+                              @keyframes slideInUp {
+                                from {
+                                  opacity: 0;
+                                  transform: translateY(20px);
+                                }
+                                to {
+                                  opacity: 1;
+                                  transform: translateY(0);
+                                }
+                              }
+                              
+                              .signup-form-wrapper {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 0.75rem;
+                              }
+                              
+                              .signup-form-item {
+                                animation: slideInUp 0.5s ease-out forwards;
+                                opacity: 0;
+                              }
+                              
+                              .signup-form-item:nth-child(1) { animation-delay: 0.3s; }
+                              .signup-form-item:nth-child(2) { animation-delay: 0.4s; }
+                              .signup-form-item:nth-child(3) { animation-delay: 0.5s; }
+                              .signup-form-item:nth-child(4) { animation-delay: 0.6s; }
+                              
+                              .signup-input {
+                                width: 100%;
+                                padding: 10px 16px;
+                                border: 2px solid #e5e7eb;
+                                border-radius: 8px;
+                                background-color: #ffffff;
+                                color: #111827;
+                                font-size: 14px;
+                                font-weight: 500;
+                                transition: all 0.3s ease;
+                                outline: none;
+                              }
+                              
+                              .dark .signup-input {
+                                background-color: #1e293b;
+                                border-color: #475569;
+                                color: #f1f5f9;
+                              }
+                              
+                              .signup-input:focus {
+                                border-color: #2563eb;
+                                box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+                                transform: translateY(-2px);
+                              }
+                              
+                              .signup-input::placeholder {
+                                color: #9ca3af;
+                              }
+                              
+                              .dark .signup-input::placeholder {
+                                color: #71717a;
+                              }
+                              
+                              .signup-button {
+                                width: 100%;
+                                padding: 12px 24px;
+                                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+                                color: #ffffff;
+                                border: none;
+                                border-radius: 8px;
+                                font-size: 14px;
+                                font-weight: 600;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                                box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+                              }
+                              
+                              .signup-button:hover {
+                                transform: translateY(-2px);
+                                box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+                              }
+                              
+                              .signup-button:active {
+                                transform: translateY(0);
+                              }
+                            `}</style>
+                            <form onSubmit={async (e) => {
+                              e.preventDefault()
+                              try {
+                                const res = await fetch('/api/events/signups', { 
+                                  method: 'POST', 
+                                  headers: { 'Content-Type': 'application/json' }, 
+                                  body: JSON.stringify({ eventId: upcomingEvent.id }) 
+                                })
+                                
+                                // Refresh attendees regardless of success or error
+                                const attendeesRes = await fetch(`/api/events/${upcomingEvent.id}/signups`)
+                                if (attendeesRes.ok) {
+                                  const attendeesData = await attendeesRes.json()
+                                  setEventAttendees(attendeesData.signups || [])
+                                }
+                                
+                                if (res.ok) {
+                                  toast({ title: 'Success!', description: 'You\'ve been registered for the event.' })
+                                } else {
+                                  const data = await res.json().catch(() => ({}))
+                                  if (data?.error === 'Already signed up') {
+                                    toast({ title: 'Already Registered', description: 'You\'ve already signed up for this event.' })
+                                  } else {
+                                    toast({ title: 'Error', description: data?.error || 'Failed to register' })
+                                  }
+                                }
+                              } catch (err) {
+                                toast({ title: 'Error', description: 'Failed to register' })
+                              }
+                            }}>
+                              <div className="signup-form-wrapper">
+                                <div className="signup-form-item">
+                                  <input 
+                                    type="text"
+                                    className="signup-input"
+                                    placeholder="Name"
+                                    value={user?.name || ''} 
+                                    readOnly 
+                                  />
+                                </div>
+                                <div className="signup-form-item">
+                                  <input 
+                                    type="tel"
+                                    className="signup-input"
+                                    placeholder="Phone number"
+                                    value={user?.phone || ''} 
+                                    readOnly 
+                                  />
+                                </div>
+                                <div className="signup-form-item">
+                                  <input 
+                                    type="email"
+                                    className="signup-input"
+                                    placeholder="E-mail"
+                                    value={user?.email || ''} 
+                                    readOnly 
+                                  />
+                                </div>
+                                <button type="submit" className="signup-form-item signup-button">
+                                  Submit
+                                </button>
+                              </div>
+                            </form>
+                          </>
+                        )}
+
+                        {/* Attendees count */}
+                        <div className="mt-auto pt-3 border-t border-blue-100 dark:border-blue-900/30">
+                          <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 text-center mb-2">
+                            {eventAttendees.length} person{eventAttendees.length !== 1 ? 's' : ''} registered
+                          </p>
+                          {eventAttendees.length > 0 && (
+                            <div className="space-y-1.5 max-h-32 overflow-y-auto">
+                              {eventAttendees.slice(0, 5).map((attendee: any, idx: number) => (
+                                <div key={attendee.id || idx} className="text-xs bg-white/40 dark:bg-slate-700/40 p-1.5 rounded">
+                                  <p className="font-medium text-gray-900 dark:text-white truncate">{attendee.name}</p>
+                                </div>
+                              ))}
+                              {eventAttendees.length > 5 && (
+                                <p className="text-xs text-gray-500 dark:text-gray-400 text-center py-1">
+                                  +{eventAttendees.length - 5} more
+                                </p>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </Card>
+                  )}
+                </div>
+              </article>
+            )}
+
             {weeklyWord ? (
               <article className="mb-6 flex max-w-full flex-col items-start justify-between border-4 bg-gradient-to-r from-blue-800 via-blue-700 to-blue-800 dark:from-gray-300 dark:via-gray-200 dark:to-gray-300 p-[4px] shadow-[8px_8px_0_0_rgba(30,64,175,0.3)] dark:shadow-[8px_8px_0_0_rgba(229,231,235,0.4)] transition-all duration-500 ease-in-out hover:shadow-[12px_12px_0_0_rgba(30,64,175,0.4)] dark:hover:shadow-[12px_12px_0_0_rgba(229,231,235,0.5)]">
                 <div className="bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950 p-6 w-full h-full">
@@ -470,7 +772,7 @@ export default function Dashboard() {
             {/* Inbox and Weekly Programs Section */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               <Card className="p-4 sm:p-6" id="inbox">
-                <Inbox email={user.email} />
+                <Inbox email={user.email} limit={5} />
               </Card>
 
               {/* Weekly Programs List */}

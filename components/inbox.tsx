@@ -11,9 +11,10 @@ type InboxItem = {
   when: string
 }
 
-export default function Inbox({ email }: { email?: string | null }) {
+export default function Inbox({ email, limit = 5 }: { email?: string | null, limit?: number }) {
   const [items, setItems] = useState<InboxItem[]>([])
   const [loading, setLoading] = useState(false)
+  const [page, setPage] = useState(0)
 
   async function fetchAll() {
     if (!email) return
@@ -85,6 +86,17 @@ export default function Inbox({ email }: { email?: string | null }) {
     return date.toLocaleDateString()
   }
 
+  const total = items.length
+  const perPage = Math.max(1, limit || 5)
+  const pages = Math.max(1, Math.ceil(total / perPage))
+  const startIndex = total === 0 ? 0 : page * perPage + 1
+  const endIndex = Math.min(total, (page + 1) * perPage)
+
+  // Reset page when items change (e.g., on refresh) to avoid empty pages
+  useEffect(() => {
+    setPage(0)
+  }, [items])
+
   return (
     <div>
       <div className="flex items-center justify-between mb-4 sm:mb-6">
@@ -101,7 +113,7 @@ export default function Inbox({ email }: { email?: string | null }) {
       )}
 
       <div className="space-y-4">
-        {items.map((it) => (
+        {items.slice(page * perPage, (page + 1) * perPage).map((it) => (
           <div
             key={it.id}
             className="bg-gray-50 dark:bg-[#1e1e1e] rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl dark:shadow-[1em_1em_1em_rgba(0,0,0,0.2),-0.75em_-0.75em_1em_rgba(255,255,255,0.05)] border border-gray-200 dark:border-[#2a2a2a] hover:border-blue-300 dark:hover:border-[#3a8bff] hover:bg-gray-100 dark:hover:bg-[#2a2a2a]"
@@ -133,6 +145,20 @@ export default function Inbox({ email }: { email?: string | null }) {
           </div>
         ))}
       </div>
+
+      {total > 0 && (
+        <div className="mt-3 flex items-center justify-between">
+          <p className="text-xs text-gray-500 dark:text-gray-400">Showing {startIndex}–{endIndex} of {total} messages.</p>
+          <div className="flex items-center gap-2">
+            <Button size="sm" onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page <= 0} className="px-3">
+              Previous
+            </Button>
+            <Button size="sm" onClick={() => setPage(p => Math.min(pages - 1, p + 1))} disabled={page >= pages - 1} className="px-3">
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
