@@ -21,17 +21,19 @@ export default function AdminPosterPage() {
   const { toast } = useToast()
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [adminEmail, setAdminEmail] = useState('')
-
-  // Event and attendees state
-  const [upcomingEvent, setUpcomingEvent] = useState<any | null>(null)
-  const [eventAttendees, setEventAttendees] = useState<Array<any>>([])
-  const [showAttendees, setShowAttendees] = useState(true)
   
   // Poster event info (required before upload)
   const [posterEventTitle, setPosterEventTitle] = useState('')
   const [posterEventDate, setPosterEventDate] = useState('')
   const [posterEventTime, setPosterEventTime] = useState('')
   const [posterEventLocation, setPosterEventLocation] = useState('')
+
+  // Poster content info (description, speaker, theme, etc.)
+  const [posterDescription, setPosterDescription] = useState('')
+  const [posterSpeaker, setPosterSpeaker] = useState('')
+  const [posterTheme, setPosterTheme] = useState('')
+  const [posterAgenda, setPosterAgenda] = useState('')
+  const [posterDetails, setPosterDetails] = useState('')
 
   // Verify admin access
   useEffect(() => {
@@ -70,39 +72,17 @@ export default function AdminPosterPage() {
         setPosterUrl(data?.settings?.posterUrl || '')
         setPosterAlt(data?.settings?.posterAlt || '')
         setPosterExpiresAt(data?.settings?.posterExpiresAt || null)
-        setShowAttendees(data?.settings?.showEventAttendees !== false)
         setPosterEventTitle(data?.settings?.posterEventTitle || '')
         setPosterEventDate(data?.settings?.posterEventDate || '')
         setPosterEventTime(data?.settings?.posterEventTime || '')
         setPosterEventLocation(data?.settings?.posterEventLocation || '')
+        setPosterDescription(data?.settings?.posterDescription || '')
+        setPosterSpeaker(data?.settings?.posterSpeaker || '')
+        setPosterTheme(data?.settings?.posterTheme || '')
+        setPosterAgenda(data?.settings?.posterAgenda || '')
+        setPosterDetails(data?.settings?.posterDetails || '')
       } catch (e) {
         console.error('Failed to load poster', e)
-      }
-      
-      // Load upcoming events
-      try {
-        const eventsRes = await fetch('/api/events?futureOnly=true')
-        if (eventsRes.ok) {
-          const eventsData = await eventsRes.json()
-          const events = eventsData.events || []
-          if (events.length > 0) {
-            const event = events.sort((a: any, b: any) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime())[0]
-            setUpcomingEvent(event)
-            
-            // Load attendees for this event
-            try {
-              const attendeesRes = await fetch(`/api/events/${event.id}/signups`)
-              if (attendeesRes.ok) {
-                const attendeesData = await attendeesRes.json()
-                setEventAttendees(attendeesData.signups || [])
-              }
-            } catch (e) {
-              console.error('Failed to load attendees', e)
-            }
-          }
-        }
-      } catch (e) {
-        console.error('Failed to load events', e)
       }
     })()
     loadGallery()
@@ -119,11 +99,15 @@ export default function AdminPosterPage() {
           posterUrl: posterUrl || null, 
           posterAlt: posterAlt || null, 
           posterExpiresAt: posterExpiresAt || null,
-          showEventAttendees: showAttendees,
           posterEventTitle,
           posterEventDate,
           posterEventTime,
-          posterEventLocation
+          posterEventLocation,
+          posterDescription: posterDescription || null,
+          posterSpeaker: posterSpeaker || null,
+          posterTheme: posterTheme || null,
+          posterAgenda: posterAgenda || null,
+          posterDetails: posterDetails || null
         }),
       })
       const data = await res.json()
@@ -204,7 +188,12 @@ export default function AdminPosterPage() {
               posterEventTitle,
               posterEventDate,
               posterEventTime,
-              posterEventLocation
+              posterEventLocation,
+              posterDescription: posterDescription || null,
+              posterSpeaker: posterSpeaker || null,
+              posterTheme: posterTheme || null,
+              posterAgenda: posterAgenda || null,
+              posterDetails: posterDetails || null
             })
           })
           if (!saveRes.ok) {
@@ -334,191 +323,285 @@ export default function AdminPosterPage() {
         {/* Main Area */}
         <main className="flex-1 overflow-y-auto p-6">
 
-          {/* Poster Size Info Card */}
-          <Card className="p-4 mb-6 bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800">
-            <div className="flex gap-3">
-              <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-1">Recommended Poster Dimensions</h3>
-                <p className="text-sm text-blue-800 dark:text-blue-200">
-                  <strong>Optimal Size:</strong> 1920x1080px (16:9 ratio) or 1200x630px for better web performance
-                </p>
-                <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                  The cropper uses a 16:9 aspect ratio to ensure your poster displays perfectly on the dashboard without cutting off important details. 
-                  You can zoom and rotate the image to frame your content optimally.
-                </p>
-              </div>
-            </div>
-          </Card>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Event Information Card */}
-        <Card className="p-6 bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800">
-          <div className="flex gap-2 items-center mb-4">
-            <Info className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-            <h3 className="font-semibold text-amber-900 dark:text-amber-100">Event Information</h3>
-          </div>
-          <p className="text-xs text-amber-700 dark:text-amber-300 mb-4">
-            Fill in all event details before uploading a poster. This ensures the signup form displays correct information.
-          </p>
-          
-          <div className="space-y-3">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Event Title</label>
-              <Input 
-                value={posterEventTitle} 
-                onChange={(e:any) => setPosterEventTitle(e.target.value)} 
-                placeholder="Sunday Service" 
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Event Date</label>
-              <Input 
-                value={posterEventDate} 
-                onChange={(e:any) => setPosterEventDate(e.target.value)} 
-                placeholder="Mon, Feb 2" 
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Event Time</label>
-              <Input 
-                value={posterEventTime} 
-                onChange={(e:any) => setPosterEventTime(e.target.value)} 
-                placeholder="9:00 AM" 
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Event Location</label>
-              <Input 
-                value={posterEventLocation} 
-                onChange={(e:any) => setPosterEventLocation(e.target.value)} 
-                placeholder="JWRC Main Hall, Juja" 
-              />
-            </div>
-          </div>
-        </Card>
-
-        <Card className="p-6">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Poster Image</label>
-          <Input id="poster-url-input" value={posterUrl} onChange={(e:any) => setPosterUrl(e.target.value)} placeholder="https://.../poster.jpg" />
-          <p className="text-xs text-gray-500 mt-2">You can paste an image URL or upload a file from your device. Uploaded files are stored in <code>/public/uploads</code>.</p>
-          <div className="mt-3">
-            <input ref={inputRef} type="file" accept="image/*" onChange={handleFile} />
-            <p className="text-xs text-gray-500 mt-2">Select an image file from your device. It will be uploaded to <code>/public/uploads</code>.</p>
-          </div>
-        </Card>
-
-        <Card className="p-6 mb-4">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Alt text</label>
-          <Input value={posterAlt} onChange={(e:any) => setPosterAlt(e.target.value)} placeholder="Short description for accessibility" />
-          <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Expiration (optional)</label>
-            <input
-              type="datetime-local"
-              className="w-full rounded border px-3 py-2 bg-[var(--card)]"
-              value={posterExpiresAt ? new Date(posterExpiresAt).toISOString().slice(0,16) : ''}
-              onChange={(e) => setPosterExpiresAt(e.target.value ? new Date(e.target.value).toISOString() : null)}
-            />
-            <p className="text-xs text-gray-500 mt-2">Set a date/time after which the poster will be removed automatically.</p>
-          </div>
-          <div className="mt-4">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={showAttendees}
-                onChange={(e) => setShowAttendees(e.target.checked)}
-                className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-              />
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Allow attendees to see who else signed up</span>
-            </label>
-            <p className="text-xs text-gray-500 mt-1 ml-6">When enabled, users who signed up can see the list of other attendees</p>
-          </div>
-        </Card>
-      </div>
-
         <div className="mt-6">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">Poster Preview & Event Attendees</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              {/* Poster Preview */}
-              <div className="lg:col-span-2">
-                {posterUrl ? (
-                  <div className="border rounded overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900">
-                    <img 
-                      src={posterUrl} 
-                      alt={posterAlt || 'Poster'} 
-                      className="w-full h-auto max-h-[400px] object-contain" 
-                    />
-                  </div>
-                ) : (
-                  <p className="text-sm text-gray-500">No poster set.</p>
-                )}
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-6">Manage Poster</h2>
+            
+            {/* Main Grid: Preview on Left, Form on Right */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              
+              {/* Left Column: Poster Preview (Larger) */}
+              <div className="lg:col-span-1">
+                <div className="sticky top-6">
+                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Current Poster</h3>
+                  {posterUrl ? (
+                    <div className="border-2 border-blue-200 dark:border-blue-800 rounded-lg overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 shadow-lg">
+                      <img 
+                        src={posterUrl} 
+                        alt={posterAlt || 'Poster'} 
+                        className="w-full h-auto object-contain" 
+                      />
+                    </div>
+                  ) : (
+                    <Card className="p-8 text-center bg-gray-50 dark:bg-gray-800/50">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">No poster set yet</p>
+                    </Card>
+                  )}
+                  {posterUrl && (
+                    <Button 
+                      onClick={removePoster}
+                      disabled={loading}
+                      variant="outline"
+                      className="w-full mt-3 border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                    >
+                      Remove Poster
+                    </Button>
+                  )}
+                </div>
               </div>
 
-              {/* Event Attendees Card */}
-              {upcomingEvent && (
-                <Card className="flex flex-col bg-gradient-to-br from-green-50 via-white to-green-50 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 border-2 border-green-200 dark:border-green-800 shadow-lg">
-                  <div className="p-4 flex flex-col h-full">
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <Users className="w-4 h-4 text-green-600 dark:text-green-400" />
-                        <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
-                          Attendees ({eventAttendees.length})
-                        </h3>
-                      </div>
+              {/* Right Column: Form Fields (2 columns) */}
+              <div className="lg:col-span-2 space-y-4">
+                
+                {/* Step 1: Event Information */}
+                <Card className="p-6 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 border-2 border-amber-200 dark:border-amber-800">
+                  <div className="flex items-start gap-3 mb-4">
+                    <div className="p-2 bg-amber-100 dark:bg-amber-900/40 rounded-lg">
+                      <Info className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                     </div>
-
-                    {/* Event Info */}
-                    <div className="mb-3 pb-3 border-b border-green-100 dark:border-green-900/30">
-                      <p className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                        Event: <span className="text-green-600 dark:text-green-400">{upcomingEvent.title}</span>
-                      </p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
-                        {new Date(upcomingEvent.startsAt).toLocaleDateString()}
-                      </p>
+                    <div>
+                      <h3 className="font-semibold text-amber-900 dark:text-amber-100 text-lg">Step 1: Event Information</h3>
+                      <p className="text-xs text-amber-700 dark:text-amber-300 mt-1">Fill in all event details before uploading a poster</p>
                     </div>
-
-                    {/* Attendees List */}
-                    <div className="flex-1 overflow-y-auto space-y-2">
-                      {eventAttendees.length > 0 ? (
-                        eventAttendees.map((attendee: any, idx: number) => (
-                          <div key={attendee.id || idx} className="p-2 bg-white/60 dark:bg-slate-700/50 rounded border border-green-100 dark:border-green-900/30">
-                            <p className="text-xs font-medium text-gray-900 dark:text-white truncate">
-                              {attendee.name || 'Unknown'}
-                            </p>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="flex items-center justify-center h-24 text-gray-500 dark:text-gray-400">
-                          <p className="text-xs text-center">No one has signed up yet</p>
-                        </div>
-                      )}
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Event Title</label>
+                      <Input 
+                        value={posterEventTitle} 
+                        onChange={(e:any) => setPosterEventTitle(e.target.value)} 
+                        placeholder="Sunday Service" 
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Event Date</label>
+                      <Input 
+                        value={posterEventDate} 
+                        onChange={(e:any) => setPosterEventDate(e.target.value)} 
+                        placeholder="Mon, Feb 2" 
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Event Time</label>
+                      <Input 
+                        value={posterEventTime} 
+                        onChange={(e:any) => setPosterEventTime(e.target.value)} 
+                        placeholder="9:00 AM" 
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Event Location</label>
+                      <Input 
+                        value={posterEventLocation} 
+                        onChange={(e:any) => setPosterEventLocation(e.target.value)} 
+                        placeholder="JWRC Main Hall, Juja" 
+                      />
                     </div>
                   </div>
                 </Card>
-              )}
+
+                {/* Step 2: Poster Upload */}
+                <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border-2 border-blue-200 dark:border-blue-800">
+                  <div className="flex items-start gap-3 mb-4">
+                    <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg">
+                      <Info className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-blue-900 dark:text-blue-100 text-lg">Step 2: Upload Poster</h3>
+                      <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">Optimal Size: 1920x1080px (16:9 ratio) or 1200x630px</p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Poster URL or File</label>
+                      <Input 
+                        id="poster-url-input" 
+                        value={posterUrl} 
+                        onChange={(e:any) => setPosterUrl(e.target.value)} 
+                        placeholder="https://.../poster.jpg" 
+                      />
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Paste an image URL or upload from device. Files stored in <code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">/public/uploads</code></p>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Choose File</label>
+                      <input 
+                        ref={inputRef} 
+                        type="file" 
+                        accept="image/*"
+                        disabled={uploading}
+                        onChange={handleFile}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white file:mr-3 file:px-3 file:py-2 file:bg-blue-600 file:hover:bg-blue-700 file:text-white file:border-0 file:rounded cursor-pointer"
+                      />
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                        {uploading ? 'Uploading...' : 'Select an image file to upload'}
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Step 3: Additional Settings */}
+                <Card className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 border-2 border-purple-200 dark:border-purple-800">
+                  <div className="flex items-start gap-3 mb-4">
+                    <div className="p-2 bg-purple-100 dark:bg-purple-900/40 rounded-lg">
+                      <Settings className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-purple-900 dark:text-purple-100 text-lg">Step 3: Additional Settings</h3>
+                      <p className="text-xs text-purple-700 dark:text-purple-300 mt-1">Configure metadata and expiration</p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Alt Text (Accessibility)</label>
+                      <Input 
+                        value={posterAlt} 
+                        onChange={(e:any) => setPosterAlt(e.target.value)} 
+                        placeholder="Short description of the poster" 
+                      />
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Helps with accessibility and SEO</p>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Expiration (Optional)</label>
+                      <input
+                        type="datetime-local"
+                        className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                        value={posterExpiresAt ? new Date(posterExpiresAt).toISOString().slice(0,16) : ''}
+                        onChange={(e) => setPosterExpiresAt(e.target.value ? new Date(e.target.value).toISOString() : null)}
+                      />
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Poster will be automatically removed after this date</p>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Step 4: Poster Content Details */}
+                <Card className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 border-2 border-green-200 dark:border-green-800">
+                  <div className="flex items-start gap-3 mb-4">
+                    <div className="p-2 bg-green-100 dark:bg-green-900/40 rounded-lg">
+                      <Info className="w-5 h-5 text-green-600 dark:text-green-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-green-900 dark:text-green-100 text-lg">Step 4: Poster Content</h3>
+                      <p className="text-xs text-green-700 dark:text-green-300 mt-1">Add details about what will happen (theme, speaker, description, agenda)</p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Theme</label>
+                      <Input 
+                        value={posterTheme} 
+                        onChange={(e:any) => setPosterTheme(e.target.value)} 
+                        placeholder="e.g., 'Living in Faith' or 'Prayer and Power'" 
+                      />
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Main theme of the event</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Key Speaker</label>
+                      <Input 
+                        value={posterSpeaker} 
+                        onChange={(e:any) => setPosterSpeaker(e.target.value)} 
+                        placeholder="e.g., 'Pastor John Doe' or 'Rev. Sarah Smith'" 
+                      />
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Name of the main speaker or preacher</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Description</label>
+                      <textarea 
+                        value={posterDescription} 
+                        onChange={(e) => setPosterDescription(e.target.value)} 
+                        placeholder="Brief description of the event..." 
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        rows={3}
+                      />
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">About what the event is about</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Agenda</label>
+                      <textarea 
+                        value={posterAgenda} 
+                        onChange={(e) => setPosterAgenda(e.target.value)} 
+                        placeholder="e.g., '9:00 - Worship\n10:00 - Message\n11:00 - Fellowship'" 
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        rows={3}
+                      />
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Timeline of events and activities</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Additional Details</label>
+                      <textarea 
+                        value={posterDetails} 
+                        onChange={(e) => setPosterDetails(e.target.value)} 
+                        placeholder="Any other important information..." 
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        rows={3}
+                      />
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Dress code, requirements, or other details</p>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Save Button */}
+                <Button 
+                  onClick={save}
+                  disabled={loading}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-base font-semibold"
+                >
+                  {loading ? 'Saving...' : 'Save All Changes'}
+                </Button>
+              </div>
             </div>
           </div>
 
-          <div className="mt-8">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">Uploaded Posters</h2>
+          {/* Gallery Section */}
+          <div className="mt-12">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Upload History</h2>
             {gallery.length === 0 ? (
-              <p className="text-sm text-gray-500">No uploaded posters yet.</p>
+              <Card className="p-8 text-center bg-gray-50 dark:bg-gray-800/50">
+                <p className="text-sm text-gray-500 dark:text-gray-400">No posters uploaded yet. Upload your first poster above!</p>
+              </Card>
             ) : (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
                 {gallery.map(f => (
-                  <div key={f.name} className="border rounded overflow-hidden p-1 bg-white/5">
-                    <img src={f.url} alt={f.name} className="w-full h-28 object-cover" />
-                    <div className="mt-2 flex gap-2">
-                      <Button size="sm" onClick={async () => {
-                        setPosterUrl(f.url)
-                        await fetch('/api/settings', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ posterUrl: f.url, posterAlt: f.name }) })
-                        toast({ title: 'Set', description: 'Poster set from gallery.' })
-                      }}>Use</Button>
-                      <a href={f.url} target="_blank" rel="noreferrer" className="text-sm text-blue-500">Open</a>
+                  <div key={f.name} className="group border-2 border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-gray-800 hover:border-blue-400 dark:hover:border-blue-600 transition-all">
+                    <div className="aspect-video bg-gray-100 dark:bg-gray-900 overflow-hidden">
+                      <img src={f.url} alt={f.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+                    </div>
+                    <div className="p-2 space-y-2">
+                      <Button 
+                        size="sm" 
+                        onClick={async () => {
+                          setPosterUrl(f.url)
+                          await fetch('/api/settings', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ posterUrl: f.url, posterAlt: f.name }) })
+                          toast({ title: 'Set', description: 'Poster set from gallery.' })
+                        }}
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs py-1"
+                      >
+                        Use
+                      </Button>
+                      <a href={f.url} target="_blank" rel="noreferrer" className="block text-center text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+                        View
+                      </a>
                     </div>
                   </div>
                 ))}

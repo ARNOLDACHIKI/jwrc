@@ -97,7 +97,7 @@ export default function AdminDashboard() {
     let mounted = true
     ;(async () => {
       try {
-        const res = await fetch('/api/events', { credentials: 'include' })
+        const res = await fetch('/api/events?pageSize=100', { credentials: 'include' })
         const data = await res.json()
         if (!mounted) return
         setEventsState(data?.events || [])
@@ -282,7 +282,7 @@ export default function AdminDashboard() {
     try {
       const [volunteerRes, eventRes] = await Promise.all([
         fetch('/api/volunteers', { credentials: 'include' }),
-        fetch('/api/events', { credentials: 'include' }),
+        fetch('/api/events?pageSize=100', { credentials: 'include' }),
       ])
       const [volunteerData, eventData] = await Promise.all([
         volunteerRes.json().catch(() => ({})),
@@ -323,7 +323,7 @@ export default function AdminDashboard() {
           fetch('/api/announcements', { credentials: 'include' }),
           fetch('/api/volunteers', { credentials: 'include' }),
           fetch('/api/suggestions', { credentials: 'include' }),
-          fetch('/api/events', { credentials: 'include' }),
+          fetch('/api/events?pageSize=100', { credentials: 'include' }),
         ])
         const [announcements, volunteers, suggestions, events] = await Promise.all([
           announcementRes.json().catch(() => ({})),
@@ -644,7 +644,7 @@ export default function AdminDashboard() {
                           body: JSON.stringify({ title: newEventTitle, description: newEventDescription, location: newEventLocation, startsAt: newEventStartsAt, endsAt: newEventEndsAt }),
                         })
                         if (res.ok) {
-                          const data = await (await fetch('/api/events')).json()
+                          const data = await (await fetch('/api/events?pageSize=100')).json()
                           setEventsState(data?.events || [])
                           loadStats() // Reload stats after creating event
                           setShowAddEventForm(false)
@@ -653,6 +653,7 @@ export default function AdminDashboard() {
                           setNewEventLocation("")
                           setNewEventStartsAt("")
                           setNewEventEndsAt("")
+                          toast({ title: 'Success', description: 'Event created successfully!' })
                         } else {
                           const err = await res.json().catch(() => ({}))
                           console.error('Failed to create event', err)

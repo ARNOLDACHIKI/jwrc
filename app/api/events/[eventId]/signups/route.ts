@@ -49,54 +49,25 @@ export async function GET(
       return NextResponse.json({ error: 'Event not found' }, { status: 404 })
     }
 
-    // Check global setting for attendee visibility
-    let showAttendeesEnabled = true
-    try {
-      const settingsRows: any[] = await prisma.$queryRaw`SELECT show_event_attendees as "showEventAttendees" FROM church_settings WHERE id = 'main' LIMIT 1`
-      showAttendeesEnabled = settingsRows && settingsRows.length ? (settingsRows[0].showEventAttendees !== false) : true
-    } catch (e) {
-      console.warn('Failed to read church_settings.show_event_attendees. Defaulting to true.', e)
-      showAttendeesEnabled = true
+    // Fetch signups for this event - only return to admins
+    if (!isAdmin) {
+      return NextResponse.json({ signups: [] })
     }
 
-    // Check if attendees should be visible
-    // Admins can always see, others need setting enabled + signup
-    let canSeeAttendees = isAdmin
-    
-    if (!isAdmin && userId && showAttendeesEnabled) {
-      // Check if user is signed up for this event
-      const user = await prisma.user.findUnique({ where: { id: userId } })
-      const userEmail = user?.email || ''
-      if (userEmail) {
-        const userSignup = await prisma.eventSignup.findFirst({
-          where: {
-            eventId,
-            email: {
-              equals: userEmail,
-              mode: 'insensitive'
-            }
-          }
-        })
-        canSeeAttendees = !!userSignup
-      }
-    }
-
-    // Fetch signups for this event
     const signups = await prisma.eventSignup.findMany({
       where: { eventId },
       orderBy: { createdAt: 'desc' }
     })
 
-    // Only return signups if user can see attendees
-    const rows = canSeeAttendees ? signups.map(s => ({
+    const rows = signups.map(s => ({
       id: s.id,
       ref: s.ref,
       eventId: s.eventId,
       name: s.name,
-      email: isAdmin ? s.email : undefined,
-      phone: isAdmin ? s.phone : undefined,
+      email: s.email,
+      phone: s.phone,
       createdAt: s.createdAt
-    })) : []
+    }))
 
     return NextResponse.json({ signups: rows })
   } catch (err) {

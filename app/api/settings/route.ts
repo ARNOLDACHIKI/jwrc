@@ -14,11 +14,15 @@ async function ensureTable() {
       poster_url TEXT DEFAULT NULL,
       poster_alt TEXT DEFAULT NULL,
       poster_expires_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
-      show_event_attendees BOOLEAN DEFAULT true,
       poster_event_title TEXT DEFAULT NULL,
       poster_event_date TEXT DEFAULT NULL,
       poster_event_time TEXT DEFAULT NULL,
       poster_event_location TEXT DEFAULT NULL,
+      poster_description TEXT DEFAULT NULL,
+      poster_speaker TEXT DEFAULT NULL,
+      poster_theme TEXT DEFAULT NULL,
+      poster_agenda TEXT DEFAULT NULL,
+      poster_details TEXT DEFAULT NULL,
       updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
     )
   `)
@@ -27,11 +31,15 @@ async function ensureTable() {
     await prisma.$executeRawUnsafe(`ALTER TABLE church_settings ADD COLUMN IF NOT EXISTS poster_url TEXT DEFAULT NULL`)
     await prisma.$executeRawUnsafe(`ALTER TABLE church_settings ADD COLUMN IF NOT EXISTS poster_alt TEXT DEFAULT NULL`)
     await prisma.$executeRawUnsafe(`ALTER TABLE church_settings ADD COLUMN IF NOT EXISTS poster_expires_at TIMESTAMP WITH TIME ZONE DEFAULT NULL`)
-    await prisma.$executeRawUnsafe(`ALTER TABLE church_settings ADD COLUMN IF NOT EXISTS show_event_attendees BOOLEAN DEFAULT true`)
     await prisma.$executeRawUnsafe(`ALTER TABLE church_settings ADD COLUMN IF NOT EXISTS poster_event_title TEXT DEFAULT NULL`)
     await prisma.$executeRawUnsafe(`ALTER TABLE church_settings ADD COLUMN IF NOT EXISTS poster_event_date TEXT DEFAULT NULL`)
     await prisma.$executeRawUnsafe(`ALTER TABLE church_settings ADD COLUMN IF NOT EXISTS poster_event_time TEXT DEFAULT NULL`)
     await prisma.$executeRawUnsafe(`ALTER TABLE church_settings ADD COLUMN IF NOT EXISTS poster_event_location TEXT DEFAULT NULL`)
+    await prisma.$executeRawUnsafe(`ALTER TABLE church_settings ADD COLUMN IF NOT EXISTS poster_description TEXT DEFAULT NULL`)
+    await prisma.$executeRawUnsafe(`ALTER TABLE church_settings ADD COLUMN IF NOT EXISTS poster_speaker TEXT DEFAULT NULL`)
+    await prisma.$executeRawUnsafe(`ALTER TABLE church_settings ADD COLUMN IF NOT EXISTS poster_theme TEXT DEFAULT NULL`)
+    await prisma.$executeRawUnsafe(`ALTER TABLE church_settings ADD COLUMN IF NOT EXISTS poster_agenda TEXT DEFAULT NULL`)
+    await prisma.$executeRawUnsafe(`ALTER TABLE church_settings ADD COLUMN IF NOT EXISTS poster_details TEXT DEFAULT NULL`)
   } catch (e) {
     // ignore; some DBs may not support IF NOT EXISTS but CREATE TABLE above handles most cases
   }
@@ -54,11 +62,15 @@ export async function GET() {
       poster_url as "posterUrl", 
       poster_alt as "posterAlt", 
       poster_expires_at as "posterExpiresAt", 
-      show_event_attendees as "showEventAttendees",
       poster_event_title as "posterEventTitle",
       poster_event_date as "posterEventDate",
       poster_event_time as "posterEventTime",
-      poster_event_location as "posterEventLocation"
+      poster_event_location as "posterEventLocation",
+      poster_description as "posterDescription",
+      poster_speaker as "posterSpeaker",
+      poster_theme as "posterTheme",
+      poster_agenda as "posterAgenda",
+      poster_details as "posterDetails"
     FROM church_settings WHERE id = 'main' LIMIT 1`
     const settings = rows && rows.length ? rows[0] : { 
       activeMembers: 2000, 
@@ -66,11 +78,15 @@ export async function GET() {
       posterUrl: null, 
       posterAlt: null, 
       posterExpiresAt: null, 
-      showEventAttendees: true,
       posterEventTitle: null,
       posterEventDate: null,
       posterEventTime: null,
-      posterEventLocation: null
+      posterEventLocation: null,
+      posterDescription: null,
+      posterSpeaker: null,
+      posterTheme: null,
+      posterAgenda: null,
+      posterDetails: null
     }
 
     // If poster has expired, clear it automatically and remove files
@@ -153,9 +169,6 @@ export async function PATCH(req: Request) {
       const val = body.posterExpiresAt ? String(body.posterExpiresAt) : null
       await prisma.$executeRaw`UPDATE church_settings SET poster_expires_at = ${val}, updated_at = NOW() WHERE id = 'main'`
     }
-    if (body.showEventAttendees !== undefined) {
-      await prisma.$executeRaw`UPDATE church_settings SET show_event_attendees = ${Boolean(body.showEventAttendees)}, updated_at = NOW() WHERE id = 'main'`
-    }
     if (body.posterEventTitle !== undefined) {
       await prisma.$executeRaw`UPDATE church_settings SET poster_event_title = ${body.posterEventTitle || null}, updated_at = NOW() WHERE id = 'main'`
     }
@@ -167,6 +180,21 @@ export async function PATCH(req: Request) {
     }
     if (body.posterEventLocation !== undefined) {
       await prisma.$executeRaw`UPDATE church_settings SET poster_event_location = ${body.posterEventLocation || null}, updated_at = NOW() WHERE id = 'main'`
+    }
+    if (body.posterDescription !== undefined) {
+      await prisma.$executeRaw`UPDATE church_settings SET poster_description = ${body.posterDescription || null}, updated_at = NOW() WHERE id = 'main'`
+    }
+    if (body.posterSpeaker !== undefined) {
+      await prisma.$executeRaw`UPDATE church_settings SET poster_speaker = ${body.posterSpeaker || null}, updated_at = NOW() WHERE id = 'main'`
+    }
+    if (body.posterTheme !== undefined) {
+      await prisma.$executeRaw`UPDATE church_settings SET poster_theme = ${body.posterTheme || null}, updated_at = NOW() WHERE id = 'main'`
+    }
+    if (body.posterAgenda !== undefined) {
+      await prisma.$executeRaw`UPDATE church_settings SET poster_agenda = ${body.posterAgenda || null}, updated_at = NOW() WHERE id = 'main'`
+    }
+    if (body.posterDetails !== undefined) {
+      await prisma.$executeRaw`UPDATE church_settings SET poster_details = ${body.posterDetails || null}, updated_at = NOW() WHERE id = 'main'`
     }
     
     return NextResponse.json({ ok: true })

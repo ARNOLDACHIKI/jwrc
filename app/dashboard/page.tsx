@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useUser } from "@/contexts/user-context"
 import { useToast } from "@/hooks/use-toast"
-import { Heart, Users, DollarSign, Calendar, TrendingUp, Settings, Bell, BookOpen, Shield, Book, Sparkles } from "lucide-react"
+import { Heart, Users, DollarSign, Calendar, TrendingUp, Settings, Bell, BookOpen, Shield, Book, Sparkles, XCircle } from "lucide-react"
 import Inbox from "@/components/inbox"
 
 export default function Dashboard() {
@@ -24,9 +24,12 @@ export default function Dashboard() {
   const [weeklyWord, setWeeklyWord] = useState<{title: string, theme: string, scripture: string | null, content: string} | null>(null)
   const [poster, setPoster] = useState<{url: string | null, alt: string | null} | null>(null)
   const [posterEventInfo, setPosterEventInfo] = useState<{ title: string | null, date: string | null, time: string | null, location: string | null } | null>(null)
+  const [posterContent, setPosterContent] = useState<{ description: string | null, agenda: string | null, details: string | null, speaker: string | null, theme: string | null } | null>(null)
+  const [posterEventId, setPosterEventId] = useState<string | null>(null)
   const [readActivities, setReadActivities] = useState<Set<string>>(new Set())
   const [upcomingEvent, setUpcomingEvent] = useState<any | null>(null)
-  const [eventAttendees, setEventAttendees] = useState<Array<any>>([])
+  const [myEventSignups, setMyEventSignups] = useState<Array<any>>([])
+  const [withdrawingSignup, setWithdrawingSignup] = useState<string | null>(null)
   const inboxLastSeenKey = 'inboxLastSeenAt'
   const readActivitiesKey = 'readActivities'
 
@@ -144,7 +147,50 @@ export default function Dashboard() {
         location: data?.settings?.posterEventLocation || null,
       }
       setPosterEventInfo(posterInfo)
+      
+      const posterContentInfo = {
+        description: data?.settings?.posterDescription || null,
+        agenda: data?.settings?.posterAgenda || null,
+        details: data?.settings?.posterDetails || null,
+        speaker: data?.settings?.posterSpeaker || null,
+        theme: data?.settings?.posterTheme || null,
+      }
+      setPosterContent(posterContentInfo)
+      const eventId = data?.settings?.posterEventId || null
+      setPosterEventId(eventId)
+      
+      // If we have a poster event ID, load that specific event and its attendees
+      if (eventId) {
+        try {
+          const eventRes = await fetch(`/api/events?page=1&pageSize=100`)
+          if (eventRes.ok) {
+            const eventsData = await eventRes.json()
+            const posterEvent = eventsData.events?.find((e: any) => e.id === eventId)
+            if (posterEvent) {
+              setUpcomingEvent(posterEvent)
+            }
+          }
+        } catch (e) {
+          console.error('Failed to load poster event', e)
+        }
+      }
     } catch (e) { console.error('Failed to load poster', e) }
+  }
+
+  async function loadMyEventSignups() {
+    try {
+      const email = user?.email
+      if (!email) return
+
+      // Fetch all user's signups
+      const res = await fetch(`/api/events/signups?email=${encodeURIComponent(email)}`, { credentials: 'include' })
+      if (res.ok) {
+        const data = await res.json()
+        setMyEventSignups(data.signups || [])
+      }
+    } catch (e) {
+      console.error('Failed to load my event signups', e)
+    }
   }
 
   async function loadRecentActivity() {
@@ -154,7 +200,7 @@ export default function Dashboard() {
 
       const [announcementRes, eventRes, volunteerRes] = await Promise.all([
         fetch('/api/announcements', { credentials: 'include' }),
-        fetch('/api/events?futureOnly=true', { credentials: 'include' }),
+        fetch('/api/events?futureOnly=true&pageSize=100', { credentials: 'include' }),
         fetch(`/api/volunteers?email=${encodeURIComponent(email)}`),
       ])
 
@@ -186,20 +232,10 @@ export default function Dashboard() {
         .filter((e: any) => new Date(e.startsAt) > new Date())
         .sort((a: any, b: any) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime())
       
-      if (upcomingEvents.length > 0) {
+      // Only set upcomingEvent if we don't have a posterEventId (to avoid overwriting poster event)
+      if (!posterEventId && upcomingEvents.length > 0) {
         const eventData = upcomingEvents[0]
         setUpcomingEvent(eventData)
-        
-        // Fetch attendees for the upcoming event
-        try {
-          const attendeesRes = await fetch(`/api/events/${eventData.id}/signups`)
-          if (attendeesRes.ok) {
-            const attendeesData = await attendeesRes.json()
-            setEventAttendees(attendeesData.signups || [])
-          }
-        } catch (e) {
-          console.error('Failed to load event attendees', e)
-        }
         
         upcomingEvents.slice(0, 1).forEach((e: any) => {
           activities.push({
@@ -213,9 +249,8 @@ export default function Dashboard() {
             actionLink: '/events'
           })
         })
-      } else {
+      } else if (!posterEventId) {
         setUpcomingEvent(null)
-        setEventAttendees([])
       }
 
       // Add volunteer applications
@@ -254,6 +289,34 @@ export default function Dashboard() {
     return date.toLocaleDateString()
   }
 
+  async function handleWithdrawFromEvent(signupId: string) {
+    if (!confirm('Are you sure you want to withdraw from this event?')) return
+
+    setWithdrawingSignup(signupId)
+    try {
+      const res = await fetch('/api/events/signups/withdraw', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ signupId })
+      })
+
+      if (res.ok) {
+        toast({ title: 'Success', description: 'Successfully withdrawn from event' })
+        // Refresh signups
+        await loadMyEventSignups()
+        await loadRecentActivity()
+      } else {
+        const data = await res.json()
+        toast({ title: 'Error', description: data.error || 'Failed to withdraw', variant: 'destructive' })
+      }
+    } catch (err) {
+      console.error('Error withdrawing:', err)
+      toast({ title: 'Error', description: 'Failed to withdraw from event', variant: 'destructive' })
+    } finally {
+      setWithdrawingSignup(null)
+    }
+  }
+
   useEffect(() => {
     if (!user) return
     // Load active reminder
@@ -261,6 +324,7 @@ export default function Dashboard() {
     loadWeeklyPrograms()
     loadWeeklyWord()
     loadPoster()
+    loadMyEventSignups()
     // automatically mark messages read when dashboard loads
     ;(async () => {
       try {
@@ -277,6 +341,7 @@ export default function Dashboard() {
       loadWeeklyPrograms()
       loadWeeklyWord()
       loadPoster()
+      loadMyEventSignups()
     }, 30000) // Refresh every 30 seconds
     return () => clearInterval(iv)
   }, [user])
@@ -386,12 +451,12 @@ export default function Dashboard() {
                   </div>
 
                   {/* Event Signup Form - Right side */}
-                  {upcomingEvent && (
-                    <Card className="h-full flex flex-col bg-gradient-to-br from-blue-50 via-white to-blue-50 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 border-2 border-blue-200 dark:border-blue-800 shadow-lg overflow-hidden rounded-none">
-                      <div className="p-4 flex-1 flex flex-col overflow-y-auto">
+                  {(posterEventId || upcomingEvent) && (
+                    <Card className="flex flex-col bg-gradient-to-br from-blue-50 via-white to-blue-50 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 border-2 border-blue-200 dark:border-blue-800 shadow-lg overflow-hidden rounded-none">
+                      <div className="p-6 flex flex-col">
                         {/* Event Title */}
                         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                          Register for {posterEventInfo?.title || upcomingEvent.title}
+                          Register for {posterEventInfo?.title || upcomingEvent?.title || 'Event'}
                         </h2>
 
                         {/* Event Details */}
@@ -428,193 +493,53 @@ export default function Dashboard() {
                           )}
                         </div>
 
-                        {/* Signup Form */}
-                        {!user ? (
-                          <div className="space-y-3">
-                            <div className="rounded-lg bg-white/70 dark:bg-slate-700/60 p-3 border border-blue-100 dark:border-blue-900/30">
-                              <p className="text-xs text-gray-700 dark:text-gray-300 mb-2">You need to be logged in to register.</p>
-                              <div className="flex flex-col gap-2">
-                                <Link href={`/login?redirect=/dashboard`} className="block">
-                                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs py-1.5">Login</Button>
-                                </Link>
-                                <Link href="/signup" className="block">
-                                  <Button variant="outline" className="w-full text-xs py-1.5">Create Account</Button>
-                                </Link>
-                              </div>
-                            </div>
+                        {/* Event Content */}
+                        {/* Theme */}
+                        {posterContent?.theme && (
+                          <div className="mb-4 pb-4 border-b-2 border-blue-200 dark:border-blue-800">
+                            <h3 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-400 dark:to-blue-500 bg-clip-text text-transparent">
+                              {posterContent.theme}
+                            </h3>
                           </div>
-                        ) : (
-                          <>
-                            <style>{`
-                              @keyframes slideInUp {
-                                from {
-                                  opacity: 0;
-                                  transform: translateY(20px);
-                                }
-                                to {
-                                  opacity: 1;
-                                  transform: translateY(0);
-                                }
-                              }
-                              
-                              .signup-form-wrapper {
-                                display: flex;
-                                flex-direction: column;
-                                gap: 0.75rem;
-                              }
-                              
-                              .signup-form-item {
-                                animation: slideInUp 0.5s ease-out forwards;
-                                opacity: 0;
-                              }
-                              
-                              .signup-form-item:nth-child(1) { animation-delay: 0.3s; }
-                              .signup-form-item:nth-child(2) { animation-delay: 0.4s; }
-                              .signup-form-item:nth-child(3) { animation-delay: 0.5s; }
-                              .signup-form-item:nth-child(4) { animation-delay: 0.6s; }
-                              
-                              .signup-input {
-                                width: 100%;
-                                padding: 10px 16px;
-                                border: 2px solid #e5e7eb;
-                                border-radius: 8px;
-                                background-color: #ffffff;
-                                color: #111827;
-                                font-size: 14px;
-                                font-weight: 500;
-                                transition: all 0.3s ease;
-                                outline: none;
-                              }
-                              
-                              .dark .signup-input {
-                                background-color: #1e293b;
-                                border-color: #475569;
-                                color: #f1f5f9;
-                              }
-                              
-                              .signup-input:focus {
-                                border-color: #2563eb;
-                                box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-                                transform: translateY(-2px);
-                              }
-                              
-                              .signup-input::placeholder {
-                                color: #9ca3af;
-                              }
-                              
-                              .dark .signup-input::placeholder {
-                                color: #71717a;
-                              }
-                              
-                              .signup-button {
-                                width: 100%;
-                                padding: 12px 24px;
-                                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-                                color: #ffffff;
-                                border: none;
-                                border-radius: 8px;
-                                font-size: 14px;
-                                font-weight: 600;
-                                cursor: pointer;
-                                transition: all 0.3s ease;
-                                box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-                              }
-                              
-                              .signup-button:hover {
-                                transform: translateY(-2px);
-                                box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-                              }
-                              
-                              .signup-button:active {
-                                transform: translateY(0);
-                              }
-                            `}</style>
-                            <form onSubmit={async (e) => {
-                              e.preventDefault()
-                              try {
-                                const res = await fetch('/api/events/signups', { 
-                                  method: 'POST', 
-                                  headers: { 'Content-Type': 'application/json' }, 
-                                  body: JSON.stringify({ eventId: upcomingEvent.id }) 
-                                })
-                                
-                                // Refresh attendees regardless of success or error
-                                const attendeesRes = await fetch(`/api/events/${upcomingEvent.id}/signups`)
-                                if (attendeesRes.ok) {
-                                  const attendeesData = await attendeesRes.json()
-                                  setEventAttendees(attendeesData.signups || [])
-                                }
-                                
-                                if (res.ok) {
-                                  toast({ title: 'Success!', description: 'You\'ve been registered for the event.' })
-                                } else {
-                                  const data = await res.json().catch(() => ({}))
-                                  if (data?.error === 'Already signed up') {
-                                    toast({ title: 'Already Registered', description: 'You\'ve already signed up for this event.' })
-                                  } else {
-                                    toast({ title: 'Error', description: data?.error || 'Failed to register' })
-                                  }
-                                }
-                              } catch (err) {
-                                toast({ title: 'Error', description: 'Failed to register' })
-                              }
-                            }}>
-                              <div className="signup-form-wrapper">
-                                <div className="signup-form-item">
-                                  <input 
-                                    type="text"
-                                    className="signup-input"
-                                    placeholder="Name"
-                                    value={user?.name || ''} 
-                                    readOnly 
-                                  />
-                                </div>
-                                <div className="signup-form-item">
-                                  <input 
-                                    type="tel"
-                                    className="signup-input"
-                                    placeholder="Phone number"
-                                    value={user?.phone || ''} 
-                                    readOnly 
-                                  />
-                                </div>
-                                <div className="signup-form-item">
-                                  <input 
-                                    type="email"
-                                    className="signup-input"
-                                    placeholder="E-mail"
-                                    value={user?.email || ''} 
-                                    readOnly 
-                                  />
-                                </div>
-                                <button type="submit" className="signup-form-item signup-button">
-                                  Submit
-                                </button>
-                              </div>
-                            </form>
-                          </>
                         )}
 
-                        {/* Attendees count */}
-                        <div className="mt-auto pt-3 border-t border-blue-100 dark:border-blue-900/30">
-                          <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 text-center mb-2">
-                            {eventAttendees.length} person{eventAttendees.length !== 1 ? 's' : ''} registered
-                          </p>
-                          {eventAttendees.length > 0 && (
-                            <div className="space-y-1.5 max-h-32 overflow-y-auto">
-                              {eventAttendees.slice(0, 5).map((attendee: any, idx: number) => (
-                                <div key={attendee.id || idx} className="text-xs bg-white/40 dark:bg-slate-700/40 p-1.5 rounded">
-                                  <p className="font-medium text-gray-900 dark:text-white truncate">{attendee.name}</p>
-                                </div>
-                              ))}
-                              {eventAttendees.length > 5 && (
-                                <p className="text-xs text-gray-500 dark:text-gray-400 text-center py-1">
-                                  +{eventAttendees.length - 5} more
-                                </p>
-                              )}
-                            </div>
-                          )}
-                        </div>
+                        {/* Speaker */}
+                        {posterContent?.speaker && (
+                          <div className="mb-3 p-3 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 dark:from-blue-900/40 dark:to-blue-800/20 border border-blue-200 dark:border-blue-700/50 shadow-md hover:shadow-lg transition-shadow">
+                            <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-1">👤 Speaker</p>
+                            <p className="font-bold text-gray-900 dark:text-white text-sm">{posterContent.speaker}</p>
+                          </div>
+                        )}
+
+                        {/* Description */}
+                        {posterContent?.description && (
+                          <div className="mb-3 p-3 rounded-xl bg-gradient-to-br from-purple-100/50 to-pink-100/50 dark:from-purple-900/30 dark:to-pink-900/30 border border-purple-200/50 dark:border-purple-700/30 shadow-md hover:shadow-lg transition-shadow">
+                            <p className="text-xs font-semibold text-purple-600 dark:text-purple-400 uppercase tracking-wide mb-2">📝 About</p>
+                            <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed">
+                              {posterContent.description}
+                            </p>
+                          </div>
+                        )}
+
+                        {/* Agenda */}
+                        {posterContent?.agenda && (
+                          <div className="mb-3 p-3 rounded-xl bg-gradient-to-br from-amber-100/50 to-orange-100/50 dark:from-amber-900/30 dark:to-orange-900/30 border border-amber-200/50 dark:border-amber-700/30 shadow-md hover:shadow-lg transition-shadow">
+                            <p className="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide mb-2">📋 Agenda</p>
+                            <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed">
+                              {posterContent.agenda}
+                            </p>
+                          </div>
+                        )}
+
+                        {/* Details */}
+                        {posterContent?.details && (
+                          <div className="mb-3 p-3 rounded-xl bg-gradient-to-br from-green-100/50 to-emerald-100/50 dark:from-green-900/30 dark:to-emerald-900/30 border border-green-200/50 dark:border-green-700/30 shadow-md hover:shadow-lg transition-shadow">
+                            <p className="text-xs font-semibold text-green-600 dark:text-green-400 uppercase tracking-wide mb-2">✨ Details</p>
+                            <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed">
+                              {posterContent.details}
+                            </p>
+                          </div>
+                        )}
                       </div>
                     </Card>
                   )}
@@ -687,7 +612,7 @@ export default function Dashboard() {
                           <div className="p-4 sm:p-5 flex gap-3">
                             {/* Status Indicator */}
                             <div className="flex-shrink-0 pt-1">
-                              <div className={`w-2.5 h-2.5 rounded-full ${isRead ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                              <div className={isRead ? 'w-2.5 h-2.5 rounded-full bg-green-500' : 'w-2.5 h-2.5 rounded-full bg-red-500'}></div>
                             </div>
                             
                             {/* Content */}
@@ -728,6 +653,64 @@ export default function Dashboard() {
                   )}
                 </div>
               </div>
+
+              {/* My Registered Events */}
+              <Card className="p-4 sm:p-6">
+                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4">My Registered Events</h2>
+                {myEventSignups.length === 0 ? (
+                  <div className="text-center py-6 sm:py-8 text-gray-500 dark:text-gray-400">
+                    <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                    <p className="text-sm sm:text-base font-medium">No registered events</p>
+                    <p className="text-xs sm:text-sm mt-2">Register for events to see them here</p>
+                    <Link href="/events" className="inline-block mt-4">
+                      <Button size="sm" className="bg-blue-600 hover:bg-blue-700">Browse Events</Button>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {myEventSignups.map((signup: any) => (
+                      <div key={signup.id} className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-gray-900 dark:text-white text-sm truncate">
+                              {signup.event?.title || 'Event'}
+                            </h3>
+                            <div className="flex items-center gap-2 mt-1 text-xs text-gray-600 dark:text-gray-400">
+                              <Calendar className="w-3 h-3" />
+                              <span>
+                                {signup.event?.startsAt ? new Date(signup.event.startsAt).toLocaleDateString('en-US', { 
+                                  month: 'short', 
+                                  day: 'numeric',
+                                  year: 'numeric'
+                                }) : 'TBA'}
+                              </span>
+                            </div>
+                            {signup.checked_in && (
+                              <div className="mt-2">
+                                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium">
+                                  ✓ Checked In
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          {!signup.checked_in && (
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => handleWithdrawFromEvent(signup.id)}
+                              disabled={withdrawingSignup === signup.id}
+                              className="text-xs px-2 py-1 h-auto bg-red-600 hover:bg-red-700"
+                            >
+                              <XCircle className="w-3 h-3 mr-1" />
+                              {withdrawingSignup === signup.id ? 'Withdrawing...' : 'Withdraw'}
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </Card>
 
               {/* Quick Actions */}
               <Card className="p-4 sm:p-6">

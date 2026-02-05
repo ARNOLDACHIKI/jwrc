@@ -1,54 +1,24 @@
-[00:00:02.387] Server  LOG     ✓ Ready in 1758ms
-[00:00:13.169] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:14.436] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:14.437] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:00:14.437] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770105672372}
-[00:00:25.237] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770105683227}
-[00:03:09.697] Server  LOG     ✓ Compiled in 1201ms
-[00:05:38.400] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:05:38.808] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:05:38.808] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/reminders","route":"/admin/reminders"}
-[00:05:38.808] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/reminders color: rgb(120, 120, 120) color: inherit {"dp":"/admin/reminders","o":"http://localhost:3000/admin/reminders","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770105996863}
-[00:05:43.683] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:05:44.023] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:05:44.023] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/poster","route":"/admin/poster"}
-[00:05:44.023] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/poster color: rgb(120, 120, 120) color: inherit {"dp":"/admin/poster","o":"http://localhost:3000/admin/poster","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770106002006}
-[00:05:57.794] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:05:58.140] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:05:58.140] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/poster","route":"/admin/poster"}
-[00:05:58.140] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/poster color: rgb(120, 120, 120) color: inherit {"dp":"/admin/poster","o":"http://localhost:3000/admin/poster","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770106016198}
-[00:06:11.837] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:06:12.458] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:06:12.458] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:06:12.458] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770106030432}
-[00:06:17.631] Server  LOG     ○ Compiling /dashboard ...
-[00:06:19.119] Server  WARN    warn(prisma-client) This is the 10th instance of Prisma Client being started. Make sure this is intentional.
-[00:06:19.247] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770106036838}
-[00:06:53.530] Server  WARN    sharp not available; uploads will skip server-side processing Error: Failed to load external module sharp-9631744f3526f875: Error: 
-Something went wrong installing the "sharp" module
-
-Cannot find module '../build/Release/sharp-linux-x64.node'
-Require stack:
-- /home/lod/Downloads/jwrc/node_modules/.pnpm/sharp@0.32.6/node_modules/sharp/lib/sharp.js
-- /home/lod/Downloads/jwrc/node_modules/.pnpm/sharp@0.32.6/node_modules/sharp/lib/constructor.js
-- /home/lod/Downloads/jwrc/node_modules/.pnpm/sharp@0.32.6/node_modules/sharp/lib/index.js
-- /home/lod/Downloads/jwrc/.next/dev/server/chunks/[externals]_sharp_3684781a._.js
-- /home/lod/Downloads/jwrc/.next/dev/server/chunks/[turbopack]_runtime.js
-- /home/lod/Downloads/jwrc/.next/dev/server/app/api/auth/me/route.js
-- /home/lod/Downloads/jwrc/node_modules/.pnpm/next@16.1.0_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/server/require.js
-- /home/lod/Downloads/jwrc/node_modules/.pnpm/next@16.1.0_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/server/load-components.js
-- /home/lod/Downloads/jwrc/node_modules/.pnpm/next@16.1.0_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/build/utils.js
-- /home/lod/Downloads/jwrc/node_modules/.pnpm/next@16.1.0_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/build/swc/options.js
-- /home/lod/Downloads/jwrc/node_modules/.pnpm/next@16.1.0_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/build/swc/index.js
-- /home/lod/Downloads/jwrc/node_modules/.pnpm/next@16.1.0_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
-- /home/lod/Downloads/jwrc/node_modules/.pnpm/next@16.1.0_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/server/lib/router-server.js
-- /home/lod/Downloads/jwrc/node_modules/.pnpm/next@16.1.0_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/server/lib/start-server.js
-
-Possible solutions:
-- Install with verbose logging and look for errors: "npm install --ignore-scripts=false --foreground-scripts --verbose sharp"
-- Install for the current linux-x64 runtime: "npm install --platform=linux --arch=x64 sharp"
-- Consult the installation documentation: https://sharp.pixelplumbing.com/install
-[00:06:59.982] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:07:00.210] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:07:00.210] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard","route":"/dashboard"}
-[00:07:00.210] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770106078248}
+[00:00:02.638] Server  LOG     ✓ Ready in 2.1s
+[00:00:21.752] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:22.503] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:22.504] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/dashboard","route":"/admin/dashboard"}
+[00:00:22.504] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/dashboard?tab=suggestions color: rgb(120, 120, 120) color: inherit {"dp":"/admin/dashboard","o":"http://localhost:3000/admin/dashboard?tab=suggestions","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770282215045}
+[00:00:26.393] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:26.639] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:26.639] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard","route":"/dashboard"}
+[00:00:26.639] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770282219472}
+[00:00:27.381] Server  WARN    warn(prisma-client) This is the 10th instance of Prisma Client being started. Make sure this is intentional.
+[00:00:34.992] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:35.202] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:35.202] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard","route":"/dashboard"}
+[00:00:35.202] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770282228073}
+[00:00:56.323] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:56.694] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:56.694] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/poster","route":"/admin/poster"}
+[00:00:56.694] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/poster color: rgb(120, 120, 120) color: inherit {"dp":"/admin/poster","o":"http://localhost:3000/admin/poster","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770282249533}
+[00:01:27.764] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:28.014] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:01:28.014] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard","route":"/dashboard"}
+[00:01:28.014] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770282280863}
+[00:08:53.265] Server  LOG     ✓ Compiled in 1236ms
+[04:59:41.837] Server  LOG     ✓ Compiled in 1370ms

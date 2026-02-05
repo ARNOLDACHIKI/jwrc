@@ -173,41 +173,96 @@ export async function DELETE(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    // admin-only: requires token cookie
     const token = getTokenFromHeaders(req)
     const secret = process.env.JWT_SECRET || 'dev-secret'
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    
     let payload: any = null
     try {
       payload = jwt.verify(token, secret)
     } catch (e) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-    if (payload.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
     const url = new URL(req.url)
     const eventId = url.searchParams.get('eventId')
-    if (!eventId) return NextResponse.json({ error: 'Missing eventId' }, { status: 400 })
+    const email = url.searchParams.get('email')
 
-    const signups = await prisma.eventSignup.findMany({
-      where: { eventId },
-      orderBy: { createdAt: 'desc' }
-    })
+    // Admin fetching signups for a specific event
+    if (eventId) {
+      if (payload.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
-    // Convert to match expected format
-    const rows = signups.map(s => ({
-      id: s.id,
-      ref: s.ref,
-      eventId: s.eventId,
-      name: s.name,
-      email: s.email,
-      phone: s.phone,
-      createdAt: s.createdAt,
-      ticket_sent: false,
-      checked_in: false
-    }))
+      const signups = await prisma.eventSignup.findMany({
+        where: { eventId },
+        orderBy: { createdAt: 'desc' }
+      })
 
-    return NextResponse.json({ signups: rows })
+      // Convert to match expected format
+      const rows = signups.map(s => ({
+        id: s.id,
+        ref: s.ref,
+        eventId: s.eventId,
+        name: s.name,
+        email: s.email,
+        phone: s.phone,
+        createdAt: s.createdAt,
+        ticket_sent: false,
+        checked_in: false
+      }))
+
+      return NextResponse.json({ signups: rows })
+    }
+
+    // User fetching their own signups
+    if (email) {
+      const user = await prisma.user.findUnique({ where: { id: payload.userId } })
+      if (!user) return NextResponse.json({ error: 'User not found' }, { status: 401 })
+      
+      // Only allow users to fetch their own signups (unless admin)
+      if (user.email !== email && payload.role !== 'admin') {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      }
+
+      const signups = await prisma.eventSignup.findMany({
+        where: { 
+          email: {
+            equals: email,
+            mode: 'insensitive'
+          }
+        },
+        orderBy: { createdAt: 'desc' }
+      })
+
+      // Fetch event details for each signup
+      const signupsWithEvents = await Promise.all(
+        signups.map(async (s) => {
+          const event = await prisma.event.findUnique({
+            where: { id: s.eventId },
+            select: {
+              id: true,
+              title: true,
+              startsAt: true,
+              endsAt: true,
+              location: true
+            }
+          })
+          return {
+            id: s.id,
+            ref: s.ref,
+            eventId: s.eventId,
+            name: s.name,
+            email: s.email,
+            phone: s.phone,
+            createdAt: s.createdAt,
+            event
+          }
+        })
+      )
+
+      return NextResponse.json(signupsWithEvents)
+    }
+
+    return NextResponse.json({ error: 'Missing eventId or email parameter' }, { status: 400 })
   } catch (err) {
     console.error(err)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
