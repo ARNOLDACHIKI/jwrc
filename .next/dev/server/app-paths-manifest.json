@@ -1,18 +1,6 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/admin/dashboard/page": "app/admin/dashboard/page.js",
   "/admin/poster/page": "app/admin/poster/page.js",
   "/api/admin/poster/list/route": "app/api/admin/poster/list/route.js",
-  "/api/announcements/route": "app/api/announcements/route.js",
   "/api/auth/me/route": "app/api/auth/me/route.js",
-  "/api/events/route": "app/api/events/route.js",
-  "/api/events/signups/route": "app/api/events/signups/route.js",
-  "/api/reminders/route": "app/api/reminders/route.js",
-  "/api/settings/route": "app/api/settings/route.js",
-  "/api/suggestions/route": "app/api/suggestions/route.js",
-  "/api/user/inbox/route": "app/api/user/inbox/route.js",
-  "/api/volunteers/route": "app/api/volunteers/route.js",
-  "/api/weekly-programs/route": "app/api/weekly-programs/route.js",
-  "/api/weekly-word/route": "app/api/weekly-word/route.js",
-  "/dashboard/page": "app/dashboard/page.js"
+  "/api/settings/route": "app/api/settings/route.js"
 }
