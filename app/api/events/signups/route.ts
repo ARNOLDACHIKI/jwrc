@@ -2,7 +2,8 @@ import { NextResponse } from "next/server"
 import { PrismaClient } from "@prisma/client"
 import jwt from "jsonwebtoken"
 import { randomUUID } from "crypto"
-import { getEventSignupConfirmationEmail } from "@/lib/email-templates"
+import { getEventTicketEmail } from "@/lib/email-templates"
+import { generateTicketQRCode } from "@/lib/qrcode"
 
 const prisma = new PrismaClient()
 
@@ -91,10 +92,21 @@ export async function POST(req: Request) {
       }
     })
 
-    // Send professional confirmation email
+    // Send ticket email with QR code
     try {
       if (process.env.SMTP_HOST && process.env.SMTP_USER) {
         try {
+          // Generate QR code for ticket
+          const baseUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
+          const qrCodeDataURL = await generateTicketQRCode({
+            eventId: signup.eventId,
+            signupId: signup.id,
+            ref: ref || '',
+            name: name,
+            email: email,
+            baseUrl: baseUrl
+          })
+
           const nodemailer = await import('nodemailer')
           const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
@@ -114,12 +126,13 @@ export async function POST(req: Request) {
             })
           }
           
-          const emailContent = getEventSignupConfirmationEmail(
+          const emailContent = getEventTicketEmail(
             name,
             ev.title,
             formatDate(new Date(ev.startsAt)),
             ev.location || undefined,
-            ref || undefined
+            ref || '',
+            qrCodeDataURL
           )
           
           await transporter.sendMail({
@@ -129,8 +142,14 @@ export async function POST(req: Request) {
             html: emailContent.html,
             text: emailContent.text,
           })
+
+          // Mark ticket as sent
+          await prisma.eventSignup.update({
+            where: { id: signup.id },
+            data: { ticketSent: true }
+          })
         } catch (e) {
-          console.warn('Failed to send confirmation email', e)
+          console.warn('Failed to send ticket email', e)
         }
       }
     } catch (e) {

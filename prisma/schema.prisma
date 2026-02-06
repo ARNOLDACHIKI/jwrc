@@ -64,13 +64,16 @@ model Donation {
 }
 
 model EventSignup {
-  id        String   @id @default(uuid())
-  eventId   String
-  ref       String?  @unique
-  name      String
-  email     String
-  phone     String?
-  createdAt DateTime @default(now())
+  id          String    @id @default(uuid())
+  eventId     String
+  ref         String?   @unique
+  name        String
+  email       String
+  phone       String?
+  ticketSent  Boolean   @default(false)
+  checkedIn   Boolean   @default(false)
+  checkedInAt DateTime?
+  createdAt   DateTime  @default(now())
 }
 
 model MpesaDonation {
