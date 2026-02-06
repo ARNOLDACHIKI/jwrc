@@ -1,5 +1,16 @@
-[00:00:02.006] Server  LOG     ✓ Ready in 1446ms
-[00:00:06.489] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:06.998] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:06.998] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/poster","route":"/admin/poster"}
-[00:00:06.998] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/poster color: rgb(120, 120, 120) color: inherit {"dp":"/admin/poster","o":"http://localhost:3000/admin/poster","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770403550129}
+[00:00:00.748] Server  LOG     ✓ Ready in 484ms
+[00:00:36.668] Server  WARN    ⚠ Cross origin request detected from 127.0.0.1 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+[00:00:36.928] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:37.038] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:37.038] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/reminders","route":"/admin/reminders"}
+[00:00:37.038] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:3001/admin/reminders color: rgb(120, 120, 120) color: inherit {"dp":"/admin/reminders","o":"http://127.0.0.1:3001/admin/reminders","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770417401560}
+[00:05:13.121] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:13.122] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:05:13.122] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard","route":"/dashboard"}
+[00:05:13.122] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:3001/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://127.0.0.1:3001/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770417677115}
+[00:05:14.017] Server  WARN    warn(prisma-client) This is the 10th instance of Prisma Client being started. Make sure this is intentional.
+[00:05:58.703] Browser ERROR   Error fetching weekly word: {}
+[00:05:58.703] Browser ERROR   Failed to load poster {}
+[00:05:58.703] Browser ERROR   Failed to load my event signups {}
+[00:05:58.703] Browser ERROR   Failed to load inbox {}

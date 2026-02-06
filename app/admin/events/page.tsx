@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { QrCode, Mail, CheckCircle, Clock, Users, Calendar, Ticket } from "lucide-react"
+import { AdminNav } from "@/components/admin/admin-nav"
 
 interface EventSignup {
   id: string
@@ -140,28 +141,29 @@ export default function AdminEventsPage() {
   const selectedEventData = events.find(e => e.id === selectedEvent)
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8 flex items-start justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              Manage Events
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              Send QR code tickets to event registrants
-            </p>
+    <AdminNav>
+      <div className="p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-8 flex items-start justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                Manage Events
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">
+                Send QR code tickets to event registrants
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <Button
+                onClick={() => router.push('/admin/tickets')}
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
+                size="lg"
+              >
+                <Ticket className="h-5 w-5" />
+                Manage Tickets
+              </Button>
+            </div>
           </div>
-          <div className="flex gap-3">
-            <Button
-              onClick={() => router.push('/admin/tickets')}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
-              size="lg"
-            >
-              <Ticket className="h-5 w-5" />
-              Manage Tickets
-            </Button>
-          </div>
-        </div>
 
         {/* Event Selector */}
         <Card className="p-6 mb-6">
@@ -357,7 +359,8 @@ export default function AdminEventsPage() {
             )}
           </Card>
         )}
+        </div>
       </div>
-    </div>
+    </AdminNav>
   )
 }

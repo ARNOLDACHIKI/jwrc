@@ -5,6 +5,7 @@ import { Html5Qrcode } from "html5-qrcode"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CheckCircle, XCircle, QrCode, Camera, X } from "lucide-react"
+import { AdminNav } from "@/components/admin/admin-nav"
 
 interface TicketInfo {
   valid: boolean
@@ -154,16 +155,17 @@ export default function ScanTicketPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 p-8">
-      <div className="max-w-2xl mx-auto">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Event Check-In
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Scan QR code tickets to verify and check in attendees
-          </p>
-        </div>
+    <AdminNav>
+      <div className="p-8">
+        <div className="max-w-2xl mx-auto">
+          <div className="mb-8 text-center">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              Event Check-In
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400">
+              Scan QR code tickets to verify and check in attendees
+            </p>
+          </div>
 
         {!scanning && !ticketInfo && (
           <Card className="p-8">
@@ -317,7 +319,8 @@ export default function ScanTicketPage() {
             </div>
           </Card>
         )}
+        </div>
       </div>
-    </div>
+    </AdminNav>
   )
 }

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { SearchLoader } from "@/components/ui/search-loader"
 import { TicketPrinter } from "@/components/ui/ticket-printer"
 import { Search, ArrowLeft, Ticket, Calendar, MapPin, User, Mail, Phone } from "lucide-react"
+import { AdminNav } from "@/components/admin/admin-nav"
 
 interface Event {
   id: string
@@ -99,28 +100,21 @@ export default function AdminTicketsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="mb-6">
-          <Button
-            variant="ghost"
-            onClick={() => router.push('/admin/events')}
-            className="mb-4"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Events
-          </Button>
-          <div className="flex items-center gap-3">
-            <Ticket className="h-8 w-8 text-blue-600" />
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Ticket Management
-            </h1>
+    <AdminNav>
+      <div className="p-6">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="mb-6">
+            <div className="flex items-center gap-3">
+              <Ticket className="h-8 w-8 text-blue-600" />
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Ticket Management
+              </h1>
+            </div>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
+              Search for event attendees and manage their tickets
+            </p>
           </div>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Search for event attendees and manage their tickets
-          </p>
-        </div>
 
         {/* Search Section */}
         <Card className="p-6 mb-6">
@@ -285,7 +279,8 @@ export default function AdminTicketsPage() {
             </Card>
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </AdminNav>
   )
 }

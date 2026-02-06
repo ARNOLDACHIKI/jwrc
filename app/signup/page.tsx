@@ -27,7 +27,7 @@ export default function SignupPage() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false)
-  const [logoSrc, setLogoSrc] = useState("/jwrc-logo.png")
+  const [logoSrc, setLogoSrc] = useState("/jwrc-logo.svg")
 
   const passwordValidation = validatePassword(password)
 

@@ -6,14 +6,22 @@ const prisma = new PrismaClient()
 // PATCH - Update reminder (admin only)
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const body = await request.json()
     const { title, message, template, isActive } = body
 
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Reminder ID is required' },
+        { status: 400 }
+      )
+    }
+
     const reminder = await prisma.reminder.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...(title && { title }),
         ...(message && { message }),
@@ -35,14 +43,23 @@ export async function PATCH(
 // DELETE - Delete reminder (admin only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Reminder ID is required' },
+        { status: 400 }
+      )
+    }
+
     await prisma.reminder.delete({
-      where: { id: params.id }
+      where: { id }
     })
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true, message: 'Reminder deleted successfully' })
   } catch (error) {
     console.error('Error deleting reminder:', error)
     return NextResponse.json(

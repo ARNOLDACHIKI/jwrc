@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
 import { ArrowLeft, LogOut, Book } from 'lucide-react'
+import { AdminNav } from '@/components/admin/admin-nav'
 
 interface WeeklyWord {
   id: string
@@ -182,36 +183,15 @@ export default function AdminWeeklyWordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-slate-900">
-      {/* Admin Header */}
-      <header className="bg-white dark:bg-slate-800 shadow sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/admin/reminders">
-              <Button variant="outline" size="sm" className="gap-2">
-                <ArrowLeft className="w-4 h-4" />
-                Back to Reminders
-              </Button>
-            </Link>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Weekly Word & Theme</h1>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Inspire your congregation throughout the week</p>
-            </div>
-          </div>
-          <Button
-            onClick={handleLogout}
-            variant="outline"
-            className="border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 bg-transparent"
-          >
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
-          </Button>
+    <AdminNav onLogout={handleLogout}>
+      <div className="p-6">
+        {/* Page Title */}
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Weekly Word & Theme</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Inspire your congregation throughout the week</p>
         </div>
-      </header>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Create Form */}
+        <div className="grid md:grid-cols-2 gap-8">{/* Create Form */}
           <Card>
             <CardHeader>
               <CardTitle>Create New Weekly Word</CardTitle>
@@ -350,6 +330,6 @@ export default function AdminWeeklyWordPage() {
           </div>
         </div>
       </div>
-    </div>
+    </AdminNav>
   )
 }

@@ -11,6 +11,7 @@ import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
 import { ArrowLeft, LogOut } from 'lucide-react'
+import { AdminNav } from '@/components/admin/admin-nav'
 
 interface Reminder {
   id: string
@@ -223,6 +224,7 @@ export default function AdminRemindersPage() {
     try {
       const response = await fetch(`/api/admin/reminders/${id}`, {
         method: 'PATCH',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -237,11 +239,15 @@ export default function AdminRemindersPage() {
           description: `Reminder ${!currentStatus ? 'activated' : 'deactivated'}`
         })
         fetchReminders()
+      } else {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to update reminder')
       }
     } catch (error) {
+      console.error('Error toggling reminder:', error)
       toast({
         title: 'Error',
-        description: 'Failed to update reminder',
+        description: error instanceof Error ? error.message : 'Failed to update reminder',
         variant: 'destructive'
       })
     }
@@ -252,7 +258,11 @@ export default function AdminRemindersPage() {
 
     try {
       const response = await fetch(`/api/admin/reminders/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
 
       if (response.ok) {
@@ -261,11 +271,15 @@ export default function AdminRemindersPage() {
           description: 'Reminder deleted successfully'
         })
         fetchReminders()
+      } else {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to delete reminder')
       }
     } catch (error) {
+      console.error('Error deleting reminder:', error)
       toast({
         title: 'Error',
-        description: 'Failed to delete reminder',
+        description: error instanceof Error ? error.message : 'Failed to delete reminder',
         variant: 'destructive'
       })
     }
@@ -365,49 +379,28 @@ export default function AdminRemindersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-slate-900">
-      {/* Admin Header */}
-      <header className="bg-white dark:bg-slate-800 shadow sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/admin/dashboard">
-              <Button variant="outline" size="sm" className="gap-2">
-                <ArrowLeft className="w-4 h-4" />
-                Back to Dashboard
-              </Button>
-            </Link>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Manage Reminders & Programs</h1>
-            </div>
+    <AdminNav onLogout={handleLogout}>
+      <div className="p-6">
+        {/* Page Title and Actions */}
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Manage Reminders & Programs</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Create and manage reminders and weekly programs</p>
           </div>
           <div className="flex items-center gap-2">
-            <Link href="/admin/weekly-word">
-              <Button variant="outline">
-                Weekly Word & Theme
-              </Button>
-            </Link>
             <Button
               variant={showWeeklyPrograms ? 'default' : 'outline'}
               onClick={() => setShowWeeklyPrograms(!showWeeklyPrograms)}
             >
               {showWeeklyPrograms ? 'Show Reminders' : 'Weekly Programmes'}
             </Button>
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              className="border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 bg-transparent"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
-            </Button>
           </div>
         </div>
-      </header>
 
-      <div className="container mx-auto px-4 py-8">{!showWeeklyPrograms ? (
-          <div className="grid md:grid-cols-2 gap-8">{/* Existing reminders UI */}
-          {/* Create Reminder Form */}
-          <Card>
+        {!showWeeklyPrograms ? (
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Create Reminder Form */}
+            <Card>
             <CardHeader>
               <CardTitle>Create New Reminder</CardTitle>
               <CardDescription>
@@ -672,6 +665,6 @@ export default function AdminRemindersPage() {
           </div>
         )}
       </div>
-    </div>
+    </AdminNav>
   )
 }

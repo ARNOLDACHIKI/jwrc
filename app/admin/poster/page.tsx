@@ -6,8 +6,9 @@ import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
 import Link from 'next/link'
-import { X, Info, Users, BarChart3, MessageSquare, Calendar, Bell, Settings, LogOut, Activity, Menu } from 'lucide-react'
+import { X, Info, Settings } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { AdminNav } from '@/components/admin/admin-nav'
 
 export default function AdminPosterPage() {
   const router = useRouter()
@@ -19,8 +20,6 @@ export default function AdminPosterPage() {
   const [gallery, setGallery] = useState<Array<any>>([])
   const inputRef = useRef<HTMLInputElement | null>(null)
   const { toast } = useToast()
-  const [sidebarOpen, setSidebarOpen] = useState(true)
-  const [adminEmail, setAdminEmail] = useState('')
   
   // Poster event info (required before upload)
   const [posterEventTitle, setPosterEventTitle] = useState('')
@@ -45,7 +44,6 @@ export default function AdminPosterPage() {
           router.push('/admin/login')
           return
         }
-        setAdminEmail(data.user.email)
       } catch (e) {
         router.push('/admin/login')
       }
@@ -252,104 +250,46 @@ export default function AdminPosterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-slate-900">
-      {/* Header */}
-      <header className="bg-white dark:bg-slate-800 shadow sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700"
-            >
-              {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Poster Admin</h1>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{adminEmail}</p>
+    <AdminNav onLogout={handleLogout}>
+      <div className="p-6">
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Poster Management</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Upload and manage event posters</p>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-6">
+          {/* Poster Preview (Left Column) */}
+          <div>
+            <div className="sticky top-6">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Current Poster</h3>
+              {posterUrl ? (
+                <div className="border-2 border-blue-200 dark:border-blue-800 rounded-lg overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 shadow-lg">
+                  <img 
+                    src={posterUrl} 
+                    alt={posterAlt || 'Poster'} 
+                    className="w-full h-auto object-contain" 
+                  />
+                </div>
+              ) : (
+                <Card className="p-8 text-center bg-gray-50 dark:bg-gray-800/50">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">No poster set yet</p>
+                </Card>
+              )}
+              {posterUrl && (
+                <Button 
+                  onClick={removePoster}
+                  disabled={loading}
+                  variant="outline"
+                  className="w-full mt-3 border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                >
+                  Remove Poster
+                </Button>
+              )}
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              className="border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 bg-transparent"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
-            </Button>
-          </div>
-        </div>
-      </header>
 
-      {/* Main Content */}
-      <div className="flex h-[calc(100vh-70px)]">
-        {/* Sidebar */}
-        <aside
-          className={`${sidebarOpen ? "w-64" : "w-0"} bg-gray-900 text-white overflow-y-auto transition-all duration-300 hidden lg:block`}
-        >
-          <nav className="p-6 space-y-2">
-            {[
-              { label: "Overview", icon: BarChart3, href: "/admin/dashboard" },
-              { label: "Announcements", icon: MessageSquare, href: "/admin/dashboard?tab=announcements" },
-              { label: "Events", icon: Calendar, href: "/admin/events" },
-              { label: "Volunteers", icon: Users, href: "/admin/dashboard?tab=volunteers" },
-              { label: "Suggestions", icon: MessageSquare, href: "/admin/dashboard?tab=suggestions" },
-              { label: "Reminders", icon: Bell, href: "/admin/reminders" },
-              { label: "Settings", icon: Settings, href: "/admin/dashboard?tab=settings" },
-            ].map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition text-gray-400 hover:bg-gray-800"
-              >
-                <item.icon className="w-5 h-5" />
-                <span>{item.label}</span>
-              </Link>
-            ))}
-          </nav>
-        </aside>
-
-        {/* Main Area */}
-        <main className="flex-1 overflow-y-auto p-6">
-
-        <div className="mt-6">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-6">Manage Poster</h2>
-            
-            {/* Main Grid: Preview on Left, Form on Right */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              
-              {/* Left Column: Poster Preview (Larger) */}
-              <div className="lg:col-span-1">
-                <div className="sticky top-6">
-                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Current Poster</h3>
-                  {posterUrl ? (
-                    <div className="border-2 border-blue-200 dark:border-blue-800 rounded-lg overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 shadow-lg">
-                      <img 
-                        src={posterUrl} 
-                        alt={posterAlt || 'Poster'} 
-                        className="w-full h-auto object-contain" 
-                      />
-                    </div>
-                  ) : (
-                    <Card className="p-8 text-center bg-gray-50 dark:bg-gray-800/50">
-                      <p className="text-sm text-gray-500 dark:text-gray-400">No poster set yet</p>
-                    </Card>
-                  )}
-                  {posterUrl && (
-                    <Button 
-                      onClick={removePoster}
-                      disabled={loading}
-                      variant="outline"
-                      className="w-full mt-3 border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
-                    >
-                      Remove Poster
-                    </Button>
-                  )}
-                </div>
-              </div>
-
-              {/* Right Column: Form Fields (2 columns) */}
-              <div className="lg:col-span-2 space-y-4">
+          {/* Right Column: Form Fields */}
+          <div className="space-y-4">
                 
                 {/* Step 1: Poster Upload */}
                 <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border-2 border-blue-200 dark:border-blue-800">
@@ -507,12 +447,11 @@ export default function AdminPosterPage() {
                 >
                   {loading ? 'Saving...' : 'Save All Changes'}
                 </Button>
-              </div>
-            </div>
           </div>
+        </div>
 
-          {/* Gallery Section */}
-          <div className="mt-12">
+        {/* Gallery Section */}
+        <div className="mt-12">
             <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Upload History</h2>
             {gallery.length === 0 ? (
               <Card className="p-8 text-center bg-gray-50 dark:bg-gray-800/50">
@@ -546,8 +485,8 @@ export default function AdminPosterPage() {
               </div>
             )}
           </div>
-        </main>
+        </div>
       </div>
-    </div>
+    </AdminNav>
   )
 }

@@ -1,5 +1,5 @@
--- AlterTable event_signups
-ALTER TABLE event_signups 
+-- AlterTable EventSignup
+ALTER TABLE "EventSignup" 
   ADD COLUMN IF NOT EXISTS ticket_sent BOOLEAN NOT NULL DEFAULT false,
   ADD COLUMN IF NOT EXISTS checked_in BOOLEAN NOT NULL DEFAULT false,
   ADD COLUMN IF NOT EXISTS checked_in_at TIMESTAMP(3);

@@ -13,7 +13,7 @@ export function MainNav() {
   const [isOpen, setIsOpen] = useState(false)
   const { user } = useUser()
   const [unread, setUnread] = useState(0)
-  const [logoSrc, setLogoSrc] = useState("/jwrc-logo.png")
+  const [logoSrc, setLogoSrc] = useState("/jwrc-logo.svg")
 
   useEffect(() => {
     let mounted = true

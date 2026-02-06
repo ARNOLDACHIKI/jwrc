@@ -450,48 +450,61 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  {/* Event Signup Form - Right side */}
-                  {(posterEventId || upcomingEvent) && (
+                  {/* Poster Content Info - Right side */}
+                  {(posterContent?.theme || posterContent?.speaker || posterContent?.description || posterContent?.agenda || posterContent?.details || posterEventInfo?.title) && (
                     <Card className="flex flex-col bg-gradient-to-br from-blue-50 via-white to-blue-50 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 border-2 border-blue-200 dark:border-blue-800 shadow-lg overflow-hidden rounded-none">
                       <div className="p-6 flex flex-col">
                         {/* Event Title */}
-                        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                          Register for {posterEventInfo?.title || upcomingEvent?.title || 'Event'}
-                        </h2>
+                        {posterEventInfo?.title && (
+                          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                            {posterEventInfo.title}
+                          </h2>
+                        )}
+                        {!posterEventInfo?.title && upcomingEvent?.title && (
+                          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                            Register for {upcomingEvent.title}
+                          </h2>
+                        )}
 
                         {/* Event Details */}
-                        <div className="mb-4 pb-4 border-b border-blue-100 dark:border-blue-900/30 space-y-1">
-                          <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
-                            <Calendar className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                            <span>
-                              {posterEventInfo?.date || new Date(upcomingEvent.startsAt).toLocaleDateString('en-US', { 
-                                weekday: 'short', 
-                                month: 'short', 
-                                day: 'numeric' 
-                              })}
-                            </span>
+                        {(posterEventInfo?.date || posterEventInfo?.time || posterEventInfo?.location || upcomingEvent) && (
+                          <div className="mb-4 pb-4 border-b border-blue-100 dark:border-blue-900/30 space-y-1">
+                            {(posterEventInfo?.date || upcomingEvent) && (
+                              <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
+                                <Calendar className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                                <span>
+                                  {posterEventInfo?.date || new Date(upcomingEvent.startsAt).toLocaleDateString('en-US', { 
+                                    weekday: 'short', 
+                                    month: 'short', 
+                                    day: 'numeric' 
+                                  })}
+                                </span>
+                              </div>
+                            )}
+                            {(posterEventInfo?.time || upcomingEvent) && (
+                              <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
+                                <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>
+                                  {posterEventInfo?.time || new Date(upcomingEvent.startsAt).toLocaleTimeString('en-US', { 
+                                    hour: 'numeric', 
+                                    minute: '2-digit',
+                                    hour12: true 
+                                  })}
+                                </span>
+                              </div>
+                            )}
+                            {(posterEventInfo?.location || upcomingEvent?.location) && (
+                              <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
+                                <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                </svg>
+                                <span className="truncate">{posterEventInfo?.location || upcomingEvent.location}</span>
+                              </div>
+                            )}
                           </div>
-                          <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
-                            <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>
-                              {posterEventInfo?.time || new Date(upcomingEvent.startsAt).toLocaleTimeString('en-US', { 
-                                hour: 'numeric', 
-                                minute: '2-digit',
-                                hour12: true 
-                              })}
-                            </span>
-                          </div>
-                          {(posterEventInfo?.location || upcomingEvent.location) && (
-                            <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
-                              <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                              </svg>
-                              <span className="truncate">{posterEventInfo?.location || upcomingEvent.location}</span>
-                            </div>
-                          )}
-                        </div>
+                        )}
 
                         {/* Event Content */}
                         {/* Theme */}
@@ -590,10 +603,139 @@ export default function Dashboard() {
               </article>
             )}
 
-            {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+            {/* Three Column Grid - Quick Actions, Weekly Programs, My Registered Events */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
+              {/* Quick Actions */}
+              <Card className="p-4 sm:p-6">
+                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4 sm:mb-6">Quick Actions</h2>
+                <div className="space-y-2 sm:space-y-3">
+                  {user?.role === 'admin' && (
+                    <Link href="/admin/dashboard">
+                      <Button className="w-full bg-purple-600 hover:bg-purple-700 justify-start text-sm sm:text-base">
+                        <Shield className="w-4 h-4 mr-2" />
+                        Switch to Admin Panel
+                      </Button>
+                    </Link>
+                  )}
+                  <Link href="/give">
+                    <Button className="w-full bg-green-600 hover:bg-green-700 justify-start text-sm sm:text-base">
+                      <Heart className="w-4 h-4 mr-2" />
+                      Make Donation
+                    </Button>
+                  </Link>
+                  <Link href="/volunteer">
+                    <Button className="w-full bg-blue-600 hover:bg-blue-700 justify-start text-sm sm:text-base">
+                      <Users className="w-4 h-4 mr-2" />
+                      Sign Up Volunteer
+                    </Button>
+                  </Link>
+                  <Link href="/profile">
+                    <Button variant="outline" className="w-full justify-start bg-transparent">
+                      <Settings className="w-4 h-4 mr-2" />
+                      Edit Profile
+                    </Button>
+                  </Link>
+                  <Link href="/settings">
+                    <Button variant="outline" className="w-full justify-start bg-transparent">
+                      <Settings className="w-4 h-4 mr-2" />
+                      Customize Theme
+                    </Button>
+                  </Link>
+                </div>
+              </Card>
+
+              {/* Weekly Programs List */}
+              <Card className="p-4 sm:p-6 transform transition-all duration-300 hover:shadow-xl">
+                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4">Weekly Programs</h2>
+                {weeklyPrograms.length === 0 ? (
+                  <div className="text-center py-6 sm:py-8 text-gray-500 dark:text-gray-400">
+                    <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                    <p className="text-sm sm:text-base">No programs scheduled</p>
+                    <p className="text-xs sm:text-sm mt-2">Check back later for updates</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {weeklyPrograms.map((program) => (
+                      <div
+                        key={program.id}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+                      >
+                        <div className="p-2 rounded-lg bg-blue-500 text-white shrink-0">
+                          <Calendar className="w-4 h-4" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white truncate">{program.name}</p>
+                          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{program.day} at {program.time}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </Card>
+
+              {/* My Registered Events */}
+              <Card className="p-4 sm:p-6">
+                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4">My Registered Events</h2>
+                {myEventSignups.length === 0 ? (
+                  <div className="text-center py-6 sm:py-8 text-gray-500 dark:text-gray-400">
+                    <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                    <p className="text-sm sm:text-base font-medium">No registered events</p>
+                    <p className="text-xs sm:text-sm mt-2">Register for events to see them here</p>
+                    <Link href="/events" className="inline-block mt-4">
+                      <Button size="sm" className="bg-blue-600 hover:bg-blue-700">Browse Events</Button>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {myEventSignups.map((signup: any) => (
+                      <div key={signup.id} className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-gray-900 dark:text-white text-sm truncate">
+                              {signup.event?.title || 'Event'}
+                            </h3>
+                            <div className="flex items-center gap-2 mt-1 text-xs text-gray-600 dark:text-gray-400">
+                              <Calendar className="w-3 h-3" />
+                              <span>
+                                {signup.event?.startsAt ? new Date(signup.event.startsAt).toLocaleDateString('en-US', { 
+                                  month: 'short', 
+                                  day: 'numeric',
+                                  year: 'numeric'
+                                }) : 'TBA'}
+                              </span>
+                            </div>
+                            {signup.checked_in && (
+                              <div className="mt-2">
+                                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium">
+                                  ✓ Checked In
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          {!signup.checked_in && (
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => handleWithdrawFromEvent(signup.id)}
+                              disabled={withdrawingSignup === signup.id}
+                              className="text-xs px-2 py-1 h-auto bg-red-600 hover:bg-red-700"
+                            >
+                              <XCircle className="w-3 h-3 mr-1" />
+                              {withdrawingSignup === signup.id ? 'Withdrawing...' : 'Withdraw'}
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </Card>
+            </div>
+
+            {/* Two Column Grid - Recent Activity and Inbox */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               {/* Recent Activity */}
-              <div className="lg:col-span-2">
+              <div>
                 <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4 sm:mb-6">Recent Activity</h2>
                 <div className="space-y-4">
                   {recentActivity.length === 0 ? (
@@ -654,137 +796,9 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {/* My Registered Events */}
-              <Card className="p-4 sm:p-6">
-                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4">My Registered Events</h2>
-                {myEventSignups.length === 0 ? (
-                  <div className="text-center py-6 sm:py-8 text-gray-500 dark:text-gray-400">
-                    <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                    <p className="text-sm sm:text-base font-medium">No registered events</p>
-                    <p className="text-xs sm:text-sm mt-2">Register for events to see them here</p>
-                    <Link href="/events" className="inline-block mt-4">
-                      <Button size="sm" className="bg-blue-600 hover:bg-blue-700">Browse Events</Button>
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    {myEventSignups.map((signup: any) => (
-                      <div key={signup.id} className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-gray-900 dark:text-white text-sm truncate">
-                              {signup.event?.title || 'Event'}
-                            </h3>
-                            <div className="flex items-center gap-2 mt-1 text-xs text-gray-600 dark:text-gray-400">
-                              <Calendar className="w-3 h-3" />
-                              <span>
-                                {signup.event?.startsAt ? new Date(signup.event.startsAt).toLocaleDateString('en-US', { 
-                                  month: 'short', 
-                                  day: 'numeric',
-                                  year: 'numeric'
-                                }) : 'TBA'}
-                              </span>
-                            </div>
-                            {signup.checked_in && (
-                              <div className="mt-2">
-                                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium">
-                                  ✓ Checked In
-                                </span>
-                              </div>
-                            )}
-                          </div>
-                          {!signup.checked_in && (
-                            <Button
-                              size="sm"
-                              variant="destructive"
-                              onClick={() => handleWithdrawFromEvent(signup.id)}
-                              disabled={withdrawingSignup === signup.id}
-                              className="text-xs px-2 py-1 h-auto bg-red-600 hover:bg-red-700"
-                            >
-                              <XCircle className="w-3 h-3 mr-1" />
-                              {withdrawingSignup === signup.id ? 'Withdrawing...' : 'Withdraw'}
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </Card>
-
-              {/* Quick Actions */}
-              <Card className="p-4 sm:p-6">
-                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4 sm:mb-6">Quick Actions</h2>
-                <div className="space-y-2 sm:space-y-3">
-                  {user?.role === 'admin' && (
-                    <Link href="/admin/dashboard">
-                      <Button className="w-full bg-purple-600 hover:bg-purple-700 justify-start text-sm sm:text-base">
-                        <Shield className="w-4 h-4 mr-2" />
-                        Switch to Admin Panel
-                      </Button>
-                    </Link>
-                  )}
-                  <Link href="/give">
-                    <Button className="w-full bg-green-600 hover:bg-green-700 justify-start text-sm sm:text-base">
-                      <Heart className="w-4 h-4 mr-2" />
-                      Make Donation
-                    </Button>
-                  </Link>
-                  <Link href="/volunteer">
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700 justify-start text-sm sm:text-base">
-                      <Users className="w-4 h-4 mr-2" />
-                      Sign Up Volunteer
-                    </Button>
-                  </Link>
-                  <Link href="/profile">
-                    <Button variant="outline" className="w-full justify-start bg-transparent">
-                      <Settings className="w-4 h-4 mr-2" />
-                      Edit Profile
-                    </Button>
-                  </Link>
-                  <Link href="/settings">
-                    <Button variant="outline" className="w-full justify-start bg-transparent">
-                      <Settings className="w-4 h-4 mr-2" />
-                      Customize Theme
-                    </Button>
-                  </Link>
-                </div>
-              </Card>
-            </div>
-
-            {/* Inbox and Weekly Programs Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+              {/* Inbox */}
               <Card className="p-4 sm:p-6" id="inbox">
                 <Inbox email={user.email} limit={5} />
-              </Card>
-
-              {/* Weekly Programs List */}
-              <Card className="p-4 sm:p-6 transform transition-all duration-300 hover:shadow-xl">
-                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4">Weekly Programs</h2>
-                {weeklyPrograms.length === 0 ? (
-                  <div className="text-center py-6 sm:py-8 text-gray-500 dark:text-gray-400">
-                    <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                    <p className="text-sm sm:text-base">No programs scheduled</p>
-                    <p className="text-xs sm:text-sm mt-2">Check back later for updates</p>
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    {weeklyPrograms.map((program) => (
-                      <div
-                        key={program.id}
-                        className="flex items-center gap-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
-                      >
-                        <div className="p-2 rounded-lg bg-blue-500 text-white shrink-0">
-                          <Calendar className="w-4 h-4" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white truncate">{program.name}</p>
-                          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{program.day} at {program.time}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
               </Card>
             </div>
           </div>

@@ -8,7 +8,7 @@ import { ModeToggle } from "./mode-toggle"
 import { Menu } from "lucide-react"
 
 export function HeaderWithSidebar() {
-  const [logoSrc, setLogoSrc] = useState("/jwrc-logo.png")
+  const [logoSrc, setLogoSrc] = useState("/jwrc-logo.svg")
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-[var(--border)] bg-[var(--background)]/85 dark:bg-[var(--background)]/80 backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]/70 shadow-sm">
