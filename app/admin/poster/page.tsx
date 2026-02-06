@@ -129,17 +129,6 @@ export default function AdminPosterPage() {
     const file = e.target.files?.[0]
     if (!file) return
     
-    // Validate event info is filled before allowing upload
-    if (!posterEventTitle || !posterEventDate || !posterEventTime || !posterEventLocation) {
-      toast({ 
-        title: 'Event Info Required', 
-        description: 'Please fill in all event information before uploading a poster.',
-        variant: 'destructive'
-      })
-      if (inputRef.current) inputRef.current.value = ''
-      return
-    }
-    
     setUploading(true)
     try {
       const reader = new FileReader()
@@ -362,65 +351,14 @@ export default function AdminPosterPage() {
               {/* Right Column: Form Fields (2 columns) */}
               <div className="lg:col-span-2 space-y-4">
                 
-                {/* Step 1: Event Information */}
-                <Card className="p-6 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 border-2 border-amber-200 dark:border-amber-800">
-                  <div className="flex items-start gap-3 mb-4">
-                    <div className="p-2 bg-amber-100 dark:bg-amber-900/40 rounded-lg">
-                      <Info className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-amber-900 dark:text-amber-100 text-lg">Step 1: Event Information</h3>
-                      <p className="text-xs text-amber-700 dark:text-amber-300 mt-1">Fill in all event details before uploading a poster</p>
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Event Title</label>
-                      <Input 
-                        value={posterEventTitle} 
-                        onChange={(e:any) => setPosterEventTitle(e.target.value)} 
-                        placeholder="Sunday Service" 
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Event Date</label>
-                      <Input 
-                        value={posterEventDate} 
-                        onChange={(e:any) => setPosterEventDate(e.target.value)} 
-                        placeholder="Mon, Feb 2" 
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Event Time</label>
-                      <Input 
-                        value={posterEventTime} 
-                        onChange={(e:any) => setPosterEventTime(e.target.value)} 
-                        placeholder="9:00 AM" 
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Event Location</label>
-                      <Input 
-                        value={posterEventLocation} 
-                        onChange={(e:any) => setPosterEventLocation(e.target.value)} 
-                        placeholder="JWRC Main Hall, Juja" 
-                      />
-                    </div>
-                  </div>
-                </Card>
-
-                {/* Step 2: Poster Upload */}
+                {/* Step 1: Poster Upload */}
                 <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border-2 border-blue-200 dark:border-blue-800">
                   <div className="flex items-start gap-3 mb-4">
                     <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg">
                       <Info className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-blue-900 dark:text-blue-100 text-lg">Step 2: Upload Poster</h3>
+                      <h3 className="font-semibold text-blue-900 dark:text-blue-100 text-lg">Step 1: Upload Poster</h3>
                       <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">Optimal Size: 1920x1080px (16:9 ratio) or 1200x630px</p>
                     </div>
                   </div>
@@ -461,7 +399,7 @@ export default function AdminPosterPage() {
                       <Settings className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-purple-900 dark:text-purple-100 text-lg">Step 3: Additional Settings</h3>
+                      <h3 className="font-semibold text-purple-900 dark:text-purple-100 text-lg">Step 2: Additional Settings</h3>
                       <p className="text-xs text-purple-700 dark:text-purple-300 mt-1">Configure metadata and expiration</p>
                     </div>
                   </div>
@@ -497,7 +435,7 @@ export default function AdminPosterPage() {
                       <Info className="w-5 h-5 text-green-600 dark:text-green-400" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-green-900 dark:text-green-100 text-lg">Step 4: Poster Content</h3>
+                      <h3 className="font-semibold text-green-900 dark:text-green-100 text-lg">Step 3: Poster Content</h3>
                       <p className="text-xs text-green-700 dark:text-green-300 mt-1">Add details about what will happen (theme, speaker, description, agenda)</p>
                     </div>
                   </div>
