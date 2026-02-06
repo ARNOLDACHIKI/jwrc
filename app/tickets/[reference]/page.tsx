@@ -218,29 +218,30 @@ export default function TicketDetailsPage() {
 
             {/* Status Banner */}
             {!withdrawn && (
-            <Card className={`p-6 ${ticketData.signup?.checkedIn ? 'border-green-200 dark:border-green-900 bg-green-50 dark:bg-green-950' : 'border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-950'}`}>
-              <div className="flex items-center gap-3">
-                {ticketData.signup?.checkedIn ? (
-                  <>
-                    <CheckCircle className="h-8 w-8 text-green-600" />
-                    <div>
-                      <h2 className="text-xl font-bold text-green-900 dark:text-green-100">Checked In</h2>
-                      <p className="text-sm text-green-700 dark:text-green-300">
-                        {ticketData.signup.checkedInAt && `on ${formatDate(ticketData.signup.checkedInAt)}`}
-                      </p>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle className="h-8 w-8 text-blue-600" />
-                    <div>
-                      <h2 className="text-xl font-bold text-blue-900 dark:text-blue-100">Valid Ticket</h2>
-                      <p className="text-sm text-blue-700 dark:text-blue-300">Not yet checked in</p>
-                    </div>
-                  </>
-                )}
-              </div>
-            </Card>
+              <Card className={`p-6 ${ticketData.signup?.checkedIn ? 'border-green-200 dark:border-green-900 bg-green-50 dark:bg-green-950' : 'border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-950'}`}>
+                <div className="flex items-center gap-3">
+                  {ticketData.signup?.checkedIn ? (
+                    <>
+                      <CheckCircle className="h-8 w-8 text-green-600" />
+                      <div>
+                        <h2 className="text-xl font-bold text-green-900 dark:text-green-100">Checked In</h2>
+                        <p className="text-sm text-green-700 dark:text-green-300">
+                          {ticketData.signup.checkedInAt && `on ${formatDate(ticketData.signup.checkedInAt)}`}
+                        </p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle className="h-8 w-8 text-blue-600" />
+                      <div>
+                        <h2 className="text-xl font-bold text-blue-900 dark:text-blue-100">Valid Ticket</h2>
+                        <p className="text-sm text-blue-700 dark:text-blue-300">Not yet checked in</p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </Card>
+            )}
 
             {/* Event Information */}
             <Card className="p-6">
@@ -444,7 +445,6 @@ export default function TicketDetailsPage() {
                 </Button>
               )}
             </div>
-            )}
           </div>
         ) : null}
       </div>
