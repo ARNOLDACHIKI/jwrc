@@ -406,7 +406,7 @@ export default function Dashboard() {
                     </div>
                   )}
                   
-                  <div className="space-y-2.5 pt-2 border-t-2 border-gray-300 dark:border-gray-500">
+                  <div className="space-y-2.5 pt-2">
                     {posterEventInfo?.date && (
                       <div className="flex items-start gap-3">
                         <Calendar className="w-5 h-5 flex-shrink-0 text-blue-600 dark:text-blue-400 mt-0.5" />
@@ -431,7 +431,7 @@ export default function Dashboard() {
 
                   {/* Event Content Details */}
                   {posterContent && (
-                    <div className="space-y-5 pt-4 border-t-2 border-gray-300 dark:border-gray-500 overflow-y-auto max-h-[300px] pr-2">
+                    <div className="space-y-5 pt-4 overflow-hidden">
                       {posterContent.theme && (
                         <div>
                           <h3 className="text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Theme</h3>
