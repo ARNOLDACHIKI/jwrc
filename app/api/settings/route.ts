@@ -7,8 +7,8 @@ const prisma = new PrismaClient()
 
 function sanitizeText(value: unknown) {
   if (typeof value !== 'string') return value
-  // Remove any sequence of the same character repeated more than 2 times
-  return value.replace(/(.)(\1{2,})/g, '$1')
+  // Remove any sequence of the same character repeated more than once (keep only 1)
+  return value.replace(/(.)\1+/g, '$1')
 }
 
 async function ensureTable() {
