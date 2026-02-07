@@ -275,17 +275,18 @@ export default function AdminTicketsPage() {
 
         {/* Ticket Display */}
         {showTicket && (
-          <div className="space-y-4">
+          <div className="space-y-4 print:space-y-0">
             <Button
               variant="ghost"
               onClick={() => {
                 setShowTicket(null)
               }}
+              className="print:hidden"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Results
             </Button>
-            <Card className="p-8">
+            <Card className="p-8 print:shadow-none print:border-0 print:p-0">
               <TicketPrinter
                 eventTitle={showTicket.eventTitle}
                 eventDate={formatDate(showTicket.eventDate)}
@@ -301,6 +302,65 @@ export default function AdminTicketsPage() {
         )}
         </div>
       </div>
+
+      <style jsx global>{`
+        @media print {
+          body {
+            margin: 0;
+            padding: 0;
+            background: white;
+          }
+
+          /* Hide admin navigation */
+          header {
+            display: none !important;
+          }
+
+          /* Hide sidebar */
+          aside {
+            display: none !important;
+          }
+
+          /* Hide overlay */
+          [role="presentation"] {
+            display: none !important;
+          }
+
+          /* Show only main content */
+          main {
+            position: static !important;
+            width: 100% !important;
+            height: auto !important;
+            overflow: visible !important;
+          }
+
+          /* Hide all elements except ticket */
+          main > div {
+            padding: 0 !important;
+          }
+
+          main > div > div {
+            margin: 0 !important;
+            max-width: 100% !important;
+          }
+
+          /* Hide back button */
+          button[class*="ghost"] {
+            display: none !important;
+          }
+
+          /* Remove card styling for print */
+          [class*="card"] {
+            box-shadow: none !important;
+            border: none !important;
+            padding: 0 !important;
+          }
+
+          /* Ensure ticket content is visible */
+          .ticket-wrapper {
+            margin: 0 auto !important;
+            padding: 20px !important;
+          }
+        }
+      `}</style>
     </AdminNav>
-  )
-}

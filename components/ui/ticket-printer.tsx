@@ -404,98 +404,140 @@ export function TicketPrinter({
         }
 
         @media print {
-          body {
-            margin: 0;
-            padding: 0;
-            background: white;
+          body, html {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
+            width: 100% !important;
+            height: 100% !important;
           }
-          
+
           * {
-            margin: 0;
-            padding: 0;
+            margin: 0 !important;
+            padding: 0 !important;
           }
           
           .ticket-wrapper {
             --printer-color: #dcdac4;
             --printer-color-2: #c0beaa;
             --receipt-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
           }
           
           .printer-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px auto;
-            width: 100%;
+            display: block !important;
+            margin: 0 !important;
+            padding: 20px !important;
+            width: 100% !important;
+            align-items: center !important;
+            justify-content: center !important;
           }
 
           .printer {
-            display: none;
+            display: none !important;
           }
 
           .printer::before,
           .printer::after {
-            display: none;
+            display: none !important;
           }
 
           .printer-display {
-            display: none;
+            display: none !important;
           }
 
           .print-button {
-            display: none;
+            display: none !important;
           }
 
           .receipt-wrapper {
-            position: static;
-            filter: none;
-            transform: none;
-            clip-path: none;
+            position: static !important;
+            filter: none !important;
+            transform: none !important;
+            clip-path: none !important;
+            display: block !important;
           }
 
           .receipt {
-            width: 400px;
-            min-height: auto;
-            font-size: 1em;
-            box-shadow: none;
-            border: 2px solid #ddd;
-            page-break-inside: avoid;
+            width: 100% !important;
+            max-width: 600px !important;
+            margin: 0 auto !important;
+            min-height: auto !important;
+            font-size: 14px !important;
+            box-shadow: none !important;
+            border: 1px solid #ddd !important;
+            padding: 24px !important;
+            page-break-inside: avoid !important;
+            background: white !important;
           }
 
           .receipt::before,
           .receipt::after {
-            display: none;
+            display: none !important;
           }
 
           .receipt-header {
-            font-size: 1.3em;
-            margin-bottom: 10px;
+            font-size: 20px !important;
+            margin-bottom: 16px !important;
+            text-align: center !important;
           }
 
           .ticket-avatar {
-            width: 60px;
-            height: 60px;
+            width: 80px !important;
+            height: 80px !important;
+            margin: 0 auto 16px !important;
           }
 
           .receipt-subheader {
-            font-size: 1.1em;
-            margin-bottom: 10px;
+            font-size: 14px !important;
+            margin-bottom: 16px !important;
+            text-align: center !important;
+            border-bottom: 1px solid #ddd !important;
+            padding-bottom: 12px !important;
           }
 
           .ticket-details {
-            margin: 10px 0;
+            margin: 16px 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
           }
 
           .detail-row {
-            font-size: 1em;
-            padding: 4px 0;
+            font-size: 14px !important;
+            padding: 8px 0 !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            gap: 16px !important;
+            line-height: 1.4 !important;
+          }
+
+          .detail-row .label {
+            font-weight: 600 !important;
+            min-width: 80px !important;
+          }
+
+          .detail-row .value {
+            text-align: right !important;
+            flex: 1 !important;
+          }
+
+          .detail-divider {
+            border-top: 1px solid #ddd !important;
+            margin: 12px 0 !important;
           }
 
           .receipt-message {
-            font-size: 1em;
-            margin-top: 10px;
+            font-size: 14px !important;
+            margin-top: 16px !important;
+            text-align: center !important;
+            line-height: 1.6 !important;
+          }
+
+          .letter-wrapper {
+            display: none !important;
           }
         }
       `}</style>
