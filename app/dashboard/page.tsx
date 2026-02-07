@@ -449,21 +449,21 @@ export default function Dashboard() {
                       {posterContent.description && (
                         <div>
                           <h3 className="text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Description</h3>
-                          <p className="text-sm text-gray-900 dark:text-white break-words leading-relaxed">{posterContent.description}</p>
+                          <p className="text-sm text-gray-900 dark:text-white break-words leading-relaxed line-clamp-3">{posterContent.description}</p>
                         </div>
                       )}
                       
                       {posterContent.agenda && (
                         <div>
                           <h3 className="text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Agenda</h3>
-                          <p className="text-sm text-gray-900 dark:text-white break-words leading-relaxed">{posterContent.agenda}</p>
+                          <p className="text-sm text-gray-900 dark:text-white break-words leading-relaxed line-clamp-3">{posterContent.agenda}</p>
                         </div>
                       )}
                       
                       {posterContent.details && (
                         <div>
                           <h3 className="text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Details</h3>
-                          <p className="text-sm text-gray-900 dark:text-white break-words leading-relaxed">{posterContent.details}</p>
+                          <p className="text-sm text-gray-900 dark:text-white break-words leading-relaxed line-clamp-3">{posterContent.details}</p>
                         </div>
                       )}
                     </div>
