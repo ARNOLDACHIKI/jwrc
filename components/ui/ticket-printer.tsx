@@ -27,8 +27,8 @@ export function TicketPrinter({
 
   const handlePrint = () => {
     setIsPrinting(true)
+    // Just show the animation, user will press Ctrl+P to actually print
     setTimeout(() => {
-      window.print()
       setIsPrinting(false)
     }, 1700)
   }
@@ -106,6 +106,34 @@ export function TicketPrinter({
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="print-instruction print:hidden" style={{
+        textAlign: 'center',
+        marginTop: '2rem',
+        padding: '1rem',
+        background: '#f0f9ff',
+        border: '2px solid #3b82f6',
+        borderRadius: '8px',
+        color: '#1e40af',
+        fontSize: '16px',
+        fontWeight: '600'
+      }}>
+        📄 Press <kbd style={{
+          background: '#1e40af',
+          color: 'white',
+          padding: '4px 8px',
+          borderRadius: '4px',
+          fontFamily: 'monospace',
+          margin: '0 4px'
+        }}>Ctrl+P</kbd> (or <kbd style={{
+          background: '#1e40af',
+          color: 'white',
+          padding: '4px 8px',
+          borderRadius: '4px',
+          fontFamily: 'monospace',
+          margin: '0 4px'
+        }}>Cmd+P</kbd> on Mac) to print this ticket
       </div>
 
       <style jsx>{`
