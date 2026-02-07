@@ -117,3 +117,344 @@ Raw query failed. Code: `42P01`. Message: `relation "email_verifications" does n
 [02:10:56.659] Browser ERROR   Signup failed: Server error Status: 500
 [02:10:56.659] Browser ERROR   Signup error: {}
 [02:49:37.350] Server  LOG     ✓ Compiled in 249ms
+[03:08:20.692] Server  LOG     ✓ Compiled in 79ms
+[03:08:32.240] Server  LOG     ✓ Compiled in 99ms
+[03:20:48.409] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:20:48.726] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:20:48.726] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/tickets","route":"/admin/tickets"}
+[03:20:48.726] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/tickets color: rgb(120, 120, 120) color: inherit {"dp":"/admin/tickets","o":"http://localhost:3000/admin/tickets","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770429413260}
+[03:20:48.853] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:20:49.282] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[03:20:49.282] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/tickets","route":"/admin/tickets"}
+[03:20:49.282] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/tickets color: rgb(120, 120, 120) color: inherit {"dp":"/admin/tickets","o":"http://localhost:3000/admin/tickets","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1770429413714}
+[03:30:02.677] Server  LOG     ✓ Compiled in 111ms
+[03:39:18.791] Server  LOG     ✓ Compiled in 257ms
+[03:39:19.276] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:39:19.278] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:39:37.126] Server  LOG     ✓ Compiled in 82ms
+[03:39:38.278] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:39:38.279] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:39:47.277] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:39:47.278] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:39:48.289] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:39:48.289] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:39:48.289] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:39:48.291] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:39:48.291] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:39:48.291] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:40:47.276] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:40:47.278] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:41:47.278] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:41:47.280] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:42:47.275] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:42:47.279] Browser ERROR   ./app/admin/tickets/page.tsx:366:16
+Parsing ecmascript source code failed
+  364 |         }
+  365 |       `}</style>
+> 366 |     </AdminNav>
+      |                ^
+  367 |
+
+Expected ',', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/admin/tickets/page.tsx [Client Component Browser]
+    ./app/admin/tickets/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/admin/tickets/page.tsx [Client Component SSR]
+    ./app/admin/tickets/page.tsx [Server Component]
+[03:43:25.392] Server  LOG     ✓ Compiled in 112ms
+[03:52:50.395] Server  LOG     ✓ Compiled in 77ms
+[03:53:08.179] Server  LOG     ✓ Compiled in 80ms
+[03:53:20.150] Server  LOG     ✓ Compiled in 63ms

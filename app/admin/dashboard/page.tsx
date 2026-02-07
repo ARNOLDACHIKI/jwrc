@@ -32,7 +32,7 @@ import { Badge } from "@/components/ui/badge"
 export default function AdminDashboard() {
   const [adminEmail, setAdminEmail] = useState("")
   const [adminName, setAdminName] = useState("")
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [activeTab, setActiveTab] = useState("overview")
   const [showAddForm, setShowAddForm] = useState(false)
   const router = useRouter()
@@ -394,45 +394,55 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-gray-100 dark:bg-slate-900">
       {/* Header */}
       <header className="bg-white dark:bg-slate-800 shadow sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+        <div className="px-4 sm:px-6 py-3 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-4 min-w-0">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700"
+              className="lg:hidden p-2 rounded-lg bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 flex-shrink-0"
             >
-              {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{adminEmail}</p>
+            <div className="min-w-0">
+              <h1 className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white truncate">Admin Dashboard</h1>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 truncate">{adminEmail}</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
             <Button
               onClick={handleRefreshSession}
               variant="outline"
-              className="border-blue-200 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 bg-transparent"
+              className="border-blue-200 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 bg-transparent text-xs sm:text-sm px-2 sm:px-4 h-9"
             >
-              <Activity className="w-4 h-4 mr-2" />
-              Refresh Session
+              <Activity className="w-4 h-4 flex-shrink-0" />
+              <span className="hidden sm:inline ml-2">Refresh</span>
             </Button>
             <Button
               onClick={handleLogout}
               variant="outline"
-              className="border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 bg-transparent"
+              className="border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 bg-transparent text-xs sm:text-sm px-2 sm:px-4 h-9"
             >
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
+              <LogOut className="w-4 h-4 flex-shrink-0" />
+              <span className="hidden sm:inline ml-2">Logout</span>
             </Button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="flex h-[calc(100vh-70px)]">
+      <div className="flex h-[calc(100vh-70px)] overflow-hidden">
+        {/* Mobile Sidebar Overlay */}
+        {sidebarOpen && (
+          <div 
+            className="lg:hidden fixed inset-0 z-30 bg-black/50 top-[70px]"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+
         {/* Sidebar */}
         <aside
-          className={`${sidebarOpen ? "w-64" : "w-0"} bg-gray-900 text-white overflow-y-auto transition-all duration-300 hidden lg:block`}
+          className={`lg:relative lg:w-64 fixed top-[70px] left-0 h-[calc(100vh-70px)] w-64 bg-gray-900 text-white overflow-y-auto transition-transform duration-300 z-40 lg:translate-x-0 ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
         >
           <nav className="p-6 space-y-2">
             {[
@@ -476,11 +486,11 @@ export default function AdminDashboard() {
         </aside>
 
         {/* Main Area */}
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 w-full lg:w-auto">
           {activeTab === "overview" && (
             <div className="space-y-6">
               {/* Stats Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 {stats.map((stat, idx) => (
                   <Card key={idx} className="bg-white dark:bg-slate-800 p-6">
                     <div className="flex items-center justify-between mb-4">

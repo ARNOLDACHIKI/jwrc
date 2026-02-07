@@ -7,6 +7,7 @@
   "/api/admin/events/route": "app/api/admin/events/route.js",
   "/api/admin/reminders/[id]/route": "app/api/admin/reminders/[id]/route.js",
   "/api/admin/reminders/route": "app/api/admin/reminders/route.js",
+  "/api/admin/tickets/search/route": "app/api/admin/tickets/search/route.js",
   "/api/admin/weekly-programs/route": "app/api/admin/weekly-programs/route.js",
   "/api/announcements/route": "app/api/announcements/route.js",
   "/api/auth/login/route": "app/api/auth/login/route.js",
