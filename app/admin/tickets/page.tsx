@@ -124,7 +124,7 @@ export default function AdminTicketsPage() {
       <div className="p-6">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="mb-6">
+          <div className="mb-6 print:hidden">
             <div className="flex items-center gap-3">
               <Ticket className="h-8 w-8 text-blue-600" />
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -137,7 +137,7 @@ export default function AdminTicketsPage() {
           </div>
 
         {/* Search Section */}
-        <Card className="p-6 mb-6">
+        <Card className="p-6 mb-6 print:hidden">
           <form onSubmit={handleSearch}>
             <div className="space-y-4">
               <div>
@@ -182,7 +182,7 @@ export default function AdminTicketsPage() {
 
         {/* Loading State */}
         {isSearching && (
-          <Card className="p-6">
+          <Card className="p-6 print:hidden">
             <SearchLoader />
             <p className="text-center text-gray-600 dark:text-gray-400 mt-4">
               Searching for tickets...
@@ -192,7 +192,7 @@ export default function AdminTicketsPage() {
 
         {/* No Results */}
         {!isSearching && hasSearched && searchResults.length === 0 && !showTicket && (
-          <Card className="p-12 text-center">
+          <Card className="p-12 text-center print:hidden">
             <div className="mb-4">
               <Ticket className="h-16 w-16 text-gray-400 mx-auto" />
             </div>
@@ -209,7 +209,7 @@ export default function AdminTicketsPage() {
 
         {/* Search Results */}
         {!isSearching && searchResults.length > 0 && !showTicket && (
-          <div className="space-y-4">
+          <div className="space-y-4 print:hidden">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
               Found {searchResults.length} ticket{searchResults.length !== 1 ? 's' : ''}
             </h2>
