@@ -406,14 +406,6 @@ export default function AdminPosterPage() {
                       />
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Name of the main speaker or preacher</p>
                     </div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Key Speaker</label>
-                      <Input 
-                        value={posterSpeaker} 
-                        onChange={(e:any) => setPosterSpeaker(e.target.value)} 
-                        placeholder="e.g., 'Pastor John Doe' or 'Rev. Sarah Smith'" 
-                      />
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Name of the main speaker or preacher</p>
-                    </div>
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Description</label>
