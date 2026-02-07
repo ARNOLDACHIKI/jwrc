@@ -5,6 +5,11 @@ import path from 'path'
 
 const prisma = new PrismaClient()
 
+function sanitizeText(value: unknown) {
+  if (typeof value !== 'string') return value
+  return value.replace(/(.)\1{5,}/g, (match) => match[0].repeat(5))
+}
+
 async function ensureTable() {
   await prisma.$executeRawUnsafe(`
     CREATE TABLE IF NOT EXISTS church_settings (
@@ -89,6 +94,14 @@ export async function GET() {
       posterDetails: null
     }
 
+    settings.posterEventTitle = sanitizeText(settings.posterEventTitle)
+    settings.posterEventLocation = sanitizeText(settings.posterEventLocation)
+    settings.posterDescription = sanitizeText(settings.posterDescription)
+    settings.posterSpeaker = sanitizeText(settings.posterSpeaker)
+    settings.posterTheme = sanitizeText(settings.posterTheme)
+    settings.posterAgenda = sanitizeText(settings.posterAgenda)
+    settings.posterDetails = sanitizeText(settings.posterDetails)
+
     // If poster has expired, clear it automatically and remove files
     try {
       if (settings.posterUrl && settings.posterExpiresAt) {
@@ -170,7 +183,8 @@ export async function PATCH(req: Request) {
       await prisma.$executeRaw`UPDATE church_settings SET poster_expires_at = ${val}, updated_at = NOW() WHERE id = 'main'`
     }
     if (body.posterEventTitle !== undefined) {
-      await prisma.$executeRaw`UPDATE church_settings SET poster_event_title = ${body.posterEventTitle || null}, updated_at = NOW() WHERE id = 'main'`
+      const value = sanitizeText(body.posterEventTitle) || null
+      await prisma.$executeRaw`UPDATE church_settings SET poster_event_title = ${value}, updated_at = NOW() WHERE id = 'main'`
     }
     if (body.posterEventDate !== undefined) {
       await prisma.$executeRaw`UPDATE church_settings SET poster_event_date = ${body.posterEventDate || null}, updated_at = NOW() WHERE id = 'main'`
@@ -179,22 +193,28 @@ export async function PATCH(req: Request) {
       await prisma.$executeRaw`UPDATE church_settings SET poster_event_time = ${body.posterEventTime || null}, updated_at = NOW() WHERE id = 'main'`
     }
     if (body.posterEventLocation !== undefined) {
-      await prisma.$executeRaw`UPDATE church_settings SET poster_event_location = ${body.posterEventLocation || null}, updated_at = NOW() WHERE id = 'main'`
+      const value = sanitizeText(body.posterEventLocation) || null
+      await prisma.$executeRaw`UPDATE church_settings SET poster_event_location = ${value}, updated_at = NOW() WHERE id = 'main'`
     }
     if (body.posterDescription !== undefined) {
-      await prisma.$executeRaw`UPDATE church_settings SET poster_description = ${body.posterDescription || null}, updated_at = NOW() WHERE id = 'main'`
+      const value = sanitizeText(body.posterDescription) || null
+      await prisma.$executeRaw`UPDATE church_settings SET poster_description = ${value}, updated_at = NOW() WHERE id = 'main'`
     }
     if (body.posterSpeaker !== undefined) {
-      await prisma.$executeRaw`UPDATE church_settings SET poster_speaker = ${body.posterSpeaker || null}, updated_at = NOW() WHERE id = 'main'`
+      const value = sanitizeText(body.posterSpeaker) || null
+      await prisma.$executeRaw`UPDATE church_settings SET poster_speaker = ${value}, updated_at = NOW() WHERE id = 'main'`
     }
     if (body.posterTheme !== undefined) {
-      await prisma.$executeRaw`UPDATE church_settings SET poster_theme = ${body.posterTheme || null}, updated_at = NOW() WHERE id = 'main'`
+      const value = sanitizeText(body.posterTheme) || null
+      await prisma.$executeRaw`UPDATE church_settings SET poster_theme = ${value}, updated_at = NOW() WHERE id = 'main'`
     }
     if (body.posterAgenda !== undefined) {
-      await prisma.$executeRaw`UPDATE church_settings SET poster_agenda = ${body.posterAgenda || null}, updated_at = NOW() WHERE id = 'main'`
+      const value = sanitizeText(body.posterAgenda) || null
+      await prisma.$executeRaw`UPDATE church_settings SET poster_agenda = ${value}, updated_at = NOW() WHERE id = 'main'`
     }
     if (body.posterDetails !== undefined) {
-      await prisma.$executeRaw`UPDATE church_settings SET poster_details = ${body.posterDetails || null}, updated_at = NOW() WHERE id = 'main'`
+      const value = sanitizeText(body.posterDetails) || null
+      await prisma.$executeRaw`UPDATE church_settings SET poster_details = ${value}, updated_at = NOW() WHERE id = 'main'`
     }
     
     return NextResponse.json({ ok: true })
