@@ -26,8 +26,6 @@ interface TicketData {
     email: string
     phone?: string
     ref: string
-    checkedIn: boolean
-    checkedInAt?: string
     createdAt: string
   }
   event?: {
@@ -218,27 +216,13 @@ export default function TicketDetailsPage() {
 
             {/* Status Banner */}
             {!withdrawn && (
-              <Card className={`p-6 ${ticketData.signup?.checkedIn ? 'border-green-200 dark:border-green-900 bg-green-50 dark:bg-green-950' : 'border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-950'}`}>
+              <Card className="p-6 border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-950">
                 <div className="flex items-center gap-3">
-                  {ticketData.signup?.checkedIn ? (
-                    <>
-                      <CheckCircle className="h-8 w-8 text-green-600" />
-                      <div>
-                        <h2 className="text-xl font-bold text-green-900 dark:text-green-100">Checked In</h2>
-                        <p className="text-sm text-green-700 dark:text-green-300">
-                          {ticketData.signup.checkedInAt && `on ${formatDate(ticketData.signup.checkedInAt)}`}
-                        </p>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <CheckCircle className="h-8 w-8 text-blue-600" />
-                      <div>
-                        <h2 className="text-xl font-bold text-blue-900 dark:text-blue-100">Valid Ticket</h2>
-                        <p className="text-sm text-blue-700 dark:text-blue-300">Not yet checked in</p>
-                      </div>
-                    </>
-                  )}
+                  <CheckCircle className="h-8 w-8 text-blue-600" />
+                  <div>
+                    <h2 className="text-xl font-bold text-blue-900 dark:text-blue-100">Valid Ticket</h2>
+                    <p className="text-sm text-blue-700 dark:text-blue-300">Present your QR code at event entry for check-in</p>
+                  </div>
                 </div>
               </Card>
             )}
@@ -433,8 +417,8 @@ export default function TicketDetailsPage() {
                 </Link>
               </div>
               
-              {/* Withdraw Button - Only show to the ticket owner and if not checked in */}
-              {isMyTicket && !ticketData.signup?.checkedIn && (
+              {/* Withdraw Button - Only show to the ticket owner */}
+              {isMyTicket && (
                 <Button 
                   variant="destructive" 
                   className="w-full bg-red-600 hover:bg-red-700"
