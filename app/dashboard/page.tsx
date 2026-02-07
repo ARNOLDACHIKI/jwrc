@@ -179,26 +179,6 @@ export default function Dashboard() {
         })
       })
 
-      // Add upcoming events
-      const upcomingEvents = (events?.events || [])
-        .filter((e: any) => new Date(e.startsAt) > new Date())
-        .sort((a: any, b: any) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime())
-      
-      if (upcomingEvents.length > 0) {
-        upcomingEvents.slice(0, 1).forEach((e: any) => {
-          activities.push({
-            id: `event-${e.id}`,
-            type: 'event',
-            title: `${e.title || 'Upcoming event'}`,
-            message: e.description || '',
-            time: e.startsAt ? formatTime(new Date(e.startsAt)) : 'Soon',
-            icon: Calendar,
-            actionLabel: 'View Event',
-            actionLink: '/events'
-          })
-        })
-      }
-
       // Add volunteer applications
       const userVolunteers = (volunteers?.applications || []).slice(0, 1)
       userVolunteers.forEach((v: any) => {
