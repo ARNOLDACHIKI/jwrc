@@ -414,7 +414,7 @@ export default function AdminPosterPage() {
                         onChange={(e) => setPosterDescription(sanitizeInput(e.target.value))} 
                         placeholder="Brief description of the event..." 
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        rows={3}
+                        rows={8}
                       />
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">About what the event is about</p>
                     </div>
@@ -426,7 +426,7 @@ export default function AdminPosterPage() {
                         onChange={(e) => setPosterAgenda(sanitizeInput(e.target.value))} 
                         placeholder="e.g., '9:00 - Worship\n10:00 - Message\n11:00 - Fellowship'" 
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        rows={3}
+                        rows={8}
                       />
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Timeline of events and activities</p>
                     </div>
@@ -438,7 +438,7 @@ export default function AdminPosterPage() {
                         onChange={(e) => setPosterDetails(sanitizeInput(e.target.value))} 
                         placeholder="Any other important information..." 
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        rows={3}
+                        rows={8}
                       />
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Dress code, requirements, or other details</p>
                     </div>
