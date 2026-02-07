@@ -76,6 +76,12 @@ export default function ScanTicketPage() {
         return
       }
       
+      // Set scanning state to true so the qr-reader div is rendered
+      setScanning(true)
+      
+      // Wait for the DOM to update and the div to be rendered
+      await new Promise(resolve => setTimeout(resolve, 100))
+      
       const html5QrCode = new Html5Qrcode("qr-reader")
       scannerRef.current = html5QrCode
 
@@ -89,9 +95,9 @@ export default function ScanTicketPage() {
         onScanError
       )
 
-      setScanning(true)
     } catch (err) {
       console.error("Error starting scanner:", err)
+      setScanning(false) // Reset scanning state on error
       const errorMsg = err instanceof Error ? err.message : String(err)
       if (errorMsg.includes("Permission") || errorMsg.includes("permission")) {
         setError("Camera permission denied. Please enable camera access in your browser settings.")
