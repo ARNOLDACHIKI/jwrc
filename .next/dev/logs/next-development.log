@@ -1,1 +1,43 @@
-[00:00:14.848] Server  LOG     ✓ Ready in 14.4s
+[00:00:02.228] Server  LOG     ✓ Ready in 1658ms
+[00:00:16.495] Server  ERROR   Failed to cleanup corrupted data (may not be critical) PrismaClientInitializationError: 
+Invalid `prisma.$executeRawUnsafe()` invocation:
+
+
+Can't reach database server at `localhost`:`5432`
+
+Please make sure your database server is running at `localhost`:`5432`.
+[00:00:16.498] Server  ERROR   Failed to cleanup corrupted data (may not be critical) PrismaClientInitializationError: 
+Invalid `prisma.$executeRawUnsafe()` invocation:
+
+
+Can't reach database server at `localhost`:`5432`
+
+Please make sure your database server is running at `localhost`:`5432`.
+[00:00:16.507] Server  ERROR   PrismaClientInitializationError: 
+Invalid `prisma.$executeRawUnsafe()` invocation:
+
+
+Can't reach database server at `localhost`:`5432`
+
+Please make sure your database server is running at `localhost`:`5432`.
+[00:00:16.508] Server  ERROR   PrismaClientInitializationError: 
+Invalid `prisma.$executeRawUnsafe()` invocation:
+
+
+Can't reach database server at `localhost`:`5432`
+
+Please make sure your database server is running at `localhost`:`5432`.
+[00:00:28.502] Server  ERROR   Failed to cleanup corrupted data (may not be critical) PrismaClientInitializationError: 
+Invalid `prisma.$executeRawUnsafe()` invocation:
+
+
+Can't reach database server at `localhost`:`5432`
+
+Please make sure your database server is running at `localhost`:`5432`.
+[00:00:28.589] Server  ERROR   PrismaClientInitializationError: 
+Invalid `prisma.$executeRawUnsafe()` invocation:
+
+
+Can't reach database server at `localhost`:`5432`
+
+Please make sure your database server is running at `localhost`:`5432`.

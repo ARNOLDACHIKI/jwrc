@@ -388,6 +388,7 @@ export default function AdminPosterPage() {
                         value={posterTheme} 
                         onChange={(e:any) => setPosterTheme(e.target.value)} 
                         placeholder="e.g., 'Living in Faith' or 'Prayer and Power'" 
+                        maxLength={200}
                       />
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Main theme of the event</p>
                     </div>
@@ -398,6 +399,7 @@ export default function AdminPosterPage() {
                         value={posterSpeaker} 
                         onChange={(e:any) => setPosterSpeaker(e.target.value)} 
                         placeholder="e.g., 'Pastor John Doe'" 
+                        maxLength={200}
                       />
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Name of the main speaker or preacher</p>
                     </div>
@@ -410,8 +412,11 @@ export default function AdminPosterPage() {
                         placeholder="Brief description of the event..." 
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         rows={8}
+                        maxLength={2000}
                       />
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">About what the event is about</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        About what the event is about ({posterDescription.length}/2000 characters)
+                      </p>
                     </div>
 
                     <div>
@@ -422,8 +427,11 @@ export default function AdminPosterPage() {
                         placeholder="e.g., '9:00 - Worship\n10:00 - Message\n11:00 - Fellowship'" 
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         rows={8}
+                        maxLength={2000}
                       />
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Timeline of events and activities</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        Timeline of events and activities ({posterAgenda.length}/2000 characters)
+                      </p>
                     </div>
 
                     <div>
@@ -434,8 +442,11 @@ export default function AdminPosterPage() {
                         placeholder="Any other important information..." 
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         rows={8}
+                        maxLength={2000}
                       />
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Dress code, requirements, or other details</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        Dress code, requirements, or other details ({posterDetails.length}/2000 characters)
+                      </p>
                     </div>
                   </div>
                 </Card>
