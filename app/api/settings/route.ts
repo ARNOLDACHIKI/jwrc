@@ -7,11 +7,32 @@ const prisma = new PrismaClient()
 
 function sanitizeText(value: unknown) {
   if (typeof value !== 'string') return value
-  // Remove any sequence of the same character repeated more than once (keep only 1)
-  return value.replace(/(.)\1+/g, '$1')
+  // Remove any sequence of the same character repeated 2+ times
+  return value.replace(/(.)(\1+)/g, '$1')
+}
+
+async function cleanupCorruptedData() {
+  try {
+    // Clean up any corrupted data with excessive character repetitions
+    await prisma.$executeRawUnsafe(`
+      UPDATE church_settings
+      SET 
+        poster_theme = CASE WHEN poster_theme IS NOT NULL THEN regexp_replace(poster_theme, '(.)\\1+', '\\1', 'g') ELSE NULL END,
+        poster_speaker = CASE WHEN poster_speaker IS NOT NULL THEN regexp_replace(poster_speaker, '(.)\\1+', '\\1', 'g') ELSE NULL END,
+        poster_description = CASE WHEN poster_description IS NOT NULL THEN regexp_replace(poster_description, '(.)\\1+', '\\1', 'g') ELSE NULL END,
+        poster_agenda = CASE WHEN poster_agenda IS NOT NULL THEN regexp_replace(poster_agenda, '(.)\\1+', '\\1', 'g') ELSE NULL END,
+        poster_details = CASE WHEN poster_details IS NOT NULL THEN regexp_replace(poster_details, '(.)\\1+', '\\1', 'g') ELSE NULL END,
+        poster_event_title = CASE WHEN poster_event_title IS NOT NULL THEN regexp_replace(poster_event_title, '(.)\\1+', '\\1', 'g') ELSE NULL END,
+        poster_event_location = CASE WHEN poster_event_location IS NOT NULL THEN regexp_replace(poster_event_location, '(.)\\1+', '\\1', 'g') ELSE NULL END
+      WHERE id = 'main'
+    `)
+  } catch (e) {
+    console.error('Failed to cleanup corrupted data (may not be critical)', e)
+  }
 }
 
 async function ensureTable() {
+  await cleanupCorruptedData()
   await prisma.$executeRawUnsafe(`
     CREATE TABLE IF NOT EXISTS church_settings (
       id TEXT PRIMARY KEY DEFAULT 'main',
