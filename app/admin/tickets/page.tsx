@@ -305,29 +305,34 @@ export default function AdminTicketsPage() {
 
       <style jsx global>{`
         @media print {
-          body {
+          @page {
             margin: 0;
-            padding: 0;
-            background: white;
+            size: auto;
+          }
+
+          body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
           }
 
           /* Hide admin navigation */
-          header {
+          body header {
             display: none !important;
           }
 
           /* Hide sidebar */
-          aside {
+          body aside {
             display: none !important;
           }
 
           /* Hide overlay */
-          [role="presentation"] {
+          body [role="presentation"] {
             display: none !important;
           }
 
           /* Show only main content */
-          main {
+          body main {
             position: static !important;
             width: 100% !important;
             height: auto !important;
@@ -335,29 +340,29 @@ export default function AdminTicketsPage() {
           }
 
           /* Hide all elements except ticket */
-          main > div {
+          body main > div {
             padding: 0 !important;
           }
 
-          main > div > div {
+          body main > div > div {
             margin: 0 !important;
             max-width: 100% !important;
           }
 
           /* Hide back button */
-          button[class*="ghost"] {
+          body button[class*="ghost"] {
             display: none !important;
           }
 
           /* Remove card styling for print */
-          [class*="card"] {
+          body [class*="card"] {
             box-shadow: none !important;
             border: none !important;
             padding: 0 !important;
           }
 
           /* Ensure ticket content is visible */
-          .ticket-wrapper {
+          body .ticket-wrapper {
             margin: 0 auto !important;
             padding: 20px !important;
           }
