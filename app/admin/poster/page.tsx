@@ -485,7 +485,6 @@ export default function AdminPosterPage() {
               </div>
             )}
           </div>
-        </div>
       </div>
     </AdminNav>
   )
