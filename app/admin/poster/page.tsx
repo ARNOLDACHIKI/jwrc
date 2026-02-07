@@ -448,6 +448,27 @@ export default function AdminPosterPage() {
                 >
                   {loading ? 'Saving...' : 'Save All Changes'}
                 </Button>
+                
+                {/* Clear All Fields Button */}
+                <Button 
+                  onClick={() => {
+                    setPosterDescription('')
+                    setPosterSpeaker('')
+                    setPosterTheme('')
+                    setPosterAgenda('')
+                    setPosterDetails('')
+                    setPosterEventTitle('')
+                    setPosterEventDate('')
+                    setPosterEventTime('')
+                    setPosterEventLocation('')
+                    toast({ title: 'Cleared', description: 'All fields cleared.' })
+                  }}
+                  disabled={loading}
+                  variant="outline"
+                  className="w-full border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                >
+                  Clear All Fields
+                </Button>
           </div>
         </div>
 
