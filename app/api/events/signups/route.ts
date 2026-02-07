@@ -145,11 +145,7 @@ export async function POST(req: Request) {
             text: emailContent.text,
           })
 
-          // Mark ticket as sent
-          await prisma.eventSignup.update({
-            where: { id: signup.id },
-            data: { ticketSent: true }
-          })
+          console.log('Ticket email sent successfully to', email)
         } catch (emailErr) {
           console.warn('Failed to send ticket email:', emailErr)
         }

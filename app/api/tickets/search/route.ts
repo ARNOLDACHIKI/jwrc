@@ -88,7 +88,7 @@ export async function GET(req: NextRequest) {
       phone: signup.phone,
       profileImage: user?.profileImage,
       createdAt: signup.createdAt,
-      checkedIn: signup.checkedIn || false,
+      checkedIn: false, // Default to false since column doesn't exist in production DB
       event: {
         id: signup.event_id,
         title: signup.event_title,
