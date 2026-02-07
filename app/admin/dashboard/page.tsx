@@ -836,6 +836,24 @@ export default function AdminDashboard() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Volunteer Applications</h2>
+                <Button onClick={() => {
+                  const approved = volunteerApps.filter(v => v.status === 'approved')
+                  if (approved.length === 0) {
+                    alert('No approved volunteers to export')
+                    return
+                  }
+                  const csv = [
+                    'Name,Email,Phone,Role,Approved At',
+                    ...approved.map(v => `"${v.name}","${v.email}","${v.phone || ''}","${v.roleTitle || v.roleId}","${v.respondedAt ? new Date(v.respondedAt).toLocaleString() : ''}"`)
+                  ].join('\n')
+                  const blob = new Blob([csv], { type: 'text/csv' })
+                  const url = URL.createObjectURL(blob)
+                  const a = document.createElement('a')
+                  a.href = url
+                  a.download = `approved-volunteers-${new Date().toISOString().split('T')[0]}.csv`
+                  a.click()
+                  URL.revokeObjectURL(url)
+                }} className="bg-green-600 hover:bg-green-700">Export Approved</Button>
               </div>
 
               <div className="space-y-3">
@@ -848,7 +866,11 @@ export default function AdminDashboard() {
                       {app.adminMessage && <p className="text-sm text-gray-500">Message: {app.adminMessage}</p>}
                     </div>
                     <div className="flex items-center gap-2">
-                      <Button size="sm" className="bg-green-600" onClick={async () => {
+                      <Button size="sm" className="bg-green-600" disabled={app.status === 'approved'} onClick={async () => {
+                        if (app.status === 'approved') {
+                          alert('This volunteer has already been approved')
+                          return
+                        }
                         const msg = prompt('Optional message to the applicant (approval note)')
                         try {
                           const res = await fetch('/api/volunteers', { method: 'PATCH', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: app.id, action: 'approve', message: msg }) })
@@ -873,6 +895,29 @@ export default function AdminDashboard() {
                           }
                         } catch (e) { console.error(e); alert('Failed to reject') }
                       }}>Reject</Button>
+                      {app.status === 'approved' && (
+                        <Button size="sm" variant="destructive" onClick={async () => {
+                          if (!confirm(`Delete approved volunteer ${app.name}? This will remove their record.`)) return
+                          try {
+                            const res = await fetch('/api/volunteers', {
+                              method: 'DELETE',
+                              credentials: 'include',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ id: app.id })
+                            })
+                            if (res.ok) {
+                              setVolunteerApps(prev => prev.filter(v => v.id !== app.id))
+                              toast({ title: 'Deleted', description: 'Volunteer record deleted' })
+                            } else {
+                              const err = await res.json().catch(() => ({}))
+                              alert('Failed to delete: ' + (err?.error || res.status))
+                            }
+                          } catch (e) {
+                            console.error(e)
+                            alert('Failed to delete')
+                          }
+                        }}>Delete</Button>
+                      )}
                     </div>
                   </Card>
                 ))}
@@ -923,6 +968,29 @@ export default function AdminDashboard() {
                         setReplyText(s.adminResponse || '')
                         setReplyModalOpen(true)
                       }}>Respond</Button>
+                      {s.adminResponse && (
+                        <Button size="sm" variant="destructive" onClick={async () => {
+                          if (!confirm(`Delete this responded ${s.type}?`)) return
+                          try {
+                            const res = await fetch('/api/suggestions', {
+                              method: 'DELETE',
+                              credentials: 'include',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ id: s.id })
+                            })
+                            if (res.ok) {
+                              setSuggestionsState(prev => prev.filter(x => x.id !== s.id))
+                              toast({ title: 'Deleted', description: 'Suggestion deleted successfully' })
+                            } else {
+                              const err = await res.json().catch(() => ({}))
+                              alert('Failed to delete: ' + (err?.error || res.status))
+                            }
+                          } catch (e) {
+                            console.error(e)
+                            alert('Failed to delete')
+                          }
+                        }}>Delete</Button>
+                      )}
                     </div>
                   </Card>
                 ))}

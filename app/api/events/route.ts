@@ -119,6 +119,10 @@ export async function DELETE(req: Request) {
     if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
 
     try {
+      // First delete all event signups for this event
+      await prisma.eventSignup.deleteMany({ where: { eventId: id } })
+      
+      // Then delete the event itself
       const deleted = await prisma.event.delete({ where: { id } })
       return NextResponse.json({ deleted })
     } catch (e: any) {

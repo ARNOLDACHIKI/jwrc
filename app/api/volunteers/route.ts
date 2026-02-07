@@ -207,3 +207,26 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const token = getTokenFromHeaders(req)
+    const secret = process.env.JWT_SECRET || 'dev-secret'
+    if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    let payload: any = null
+    try { payload = jwt.verify(token, secret) } catch (e) { return NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) }
+    if (payload.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+
+    const body = await req.json()
+    const { id } = body || {}
+    if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
+
+    await ensureTable()
+    await prisma.$executeRawUnsafe(`DELETE FROM volunteer_applications WHERE id = $1`, String(id))
+
+    return NextResponse.json({ ok: true })
+  } catch (e) {
+    console.error(e)
+    return NextResponse.json({ error: 'Server error' }, { status: 500 })
+  }
+}

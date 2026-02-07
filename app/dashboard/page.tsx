@@ -168,6 +168,10 @@ export default function Dashboard() {
             const posterEvent = eventsData.events?.find((e: any) => e.id === eventId)
             if (posterEvent) {
               setUpcomingEvent(posterEvent)
+            } else {
+              // Event doesn't exist anymore, clear the poster event
+              setPosterEventId(null)
+              setUpcomingEvent(null)
             }
           }
         } catch (e) {
