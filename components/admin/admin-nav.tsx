@@ -58,7 +58,7 @@ export function AdminNav({ onLogout, children }: AdminNavProps) {
           <div className="flex items-center gap-2 sm:gap-4">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 flex-shrink-0"
+              className="lg:hidden p-2 rounded-lg bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 flex-shrink-0 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600"
               aria-label="Toggle menu"
             >
               {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
