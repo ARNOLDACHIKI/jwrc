@@ -116,3 +116,4 @@ Invalid `prisma.$executeRawUnsafe()` invocation:
 Raw query failed. Code: `42P01`. Message: `relation "email_verifications" does not exist`
 [02:10:56.659] Browser ERROR   Signup failed: Server error Status: 500
 [02:10:56.659] Browser ERROR   Signup error: {}
+[02:49:37.350] Server  LOG     ✓ Compiled in 249ms
