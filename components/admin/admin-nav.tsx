@@ -25,7 +25,7 @@ interface AdminNavProps {
 export function AdminNav({ onLogout, children }: AdminNavProps) {
   const router = useRouter()
   const pathname = usePathname()
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const handleLogout = async () => {
     if (onLogout) {
