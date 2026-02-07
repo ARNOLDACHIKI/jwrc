@@ -404,8 +404,98 @@ export function TicketPrinter({
         }
 
         @media print {
+          body {
+            margin: 0;
+            padding: 0;
+            background: white;
+          }
+          
+          * {
+            margin: 0;
+            padding: 0;
+          }
+          
+          .ticket-wrapper {
+            --printer-color: #dcdac4;
+            --printer-color-2: #c0beaa;
+            --receipt-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+          }
+          
           .printer-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            width: 100%;
+          }
+
+          .printer {
             display: none;
+          }
+
+          .printer::before,
+          .printer::after {
+            display: none;
+          }
+
+          .printer-display {
+            display: none;
+          }
+
+          .print-button {
+            display: none;
+          }
+
+          .receipt-wrapper {
+            position: static;
+            filter: none;
+            transform: none;
+            clip-path: none;
+          }
+
+          .receipt {
+            width: 400px;
+            min-height: auto;
+            font-size: 1em;
+            box-shadow: none;
+            border: 2px solid #ddd;
+            page-break-inside: avoid;
+          }
+
+          .receipt::before,
+          .receipt::after {
+            display: none;
+          }
+
+          .receipt-header {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+          }
+
+          .ticket-avatar {
+            width: 60px;
+            height: 60px;
+          }
+
+          .receipt-subheader {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+          }
+
+          .ticket-details {
+            margin: 10px 0;
+          }
+
+          .detail-row {
+            font-size: 1em;
+            padding: 4px 0;
+          }
+
+          .receipt-message {
+            font-size: 1em;
+            margin-top: 10px;
           }
         }
       `}</style>
