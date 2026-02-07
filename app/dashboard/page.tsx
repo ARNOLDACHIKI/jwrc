@@ -386,9 +386,9 @@ export default function Dashboard() {
 
             {/* Poster Display - Information Only, No Registration */}
             {poster && (
-              <article className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6 border-4 border-gray-300 dark:border-gray-600 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 p-6 shadow-[8px_8px_0_0_rgba(107,114,128,0.3)] dark:shadow-[8px_8px_0_0_rgba(75,85,99,0.3)] overflow-hidden">
+              <article className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8 border-4 border-gray-300 dark:border-gray-600 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 p-8 shadow-[8px_8px_0_0_rgba(107,114,128,0.3)] dark:shadow-[8px_8px_0_0_rgba(75,85,99,0.3)] overflow-hidden rounded-lg">
                 {/* Poster Image - Left Column */}
-                <div className="flex items-center justify-center overflow-hidden">
+                <div className="flex items-center justify-center overflow-hidden min-h-[300px] md:min-h-[400px]">
                   <img 
                     src={poster.url || ''} 
                     alt={poster.alt || 'Event Poster'} 
@@ -397,71 +397,73 @@ export default function Dashboard() {
                 </div>
 
                 {/* Event Details - Right Column */}
-                <div className="flex flex-col justify-center space-y-4 overflow-hidden">
+                <div className="flex flex-col justify-start space-y-6 overflow-hidden min-h-[300px] md:min-h-[400px]">
                   {posterEventInfo?.title && (
-                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white break-words">
-                      {posterEventInfo.title}
-                    </h2>
+                    <div>
+                      <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white leading-tight break-words">
+                        {posterEventInfo.title}
+                      </h2>
+                    </div>
                   )}
                   
-                  <div className="space-y-3">
+                  <div className="space-y-2.5 pt-2 border-t-2 border-gray-300 dark:border-gray-500">
                     {posterEventInfo?.date && (
-                      <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <Calendar className="w-5 h-5 flex-shrink-0" />
-                        <span className="font-semibold break-words">{posterEventInfo.date}</span>
+                      <div className="flex items-start gap-3">
+                        <Calendar className="w-5 h-5 flex-shrink-0 text-blue-600 dark:text-blue-400 mt-0.5" />
+                        <span className="font-semibold text-gray-900 dark:text-white break-words">{posterEventInfo.date}</span>
                       </div>
                     )}
                     
                     {posterEventInfo?.time && (
-                      <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <span className="w-5 h-5 flex-shrink-0">🕐</span>
-                        <span className="font-semibold break-words">{posterEventInfo.time}</span>
+                      <div className="flex items-start gap-3">
+                        <span className="w-5 h-5 flex-shrink-0 text-lg text-blue-600 dark:text-blue-400">🕐</span>
+                        <span className="font-semibold text-gray-900 dark:text-white break-words">{posterEventInfo.time}</span>
                       </div>
                     )}
                     
                     {posterEventInfo?.location && (
-                      <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <span className="w-5 h-5 flex-shrink-0">📍</span>
-                        <span className="font-semibold break-words">{posterEventInfo.location}</span>
+                      <div className="flex items-start gap-3">
+                        <span className="w-5 h-5 flex-shrink-0 text-lg text-blue-600 dark:text-blue-400">📍</span>
+                        <span className="font-semibold text-gray-900 dark:text-white break-words">{posterEventInfo.location}</span>
                       </div>
                     )}
                   </div>
 
                   {/* Event Content Details */}
                   {posterContent && (
-                    <div className="space-y-3 mt-4 overflow-hidden">
+                    <div className="space-y-5 pt-4 border-t-2 border-gray-300 dark:border-gray-500 overflow-y-auto max-h-[300px] pr-2">
                       {posterContent.theme && (
-                        <div className="overflow-hidden">
-                          <h3 className="text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase mb-1">Theme</h3>
-                          <p className="text-sm sm:text-base text-gray-900 dark:text-white break-words overflow-wrap-anywhere">{posterContent.theme}</p>
+                        <div>
+                          <h3 className="text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Theme</h3>
+                          <p className="text-sm text-gray-900 dark:text-white break-words leading-relaxed">{posterContent.theme}</p>
                         </div>
                       )}
                       
                       {posterContent.speaker && (
-                        <div className="overflow-hidden">
-                          <h3 className="text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase mb-1">Speaker</h3>
-                          <p className="text-sm sm:text-base text-gray-900 dark:text-white break-words overflow-wrap-anywhere">{posterContent.speaker}</p>
+                        <div>
+                          <h3 className="text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Speaker</h3>
+                          <p className="text-sm text-gray-900 dark:text-white break-words leading-relaxed">{posterContent.speaker}</p>
                         </div>
                       )}
                       
                       {posterContent.description && (
-                        <div className="overflow-hidden">
-                          <h3 className="text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase mb-1">Description</h3>
-                          <p className="text-sm sm:text-base text-gray-900 dark:text-white break-words overflow-wrap-anywhere whitespace-normal">{posterContent.description}</p>
+                        <div>
+                          <h3 className="text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Description</h3>
+                          <p className="text-sm text-gray-900 dark:text-white break-words leading-relaxed whitespace-normal">{posterContent.description}</p>
                         </div>
                       )}
                       
                       {posterContent.agenda && (
-                        <div className="overflow-hidden">
-                          <h3 className="text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase mb-1">Agenda</h3>
-                          <p className="text-sm sm:text-base text-gray-900 dark:text-white break-words overflow-wrap-anywhere whitespace-pre-wrap">{posterContent.agenda}</p>
+                        <div>
+                          <h3 className="text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Agenda</h3>
+                          <p className="text-sm text-gray-900 dark:text-white break-words leading-relaxed whitespace-pre-wrap">{posterContent.agenda}</p>
                         </div>
                       )}
                       
                       {posterContent.details && (
-                        <div className="overflow-hidden">
-                          <h3 className="text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase mb-1">Details</h3>
-                          <p className="text-sm sm:text-base text-gray-900 dark:text-white break-words overflow-wrap-anywhere whitespace-pre-wrap">{posterContent.details}</p>
+                        <div>
+                          <h3 className="text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Details</h3>
+                          <p className="text-sm text-gray-900 dark:text-white break-words leading-relaxed whitespace-pre-wrap">{posterContent.details}</p>
                         </div>
                       )}
                     </div>
