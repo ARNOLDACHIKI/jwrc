@@ -386,9 +386,9 @@ export default function Dashboard() {
 
             {/* Poster Display - Information Only, No Registration */}
             {poster && (
-              <article className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6 border-4 border-gray-300 dark:border-gray-600 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 p-6 shadow-[8px_8px_0_0_rgba(107,114,128,0.3)] dark:shadow-[8px_8px_0_0_rgba(75,85,99,0.3)]">
+              <article className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6 border-4 border-gray-300 dark:border-gray-600 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 p-6 shadow-[8px_8px_0_0_rgba(107,114,128,0.3)] dark:shadow-[8px_8px_0_0_rgba(75,85,99,0.3)] overflow-hidden">
                 {/* Poster Image - Left Column */}
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center overflow-hidden">
                   <img 
                     src={poster.url || ''} 
                     alt={poster.alt || 'Event Poster'} 
@@ -397,9 +397,9 @@ export default function Dashboard() {
                 </div>
 
                 {/* Event Details - Right Column */}
-                <div className="flex flex-col justify-center space-y-4">
+                <div className="flex flex-col justify-center space-y-4 overflow-hidden">
                   {posterEventInfo?.title && (
-                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white break-words">
                       {posterEventInfo.title}
                     </h2>
                   )}
@@ -407,61 +407,61 @@ export default function Dashboard() {
                   <div className="space-y-3">
                     {posterEventInfo?.date && (
                       <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <Calendar className="w-5 h-5" />
-                        <span className="font-semibold">{posterEventInfo.date}</span>
+                        <Calendar className="w-5 h-5 flex-shrink-0" />
+                        <span className="font-semibold break-words">{posterEventInfo.date}</span>
                       </div>
                     )}
                     
                     {posterEventInfo?.time && (
                       <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <span className="w-5 h-5">🕐</span>
-                        <span className="font-semibold">{posterEventInfo.time}</span>
+                        <span className="w-5 h-5 flex-shrink-0">🕐</span>
+                        <span className="font-semibold break-words">{posterEventInfo.time}</span>
                       </div>
                     )}
                     
                     {posterEventInfo?.location && (
                       <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <span className="w-5 h-5">📍</span>
-                        <span className="font-semibold">{posterEventInfo.location}</span>
+                        <span className="w-5 h-5 flex-shrink-0">📍</span>
+                        <span className="font-semibold break-words">{posterEventInfo.location}</span>
                       </div>
                     )}
                   </div>
 
                   {/* Event Content Details */}
                   {posterContent && (
-                    <div className="space-y-3 mt-4">
+                    <div className="space-y-3 mt-4 overflow-hidden">
                       {posterContent.theme && (
-                        <div>
-                          <h3 className="text-sm font-bold text-gray-600 dark:text-gray-400 uppercase">Theme</h3>
-                          <p className="text-gray-900 dark:text-white">{posterContent.theme}</p>
+                        <div className="overflow-hidden">
+                          <h3 className="text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase mb-1">Theme</h3>
+                          <p className="text-sm sm:text-base text-gray-900 dark:text-white break-words overflow-wrap-anywhere">{posterContent.theme}</p>
                         </div>
                       )}
                       
                       {posterContent.speaker && (
-                        <div>
-                          <h3 className="text-sm font-bold text-gray-600 dark:text-gray-400 uppercase">Speaker</h3>
-                          <p className="text-gray-900 dark:text-white">{posterContent.speaker}</p>
+                        <div className="overflow-hidden">
+                          <h3 className="text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase mb-1">Speaker</h3>
+                          <p className="text-sm sm:text-base text-gray-900 dark:text-white break-words overflow-wrap-anywhere">{posterContent.speaker}</p>
                         </div>
                       )}
                       
                       {posterContent.description && (
-                        <div>
-                          <h3 className="text-sm font-bold text-gray-600 dark:text-gray-400 uppercase">Description</h3>
-                          <p className="text-gray-900 dark:text-white">{posterContent.description}</p>
+                        <div className="overflow-hidden">
+                          <h3 className="text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase mb-1">Description</h3>
+                          <p className="text-sm sm:text-base text-gray-900 dark:text-white break-words overflow-wrap-anywhere whitespace-normal">{posterContent.description}</p>
                         </div>
                       )}
                       
                       {posterContent.agenda && (
-                        <div>
-                          <h3 className="text-sm font-bold text-gray-600 dark:text-gray-400 uppercase">Agenda</h3>
-                          <p className="text-gray-900 dark:text-white whitespace-pre-line">{posterContent.agenda}</p>
+                        <div className="overflow-hidden">
+                          <h3 className="text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase mb-1">Agenda</h3>
+                          <p className="text-sm sm:text-base text-gray-900 dark:text-white break-words overflow-wrap-anywhere whitespace-pre-wrap">{posterContent.agenda}</p>
                         </div>
                       )}
                       
                       {posterContent.details && (
-                        <div>
-                          <h3 className="text-sm font-bold text-gray-600 dark:text-gray-400 uppercase">Details</h3>
-                          <p className="text-gray-900 dark:text-white whitespace-pre-line">{posterContent.details}</p>
+                        <div className="overflow-hidden">
+                          <h3 className="text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase mb-1">Details</h3>
+                          <p className="text-sm sm:text-base text-gray-900 dark:text-white break-words overflow-wrap-anywhere whitespace-pre-wrap">{posterContent.details}</p>
                         </div>
                       )}
                     </div>

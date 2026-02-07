@@ -101,6 +101,13 @@ html.font-size-large {
   .logo-spin:hover {
     transform: rotate(360deg);
   }
+  
+  /* Overflow wrap utilities for better text wrapping */
+  .overflow-wrap-anywhere {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
+  }
 }
 
 @theme inline {
