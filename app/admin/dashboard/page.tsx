@@ -393,12 +393,14 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-slate-900">
       {/* Header */}
-      <header className="bg-white dark:bg-slate-800 shadow sticky top-0 z-40">
+      <header className="bg-white dark:bg-slate-800 shadow sticky top-0 z-50">
         <div className="px-4 sm:px-6 py-3 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 sm:gap-4 min-w-0">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden p-2 rounded-lg bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 flex-shrink-0"
+              className="lg:hidden p-2 rounded-lg bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 flex-shrink-0 relative z-50 transition-colors active:scale-95"
+              aria-label="Toggle menu"
+              aria-expanded={sidebarOpen}
             >
               {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -445,6 +447,15 @@ export default function AdminDashboard() {
           }`}
         >
           <nav className="p-6 space-y-2">
+            {/* Mobile Close Button */}
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden w-full flex items-center justify-between px-4 py-3 rounded-lg text-gray-400 hover:bg-gray-800 mb-4 border border-gray-700"
+              aria-label="Close menu"
+            >
+              <span className="font-semibold text-white text-sm">Close Menu</span>
+              <X className="w-5 h-5" />
+            </button>
             {[
               { label: "Overview", icon: BarChart3, id: "overview" },
               { label: "Announcements", icon: MessageSquare, id: "announcements" },
@@ -459,6 +470,7 @@ export default function AdminDashboard() {
                 <a
                   key={item.id}
                   href={item.href}
+                  onClick={() => setSidebarOpen(false)}
                   className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition text-gray-400 hover:bg-gray-800"
                 >
                   <item.icon className="w-5 h-5" />
@@ -467,7 +479,10 @@ export default function AdminDashboard() {
               ) : (
                 <button
                   key={item.id}
-                  onClick={() => setActiveTab(item.id)}
+                  onClick={() => {
+                    setActiveTab(item.id)
+                    setSidebarOpen(false)
+                  }}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${
                     activeTab === item.id ? "bg-blue-600 text-white" : "text-gray-400 hover:bg-gray-800"
                   }`}
