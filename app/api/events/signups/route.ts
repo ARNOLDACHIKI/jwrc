@@ -63,6 +63,15 @@ export async function POST(req: Request) {
           equals: email,
           mode: 'insensitive'
         }
+      },
+      select: {
+        id: true,
+        eventId: true,
+        ref: true,
+        name: true,
+        email: true,
+        phone: true,
+        createdAt: true
       }
     })
     if (exists) {
@@ -77,7 +86,10 @@ export async function POST(req: Request) {
     let ref = genRef()
     // ensure unique ref
     for (let i = 0; i < 5; i++) {
-      const r = await prisma.eventSignup.findFirst({ where: { ref } })
+      const r = await prisma.eventSignup.findFirst({ 
+        where: { ref },
+        select: { id: true }
+      })
       if (!r) break
       ref = genRef()
     }
@@ -215,7 +227,16 @@ export async function GET(req: Request) {
 
       const signups = await prisma.eventSignup.findMany({
         where: { eventId },
-        orderBy: { createdAt: 'desc' }
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          ref: true,
+          eventId: true,
+          name: true,
+          email: true,
+          phone: true,
+          createdAt: true
+        }
       })
 
       // Convert to match expected format
@@ -251,7 +272,16 @@ export async function GET(req: Request) {
             mode: 'insensitive'
           }
         },
-        orderBy: { createdAt: 'desc' }
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          ref: true,
+          eventId: true,
+          name: true,
+          email: true,
+          phone: true,
+          createdAt: true
+        }
       })
 
       // Fetch event details for each signup
