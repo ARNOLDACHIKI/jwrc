@@ -21,6 +21,7 @@ import {
   X,
   Eye,
   Bell,
+  Ticket,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useToast } from '@/hooks/use-toast'
@@ -462,6 +463,7 @@ export default function AdminDashboard() {
               { label: "Events", icon: Calendar, id: "events" },
               { label: "Volunteers", icon: Users, id: "volunteers" },
               { label: "Suggestions", icon: MessageSquare, id: "suggestions" },
+              { label: "Tickets", icon: Ticket, id: "tickets", isLink: true, href: "/admin/tickets" },
               { label: "Poster", icon: FileText, id: "poster", isLink: true, href: "/admin/poster" },
               { label: "Reminders", icon: Bell, id: "reminders", isLink: true, href: "/admin/reminders" },
               { label: "Settings", icon: Settings, id: "settings" },
