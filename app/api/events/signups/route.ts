@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client"
 import jwt from "jsonwebtoken"
 import { randomUUID } from "crypto"
 import { getEventTicketEmail } from "@/lib/email-templates"
-import { generateTicketQRCode } from "@/lib/qrcode"
+import { generateTicketQRCodeBuffer } from "@/lib/qrcode"
 
 const prisma = new PrismaClient()
 
@@ -105,11 +105,11 @@ export async function POST(req: Request) {
     })
 
     // Send ticket email with QR code
-    let qrCodeDataURL: string | null = null
+    let qrCodeBuffer: Buffer | null = null
     try {
       // Generate QR code for ticket (always generate, even if email fails)
       const baseUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
-      qrCodeDataURL = await generateTicketQRCode({
+      qrCodeBuffer = await generateTicketQRCodeBuffer({
         eventId: signup.eventId,
         signupId: signup.id,
         ref: ref || '',
@@ -146,7 +146,7 @@ export async function POST(req: Request) {
             formatDate(new Date(ev.startsAt)),
             ev.location || undefined,
             ref || '',
-            qrCodeDataURL
+            'qr-code-ticket' // CID for the embedded attachment
           )
           
           await transporter.sendMail({
@@ -155,6 +155,13 @@ export async function POST(req: Request) {
             subject: emailContent.subject,
             html: emailContent.html,
             text: emailContent.text,
+            attachments: [
+              {
+                filename: 'ticket-qr.png',
+                content: qrCodeBuffer,
+                cid: 'qr-code-ticket'
+              }
+            ]
           })
 
           console.log('Ticket email sent successfully to', email)

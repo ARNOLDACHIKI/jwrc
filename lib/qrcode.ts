@@ -3,6 +3,7 @@ import QRCode from 'qrcode'
 /**
  * Generate QR code data URL for event ticket
  * The QR code now contains a URL to the ticket details page
+ * @deprecated Use generateTicketQRCodeBuffer for email attachments instead
  */
 export async function generateTicketQRCode(data: {
   eventId: string
@@ -30,6 +31,38 @@ export async function generateTicketQRCode(data: {
   })
 
   return qrCodeDataURL
+}
+
+/**
+ * Generate QR code as Buffer for email attachments
+ * Returns a Buffer that can be attached to emails instead of using data URLs
+ */
+export async function generateTicketQRCodeBuffer(data: {
+  eventId: string
+  signupId: string
+  ref: string
+  name: string
+  email: string
+  baseUrl?: string
+}): Promise<Buffer> {
+  // Use the baseUrl or construct ticket URL with reference
+  const ticketUrl = data.baseUrl 
+    ? `${data.baseUrl}/tickets/${data.ref}`
+    : `/tickets/${data.ref}`
+
+  // Generate QR code as Buffer
+  const qrCodeBuffer = await QRCode.toBuffer(ticketUrl, {
+    errorCorrectionLevel: 'H',
+    type: 'image/png',
+    width: 300,
+    margin: 2,
+    color: {
+      dark: '#000000',
+      light: '#FFFFFF'
+    }
+  })
+
+  return qrCodeBuffer
 }
 
 /**

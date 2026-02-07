@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { PrismaClient } from "@prisma/client"
 import jwt from "jsonwebtoken"
-import { generateTicketQRCode } from "@/lib/qrcode"
+import { generateTicketQRCodeBuffer } from "@/lib/qrcode"
 import { getEventTicketEmail } from "@/lib/email-templates"
 
 const prisma = new PrismaClient()
@@ -112,8 +112,8 @@ export async function POST(req: Request) {
 
     for (const signup of signups) {
       try {
-        // Generate QR code for this ticket
-        const qrCodeDataURL = await generateTicketQRCode({
+        // Generate QR code for this ticket as buffer
+        const qrCodeBuffer = await generateTicketQRCodeBuffer({
           eventId: signup.event_id,
           signupId: signup.id,
           ref: signup.ref || '',
@@ -121,10 +121,7 @@ export async function POST(req: Request) {
           email: signup.email
         })
 
-        console.log(`Generated QR code for ${signup.email}, length: ${qrCodeDataURL.length}`)
-
-        // Extract base64 data from data URL
-        const base64Data = qrCodeDataURL.split(',')[1]
+        console.log(`Generated QR code for ${signup.email}, buffer size: ${qrCodeBuffer.length} bytes`)
 
         // Use the professional ticket email template with CID reference
         const emailContent = getEventTicketEmail(
@@ -133,7 +130,7 @@ export async function POST(req: Request) {
           formatDate(new Date(event.startsAt)),
           event.location || undefined,
           signup.ref || 'N/A',
-          'cid:qrcode@ticket' // Use CID instead of data URL
+          'qr-code-ticket' // CID for the embedded attachment
         )
 
         await transporter.sendMail({
@@ -144,10 +141,9 @@ export async function POST(req: Request) {
           text: emailContent.text,
           attachments: [
             {
-              filename: 'qrcode.png',
-              content: base64Data,
-              encoding: 'base64',
-              cid: 'qrcode@ticket' // Same CID as referenced in the HTML
+              filename: 'ticket-qr.png',
+              content: qrCodeBuffer,
+              cid: 'qr-code-ticket' // Same CID as referenced in the HTML
             }
           ]
         })

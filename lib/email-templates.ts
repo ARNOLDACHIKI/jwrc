@@ -99,7 +99,7 @@ This is an automated confirmation email. Please do not reply to this message.
   }
 }
 
-export function getEventTicketEmail(name: string, eventTitle: string, eventDate: string, eventLocation: string | undefined, ref: string, qrCodeDataURL: string) {
+export function getEventTicketEmail(name: string, eventTitle: string, eventDate: string, eventLocation: string | undefined, ref: string, qrCodeCID: string = 'qr-code-ticket') {
   const siteName = process.env.SITE_NAME || 'Jesus Worship and Restoration Church'
   const siteUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
   
@@ -143,7 +143,7 @@ export function getEventTicketEmail(name: string, eventTitle: string, eventDate:
               
               <div style="text-align: center; margin: 30px 0; padding: 20px; background-color: #ffffff; border: 2px dashed #667eea; border-radius: 8px;">
                 <h3 style="color: #333333; margin: 0 0 15px 0; font-size: 18px;">Your QR Code Ticket</h3>
-                <img src="${qrCodeDataURL}" alt="Event Ticket QR Code" style="width: 250px; height: 250px; margin: 0 auto; display: block;" />
+                <img src="cid:${qrCodeCID}" alt="Event Ticket QR Code" style="width: 250px; height: 250px; margin: 0 auto; display: block;" />
                 <p style="color: #999999; font-size: 13px; margin: 15px 0 0 0;">
                   Present this QR code at the event entrance
                 </p>

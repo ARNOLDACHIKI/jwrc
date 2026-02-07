@@ -36,14 +36,34 @@ export default function AdminTicketsPage() {
   const [events, setEvents] = useState<Event[]>([])
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
-  const [isSearching, setIsSearching] = useState(false)
+  const [isSearching, setIsSearching] = useState(true) // Start as true to show loading on page load
   const [searchResults, setSearchResults] = useState<Signup[]>([])
   const [showTicket, setShowTicket] = useState<Signup | null>(null)
   const [hasSearched, setHasSearched] = useState(false)
 
   useEffect(() => {
     fetchEvents()
+    // Load all registrations on page load
+    loadAllRegistrations()
   }, [])
+
+  const loadAllRegistrations = async () => {
+    try {
+      setIsSearching(true)
+      const res = await fetch('/api/admin/tickets/search', {
+        credentials: 'include'
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setSearchResults(data.signups || [])
+        setHasSearched(true)
+      }
+    } catch (error) {
+      console.error('Error loading registrations:', error)
+    } finally {
+      setIsSearching(false)
+    }
+  }
 
   const fetchEvents = async () => {
     try {
