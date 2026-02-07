@@ -10,11 +10,6 @@ import { X, Info, Settings } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { AdminNav } from '@/components/admin/admin-nav'
 
-// Helper function to prevent excessive character repetition
-function sanitizeInput(value: string): string {
-  // Remove any sequence of the same character repeated more than 5 times
-  return value.replace(/(.)\1{5,}/g, (match) => match[0].repeat(5))
-}
 
 export default function AdminPosterPage() {
   const router = useRouter()
@@ -391,7 +386,7 @@ export default function AdminPosterPage() {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Theme</label>
                       <Input 
                         value={posterTheme} 
-                        onChange={(e:any) => setPosterTheme(sanitizeInput(e.target.value))} 
+                        onChange={(e:any) => setPosterTheme(e.target.value)} 
                         placeholder="e.g., 'Living in Faith' or 'Prayer and Power'" 
                       />
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Main theme of the event</p>
@@ -401,7 +396,7 @@ export default function AdminPosterPage() {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Speaker</label>
                       <Input 
                         value={posterSpeaker} 
-                        onChange={(e:any) => setPosterSpeaker(sanitizeInput(e.target.value))} 
+                        onChange={(e:any) => setPosterSpeaker(e.target.value)} 
                         placeholder="e.g., 'Pastor John Doe'" 
                       />
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Name of the main speaker or preacher</p>
@@ -411,7 +406,7 @@ export default function AdminPosterPage() {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Description</label>
                       <textarea 
                         value={posterDescription} 
-                        onChange={(e) => setPosterDescription(sanitizeInput(e.target.value))} 
+                        onChange={(e) => setPosterDescription(e.target.value)} 
                         placeholder="Brief description of the event..." 
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         rows={8}
@@ -423,7 +418,7 @@ export default function AdminPosterPage() {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Agenda</label>
                       <textarea 
                         value={posterAgenda} 
-                        onChange={(e) => setPosterAgenda(sanitizeInput(e.target.value))} 
+                        onChange={(e) => setPosterAgenda(e.target.value)} 
                         placeholder="e.g., '9:00 - Worship\n10:00 - Message\n11:00 - Fellowship'" 
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         rows={8}
@@ -435,7 +430,7 @@ export default function AdminPosterPage() {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Additional Details</label>
                       <textarea 
                         value={posterDetails} 
-                        onChange={(e) => setPosterDetails(sanitizeInput(e.target.value))} 
+                        onChange={(e) => setPosterDetails(e.target.value)} 
                         placeholder="Any other important information..." 
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         rows={8}
