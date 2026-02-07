@@ -22,6 +22,9 @@ export default function Dashboard() {
   const [weeklyProgramsCount, setWeeklyProgramsCount] = useState(0)
   const [weeklyPrograms, setWeeklyPrograms] = useState<Array<{id: string, name: string, day: string, time: string}>>([])
   const [weeklyWord, setWeeklyWord] = useState<{title: string, theme: string, scripture: string | null, content: string} | null>(null)
+  const [poster, setPoster] = useState<{url: string | null, alt: string | null} | null>(null)
+  const [posterEventInfo, setPosterEventInfo] = useState<{ title: string | null, date: string | null, time: string | null, location: string | null } | null>(null)
+  const [posterContent, setPosterContent] = useState<{ description: string | null, agenda: string | null, details: string | null, speaker: string | null, theme: string | null } | null>(null)
   const [readActivities, setReadActivities] = useState<Set<string>>(new Set())
   const [myEventSignups, setMyEventSignups] = useState<Array<any>>([])
   const [withdrawingSignup, setWithdrawingSignup] = useState<string | null>(null)
@@ -128,6 +131,32 @@ export default function Dashboard() {
     }
   }
 
+
+  async function loadPoster() {
+    try {
+      const res = await fetch('/api/settings')
+      if (!res.ok) return
+      const data = await res.json()
+      const p = data?.settings?.posterUrl ? { url: data.settings.posterUrl, alt: data.settings.posterAlt || null } : null
+      setPoster(p)
+      const posterInfo = {
+        title: data?.settings?.posterEventTitle || null,
+        date: data?.settings?.posterEventDate || null,
+        time: data?.settings?.posterEventTime || null,
+        location: data?.settings?.posterEventLocation || null,
+      }
+      setPosterEventInfo(posterInfo)
+      
+      const posterContentInfo = {
+        description: data?.settings?.posterDescription || null,
+        agenda: data?.settings?.posterAgenda || null,
+        details: data?.settings?.posterDetails || null,
+        speaker: data?.settings?.posterSpeaker || null,
+        theme: data?.settings?.posterTheme || null,
+      }
+      setPosterContent(posterContentInfo)
+    } catch (e) { console.error('Failed to load poster', e) }
+  }
 
   async function loadMyEventSignups() {
     try {
@@ -249,6 +278,7 @@ export default function Dashboard() {
     loadActiveReminder()
     loadWeeklyPrograms()
     loadWeeklyWord()
+    loadPoster()
     loadMyEventSignups()
     // automatically mark messages read when dashboard loads
     ;(async () => {
@@ -264,6 +294,7 @@ export default function Dashboard() {
       loadRecentActivity()
       loadWeeklyPrograms()
       loadWeeklyWord()
+      loadPoster()
       loadMyEventSignups()
     }, 30000) // Refresh every 30 seconds
     return () => clearInterval(iv)
@@ -351,6 +382,92 @@ export default function Dashboard() {
                   </div>
                 </div>
               </Card>
+            )}
+
+            {/* Poster Display - Information Only, No Registration */}
+            {poster && (
+              <article className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6 border-4 border-gray-300 dark:border-gray-600 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 p-6 shadow-[8px_8px_0_0_rgba(107,114,128,0.3)] dark:shadow-[8px_8px_0_0_rgba(75,85,99,0.3)]">
+                {/* Poster Image - Left Column */}
+                <div className="flex items-center justify-center">
+                  <img 
+                    src={poster.url || ''} 
+                    alt={poster.alt || 'Event Poster'} 
+                    className="w-full h-auto max-h-[500px] object-contain rounded-lg shadow-lg"
+                  />
+                </div>
+
+                {/* Event Details - Right Column */}
+                <div className="flex flex-col justify-center space-y-4">
+                  {posterEventInfo?.title && (
+                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                      {posterEventInfo.title}
+                    </h2>
+                  )}
+                  
+                  <div className="space-y-3">
+                    {posterEventInfo?.date && (
+                      <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                        <Calendar className="w-5 h-5" />
+                        <span className="font-semibold">{posterEventInfo.date}</span>
+                      </div>
+                    )}
+                    
+                    {posterEventInfo?.time && (
+                      <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                        <span className="w-5 h-5">🕐</span>
+                        <span className="font-semibold">{posterEventInfo.time}</span>
+                      </div>
+                    )}
+                    
+                    {posterEventInfo?.location && (
+                      <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                        <span className="w-5 h-5">📍</span>
+                        <span className="font-semibold">{posterEventInfo.location}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Event Content Details */}
+                  {posterContent && (
+                    <div className="space-y-3 mt-4">
+                      {posterContent.theme && (
+                        <div>
+                          <h3 className="text-sm font-bold text-gray-600 dark:text-gray-400 uppercase">Theme</h3>
+                          <p className="text-gray-900 dark:text-white">{posterContent.theme}</p>
+                        </div>
+                      )}
+                      
+                      {posterContent.speaker && (
+                        <div>
+                          <h3 className="text-sm font-bold text-gray-600 dark:text-gray-400 uppercase">Speaker</h3>
+                          <p className="text-gray-900 dark:text-white">{posterContent.speaker}</p>
+                        </div>
+                      )}
+                      
+                      {posterContent.description && (
+                        <div>
+                          <h3 className="text-sm font-bold text-gray-600 dark:text-gray-400 uppercase">Description</h3>
+                          <p className="text-gray-900 dark:text-white">{posterContent.description}</p>
+                        </div>
+                      )}
+                      
+                      {posterContent.agenda && (
+                        <div>
+                          <h3 className="text-sm font-bold text-gray-600 dark:text-gray-400 uppercase">Agenda</h3>
+                          <p className="text-gray-900 dark:text-white whitespace-pre-line">{posterContent.agenda}</p>
+                        </div>
+                      )}
+                      
+                      {posterContent.details && (
+                        <div>
+                          <h3 className="text-sm font-bold text-gray-600 dark:text-gray-400 uppercase">Details</h3>
+                          <p className="text-gray-900 dark:text-white whitespace-pre-line">{posterContent.details}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </article>
             )}
 
             {/* Weekly Word & Theme Card - Replaces Stats Section */}
