@@ -24,17 +24,19 @@ export function TicketPrinter({
   ticketRef
 }: TicketPrinterProps) {
   const [isPrinting, setIsPrinting] = useState(false)
+  const [showTicket, setShowTicket] = useState(false)
 
   const handlePrint = () => {
     setIsPrinting(true)
-    // Just show the animation, user will press Ctrl+P to actually print
+    setShowTicket(true)
+    // Keep the ticket visible after animation
     setTimeout(() => {
       setIsPrinting(false)
     }, 1700)
   }
 
   return (
-    <div className={`ticket-wrapper ${isPrinting ? 'printing' : ''}`}>
+    <div className={`ticket-wrapper ${isPrinting ? 'printing' : ''} ${showTicket ? 'show-ticket' : ''}`}>
       <div className="printer-container">
         <div className="printer"></div>
 
@@ -106,34 +108,6 @@ export function TicketPrinter({
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="print-instruction print:hidden" style={{
-        textAlign: 'center',
-        marginTop: '2rem',
-        padding: '1rem',
-        background: '#f0f9ff',
-        border: '2px solid #3b82f6',
-        borderRadius: '8px',
-        color: '#1e40af',
-        fontSize: '16px',
-        fontWeight: '600'
-      }}>
-        📄 Press <kbd style={{
-          background: '#1e40af',
-          color: 'white',
-          padding: '4px 8px',
-          borderRadius: '4px',
-          fontFamily: 'monospace',
-          margin: '0 4px'
-        }}>Ctrl+P</kbd> (or <kbd style={{
-          background: '#1e40af',
-          color: 'white',
-          padding: '4px 8px',
-          borderRadius: '4px',
-          fontFamily: 'monospace',
-          margin: '0 4px'
-        }}>Cmd+P</kbd> on Mac) to print this ticket
       </div>
 
       <style jsx>{`
@@ -404,6 +378,13 @@ export function TicketPrinter({
         .ticket-wrapper.printing .letter:nth-child(9) { animation-delay: 0.45s; }
         .ticket-wrapper.printing .letter:nth-child(10) { animation-delay: 0.5s; }
         .ticket-wrapper.printing .letter:nth-child(11) { animation-delay: 0.55s; }
+
+        /* Keep ticket visible after animation */
+        .ticket-wrapper.show-ticket .receipt-wrapper {
+          z-index: 5;
+          transform: translateY(-40%) scale(1.2);
+          clip-path: inset(-20% -100px -100px -100px);
+        }
 
         @keyframes print {
           100% {
