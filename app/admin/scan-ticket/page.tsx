@@ -36,17 +36,43 @@ export default function ScanTicketPage() {
   const scannerRef = useRef<Html5Qrcode | null>(null)
   const scannerContainerRef = useRef<HTMLDivElement>(null)
 
+  const requestCameraPermission = async () => {
+    try {
+      setError("")
+      // This will trigger the browser's permission request dialog
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+        audio: false
+      })
+      // Stop all tracks to release the camera
+      stream.getTracks().forEach(track => track.stop())
+      // If we got here, permission was granted
+      return true
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : String(err)
+      console.error("Camera permission error:", errorMsg)
+      
+      if (errorMsg.includes("NotAllowedError") || errorMsg.includes("Permission denied")) {
+        setError("Camera access was denied. Please go to your browser settings and allow camera access for this site.")
+      } else if (errorMsg.includes("NotFoundError") || errorMsg.includes("no camera")) {
+        setError("No camera found on this device. Please use a device with a camera.")
+      } else if (errorMsg.includes("NotReadableError")) {
+        setError("Camera is in use by another application. Please close other apps using the camera.")
+      } else {
+        setError(`Camera error: ${errorMsg}`)
+      }
+      return false
+    }
+  }
+
   const startScanning = async () => {
     try {
       setError("")
       setTicketInfo(null)
       
-      // Request camera permissions explicitly
-      try {
-        await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-      } catch (permErr) {
-        console.error("Permission denied:", permErr)
-        setError("Camera permission denied. Please enable camera access in your browser settings.")
+      // First, request permission
+      const hasPermission = await requestCameraPermission()
+      if (!hasPermission) {
         return
       }
       
@@ -72,7 +98,7 @@ export default function ScanTicketPage() {
       } else if (errorMsg.includes("NotFound") || errorMsg.includes("no camera")) {
         setError("No camera found on this device.")
       } else {
-        setError("Failed to start camera. Please check permissions and try again.")
+        setError(`Camera error: ${errorMsg}`)
       }
     }
   }
