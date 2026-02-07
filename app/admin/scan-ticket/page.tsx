@@ -41,6 +41,15 @@ export default function ScanTicketPage() {
       setError("")
       setTicketInfo(null)
       
+      // Request camera permissions explicitly
+      try {
+        await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+      } catch (permErr) {
+        console.error("Permission denied:", permErr)
+        setError("Camera permission denied. Please enable camera access in your browser settings.")
+        return
+      }
+      
       const html5QrCode = new Html5Qrcode("qr-reader")
       scannerRef.current = html5QrCode
 
@@ -57,7 +66,14 @@ export default function ScanTicketPage() {
       setScanning(true)
     } catch (err) {
       console.error("Error starting scanner:", err)
-      setError("Failed to start camera. Please check permissions.")
+      const errorMsg = err instanceof Error ? err.message : String(err)
+      if (errorMsg.includes("Permission") || errorMsg.includes("permission")) {
+        setError("Camera permission denied. Please enable camera access in your browser settings.")
+      } else if (errorMsg.includes("NotFound") || errorMsg.includes("no camera")) {
+        setError("No camera found on this device.")
+      } else {
+        setError("Failed to start camera. Please check permissions and try again.")
+      }
     }
   }
 
