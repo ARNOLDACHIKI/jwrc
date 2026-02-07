@@ -22,12 +22,7 @@ export default function Dashboard() {
   const [weeklyProgramsCount, setWeeklyProgramsCount] = useState(0)
   const [weeklyPrograms, setWeeklyPrograms] = useState<Array<{id: string, name: string, day: string, time: string}>>([])
   const [weeklyWord, setWeeklyWord] = useState<{title: string, theme: string, scripture: string | null, content: string} | null>(null)
-  const [poster, setPoster] = useState<{url: string | null, alt: string | null} | null>(null)
-  const [posterEventInfo, setPosterEventInfo] = useState<{ title: string | null, date: string | null, time: string | null, location: string | null } | null>(null)
-  const [posterContent, setPosterContent] = useState<{ description: string | null, agenda: string | null, details: string | null, speaker: string | null, theme: string | null } | null>(null)
-  const [posterEventId, setPosterEventId] = useState<string | null>(null)
   const [readActivities, setReadActivities] = useState<Set<string>>(new Set())
-  const [upcomingEvent, setUpcomingEvent] = useState<any | null>(null)
   const [myEventSignups, setMyEventSignups] = useState<Array<any>>([])
   const [withdrawingSignup, setWithdrawingSignup] = useState<string | null>(null)
   const inboxLastSeenKey = 'inboxLastSeenAt'
@@ -133,53 +128,6 @@ export default function Dashboard() {
     }
   }
 
-  async function loadPoster() {
-    try {
-      const res = await fetch('/api/settings')
-      if (!res.ok) return
-      const data = await res.json()
-      const p = data?.settings?.posterUrl ? { url: data.settings.posterUrl, alt: data.settings.posterAlt || null } : null
-      setPoster(p)
-      const posterInfo = {
-        title: data?.settings?.posterEventTitle || null,
-        date: data?.settings?.posterEventDate || null,
-        time: data?.settings?.posterEventTime || null,
-        location: data?.settings?.posterEventLocation || null,
-      }
-      setPosterEventInfo(posterInfo)
-      
-      const posterContentInfo = {
-        description: data?.settings?.posterDescription || null,
-        agenda: data?.settings?.posterAgenda || null,
-        details: data?.settings?.posterDetails || null,
-        speaker: data?.settings?.posterSpeaker || null,
-        theme: data?.settings?.posterTheme || null,
-      }
-      setPosterContent(posterContentInfo)
-      const eventId = data?.settings?.posterEventId || null
-      setPosterEventId(eventId)
-      
-      // If we have a poster event ID, load that specific event and its attendees
-      if (eventId) {
-        try {
-          const eventRes = await fetch(`/api/events?page=1&pageSize=100`)
-          if (eventRes.ok) {
-            const eventsData = await eventRes.json()
-            const posterEvent = eventsData.events?.find((e: any) => e.id === eventId)
-            if (posterEvent) {
-              setUpcomingEvent(posterEvent)
-            } else {
-              // Event doesn't exist anymore, clear the poster event
-              setPosterEventId(null)
-              setUpcomingEvent(null)
-            }
-          }
-        } catch (e) {
-          console.error('Failed to load poster event', e)
-        }
-      }
-    } catch (e) { console.error('Failed to load poster', e) }
-  }
 
   async function loadMyEventSignups() {
     try {
@@ -231,16 +179,12 @@ export default function Dashboard() {
         })
       })
 
-      // Add upcoming events and set the first one
+      // Add upcoming events
       const upcomingEvents = (events?.events || [])
         .filter((e: any) => new Date(e.startsAt) > new Date())
         .sort((a: any, b: any) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime())
       
-      // Only set upcomingEvent if we don't have a posterEventId (to avoid overwriting poster event)
-      if (!posterEventId && upcomingEvents.length > 0) {
-        const eventData = upcomingEvents[0]
-        setUpcomingEvent(eventData)
-        
+      if (upcomingEvents.length > 0) {
         upcomingEvents.slice(0, 1).forEach((e: any) => {
           activities.push({
             id: `event-${e.id}`,
@@ -253,8 +197,6 @@ export default function Dashboard() {
             actionLink: '/events'
           })
         })
-      } else if (!posterEventId) {
-        setUpcomingEvent(null)
       }
 
       // Add volunteer applications
@@ -327,7 +269,6 @@ export default function Dashboard() {
     loadActiveReminder()
     loadWeeklyPrograms()
     loadWeeklyWord()
-    loadPoster()
     loadMyEventSignups()
     // automatically mark messages read when dashboard loads
     ;(async () => {
@@ -336,7 +277,6 @@ export default function Dashboard() {
         // after marking read, refresh summary
         await loadInboxSummary()
         await loadRecentActivity()
-        await loadPoster()
       } catch (e) { console.error('Failed to mark inbox read on load', e) }
     })()
     const iv = setInterval(() => {
@@ -344,7 +284,6 @@ export default function Dashboard() {
       loadRecentActivity()
       loadWeeklyPrograms()
       loadWeeklyWord()
-      loadPoster()
       loadMyEventSignups()
     }, 30000) // Refresh every 30 seconds
     return () => clearInterval(iv)
@@ -435,134 +374,6 @@ export default function Dashboard() {
             )}
 
             {/* Weekly Word & Theme Card - Replaces Stats Section */}
-            {/* Poster + Event Signup Layout */}
-            {poster && (
-              <article className="mb-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch">
-                  {/* Poster - Takes priority, left side */}
-                  <div className="h-full flex items-center justify-center">
-                    <div className="w-full flex items-center justify-center bg-slate-50/40 dark:bg-slate-900/40">
-                      {poster.url ? (
-                        <img 
-                          src={poster.url} 
-                          alt={poster.alt || 'Poster'} 
-                          className="w-full h-auto max-h-[700px] object-contain" 
-                        />
-                      ) : (
-                        <div className="w-full h-[400px] flex items-center justify-center text-gray-500 bg-gray-100 dark:bg-slate-800">No poster set</div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Poster Content Info - Right side */}
-                  {(posterContent?.theme || posterContent?.speaker || posterContent?.description || posterContent?.agenda || posterContent?.details || posterEventInfo?.title) && (
-                    <Card className="flex flex-col bg-gradient-to-br from-blue-50 via-white to-blue-50 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 border-2 border-blue-200 dark:border-blue-800 shadow-lg overflow-hidden rounded-none">
-                      <div className="p-6 flex flex-col">
-                        {/* Event Title */}
-                        {posterEventInfo?.title && (
-                          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                            {posterEventInfo.title}
-                          </h2>
-                        )}
-                        {!posterEventInfo?.title && upcomingEvent?.title && (
-                          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                            Register for {upcomingEvent.title}
-                          </h2>
-                        )}
-
-                        {/* Event Details */}
-                        {(posterEventInfo?.date || posterEventInfo?.time || posterEventInfo?.location || upcomingEvent) && (
-                          <div className="mb-4 pb-4 border-b border-blue-100 dark:border-blue-900/30 space-y-1">
-                            {(posterEventInfo?.date || upcomingEvent) && (
-                              <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
-                                <Calendar className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                                <span>
-                                  {posterEventInfo?.date || new Date(upcomingEvent.startsAt).toLocaleDateString('en-US', { 
-                                    weekday: 'short', 
-                                    month: 'short', 
-                                    day: 'numeric' 
-                                  })}
-                                </span>
-                              </div>
-                            )}
-                            {(posterEventInfo?.time || upcomingEvent) && (
-                              <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
-                                <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>
-                                  {posterEventInfo?.time || new Date(upcomingEvent.startsAt).toLocaleTimeString('en-US', { 
-                                    hour: 'numeric', 
-                                    minute: '2-digit',
-                                    hour12: true 
-                                  })}
-                                </span>
-                              </div>
-                            )}
-                            {(posterEventInfo?.location || upcomingEvent?.location) && (
-                              <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
-                                <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                </svg>
-                                <span className="truncate">{posterEventInfo?.location || upcomingEvent.location}</span>
-                              </div>
-                            )}
-                          </div>
-                        )}
-
-                        {/* Event Content */}
-                        {/* Theme */}
-                        {posterContent?.theme && (
-                          <div className="mb-4 pb-4 border-b-2 border-blue-200 dark:border-blue-800">
-                            <h3 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-400 dark:to-blue-500 bg-clip-text text-transparent">
-                              {posterContent.theme}
-                            </h3>
-                          </div>
-                        )}
-
-                        {/* Speaker */}
-                        {posterContent?.speaker && (
-                          <div className="mb-3 p-3 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 dark:from-blue-900/40 dark:to-blue-800/20 border border-blue-200 dark:border-blue-700/50 shadow-md hover:shadow-lg transition-shadow">
-                            <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-1">👤 Speaker</p>
-                            <p className="font-bold text-gray-900 dark:text-white text-sm">{posterContent.speaker}</p>
-                          </div>
-                        )}
-
-                        {/* Description */}
-                        {posterContent?.description && (
-                          <div className="mb-3 p-3 rounded-xl bg-gradient-to-br from-purple-100/50 to-pink-100/50 dark:from-purple-900/30 dark:to-pink-900/30 border border-purple-200/50 dark:border-purple-700/30 shadow-md hover:shadow-lg transition-shadow">
-                            <p className="text-xs font-semibold text-purple-600 dark:text-purple-400 uppercase tracking-wide mb-2">📝 About</p>
-                            <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed">
-                              {posterContent.description}
-                            </p>
-                          </div>
-                        )}
-
-                        {/* Agenda */}
-                        {posterContent?.agenda && (
-                          <div className="mb-3 p-3 rounded-xl bg-gradient-to-br from-amber-100/50 to-orange-100/50 dark:from-amber-900/30 dark:to-orange-900/30 border border-amber-200/50 dark:border-amber-700/30 shadow-md hover:shadow-lg transition-shadow">
-                            <p className="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide mb-2">📋 Agenda</p>
-                            <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed">
-                              {posterContent.agenda}
-                            </p>
-                          </div>
-                        )}
-
-                        {/* Details */}
-                        {posterContent?.details && (
-                          <div className="mb-3 p-3 rounded-xl bg-gradient-to-br from-green-100/50 to-emerald-100/50 dark:from-green-900/30 dark:to-emerald-900/30 border border-green-200/50 dark:border-green-700/30 shadow-md hover:shadow-lg transition-shadow">
-                            <p className="text-xs font-semibold text-green-600 dark:text-green-400 uppercase tracking-wide mb-2">✨ Details</p>
-                            <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed">
-                              {posterContent.details}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </Card>
-                  )}
-                </div>
-              </article>
-            )}
 
             {weeklyWord ? (
               <article className="mb-6 flex max-w-full flex-col items-start justify-between border-4 bg-gradient-to-r from-blue-800 via-blue-700 to-blue-800 dark:from-gray-300 dark:via-gray-200 dark:to-gray-300 p-[4px] shadow-[8px_8px_0_0_rgba(30,64,175,0.3)] dark:shadow-[8px_8px_0_0_rgba(229,231,235,0.4)] transition-all duration-500 ease-in-out hover:shadow-[12px_12px_0_0_rgba(30,64,175,0.4)] dark:hover:shadow-[12px_12px_0_0_rgba(229,231,235,0.5)]">
