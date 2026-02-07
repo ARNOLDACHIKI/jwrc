@@ -24,9 +24,6 @@ export default function EventSignUpPage() {
   const [signupResult, setSignupResult] = useState<any | null>(null)
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null)
   
-  // Poster content state
-  const [posterContent, setPosterContent] = useState<{ description: string | null, agenda: string | null, details: string | null, speaker: string | null, theme: string | null } | null>(null)
-
   // Auto-fill form fields when user is logged in
   useEffect(() => {
     if (user) {
@@ -57,23 +54,6 @@ export default function EventSignUpPage() {
         if (!mounted) return
         const found = data?.events?.find((e:any) => e.id === eventId)
         setEvent(found || null)
-
-        // Load poster content
-        try {
-          const settingsRes = await fetch('/api/settings')
-          const settingsData = await settingsRes.json()
-          if (settingsData?.settings) {
-            setPosterContent({
-              description: settingsData.settings.posterDescription,
-              agenda: settingsData.settings.posterAgenda,
-              details: settingsData.settings.posterDetails,
-              speaker: settingsData.settings.posterSpeaker,
-              theme: settingsData.settings.posterTheme
-            })
-          }
-        } catch (e) {
-          console.error('Failed to load poster content', e)
-        }
       } catch (e) {
         console.error(e)
       }
@@ -188,60 +168,6 @@ export default function EventSignUpPage() {
                     </div>
                   </div>
                 </div>
-              </Card>
-            )}
-
-            {/* Poster Content Card */}
-            {posterContent && (posterContent.theme || posterContent.speaker || posterContent.description || posterContent.agenda || posterContent.details) && (
-              <Card className="p-6 mb-8 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border-2 border-blue-200 dark:border-blue-800">
-                <h3 className="font-bold text-blue-900 dark:text-blue-100 text-lg mb-4">What to Expect</h3>
-                
-                {/* Theme */}
-                {posterContent.theme && (
-                  <div className="mb-4 pb-4 border-b-2 border-blue-200 dark:border-blue-800">
-                    <h4 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-400 dark:to-blue-500 bg-clip-text text-transparent">
-                      {posterContent.theme}
-                    </h4>
-                  </div>
-                )}
-
-                {/* Speaker */}
-                {posterContent.speaker && (
-                  <div className="mb-4 p-3 rounded-lg bg-white/60 dark:bg-slate-800/30 border border-blue-100 dark:border-blue-900/30">
-                    <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-1">👤 Speaker</p>
-                    <p className="font-semibold text-gray-900 dark:text-white">{posterContent.speaker}</p>
-                  </div>
-                )}
-
-                {/* Description */}
-                {posterContent.description && (
-                  <div className="mb-4 p-3 rounded-lg bg-white/60 dark:bg-slate-800/30 border border-blue-100 dark:border-blue-900/30">
-                    <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-2">📝 About</p>
-                    <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed">
-                      {posterContent.description}
-                    </p>
-                  </div>
-                )}
-
-                {/* Agenda */}
-                {posterContent.agenda && (
-                  <div className="mb-4 p-3 rounded-lg bg-white/60 dark:bg-slate-800/30 border border-blue-100 dark:border-blue-900/30">
-                    <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-2">📋 Agenda</p>
-                    <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed">
-                      {posterContent.agenda}
-                    </p>
-                  </div>
-                )}
-
-                {/* Details */}
-                {posterContent.details && (
-                  <div className="p-3 rounded-lg bg-white/60 dark:bg-slate-800/30 border border-blue-100 dark:border-blue-900/30">
-                    <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-2">✨ Details</p>
-                    <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed">
-                      {posterContent.details}
-                    </p>
-                  </div>
-                )}
               </Card>
             )}
             

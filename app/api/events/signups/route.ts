@@ -93,20 +93,22 @@ export async function POST(req: Request) {
     })
 
     // Send ticket email with QR code
+    let qrCodeDataURL: string | null = null
     try {
+      // Generate QR code for ticket (always generate, even if email fails)
+      const baseUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
+      qrCodeDataURL = await generateTicketQRCode({
+        eventId: signup.eventId,
+        signupId: signup.id,
+        ref: ref || '',
+        name: name,
+        email: email,
+        baseUrl: baseUrl
+      })
+
+      // Try to send email if SMTP is configured
       if (process.env.SMTP_HOST && process.env.SMTP_USER) {
         try {
-          // Generate QR code for ticket
-          const baseUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
-          const qrCodeDataURL = await generateTicketQRCode({
-            eventId: signup.eventId,
-            signupId: signup.id,
-            ref: ref || '',
-            name: name,
-            email: email,
-            baseUrl: baseUrl
-          })
-
           const nodemailer = await import('nodemailer')
           const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
@@ -148,18 +150,22 @@ export async function POST(req: Request) {
             where: { id: signup.id },
             data: { ticketSent: true }
           })
-        } catch (e) {
-          console.warn('Failed to send ticket email', e)
+        } catch (emailErr) {
+          console.warn('Failed to send ticket email:', emailErr)
         }
+      } else {
+        console.log('SMTP not configured, skipping email send')
       }
-    } catch (e) {
-      console.warn('Email send skipped', e)
+    } catch (err) {
+      console.error('Error generating QR code or sending email:', err)
+      // Continue even if QR/email generation fails
     }
 
     return NextResponse.json({ signup: { id: signup.id, ref: signup.ref, eventId: signup.eventId, name: signup.name, email: signup.email, phone: signup.phone } }, { status: 201 })
   } catch (err) {
-    console.error(err)
-    return NextResponse.json({ error: 'Server error' }, { status: 500 })
+    console.error('Event signup error:', err)
+    const errorMessage = err instanceof Error ? err.message : 'Server error'
+    return NextResponse.json({ error: 'Server error', details: errorMessage }, { status: 500 })
   }
 }
 

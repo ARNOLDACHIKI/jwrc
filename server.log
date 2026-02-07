@@ -1022,3 +1022,19 @@ Error counting unread: TypeError: Cannot mix BigInt and other types, use explici
  GET /api/user/inbox 200 in 8ms (compile: 1545µs, render: 6ms)
  GET /api/suggestions 200 in 9ms (compile: 1768µs, render: 7ms)
  GET /api/user/inbox 200 in 8ms (compile: 1801µs, render: 6ms)
+
+> my-v0-project@0.1.0 dev /workspaces/jwrc
+> next dev -p 3000
+
+⨯ Failed to start server
+Error: listen EADDRINUSE: address already in use :::3000
+    at <unknown> (Error: listen EADDRINUSE: address already in use :::3000)
+    at new Promise (<anonymous>) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 3000
+}
+[?25h
+ ELIFECYCLE  Command failed with exit code 1.
