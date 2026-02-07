@@ -895,9 +895,9 @@ export default function AdminDashboard() {
                           }
                         } catch (e) { console.error(e); alert('Failed to reject') }
                       }}>Reject</Button>
-                      {app.status === 'approved' && (
+                      {(app.status === 'approved' || app.status === 'rejected') && (
                         <Button size="sm" variant="destructive" onClick={async () => {
-                          if (!confirm(`Delete approved volunteer ${app.name}? This will remove their record.`)) return
+                          if (!confirm(`Delete ${app.name}? This will remove their record.`)) return
                           try {
                             const res = await fetch('/api/volunteers', {
                               method: 'DELETE',

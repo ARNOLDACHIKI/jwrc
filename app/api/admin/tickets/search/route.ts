@@ -58,6 +58,7 @@ export async function GET(req: NextRequest) {
         FROM "EventSignup" s
         LEFT JOIN "Event" e ON s."eventId" = e.id
         WHERE s."eventId" = $1::uuid 
+        AND s."deletedAt" IS NULL
         AND (
           lower(s.name) LIKE lower($2) OR 
           lower(s.email) LIKE lower($2) OR 
@@ -84,6 +85,7 @@ export async function GET(req: NextRequest) {
         FROM "EventSignup" s
         LEFT JOIN "Event" e ON s."eventId" = e.id
         WHERE s."eventId" = $1::uuid
+        AND s."deletedAt" IS NULL
         ORDER BY s."createdAt" DESC
         LIMIT 100
       `, eventId);
@@ -103,16 +105,18 @@ export async function GET(req: NextRequest) {
           e.location as "eventLocation"
         FROM "EventSignup" s
         LEFT JOIN "Event" e ON s."eventId" = e.id
-        WHERE 
+        WHERE s."deletedAt" IS NULL
+        AND (
           lower(s.name) LIKE lower($1) OR 
           lower(s.email) LIKE lower($1) OR 
           (s.phone IS NOT NULL AND s.phone LIKE $1) OR
           s.ref LIKE $1
+        )
         ORDER BY s."createdAt" DESC
         LIMIT 50
       `, `%${query}%`);
     } else {
-      // Get all signups (no filters)
+      // Get all signups (no filters) - only include signups where event still exists
       signups = await prisma.$queryRawUnsafe(`
         SELECT 
           s.id, 
@@ -126,7 +130,7 @@ export async function GET(req: NextRequest) {
           e."startsAt" as "eventDate",
           e.location as "eventLocation"
         FROM "EventSignup" s
-        LEFT JOIN "Event" e ON s."eventId" = e.id
+        INNER JOIN "Event" e ON s."eventId" = e.id
         ORDER BY s."createdAt" DESC
         LIMIT 100
       `);

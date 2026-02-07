@@ -113,7 +113,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
-    const rows: any[] = await prisma.$queryRawUnsafe(`SELECT id, name, email, type, message, admin_response as "adminResponse", responder_name as "responderName", created_at as "createdAt", responded_at as "respondedAt" FROM suggestions ORDER BY created_at DESC`)
+    const rows: any[] = await prisma.$queryRawUnsafe(`SELECT id, name, email, type, message, admin_response as "adminResponse", responder_name as "responderName", created_at as "createdAt", responded_at as "respondedAt" FROM suggestions WHERE deleted_at IS NULL ORDER BY created_at DESC`)
     return NextResponse.json({ suggestions: rows })
   } catch (e) {
     console.error(e)
@@ -200,11 +200,18 @@ export async function DELETE(req: Request) {
     }
 
     const body = await req.json()
-    const { id } = body || {}
+    const { id, permanent = false } = body || {}
     if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
 
     await ensureTable()
-    await prisma.$executeRawUnsafe(`DELETE FROM suggestions WHERE id = $1`, String(id))
+    
+    if (permanent) {
+      // Permanent deletion (only for items in trash)
+      await prisma.$executeRawUnsafe(`DELETE FROM suggestions WHERE id = $1`, String(id))
+    } else {
+      // Soft delete - mark as deleted
+      await prisma.$executeRawUnsafe(`UPDATE suggestions SET deleted_at = NOW() WHERE id = $1`, String(id))
+    }
 
     return NextResponse.json({ ok: true })
   } catch (e) {

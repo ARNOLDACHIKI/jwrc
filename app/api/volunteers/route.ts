@@ -131,7 +131,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ applications: rows })
     }
 
-    // admin-only: list all
+    // admin-only: list all (exclude soft-deleted items)
     const token = getTokenFromHeaders(req)
     const secret = process.env.JWT_SECRET || 'dev-secret'
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -139,7 +139,7 @@ export async function GET(req: Request) {
     try { payload = jwt.verify(token, secret) } catch (e) { return NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) }
     if (payload.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
-    const rows: any[] = await prisma.$queryRawUnsafe(`SELECT id, name, email, phone, role_id as "roleId", role_title as "roleTitle", status, admin_message as "adminMessage", created_at as "createdAt", responded_at as "respondedAt" FROM volunteer_applications ORDER BY created_at DESC`)
+    const rows: any[] = await prisma.$queryRawUnsafe(`SELECT id, name, email, phone, role_id as "roleId", role_title as "roleTitle", status, admin_message as "adminMessage", created_at as "createdAt", responded_at as "respondedAt" FROM volunteer_applications WHERE deleted_at IS NULL ORDER BY created_at DESC`)
     return NextResponse.json({ applications: rows })
   } catch (e) {
     console.error(e)
@@ -218,11 +218,18 @@ export async function DELETE(req: Request) {
     if (payload.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
     const body = await req.json()
-    const { id } = body || {}
+    const { id, permanent = false } = body || {}
     if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
 
     await ensureTable()
-    await prisma.$executeRawUnsafe(`DELETE FROM volunteer_applications WHERE id = $1`, String(id))
+    
+    if (permanent) {
+      // Permanent deletion (only for items in trash)
+      await prisma.$executeRawUnsafe(`DELETE FROM volunteer_applications WHERE id = $1`, String(id))
+    } else {
+      // Soft delete - mark as deleted
+      await prisma.$executeRawUnsafe(`UPDATE volunteer_applications SET deleted_at = NOW() WHERE id = $1`, String(id))
+    }
 
     return NextResponse.json({ ok: true })
   } catch (e) {

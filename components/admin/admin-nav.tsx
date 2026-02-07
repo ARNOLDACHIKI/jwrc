@@ -14,7 +14,8 @@ import {
   QrCode,
   Menu,
   X,
-  Ticket
+  Ticket,
+  Trash2
 } from 'lucide-react'
 
 interface AdminNavProps {
@@ -48,6 +49,7 @@ export function AdminNav({ onLogout, children }: AdminNavProps) {
     { href: '/admin/tickets', label: 'Tickets', icon: Ticket },
     { href: '/admin/scan-ticket', label: 'Scan Tickets', icon: QrCode },
     { href: '/admin/poster', label: 'Poster', icon: FileText },
+    { href: '/admin/trash', label: 'Trash', icon: Trash2 },
   ]
 
   return (

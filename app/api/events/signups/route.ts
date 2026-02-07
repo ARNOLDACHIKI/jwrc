@@ -195,11 +195,17 @@ export async function DELETE(req: Request) {
     if (payload.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
     const body = await req.json()
-    const { id } = body || {}
+    const { id, permanent = false } = body || {}
     if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
 
     try {
-      await prisma.eventSignup.delete({ where: { id } })
+      if (permanent) {
+        // Permanent deletion (only for items in trash)
+        await prisma.eventSignup.delete({ where: { id } })
+      } else {
+        // Soft delete - mark as deleted
+        await prisma.$executeRawUnsafe(`UPDATE "EventSignup" SET "deletedAt" = NOW() WHERE id = $1`, String(id))
+      }
       return NextResponse.json({ ok: true })
     } catch (e) {
       console.error(e)
