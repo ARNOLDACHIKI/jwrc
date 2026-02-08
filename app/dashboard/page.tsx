@@ -314,15 +314,15 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:bg-slate-950">
       <HeaderWithSidebar />
       <div className="flex">
         <Sidebar />
         <main className="flex-1 overflow-auto w-full lg:w-auto">
           <div className="p-4 sm:p-6 md:p-8 max-w-full">
             {/* Welcome Section */}
-            <div className="mb-6 sm:mb-8">
-              <h1 className="text-2xl sm:text-3xl font-bold text-blue-900 dark:text-white mb-2">
+            <div className="mb-6 sm:mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-900 dark:to-indigo-900 rounded-xl p-6 sm:p-8 text-white shadow-lg">
+              <h1 className="text-3xl sm:text-4xl font-bold mb-2">
                 Welcome back, {(() => {
                   if (user.name && user.name.trim()) {
                     return user.name.split(' ')[0]
@@ -332,12 +332,12 @@ export default function Dashboard() {
                   return emailUsername.charAt(0).toUpperCase() + emailUsername.slice(1)
                 })()}!
               </h1>
-              <p className="text-gray-600 dark:text-gray-400">Here's what's happening in your church community today</p>
+              <p className="text-blue-100 dark:text-blue-200">Here's what's happening in your church community today</p>
             </div>
 
             {/* Church Reminders Alert */}
             {showReminders && activeReminder && (
-              <Card className="mb-4 sm:mb-6 p-3 sm:p-4 border-l-4 border-orange-500 bg-orange-50 dark:bg-orange-900/20">
+              <Card className="mb-4 sm:mb-6 p-3 sm:p-4 border-l-4 border-orange-500 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 shadow-md">
                 <div className="flex items-start sm:items-center justify-between gap-2">
                   <div className="flex items-start gap-2 sm:gap-3 flex-1 min-w-0">
                     <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600 dark:text-orange-400 shrink-0 mt-0.5 sm:mt-0" />
@@ -360,7 +360,7 @@ export default function Dashboard() {
 
             {/* Inbox Reminder Alert */}
             {unreadCount > 0 && (
-              <Card className="mb-4 sm:mb-6 p-3 sm:p-4 border-l-4 border-blue-600 bg-blue-50 dark:bg-slate-800/20">
+              <Card className="mb-4 sm:mb-6 p-3 sm:p-4 border-l-4 border-blue-600 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 shadow-md">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div className="flex items-start gap-2 sm:gap-3 flex-1 min-w-0">
                     <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5 sm:mt-0" />
@@ -386,7 +386,7 @@ export default function Dashboard() {
 
             {/* Poster Display - Information Only, No Registration */}
             {poster && (
-              <article className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8 border-4 border-gray-300 dark:border-gray-600 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 p-8 shadow-[8px_8px_0_0_rgba(107,114,128,0.3)] dark:shadow-[8px_8px_0_0_rgba(75,85,99,0.3)] overflow-hidden rounded-lg">
+              <article className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8 border-4 border-indigo-300 dark:border-gray-600 bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 p-8 shadow-lg dark:shadow-[8px_8px_0_0_rgba(75,85,99,0.3)] overflow-hidden rounded-xl">
                 {/* Poster Image - Left Column */}
                 <div className="flex items-center justify-center overflow-hidden min-h-[300px] md:min-h-[400px]">
                   <img 
@@ -520,8 +520,8 @@ export default function Dashboard() {
             {/* Three Column Grid - Quick Actions, Weekly Programs, My Registered Events */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
               {/* Quick Actions */}
-              <Card className="p-4 sm:p-6">
-                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4 sm:mb-6">Quick Actions</h2>
+              <Card className="p-4 sm:p-6 bg-gradient-to-br from-white to-blue-50 dark:from-slate-800 dark:to-slate-900 border-2 border-blue-200 dark:border-slate-700 shadow-md hover:shadow-lg transition-shadow">
+                <h2 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400 mb-4 sm:mb-6">Quick Actions</h2>
                 <div className="space-y-2 sm:space-y-3">
                   {user?.role === 'admin' && (
                     <Link href="/admin/dashboard">
@@ -559,8 +559,8 @@ export default function Dashboard() {
               </Card>
 
               {/* Weekly Programs List */}
-              <Card className="p-4 sm:p-6 transform transition-all duration-300 hover:shadow-xl">
-                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4">Weekly Programs</h2>
+              <Card className="p-4 sm:p-6 bg-gradient-to-br from-white to-green-50 dark:from-slate-800 dark:to-slate-900 border-2 border-green-200 dark:border-slate-700 shadow-md hover:shadow-lg transition-all duration-300">
+                <h2 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent dark:from-green-400 dark:to-emerald-400 mb-4">Weekly Programs</h2>
                 {weeklyPrograms.length === 0 ? (
                   <div className="text-center py-6 sm:py-8 text-gray-500 dark:text-gray-400">
                     <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
@@ -572,9 +572,9 @@ export default function Dashboard() {
                     {weeklyPrograms.map((program) => (
                       <div
                         key={program.id}
-                        className="flex items-center gap-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+                        className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-300 dark:border-green-800 hover:shadow-md transition-all"
                       >
-                        <div className="p-2 rounded-lg bg-blue-500 text-white shrink-0">
+                        <div className="p-2 rounded-lg bg-green-500 text-white shrink-0">
                           <Calendar className="w-4 h-4" />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -588,21 +588,21 @@ export default function Dashboard() {
               </Card>
 
               {/* My Registered Events */}
-              <Card className="p-4 sm:p-6">
-                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4">My Registered Events</h2>
+              <Card className="p-4 sm:p-6 bg-gradient-to-br from-white to-purple-50 dark:from-slate-800 dark:to-slate-900 border-2 border-purple-200 dark:border-slate-700 shadow-md hover:shadow-lg transition-all">
+                <h2 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-pink-400 mb-4">My Registered Events</h2>
                 {myEventSignups.length === 0 ? (
                   <div className="text-center py-6 sm:py-8 text-gray-500 dark:text-gray-400">
                     <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
                     <p className="text-sm sm:text-base font-medium">No registered events</p>
                     <p className="text-xs sm:text-sm mt-2">Register for events to see them here</p>
                     <Link href="/events" className="inline-block mt-4">
-                      <Button size="sm" className="bg-blue-600 hover:bg-blue-700">Browse Events</Button>
+                      <Button size="sm" className="bg-purple-600 hover:bg-purple-700">Browse Events</Button>
                     </Link>
                   </div>
                 ) : (
                   <div className="space-y-3">
                     {myEventSignups.map((signup: any) => (
-                      <div key={signup.id} className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                      <div key={signup.id} className="p-3 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg border border-purple-300 dark:border-purple-800 hover:shadow-md transition-all">
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1 min-w-0">
                             <h3 className="font-semibold text-gray-900 dark:text-white text-sm truncate">
@@ -650,12 +650,12 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               {/* Recent Activity */}
               <div>
-                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4 sm:mb-6">Recent Activity</h2>
+                <h2 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent dark:from-orange-400 dark:to-red-400 mb-4 sm:mb-6">Recent Activity</h2>
                 <div className="space-y-4">
                   {recentActivity.length === 0 ? (
-                    <Card className="p-6 sm:p-8 text-center bg-gray-50 dark:bg-gray-800/50">
-                      <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">No recent activity yet</p>
-                      <p className="text-xs sm:text-sm mt-2 text-gray-400 dark:text-gray-500">Check back later for updates</p>
+                    <Card className="p-6 sm:p-8 text-center bg-gradient-to-br from-orange-50 to-red-50 dark:from-slate-800 dark:to-slate-900 border-2 border-orange-200 dark:border-slate-700">
+                      <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">No recent activity yet</p>
+                      <p className="text-xs sm:text-sm mt-2 text-gray-500 dark:text-gray-500">Check back later for updates</p>
                     </Card>
                   ) : (
                     recentActivity.map((activity) => {
@@ -663,12 +663,12 @@ export default function Dashboard() {
                       return (
                         <div
                           key={activity.id}
-                          className="activity-card bg-gray-50 dark:bg-[#1e1e1e] rounded-xl cursor-pointer transition-all duration-200 shadow-lg hover:shadow-xl dark:shadow-[1em_1em_1em_rgba(0,0,0,0.2),-0.75em_-0.75em_1em_rgba(255,255,255,0.05)] border border-gray-200 dark:border-[#2a2a2a] hover:border-blue-300 dark:hover:border-[#3a8bff] hover:bg-gray-100 dark:hover:bg-[#2a2a2a]"
+                          className="activity-card bg-gradient-to-r from-orange-50 to-red-50 dark:from-[#1e1e1e] dark:to-[#1e1e1e] rounded-xl cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg dark:shadow-[1em_1em_1em_rgba(0,0,0,0.2),-0.75em_-0.75em_1em_rgba(255,255,255,0.05)] border-2 border-orange-200 dark:border-[#2a2a2a] hover:border-orange-400 dark:hover:border-[#3a8bff] hover:bg-orange-100 dark:hover:bg-[#2a2a2a]"
                         >
                           <div className="p-4 sm:p-5 flex gap-3">
                             {/* Status Indicator */}
                             <div className="flex-shrink-0 pt-1">
-                              <div className={isRead ? 'w-2.5 h-2.5 rounded-full bg-green-500' : 'w-2.5 h-2.5 rounded-full bg-red-500'}></div>
+                              <div className={isRead ? 'w-2.5 h-2.5 rounded-full bg-green-500' : 'w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse'}></div>
                             </div>
                             
                             {/* Content */}
@@ -679,7 +679,7 @@ export default function Dashboard() {
                                   <p className="text-sm sm:text-base font-medium text-gray-900 dark:text-[#e0e0e0]">
                                     {activity.title}
                                   </p>
-                                  <p className="text-xs sm:text-sm text-gray-500 dark:text-[#a0a0a0]">
+                                  <p className="text-xs sm:text-sm text-gray-600 dark:text-[#a0a0a0]">
                                     {activity.time}
                                   </p>
                                 </div>
@@ -687,14 +687,14 @@ export default function Dashboard() {
                                 {/* Action Buttons */}
                                 <div className="flex flex-row gap-4 items-center">
                                   <Link href={activity.actionLink}>
-                                    <button className="text-sm sm:text-[15px] font-semibold text-blue-600 dark:text-[#3a8bff] hover:underline">
+                                    <button className="text-sm sm:text-[15px] font-semibold text-orange-600 dark:text-[#3a8bff] hover:text-orange-700 dark:hover:text-blue-400 underline">
                                       {activity.actionLabel}
                                     </button>
                                   </Link>
                                   {!isRead && (
                                     <button
                                       onClick={() => markActivityAsRead(activity.id)}
-                                      className="text-sm sm:text-[15px] font-normal text-gray-600 dark:text-[#b0b0b0] hover:underline"
+                                      className="text-sm sm:text-[15px] font-normal text-gray-600 dark:text-[#b0b0b0] hover:text-gray-700 dark:hover:text-gray-300 underline"
                                     >
                                       Mark as read
                                     </button>
@@ -711,7 +711,7 @@ export default function Dashboard() {
               </div>
 
               {/* Inbox */}
-              <Card className="p-4 sm:p-6" id="inbox">
+              <Card className="p-4 sm:p-6 bg-gradient-to-br from-white to-indigo-50 dark:from-slate-800 dark:to-slate-900 border-2 border-indigo-200 dark:border-slate-700 shadow-md" id="inbox">
                 <Inbox email={user.email} limit={5} />
               </Card>
             </div>
