@@ -410,7 +410,7 @@ export default function AdminPosterPage() {
                         value={posterDescription} 
                         onChange={(e) => setPosterDescription(e.target.value)} 
                         placeholder="Brief description of the event..." 
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent resize-vertical overflow-auto min-h-[200px]"
                         rows={8}
                         maxLength={2000}
                       />
@@ -425,7 +425,7 @@ export default function AdminPosterPage() {
                         value={posterAgenda} 
                         onChange={(e) => setPosterAgenda(e.target.value)} 
                         placeholder="e.g., '9:00 - Worship\n10:00 - Message\n11:00 - Fellowship'" 
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent resize-vertical overflow-auto min-h-[200px]"
                         rows={8}
                         maxLength={2000}
                       />
@@ -440,7 +440,7 @@ export default function AdminPosterPage() {
                         value={posterDetails} 
                         onChange={(e) => setPosterDetails(e.target.value)} 
                         placeholder="Any other important information..." 
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent resize-vertical overflow-auto min-h-[200px]"
                         rows={8}
                         maxLength={2000}
                       />
