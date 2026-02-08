@@ -11,13 +11,6 @@ import { Button } from "@/components/ui/button"
 import { useUser } from "@/contexts/user-context"
 import { Mail, Lock, Eye, EyeOff } from "lucide-react"
 
-const deepOceanGradient = "bg-[radial-gradient(circle_at_20%_20%,#2f65c6_0%,#214c8e_35%,#0f274f_75%,#081a3a_100%)]"
-const sandCanvasGradient = "bg-[radial-gradient(circle_at_20%_20%,#f6ede1_0%,#e9dcc9_45%,#d6c4ad_85%,#c9b69c_100%)] dark:bg-[radial-gradient(circle_at_20%_20%,#1e293b_0%,#0f172a_45%,#020617_85%,#000000_100%)]"
-const card3dBase = "group relative overflow-hidden rounded-3xl border border-white/30 bg-gradient-to-br from-[rgba(246,237,225,0.95)] via-[rgba(234,215,195,0.9)] to-[rgba(216,193,170,0.88)] dark:from-[rgba(43,74,133,0.7)] dark:via-[rgba(27,47,93,0.82)] dark:to-[rgba(14,27,52,0.9)] shadow-[0_35px_90px_-45px_rgba(15,23,42,0.65)] backdrop-blur-xl transform transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-4 hover:scale-[1.02] hover:rotate-[0.6deg] dark:border-white/10"
-const cardHighlight = "before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.32),transparent_50%)] before:opacity-70 before:transition-opacity before:duration-500 group-hover:before:opacity-100"
-const cardGlow = "after:absolute after:-inset-10 after:bg-[radial-gradient(circle_at_30%_20%,rgba(47,101,198,0.25),transparent_55%)] after:opacity-0 after:transition-all after:duration-700 group-hover:after:opacity-100 group-hover:after:scale-110"
-const cardContent = "relative z-10"
-
 export default function LoginPage() {
   const router = useRouter()
   const { login, user } = useUser()
@@ -60,15 +53,14 @@ export default function LoginPage() {
   }
 
   return (
-    <div className={`min-h-screen ${sandCanvasGradient}`}>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white dark:from-slate-950 dark:to-slate-900">
       <MainNav />
 
       <div className="flex items-center justify-center min-h-[calc(100vh-64px)] px-4">
-        <Card className={`w-full max-w-md p-8 ${card3dBase} ${cardHighlight} ${cardGlow}`}>
-          <div className={cardContent}>
+        <Card className="w-full max-w-md p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-[#0f2b52] dark:text-white mb-2">Welcome Back</h1>
-            <p className="text-gray-700 dark:text-gray-200">Sign in to your church account</p>
+            <h1 className="text-3xl font-bold text-blue-900 dark:text-white mb-2">Welcome Back</h1>
+            <p className="text-gray-600 dark:text-gray-400">Sign in to your church account</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -120,7 +112,7 @@ export default function LoginPage() {
 
             {/* Forgot Password Link */}
             <div className="text-right">
-              <Link href="/forgot-password" className="text-sm text-[#1f4f9c] hover:text-[#0f2b52] dark:text-blue-400 font-medium">
+              <Link href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
                 Forgot password?
               </Link>
             </div>
@@ -129,20 +121,19 @@ export default function LoginPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#2f65c6] hover:bg-[#214c8e] text-white font-medium py-2 rounded-lg"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg"
             >
               {loading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
 
           <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-center text-gray-700 dark:text-gray-200 text-sm">
+            <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
               Don't have an account?{" "}
-              <Link href="/signup" className="text-[#1f4f9c] hover:text-[#0f2b52] dark:text-blue-400 font-medium">
+              <Link href="/signup" className="text-blue-600 hover:text-blue-700 font-medium">
                 Sign up here
               </Link>
             </p>
-          </div>
           </div>
         </Card>
       </div>

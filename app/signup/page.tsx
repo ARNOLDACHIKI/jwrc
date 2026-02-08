@@ -13,13 +13,6 @@ import { User, Mail, Lock, Eye, EyeOff, Phone, CheckCircle2, XCircle } from "luc
 import { validatePassword } from "@/lib/password-validator"
 import { generateSecurePassword } from "@/lib/password-generator"
 
-const deepOceanGradient = "bg-[radial-gradient(circle_at_20%_20%,#2f65c6_0%,#214c8e_35%,#0f274f_75%,#081a3a_100%)]"
-const sandCanvasGradient = "bg-[radial-gradient(circle_at_20%_20%,#f6ede1_0%,#e9dcc9_45%,#d6c4ad_85%,#c9b69c_100%)] dark:bg-[radial-gradient(circle_at_20%_20%,#1e293b_0%,#0f172a_45%,#020617_85%,#000000_100%)]"
-const card3dBase = "group relative overflow-hidden rounded-3xl border border-white/30 bg-gradient-to-br from-[rgba(246,237,225,0.95)] via-[rgba(234,215,195,0.9)] to-[rgba(216,193,170,0.88)] dark:from-[rgba(43,74,133,0.7)] dark:via-[rgba(27,47,93,0.82)] dark:to-[rgba(14,27,52,0.9)] shadow-[0_35px_90px_-45px_rgba(15,23,42,0.65)] backdrop-blur-xl transform transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-4 hover:scale-[1.02] hover:rotate-[0.6deg] dark:border-white/10"
-const cardHighlight = "before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.32),transparent_50%)] before:opacity-70 before:transition-opacity before:duration-500 group-hover:before:opacity-100"
-const cardGlow = "after:absolute after:-inset-10 after:bg-[radial-gradient(circle_at_30%_20%,rgba(47,101,198,0.25),transparent_55%)] after:opacity-0 after:transition-all after:duration-700 group-hover:after:opacity-100 group-hover:after:scale-110"
-const cardContent = "relative z-10"
-
 export default function SignupPage() {
   const router = useRouter()
   const { signup } = useUser()
@@ -81,7 +74,7 @@ export default function SignupPage() {
   }
 
   return (
-    <div className={`min-h-screen ${sandCanvasGradient}`}>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white dark:from-slate-950 dark:to-slate-900">
       {/* Logo and Church Name Header */}
       <div className="py-8">
         <Link href="/" className="flex flex-col items-center gap-2">
@@ -98,18 +91,17 @@ export default function SignupPage() {
               />
             </div>
           </div>
-          <span className="font-bold text-lg text-[#0f2b52] dark:text-blue-300 text-center">
+          <span className="font-bold text-lg text-blue-900 dark:text-blue-300 text-center">
             JESUS WORSHIP AND RESTORATION CHURCH
           </span>
         </Link>
       </div>
 
       <div className="flex items-center justify-center px-4 pb-8">
-        <Card className={`w-full max-w-md p-8 ${card3dBase} ${cardHighlight} ${cardGlow}`}>
-          <div className={cardContent}>
+        <Card className="w-full max-w-md p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-[#0f2b52] dark:text-white mb-2">Join Our Community</h1>
-            <p className="text-gray-700 dark:text-gray-200">Create your church account today</p>
+            <h1 className="text-3xl font-bold text-blue-900 dark:text-white mb-2">Join Our Community</h1>
+            <p className="text-gray-600 dark:text-gray-400">Create your church account today</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -123,7 +115,7 @@ export default function SignupPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Full Name"
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#2f65c6]"
+                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
@@ -139,7 +131,7 @@ export default function SignupPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email Address"
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#2f65c6]"
+                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
@@ -153,7 +145,7 @@ export default function SignupPage() {
                   <select
                     value={countryCode}
                     onChange={(e) => setCountryCode(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#2f65c6]"
+                    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="+254">🇰🇪 +254</option>
                     <option value="+1">🇺🇸 +1</option>
@@ -172,7 +164,7 @@ export default function SignupPage() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))}
                     placeholder="712345678"
-                    className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#2f65c6]"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -185,7 +177,7 @@ export default function SignupPage() {
                 <button
                   type="button"
                   onClick={handleGeneratePassword}
-                  className="text-xs text-[#1f4f9c] dark:text-blue-400 hover:underline font-medium"
+                  className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium"
                 >
                   Generate Password
                 </button>
@@ -198,7 +190,7 @@ export default function SignupPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   onFocus={() => setShowPasswordRequirements(true)}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#2f65c6]"
+                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
@@ -218,7 +210,7 @@ export default function SignupPage() {
                         <span className={`text-xs ${
                           req.met 
                             ? "text-green-700 dark:text-green-400 font-medium" 
-                            : "text-gray-700 dark:text-gray-200"
+                            : "text-gray-600 dark:text-gray-400"
                         }`}>
                           {req.label}
                         </span>
@@ -239,7 +231,7 @@ export default function SignupPage() {
                           style={{ width: `${(passwordValidation.requirements.filter(r => r.met).length / passwordValidation.requirements.length) * 100}%` }}
                         />
                       </div>
-                      <span className="text-xs font-medium text-gray-700 dark:text-gray-200">
+                      <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
                         {passwordValidation.isValid ? "Strong" : passwordValidation.requirements.filter(r => r.met).length >= 3 ? "Medium" : "Weak"}
                       </span>
                     </div>
@@ -260,7 +252,7 @@ export default function SignupPage() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#2f65c6]"
+                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                   required
                 />
                 <button
@@ -281,9 +273,9 @@ export default function SignupPage() {
                 onChange={(e) => setAgreeToTerms(e.target.checked)}
                 className="w-4 h-4 rounded accent-blue-600"
               />
-              <span className="text-sm text-gray-700 dark:text-gray-200">
+              <span className="text-sm text-gray-600 dark:text-gray-400">
                 I agree to the{" "}
-                <Link href="/terms" className="text-[#1f4f9c] hover:underline dark:text-blue-400">
+                <Link href="/terms" className="text-blue-600 hover:underline">
                   terms and conditions
                 </Link>
               </span>
@@ -300,20 +292,19 @@ export default function SignupPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#2f65c6] hover:bg-[#214c8e] text-white font-medium py-2 rounded-lg"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg"
             >
               {loading ? "Creating account..." : "Create Account"}
             </Button>
           </form>
 
           <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-center text-gray-700 dark:text-gray-200 text-sm">
+            <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
               Already have an account?{" "}
-              <Link href="/login" className="text-[#1f4f9c] hover:text-[#0f2b52] dark:text-blue-400 font-medium">
+              <Link href="/login" className="text-blue-600 hover:text-blue-700 font-medium">
                 Sign in here
               </Link>
             </p>
-          </div>
           </div>
         </Card>
       </div>
