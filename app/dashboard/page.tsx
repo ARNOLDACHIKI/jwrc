@@ -400,6 +400,7 @@ export default function Dashboard() {
                     <Link href="#inbox" onClick={() => { try { localStorage.setItem(inboxLastSeenKey, new Date().toISOString()); setUnreadCount(0) } catch(e){} }} className="text-xs sm:text-sm text-white bg-[#2f65c6] hover:bg-[#214c8e] px-3 py-1 rounded whitespace-nowrap">Open Inbox</Link>
                   </div>
                 </div>
+                </div>
               </Card>
             )}
 
@@ -607,6 +608,7 @@ export default function Dashboard() {
                     ))}
                   </div>
                 )}
+                </div>
               </Card>
 
               {/* My Registered Events */}
@@ -659,6 +661,7 @@ export default function Dashboard() {
                     ))}
                   </div>
                 )}
+                </div>
               </Card>
             </div>
 
