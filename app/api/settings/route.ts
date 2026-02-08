@@ -6,6 +6,37 @@ import path from 'path'
 const prisma = new PrismaClient()
 
 async function ensureTable() {
+  // First, clean up any corrupted data with single characters by checking and fixing
+  try {
+    await prisma.$executeRawUnsafe(`
+      UPDATE church_settings
+      SET 
+        poster_theme = CASE 
+          WHEN poster_theme IS NOT NULL AND LENGTH(poster_theme) <= 1 THEN NULL
+          ELSE poster_theme 
+        END,
+        poster_speaker = CASE 
+          WHEN poster_speaker IS NOT NULL AND LENGTH(poster_speaker) <= 1 THEN NULL
+          ELSE poster_speaker 
+        END,
+        poster_description = CASE 
+          WHEN poster_description IS NOT NULL AND LENGTH(poster_description) <= 1 THEN NULL
+          ELSE poster_description 
+        END,
+        poster_agenda = CASE 
+          WHEN poster_agenda IS NOT NULL AND LENGTH(poster_agenda) <= 1 THEN NULL
+          ELSE poster_agenda 
+        END,
+        poster_details = CASE 
+          WHEN poster_details IS NOT NULL AND LENGTH(poster_details) <= 1 THEN NULL
+          ELSE poster_details 
+        END
+      WHERE id = 'main'
+    `)
+  } catch (e) {
+    // Ignore errors if table doesn't exist yet
+  }
+
   await prisma.$executeRawUnsafe(`
     CREATE TABLE IF NOT EXISTS church_settings (
       id TEXT PRIMARY KEY DEFAULT 'main',
