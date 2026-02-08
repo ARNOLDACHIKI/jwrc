@@ -11,13 +11,6 @@ import { useToast } from "@/hooks/use-toast"
 import { Heart, Users, DollarSign, Calendar, TrendingUp, Settings, Bell, BookOpen, Shield, Book, Sparkles, XCircle } from "lucide-react"
 import Inbox from "@/components/inbox"
 
-const deepOceanGradient = "bg-[radial-gradient(circle_at_20%_20%,#2f65c6_0%,#214c8e_35%,#0f274f_75%,#081a3a_100%)]"
-const sandCanvasGradient = "bg-[radial-gradient(circle_at_20%_20%,#f6ede1_0%,#e9dcc9_45%,#d6c4ad_85%,#c9b69c_100%)] dark:bg-[radial-gradient(circle_at_20%_20%,#1e293b_0%,#0f172a_45%,#020617_85%,#000000_100%)]"
-const card3dBase = "group relative overflow-hidden rounded-3xl border border-white/30 bg-gradient-to-br from-[rgba(246,237,225,0.95)] via-[rgba(234,215,195,0.9)] to-[rgba(216,193,170,0.88)] dark:from-[rgba(43,74,133,0.7)] dark:via-[rgba(27,47,93,0.82)] dark:to-[rgba(14,27,52,0.9)] shadow-[0_35px_90px_-45px_rgba(15,23,42,0.65)] backdrop-blur-xl transform transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-4 hover:scale-[1.02] hover:rotate-[0.6deg] dark:border-white/10"
-const cardHighlight = "before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.32),transparent_50%)] before:opacity-70 before:transition-opacity before:duration-500 group-hover:before:opacity-100"
-const cardGlow = "after:absolute after:-inset-10 after:bg-[radial-gradient(circle_at_30%_20%,rgba(47,101,198,0.25),transparent_55%)] after:opacity-0 after:transition-all after:duration-700 group-hover:after:opacity-100 group-hover:after:scale-110"
-const cardContent = "relative z-10"
-
 export default function Dashboard() {
   const { user } = useUser()
   const { toast } = useToast()
@@ -321,16 +314,15 @@ export default function Dashboard() {
   }
 
   return (
-    <div className={`min-h-screen ${sandCanvasGradient}`}>
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
       <HeaderWithSidebar />
       <div className="flex">
         <Sidebar />
         <main className="flex-1 overflow-auto w-full lg:w-auto">
           <div className="p-4 sm:p-6 md:p-8 max-w-full">
             {/* Welcome Section */}
-            <Card className={`mb-6 sm:mb-8 p-6 sm:p-8 ${card3dBase} ${cardHighlight} ${cardGlow}`}>
-              <div className={cardContent}>
-              <h1 className="text-3xl sm:text-4xl font-bold mb-2 text-[#0f2b52] dark:text-white">
+            <div className="mb-6 sm:mb-8">
+              <h1 className="text-2xl sm:text-3xl font-bold text-blue-900 dark:text-white mb-2">
                 Welcome back, {(() => {
                   if (user.name && user.name.trim()) {
                     return user.name.split(' ')[0]
@@ -340,51 +332,40 @@ export default function Dashboard() {
                   return emailUsername.charAt(0).toUpperCase() + emailUsername.slice(1)
                 })()}!
               </h1>
-              <p className="text-gray-700 dark:text-gray-200">Here's what's happening in your church community today</p>
-              </div>
-            </Card>
+              <p className="text-gray-600 dark:text-gray-400">Here's what's happening in your church community today</p>
+            </div>
 
             {/* Church Reminders Alert */}
             {showReminders && activeReminder && (
-              <Card className={`mb-4 sm:mb-6 p-3 sm:p-4 ${card3dBase} ${cardHighlight} ${cardGlow} relative`}>
-                <div className={cardContent}>
-                <button
-                  onClick={() => setShowReminders(false)}
-                  className="absolute top-2 right-2 sm:top-3 sm:right-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                  aria-label="Dismiss reminder"
-                >
-                  <XCircle className="w-5 h-5" />
-                </button>
+              <Card className="mb-4 sm:mb-6 p-3 sm:p-4 border-l-4 border-orange-500 bg-orange-50 dark:bg-orange-900/20">
                 <div className="flex items-start sm:items-center justify-between gap-2">
                   <div className="flex items-start gap-2 sm:gap-3 flex-1 min-w-0">
-                    <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-[#1f4f9c] dark:text-blue-300 shrink-0 mt-0.5 sm:mt-0" />
+                    <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600 dark:text-orange-400 shrink-0 mt-0.5 sm:mt-0" />
                     <div className="min-w-0 flex-1">
-                      <h3 className="text-sm sm:text-base font-semibold text-[#0f2b52] dark:text-white">{activeReminder.title}</h3>
-                      <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-200 break-words">
+                      <h3 className="text-sm sm:text-base font-semibold text-orange-900 dark:text-orange-400">{activeReminder.title}</h3>
+                      <p className="text-xs sm:text-sm text-orange-700 dark:text-orange-300 break-words">
                         {activeReminder.message}
                       </p>
                     </div>
                   </div>
                   <button
                     onClick={() => setShowReminders(false)}
-                    className="text-gray-600 hover:text-gray-700 dark:text-gray-400 text-xl sm:text-2xl shrink-0 -mt-1"
+                    className="text-orange-600 hover:text-orange-700 dark:text-orange-400 text-xl sm:text-2xl shrink-0 -mt-1"
                   >
                     ×
                   </button>
-                </div>
                 </div>
               </Card>
             )}
 
             {/* Inbox Reminder Alert */}
             {unreadCount > 0 && (
-              <Card className={`mb-4 sm:mb-6 p-3 sm:p-4 ${card3dBase} ${cardHighlight} ${cardGlow}`}>
-                <div className={cardContent}>
+              <Card className="mb-4 sm:mb-6 p-3 sm:p-4 border-l-4 border-blue-600 bg-blue-50 dark:bg-slate-800/20">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div className="flex items-start gap-2 sm:gap-3 flex-1 min-w-0">
-                    <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-[#1f4f9c] dark:text-blue-300 shrink-0 mt-0.5 sm:mt-0" />
+                    <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5 sm:mt-0" />
                     <div className="min-w-0 flex-1">
-                      <h3 className="text-sm sm:text-base font-semibold text-[#0f2b52] dark:text-white">You have {unreadCount} new message{unreadCount>1?'s':''}</h3>
+                      <h3 className="text-sm sm:text-base font-semibold text-blue-900 dark:text-blue-300">You have {unreadCount} new message{unreadCount>1?'s':''}</h3>
                       {latestPreview && <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 truncate">{latestPreview}</p>}
                     </div>
                   </div>
@@ -393,20 +374,19 @@ export default function Dashboard() {
                       onClick={() => {
                         try { localStorage.setItem(inboxLastSeenKey, new Date().toISOString()); setUnreadCount(0) } catch(e){}
                       }}
-                      className="text-xs sm:text-sm text-[#1f4f9c] hover:text-[#0f2b52] dark:text-blue-300 flex-1 sm:flex-initial"
+                      className="text-xs sm:text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 flex-1 sm:flex-initial"
                     >
                       Mark as read
                     </button>
-                    <Link href="#inbox" onClick={() => { try { localStorage.setItem(inboxLastSeenKey, new Date().toISOString()); setUnreadCount(0) } catch(e){} }} className="text-xs sm:text-sm text-white bg-[#2f65c6] hover:bg-[#214c8e] px-3 py-1 rounded whitespace-nowrap">Open Inbox</Link>
+                    <Link href="#inbox" onClick={() => { try { localStorage.setItem(inboxLastSeenKey, new Date().toISOString()); setUnreadCount(0) } catch(e){} }} className="text-xs sm:text-sm text-white bg-blue-600 px-3 py-1 rounded whitespace-nowrap">Open Inbox</Link>
                   </div>
-                </div>
                 </div>
               </Card>
             )}
 
             {/* Poster Display - Information Only, No Registration */}
             {poster && (
-              <article className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8 border-4 border-indigo-300 dark:border-gray-600 bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 p-8 shadow-lg dark:shadow-[8px_8px_0_0_rgba(75,85,99,0.3)] overflow-hidden rounded-xl">
+              <article className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8 border-4 border-gray-300 dark:border-gray-600 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 p-8 shadow-[8px_8px_0_0_rgba(107,114,128,0.3)] dark:shadow-[8px_8px_0_0_rgba(75,85,99,0.3)] overflow-hidden rounded-lg">
                 {/* Poster Image - Left Column */}
                 <div className="flex items-center justify-center overflow-hidden min-h-[300px] md:min-h-[400px]">
                   <img 
@@ -540,9 +520,8 @@ export default function Dashboard() {
             {/* Three Column Grid - Quick Actions, Weekly Programs, My Registered Events */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
               {/* Quick Actions */}
-              <Card className={`p-4 sm:p-6 ${card3dBase} ${cardHighlight} ${cardGlow}`}>
-                <div className={cardContent}>
-                <h2 className="text-lg sm:text-xl font-bold text-[#0f2b52] dark:text-white mb-4 sm:mb-6">Quick Actions</h2>
+              <Card className="p-4 sm:p-6">
+                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4 sm:mb-6">Quick Actions</h2>
                 <div className="space-y-2 sm:space-y-3">
                   {user?.role === 'admin' && (
                     <Link href="/admin/dashboard">
@@ -577,13 +556,11 @@ export default function Dashboard() {
                     </Button>
                   </Link>
                 </div>
-                </div>
               </Card>
 
               {/* Weekly Programs List */}
-              <Card className={`p-4 sm:p-6 ${card3dBase} ${cardHighlight} ${cardGlow}`}>
-                <div className={cardContent}>
-                <h2 className="text-lg sm:text-xl font-bold text-[#0f2b52] dark:text-white mb-4">Weekly Programs</h2>
+              <Card className="p-4 sm:p-6 transform transition-all duration-300 hover:shadow-xl">
+                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4">Weekly Programs</h2>
                 {weeklyPrograms.length === 0 ? (
                   <div className="text-center py-6 sm:py-8 text-gray-500 dark:text-gray-400">
                     <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
@@ -595,9 +572,9 @@ export default function Dashboard() {
                     {weeklyPrograms.map((program) => (
                       <div
                         key={program.id}
-                        className="flex items-center gap-3 p-3 rounded-lg bg-white/50 dark:bg-slate-800/30 border border-gray-300 dark:border-slate-600 hover:shadow-md transition-all"
+                        className="flex items-center gap-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
                       >
-                        <div className="p-2 rounded-lg bg-[#2f65c6] text-white shrink-0">
+                        <div className="p-2 rounded-lg bg-blue-500 text-white shrink-0">
                           <Calendar className="w-4 h-4" />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -608,28 +585,31 @@ export default function Dashboard() {
                     ))}
                   </div>
                 )}
-                </div>
               </Card>
 
               {/* My Registered Events */}
-              <Card className={`p-4 sm:p-6 ${card3dBase} ${cardHighlight} ${cardGlow}`}>
-                <div className={cardContent}>
-                <h2 className="text-lg sm:text-xl font-bold text-[#0f2b52] dark:text-white mb-4">My Registered Events</h2>
+              <Card className="p-4 sm:p-6">
+                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4">My Registered Events</h2>
                 {myEventSignups.length === 0 ? (
                   <div className="text-center py-6 sm:py-8 text-gray-500 dark:text-gray-400">
                     <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
                     <p className="text-sm sm:text-base font-medium">No registered events</p>
                     <p className="text-xs sm:text-sm mt-2">Register for events to see them here</p>
                     <Link href="/events" className="inline-block mt-4">
-                      <Button size="sm" className="bg-purple-600 hover:bg-purple-700">Browse Events</Button>
+                      <Button size="sm" className="bg-blue-600 hover:bg-blue-700">Browse Events</Button>
                     </Link>
                   </div>
                 ) : (
                   <div className="space-y-3">
                     {myEventSignups.map((signup: any) => (
-                      <div key={signup.id} className="p-3 bg-white/50 dark:bg-slate-800/30 rounded-lg border border-gray-300 dark:border-slate-600 hover:shadow-md transition-all">\n                        <div className="flex items-start justify-between gap-3">\n                          <div className="flex-1 min-w-0">\n                            <h3 className="font-semibold text-gray-900 dark:text-white text-sm truncate">
+                      <div key={signup.id} className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-gray-900 dark:text-white text-sm truncate">
                               {signup.event?.title || 'Event'}
-                            </h3>\n                            <div className="flex items-center gap-2 mt-1 text-xs text-gray-600 dark:text-gray-400">\n                              <Calendar className="w-3 h-3" />
+                            </h3>
+                            <div className="flex items-center gap-2 mt-1 text-xs text-gray-600 dark:text-gray-400">
+                              <Calendar className="w-3 h-3" />
                               <span>
                                 {signup.event?.startsAt ? new Date(signup.event.startsAt).toLocaleDateString('en-US', { 
                                   month: 'short', 
@@ -637,14 +617,16 @@ export default function Dashboard() {
                                   year: 'numeric'
                                 }) : 'TBA'}
                               </span>
-                            </div>\n                            {signup.checked_in && (
+                            </div>
+                            {signup.checked_in && (
                               <div className="mt-2">
                                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium">
                                   ✓ Checked In
                                 </span>
                               </div>
                             )}
-                          </div>\n                          {!signup.checked_in && (
+                          </div>
+                          {!signup.checked_in && (
                             <Button
                               size="sm"
                               variant="destructive"
@@ -661,7 +643,6 @@ export default function Dashboard() {
                     ))}
                   </div>
                 )}
-                </div>
               </Card>
             </div>
 
@@ -669,14 +650,12 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               {/* Recent Activity */}
               <div>
-                <h2 className="text-lg sm:text-xl font-bold text-[#0f2b52] dark:text-white mb-4 sm:mb-6">Recent Activity</h2>
+                <h2 className="text-lg sm:text-xl font-bold text-blue-900 dark:text-white mb-4 sm:mb-6">Recent Activity</h2>
                 <div className="space-y-4">
                   {recentActivity.length === 0 ? (
-                    <Card className={`p-6 sm:p-8 text-center ${card3dBase} ${cardHighlight} ${cardGlow}`}>
-                      <div className={cardContent}>
-                      <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">No recent activity yet</p>
-                      <p className="text-xs sm:text-sm mt-2 text-gray-500 dark:text-gray-500">Check back later for updates</p>
-                      </div>
+                    <Card className="p-6 sm:p-8 text-center bg-gray-50 dark:bg-gray-800/50">
+                      <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">No recent activity yet</p>
+                      <p className="text-xs sm:text-sm mt-2 text-gray-400 dark:text-gray-500">Check back later for updates</p>
                     </Card>
                   ) : (
                     recentActivity.map((activity) => {
@@ -684,12 +663,12 @@ export default function Dashboard() {
                       return (
                         <div
                           key={activity.id}
-                          className="activity-card bg-white/80 dark:bg-slate-800/50 rounded-xl cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300 dark:border-slate-600 hover:border-gray-400 dark:hover:border-blue-400"
+                          className="activity-card bg-gray-50 dark:bg-[#1e1e1e] rounded-xl cursor-pointer transition-all duration-200 shadow-lg hover:shadow-xl dark:shadow-[1em_1em_1em_rgba(0,0,0,0.2),-0.75em_-0.75em_1em_rgba(255,255,255,0.05)] border border-gray-200 dark:border-[#2a2a2a] hover:border-blue-300 dark:hover:border-[#3a8bff] hover:bg-gray-100 dark:hover:bg-[#2a2a2a]"
                         >
                           <div className="p-4 sm:p-5 flex gap-3">
                             {/* Status Indicator */}
                             <div className="flex-shrink-0 pt-1">
-                              <div className={isRead ? 'w-2.5 h-2.5 rounded-full bg-green-500' : 'w-2.5 h-2.5 rounded-full bg-[#2f65c6] animate-pulse'}></div>
+                              <div className={isRead ? 'w-2.5 h-2.5 rounded-full bg-green-500' : 'w-2.5 h-2.5 rounded-full bg-red-500'}></div>
                             </div>
                             
                             {/* Content */}
@@ -700,7 +679,7 @@ export default function Dashboard() {
                                   <p className="text-sm sm:text-base font-medium text-gray-900 dark:text-[#e0e0e0]">
                                     {activity.title}
                                   </p>
-                                  <p className="text-xs sm:text-sm text-gray-600 dark:text-[#a0a0a0]">
+                                  <p className="text-xs sm:text-sm text-gray-500 dark:text-[#a0a0a0]">
                                     {activity.time}
                                   </p>
                                 </div>
@@ -708,14 +687,14 @@ export default function Dashboard() {
                                 {/* Action Buttons */}
                                 <div className="flex flex-row gap-4 items-center">
                                   <Link href={activity.actionLink}>
-                                    <button className="text-sm sm:text-[15px] font-semibold text-[#1f4f9c] dark:text-[#3a8bff] hover:text-[#0f2b52] dark:hover:text-blue-400 underline">
+                                    <button className="text-sm sm:text-[15px] font-semibold text-blue-600 dark:text-[#3a8bff] hover:underline">
                                       {activity.actionLabel}
                                     </button>
                                   </Link>
                                   {!isRead && (
                                     <button
                                       onClick={() => markActivityAsRead(activity.id)}
-                                      className="text-sm sm:text-[15px] font-normal text-gray-600 dark:text-[#b0b0b0] hover:text-gray-700 dark:hover:text-gray-300 underline"
+                                      className="text-sm sm:text-[15px] font-normal text-gray-600 dark:text-[#b0b0b0] hover:underline"
                                     >
                                       Mark as read
                                     </button>
@@ -732,10 +711,8 @@ export default function Dashboard() {
               </div>
 
               {/* Inbox */}
-              <Card className={`p-4 sm:p-6 ${card3dBase} ${cardHighlight} ${cardGlow}`} id="inbox">
-                <div className={cardContent}>
+              <Card className="p-4 sm:p-6" id="inbox">
                 <Inbox email={user.email} limit={5} />
-                </div>
               </Card>
             </div>
           </div>
