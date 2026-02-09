@@ -26,7 +26,7 @@ export const dynamic = 'force-dynamic'
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const { eventId } = body || {}
+    const { eventId, phone: phoneInput } = body || {}
     const errors: Record<string, string> = {}
     if (!eventId) errors.eventId = 'Event id is required'
     if (Object.keys(errors).length > 0) return NextResponse.json({ errors }, { status: 400 })
@@ -49,7 +49,16 @@ export async function POST(req: Request) {
 
     const name = user.name || user.email
     const email = user.email
-    const phone = user.phone || null
+    const normalizedPhone = typeof phoneInput === 'string' ? phoneInput.trim() : ''
+    const phone = user.phone || (normalizedPhone ? normalizedPhone : null)
+
+    if (!user.phone && normalizedPhone) {
+      try {
+        await prisma.user.update({ where: { id: user.id }, data: { phone: normalizedPhone } })
+      } catch (e) {
+        console.warn('Failed to update user phone', e)
+      }
+    }
 
     // ensure event exists
     const ev = await prisma.event.findUnique({ where: { id: eventId } })

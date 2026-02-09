@@ -219,7 +219,7 @@ export default function EventSignUpPage() {
                 if (Object.keys(clientErrors).length) { setErrors(clientErrors); return }
                 setLoading(true)
                 try {
-                  const res = await fetch('/api/events/signups', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ eventId }) })
+                  const res = await fetch('/api/events/signups', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ eventId, phone: phone.trim() || null }) })
                   if (res.ok) {
                     const data = await res.json()
                     setSignupResult(data.signup)
@@ -246,8 +246,18 @@ export default function EventSignUpPage() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Phone (optional)</label>
-                    <input type="tel" className="w-full px-4 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" value={phone} onChange={(e) => setPhone(e.target.value)} readOnly={!!user} />
-                    {user && <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Auto-filled from your profile</p>}
+                    <input
+                      type="tel"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      readOnly={!!user && !!user.phone}
+                    />
+                    {user?.phone ? (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Auto-filled from your profile</p>
+                    ) : user ? (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Add your phone number if you want to be contacted.</p>
+                    ) : null}
                   </div>
                   {errors.form && <p className="text-sm text-red-600">{errors.form}</p>}
                   <div className="flex gap-3 pt-4">
