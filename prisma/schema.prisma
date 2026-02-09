@@ -70,6 +70,9 @@ model EventSignup {
   name        String
   email       String
   phone       String?
+  ticket_sent Boolean   @default(false)
+  checked_in  Boolean   @default(false)
+  checked_in_at DateTime?
   createdAt   DateTime  @default(now())
 }
 

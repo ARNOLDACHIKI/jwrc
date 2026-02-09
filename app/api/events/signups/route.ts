@@ -293,6 +293,8 @@ export async function GET(req: Request) {
           name: true,
           email: true,
           phone: true,
+          ticket_sent: true,
+          checked_in: true,
           createdAt: true
         }
       })
@@ -317,6 +319,8 @@ export async function GET(req: Request) {
             name: s.name,
             email: s.email,
             phone: s.phone,
+            ticket_sent: s.ticket_sent,
+            checked_in: s.checked_in,
             createdAt: s.createdAt,
             event
           }
