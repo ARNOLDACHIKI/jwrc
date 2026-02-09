@@ -7,6 +7,22 @@ import { generateTicketQRCodeBuffer } from "@/lib/qrcode"
 
 const prisma = new PrismaClient()
 
+async function ensureEventSignupTicketColumns() {
+  try {
+    await prisma.$executeRawUnsafe(
+      'ALTER TABLE "EventSignup" ADD COLUMN IF NOT EXISTS "ticket_sent" BOOLEAN NOT NULL DEFAULT false'
+    )
+    await prisma.$executeRawUnsafe(
+      'ALTER TABLE "EventSignup" ADD COLUMN IF NOT EXISTS "checked_in" BOOLEAN NOT NULL DEFAULT false'
+    )
+    await prisma.$executeRawUnsafe(
+      'ALTER TABLE "EventSignup" ADD COLUMN IF NOT EXISTS "checked_in_at" TIMESTAMP(3)'
+    )
+  } catch (e) {
+    console.warn('Failed to ensure EventSignup ticket columns', e)
+  }
+}
+
 function getTokenFromHeaders(req: Request) {
   const authHeader = req.headers.get("authorization") || req.headers.get("Authorization")
   if (authHeader && authHeader.startsWith("Bearer ")) {
@@ -25,6 +41,7 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(req: Request) {
   try {
+    await ensureEventSignupTicketColumns()
     const body = await req.json()
     const { eventId, phone: phoneInput } = body || {}
     const errors: Record<string, string> = {}
