@@ -330,6 +330,7 @@ export default function AdminRemindersPage() {
     try {
       const response = await fetch(`/api/admin/weekly-programs/${id}`, {
         method: 'PATCH',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -344,8 +345,16 @@ export default function AdminRemindersPage() {
           description: `Program ${!currentStatus ? 'activated' : 'deactivated'}`
         })
         fetchWeeklyPrograms()
+      } else {
+        const errorData = await response.json().catch(() => ({}))
+        toast({
+          title: 'Error',
+          description: errorData.error || 'Failed to update program',
+          variant: 'destructive'
+        })
       }
     } catch (error) {
+      console.error('Toggle program error:', error)
       toast({
         title: 'Error',
         description: 'Failed to update program',
@@ -359,7 +368,8 @@ export default function AdminRemindersPage() {
 
     try {
       const response = await fetch(`/api/admin/weekly-programs/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
       })
 
       if (response.ok) {
@@ -368,8 +378,16 @@ export default function AdminRemindersPage() {
           description: 'Program deleted successfully'
         })
         fetchWeeklyPrograms()
+      } else {
+        const errorData = await response.json().catch(() => ({}))
+        toast({
+          title: 'Error',
+          description: errorData.error || 'Failed to delete program',
+          variant: 'destructive'
+        })
       }
     } catch (error) {
+      console.error('Error deleting program:', error)
       toast({
         title: 'Error',
         description: 'Failed to delete program',

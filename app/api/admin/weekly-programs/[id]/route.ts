@@ -3,12 +3,42 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+function extractToken(authHeader?: string): string | null {
+  if (!authHeader || !authHeader.startsWith("Bearer ")) return null;
+  return authHeader.substring(7);
+}
+
+async function verifyAdmin(req: NextRequest): Promise<boolean> {
+  try {
+    const token = extractToken(req.headers.get("authorization") || "");
+    if (!token) return false;
+
+    const res = await fetch(new URL('/api/auth/me', req.url).toString(), {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    
+    if (!res.ok) return false;
+    const data = await res.json();
+    return data?.user?.role === 'admin';
+  } catch {
+    return false;
+  }
+}
+
 // PATCH update weekly program
 export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    const isAdmin = await verifyAdmin(req);
+    if (!isAdmin) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
     const { name, day, time, isActive } = await req.json();
     const { id } = params;
 
@@ -38,6 +68,14 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const isAdmin = await verifyAdmin(req);
+    if (!isAdmin) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
     const { id } = params;
     await prisma.weeklyProgram.delete({
       where: { id }
